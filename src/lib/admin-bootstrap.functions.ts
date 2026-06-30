@@ -12,15 +12,18 @@ export const ensureFounderAdmin = createServerFn({ method: "POST" })
     const founderEmail = process.env.FOUNDER_ADMIN_EMAIL?.toLowerCase().trim();
     if (!founderEmail) return { promoted: false };
 
-    const userEmail = context.claims?.email?.toLowerCase().trim();
-    const emailVerified =
-      (context.claims as { email_verified?: boolean })?.email_verified ?? false;
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
-    if (!userEmail || userEmail !== founderEmail || !emailVerified) {
+    // Verify email + confirmation server-side via Admin API (don't rely on JWT claim shape).
+    const { data: userRes, error: userErr } = await supabaseAdmin.auth.admin.getUserById(
+      context.userId,
+    );
+    const userEmail = userRes?.user?.email?.toLowerCase().trim();
+    const confirmed = !!userRes?.user?.email_confirmed_at;
+    if (userErr || !userEmail || userEmail !== founderEmail || !confirmed) {
       return { promoted: false };
     }
 
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { error } = await supabaseAdmin
       .from("user_roles")
       .upsert(
