@@ -44,7 +44,8 @@ function AuthPage() {
     setBusy(true);
     try {
       if (mode === "signup") {
-        const { error } = await supabase.auth.signUp({
+        if (password.length < 8) throw new Error("Password must be at least 8 characters.");
+        const { data, error } = await supabase.auth.signUp({
           email,
           password,
           options: {
@@ -53,7 +54,20 @@ function AuthPage() {
           },
         });
         if (error) throw error;
-        toast.success("Check your inbox to confirm your email.");
+        if (data.session) {
+          toast.success("Account created. Welcome!");
+          nav({ to: nextPath });
+        } else {
+          // Email confirmation required — try auto sign-in
+          const { error: siErr } = await supabase.auth.signInWithPassword({ email, password });
+          if (siErr) {
+            toast.success("Account created. Check your inbox to confirm your email, then sign in.");
+            setMode("signin");
+          } else {
+            toast.success("Account created. Welcome!");
+            nav({ to: nextPath });
+          }
+        }
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
