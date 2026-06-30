@@ -15,6 +15,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as TestsIndexRouteImport } from './routes/tests.index'
 import { Route as QuizzesIndexRouteImport } from './routes/quizzes.index'
+import { Route as TestsSlugRouteImport } from './routes/tests.$slug'
 import { Route as QuizzesSlugRouteImport } from './routes/quizzes.$slug'
 
 const ResourcesRoute = ResourcesRouteImport.update({
@@ -47,6 +48,11 @@ const QuizzesIndexRoute = QuizzesIndexRouteImport.update({
   path: '/quizzes/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TestsSlugRoute = TestsSlugRouteImport.update({
+  id: '/tests/$slug',
+  path: '/tests/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const QuizzesSlugRoute = QuizzesSlugRouteImport.update({
   id: '/quizzes/$slug',
   path: '/quizzes/$slug',
@@ -59,6 +65,7 @@ export interface FileRoutesByFullPath {
   '/internships': typeof InternshipsRoute
   '/resources': typeof ResourcesRoute
   '/quizzes/$slug': typeof QuizzesSlugRoute
+  '/tests/$slug': typeof TestsSlugRoute
   '/quizzes/': typeof QuizzesIndexRoute
   '/tests/': typeof TestsIndexRoute
 }
@@ -68,6 +75,7 @@ export interface FileRoutesByTo {
   '/internships': typeof InternshipsRoute
   '/resources': typeof ResourcesRoute
   '/quizzes/$slug': typeof QuizzesSlugRoute
+  '/tests/$slug': typeof TestsSlugRoute
   '/quizzes': typeof QuizzesIndexRoute
   '/tests': typeof TestsIndexRoute
 }
@@ -78,6 +86,7 @@ export interface FileRoutesById {
   '/internships': typeof InternshipsRoute
   '/resources': typeof ResourcesRoute
   '/quizzes/$slug': typeof QuizzesSlugRoute
+  '/tests/$slug': typeof TestsSlugRoute
   '/quizzes/': typeof QuizzesIndexRoute
   '/tests/': typeof TestsIndexRoute
 }
@@ -89,6 +98,7 @@ export interface FileRouteTypes {
     | '/internships'
     | '/resources'
     | '/quizzes/$slug'
+    | '/tests/$slug'
     | '/quizzes/'
     | '/tests/'
   fileRoutesByTo: FileRoutesByTo
@@ -98,6 +108,7 @@ export interface FileRouteTypes {
     | '/internships'
     | '/resources'
     | '/quizzes/$slug'
+    | '/tests/$slug'
     | '/quizzes'
     | '/tests'
   id:
@@ -107,6 +118,7 @@ export interface FileRouteTypes {
     | '/internships'
     | '/resources'
     | '/quizzes/$slug'
+    | '/tests/$slug'
     | '/quizzes/'
     | '/tests/'
   fileRoutesById: FileRoutesById
@@ -117,6 +129,7 @@ export interface RootRouteChildren {
   InternshipsRoute: typeof InternshipsRoute
   ResourcesRoute: typeof ResourcesRoute
   QuizzesSlugRoute: typeof QuizzesSlugRoute
+  TestsSlugRoute: typeof TestsSlugRoute
   QuizzesIndexRoute: typeof QuizzesIndexRoute
   TestsIndexRoute: typeof TestsIndexRoute
 }
@@ -165,6 +178,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof QuizzesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tests/$slug': {
+      id: '/tests/$slug'
+      path: '/tests/$slug'
+      fullPath: '/tests/$slug'
+      preLoaderRoute: typeof TestsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/quizzes/$slug': {
       id: '/quizzes/$slug'
       path: '/quizzes/$slug'
@@ -181,6 +201,7 @@ const rootRouteChildren: RootRouteChildren = {
   InternshipsRoute: InternshipsRoute,
   ResourcesRoute: ResourcesRoute,
   QuizzesSlugRoute: QuizzesSlugRoute,
+  TestsSlugRoute: TestsSlugRoute,
   QuizzesIndexRoute: QuizzesIndexRoute,
   TestsIndexRoute: TestsIndexRoute,
 }
