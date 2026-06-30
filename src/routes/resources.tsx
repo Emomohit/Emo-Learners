@@ -145,7 +145,7 @@ function Academics() {
   }, [branch, semester]);
 
   useEffect(() => {
-    if (!activeSubject) {
+    if (!activeSubject || !user) {
       setResources([]);
       return;
     }
@@ -274,6 +274,14 @@ function Academics() {
               </div>
 
               <div className="mt-6 space-y-3">
+                {!user && (
+                  <div className="rounded-xl border border-dashed border-border bg-background/40 p-6 text-center">
+                    <p className="text-sm text-muted-foreground">Sign in to view notes, PYQs and syllabus files.</p>
+                    <Link to="/auth" className="mt-2 inline-block text-xs font-bold uppercase tracking-widest text-primary hover:underline">
+                      Go to login
+                    </Link>
+                  </div>
+                )}
                 {resources.length === 0 && (
                   <div className="rounded-xl border border-dashed border-border bg-background/40 p-6 text-center">
                     <p className="text-sm text-muted-foreground">
