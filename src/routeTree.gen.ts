@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as InternshipsRouteImport } from './routes/internships'
 import { Route as AboutRouteImport } from './routes/about'
@@ -18,6 +19,11 @@ import { Route as QuizzesIndexRouteImport } from './routes/quizzes.index'
 import { Route as TestsSlugRouteImport } from './routes/tests.$slug'
 import { Route as QuizzesSlugRouteImport } from './routes/quizzes.$slug'
 
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ResourcesRoute = ResourcesRouteImport.update({
   id: '/resources',
   path: '/resources',
@@ -64,6 +70,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/internships': typeof InternshipsRoute
   '/resources': typeof ResourcesRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/quizzes/$slug': typeof QuizzesSlugRoute
   '/tests/$slug': typeof TestsSlugRoute
   '/quizzes/': typeof QuizzesIndexRoute
@@ -74,6 +81,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/internships': typeof InternshipsRoute
   '/resources': typeof ResourcesRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/quizzes/$slug': typeof QuizzesSlugRoute
   '/tests/$slug': typeof TestsSlugRoute
   '/quizzes': typeof QuizzesIndexRoute
@@ -85,6 +93,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/internships': typeof InternshipsRoute
   '/resources': typeof ResourcesRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/quizzes/$slug': typeof QuizzesSlugRoute
   '/tests/$slug': typeof TestsSlugRoute
   '/quizzes/': typeof QuizzesIndexRoute
@@ -97,6 +106,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/internships'
     | '/resources'
+    | '/sitemap.xml'
     | '/quizzes/$slug'
     | '/tests/$slug'
     | '/quizzes/'
@@ -107,6 +117,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/internships'
     | '/resources'
+    | '/sitemap.xml'
     | '/quizzes/$slug'
     | '/tests/$slug'
     | '/quizzes'
@@ -117,6 +128,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/internships'
     | '/resources'
+    | '/sitemap.xml'
     | '/quizzes/$slug'
     | '/tests/$slug'
     | '/quizzes/'
@@ -128,6 +140,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   InternshipsRoute: typeof InternshipsRoute
   ResourcesRoute: typeof ResourcesRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   QuizzesSlugRoute: typeof QuizzesSlugRoute
   TestsSlugRoute: typeof TestsSlugRoute
   QuizzesIndexRoute: typeof QuizzesIndexRoute
@@ -136,6 +149,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/resources': {
       id: '/resources'
       path: '/resources'
@@ -200,6 +220,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   InternshipsRoute: InternshipsRoute,
   ResourcesRoute: ResourcesRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   QuizzesSlugRoute: QuizzesSlugRoute,
   TestsSlugRoute: TestsSlugRoute,
   QuizzesIndexRoute: QuizzesIndexRoute,
