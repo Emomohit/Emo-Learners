@@ -282,7 +282,7 @@ function Academics() {
                     </Link>
                   </div>
                 )}
-                {resources.length === 0 && (
+                {user && resources.length === 0 && (
                   <div className="rounded-xl border border-dashed border-border bg-background/40 p-6 text-center">
                     <p className="text-sm text-muted-foreground">
                       No materials uploaded yet for this subject.
