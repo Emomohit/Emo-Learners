@@ -120,11 +120,12 @@ function Hero() {
 
 /* ---------------- Countdown ---------------- */
 function useCountdown(target: string) {
-  const [now, setNow] = useState(() => Date.now());
+  const [now, setNow] = useState(() => new Date(target).getTime());
   useEffect(() => {
+    setNow(Date.now());
     const i = setInterval(() => setNow(Date.now()), 1000);
     return () => clearInterval(i);
-  }, []);
+  }, [target]);
   const diff = Math.max(0, new Date(target).getTime() - now);
   const d = Math.floor(diff / 86400000);
   const h = Math.floor((diff / 3600000) % 24);
