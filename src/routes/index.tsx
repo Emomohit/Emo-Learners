@@ -29,15 +29,15 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
-function useCountdown(target: Date) {
+function useCountdown(targetMs: number) {
   // Start at target so SSR and first client render match (all zeros), then tick on the client.
-  const [now, setNow] = useState(() => target.getTime());
+  const [now, setNow] = useState(targetMs);
   useEffect(() => {
     setNow(Date.now());
     const id = setInterval(() => setNow(Date.now()), 1000);
     return () => clearInterval(id);
-  }, [target]);
-  const diff = Math.max(0, target.getTime() - now);
+  }, [targetMs]);
+  const diff = Math.max(0, targetMs - now);
   const d = Math.floor(diff / 86400000);
   const h = Math.floor((diff / 3600000) % 24);
   const m = Math.floor((diff / 60000) % 60);
@@ -46,13 +46,13 @@ function useCountdown(target: Date) {
 }
 
 function Home() {
-  // Next July 1 (challenge cohort)
-  const target = (() => {
+  // Next July 1 (challenge cohort) — computed once so identity is stable.
+  const [targetMs] = useState(() => {
     const today = new Date();
     const y = today.getMonth() > 5 || (today.getMonth() === 5 && today.getDate() > 30) ? today.getFullYear() + 1 : today.getFullYear();
-    return new Date(`${y}-07-01T00:00:00`);
-  })();
-  const { d, h, m, s } = useCountdown(target);
+    return new Date(`${y}-07-01T00:00:00`).getTime();
+  });
+  const { d, h, m, s } = useCountdown(targetMs);
 
   return (
     <div className="relative min-h-screen">

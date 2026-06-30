@@ -37,8 +37,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setLoading(false);
     });
 
-    const { data: sub } = supabase.auth.onAuthStateChange((_event, s) => {
+    const { data: sub } = supabase.auth.onAuthStateChange((event, s) => {
       setSession(s);
+      if (event === "SIGNED_IN" && typeof window !== "undefined") {
+        const dest = sessionStorage.getItem("postAuthRedirect");
+        if (dest && dest.startsWith("/") && !dest.startsWith("//")) {
+          sessionStorage.removeItem("postAuthRedirect");
+          // Only redirect if we're not already on the destination.
+          if (window.location.pathname !== dest) {
+            window.location.replace(dest);
+          }
+        }
+      }
     });
 
     return () => {
