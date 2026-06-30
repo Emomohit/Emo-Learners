@@ -30,7 +30,7 @@ export function Footer() {
             <a href="https://youtube.com/@emolearners" target="_blank" rel="noreferrer" aria-label="YouTube" className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-surface text-muted-foreground transition-all hover:border-primary hover:text-primary">
               <Youtube className="h-4 w-4" />
             </a>
-            <a href="https://linkedin.com/in/mohitahirwar" target="_blank" rel="noreferrer" aria-label="LinkedIn" className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-surface text-muted-foreground transition-all hover:border-primary hover:text-primary">
+            <a href="https://www.linkedin.com/in/mohit-ahirwar-12bb58386/" target="_blank" rel="noreferrer" aria-label="LinkedIn" className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-surface text-muted-foreground transition-all hover:border-primary hover:text-primary">
               <Linkedin className="h-4 w-4" />
             </a>
             <Link to="/contact" aria-label="Contact" className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-surface text-muted-foreground transition-all hover:border-primary hover:text-primary">
