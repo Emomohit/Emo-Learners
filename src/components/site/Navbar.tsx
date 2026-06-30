@@ -5,11 +5,11 @@ import { useAuth } from "@/lib/auth";
 
 const links = [
   { to: "/", label: "Home" },
+  { to: "/challenge", label: "Challenge" },
   { to: "/resources", label: "Resources" },
   { to: "/ai-assistant", label: "AI Tutor" },
   { to: "/quizzes", label: "Quizzes" },
   { to: "/tests", label: "Tests" },
-  { to: "/internships", label: "Internships" },
   { to: "/about", label: "About" },
   { to: "/contact", label: "Contact" },
 ] as const;
