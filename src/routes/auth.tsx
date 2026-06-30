@@ -22,9 +22,22 @@ function AuthPage() {
   const [name, setName] = useState("");
   const [busy, setBusy] = useState(false);
 
+  // Read ?next=/path and remember it across the OAuth round-trip.
+  const nextPath = (() => {
+    if (typeof window === "undefined") return "/challenge";
+    const p = new URLSearchParams(window.location.search).get("next");
+    if (p && p.startsWith("/") && !p.startsWith("//")) return p;
+    return "/challenge";
+  })();
+
   useEffect(() => {
-    if (!loading && user) nav({ to: "/dashboard" });
-  }, [loading, user, nav]);
+    if (!loading && user) {
+      const stored = typeof window !== "undefined" ? sessionStorage.getItem("postAuthRedirect") : null;
+      const dest = stored && stored.startsWith("/") && !stored.startsWith("//") ? stored : nextPath;
+      if (typeof window !== "undefined") sessionStorage.removeItem("postAuthRedirect");
+      nav({ to: dest });
+    }
+  }, [loading, user, nav, nextPath]);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,7 +48,7 @@ function AuthPage() {
           email,
           password,
           options: {
-            emailRedirectTo: `${window.location.origin}/dashboard`,
+            emailRedirectTo: `${window.location.origin}${nextPath}`,
             data: { full_name: name },
           },
         });
@@ -45,7 +58,7 @@ function AuthPage() {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
         toast.success("Welcome back.");
-        nav({ to: "/dashboard" });
+        nav({ to: nextPath });
       }
     } catch (err: any) {
       toast.error(err.message ?? "Something went wrong");
@@ -57,6 +70,8 @@ function AuthPage() {
   const google = async () => {
     setBusy(true);
     try {
+      // Remember intended destination — root layout redirects after SIGNED_IN.
+      sessionStorage.setItem("postAuthRedirect", nextPath);
       const res = await lovable.auth.signInWithOAuth("google", {
         redirect_uri: window.location.origin,
       });
