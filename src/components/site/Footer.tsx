@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Zap, Instagram, Send, Github } from "lucide-react";
+import { Zap, Instagram, Send, Linkedin, Youtube, Mail } from "lucide-react";
 
 export function Footer() {
   return (
@@ -21,14 +21,20 @@ export function Footer() {
             stop wasting time and start building.
           </p>
           <div className="mt-6 flex gap-3">
-            <a href="https://instagram.com/emolearners" target="_blank" rel="noreferrer" className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-surface text-muted-foreground transition-all hover:border-primary hover:text-primary">
+            <a href="https://instagram.com/emolearners" target="_blank" rel="noreferrer" aria-label="Instagram" className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-surface text-muted-foreground transition-all hover:border-primary hover:text-primary">
               <Instagram className="h-4 w-4" />
             </a>
-            <a href="https://t.me/emolarners" target="_blank" rel="noreferrer" className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-surface text-muted-foreground transition-all hover:border-primary hover:text-primary">
+            <a href="https://t.me/emolarners" target="_blank" rel="noreferrer" aria-label="Telegram" className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-surface text-muted-foreground transition-all hover:border-primary hover:text-primary">
               <Send className="h-4 w-4" />
             </a>
-            <a href="https://github.com" target="_blank" rel="noreferrer" className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-surface text-muted-foreground transition-all hover:border-primary hover:text-primary">
-              <Github className="h-4 w-4" />
+            <a href="https://youtube.com/@emolearners" target="_blank" rel="noreferrer" aria-label="YouTube" className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-surface text-muted-foreground transition-all hover:border-primary hover:text-primary">
+              <Youtube className="h-4 w-4" />
+            </a>
+            <a href="https://linkedin.com/in/mohitahirwar" target="_blank" rel="noreferrer" aria-label="LinkedIn" className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-surface text-muted-foreground transition-all hover:border-primary hover:text-primary">
+              <Linkedin className="h-4 w-4" />
+            </a>
+            <a href="mailto:hello.emolearners@gmail.com" aria-label="Email" className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-surface text-muted-foreground transition-all hover:border-primary hover:text-primary">
+              <Mail className="h-4 w-4" />
             </a>
           </div>
         </div>
@@ -47,16 +53,18 @@ export function Footer() {
         <div>
           <h4 className="font-mono text-[11px] font-bold uppercase tracking-[0.25em] text-primary">Community</h4>
           <ul className="mt-4 space-y-2.5 text-sm text-muted-foreground">
-            <li><a href="https://t.me/emolarners" className="transition-colors hover:text-foreground">Telegram</a></li>
-            <li><a href="https://instagram.com/emolearners" className="transition-colors hover:text-foreground">Instagram</a></li>
-            <li><a href="mailto:hello@emolearners.com" className="transition-colors hover:text-foreground">Contact</a></li>
+            <li><Link to="/join" className="transition-colors hover:text-foreground">Join Community</Link></li>
+            <li><a href="https://t.me/emolarners" target="_blank" rel="noreferrer" className="transition-colors hover:text-foreground">Telegram</a></li>
+            <li><a href="https://instagram.com/emolearners" target="_blank" rel="noreferrer" className="transition-colors hover:text-foreground">Instagram</a></li>
+            <li><a href="mailto:hello.emolearners@gmail.com" className="transition-colors hover:text-foreground">hello.emolearners@gmail.com</a></li>
+            <li><Link to="/privacy-policy" className="transition-colors hover:text-foreground">Privacy Policy</Link></li>
           </ul>
         </div>
       </div>
       <div className="border-t border-border">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 px-6 py-6 text-xs text-muted-foreground md:flex-row">
-          <p className="font-mono uppercase tracking-widest">© {new Date().getFullYear()} EMO Learners — Made in India</p>
-          <p className="font-mono uppercase tracking-widest">v1.0 · Built to ship</p>
+          <p className="font-mono uppercase tracking-widest">© {new Date().getFullYear()} EMO Learners — Built for students, by students. 🇮🇳</p>
+          <p className="font-mono uppercase tracking-widest">By Mohit Ahirwar · Made in India</p>
         </div>
       </div>
     </footer>
