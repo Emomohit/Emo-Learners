@@ -21,7 +21,7 @@ type CustomTest = { id: string; slug: string; title: string; topic: string; emoj
 function AdminPage() {
   const { user, isAdmin, loading } = useAuth();
   const nav = useNavigate();
-  const [tab, setTab] = useState<"upload" | "feedback">("upload");
+  const [tab, setTab] = useState<"upload" | "tests" | "feedback">("upload");
 
   useEffect(() => {
     if (!loading && !user) nav({ to: "/auth" });
@@ -44,6 +44,15 @@ function AdminPage() {
     );
   }
 
+  const tabBtn = (key: typeof tab, label: string, Icon: typeof Upload) => (
+    <button
+      onClick={() => setTab(key)}
+      className={`flex items-center gap-2 rounded-full px-5 py-2 text-xs font-bold uppercase tracking-widest transition-all ${tab === key ? "bg-primary text-primary-foreground" : "text-muted-foreground"}`}
+    >
+      <Icon className="h-3.5 w-3.5" /> {label}
+    </button>
+  );
+
   return (
     <div className="min-h-screen">
       <Navbar />
@@ -56,23 +65,16 @@ function AdminPage() {
             Control <span className="text-primary">Panel</span>
           </h1>
 
-          <div className="mt-6 inline-flex rounded-full border border-border bg-surface/60 p-1">
-            <button
-              onClick={() => setTab("upload")}
-              className={`flex items-center gap-2 rounded-full px-5 py-2 text-xs font-bold uppercase tracking-widest transition-all ${tab === "upload" ? "bg-primary text-primary-foreground" : "text-muted-foreground"}`}
-            >
-              <Upload className="h-3.5 w-3.5" /> Uploads
-            </button>
-            <button
-              onClick={() => setTab("feedback")}
-              className={`flex items-center gap-2 rounded-full px-5 py-2 text-xs font-bold uppercase tracking-widest transition-all ${tab === "feedback" ? "bg-primary text-primary-foreground" : "text-muted-foreground"}`}
-            >
-              <MessagesSquare className="h-3.5 w-3.5" /> Feedback
-            </button>
+          <div className="mt-6 inline-flex flex-wrap rounded-full border border-border bg-surface/60 p-1">
+            {tabBtn("upload", "Uploads", Upload)}
+            {tabBtn("tests", "Tests", ClipboardList)}
+            {tabBtn("feedback", "Feedback", MessagesSquare)}
           </div>
 
           <div className="mt-8">
-            {tab === "upload" ? <UploadPanel /> : <FeedbackPanel />}
+            {tab === "upload" && <UploadPanel />}
+            {tab === "tests" && <TestsPanel />}
+            {tab === "feedback" && <FeedbackPanel />}
           </div>
         </div>
       </section>
