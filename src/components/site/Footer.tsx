@@ -33,9 +33,9 @@ export function Footer() {
             <a href="https://linkedin.com/in/mohitahirwar" target="_blank" rel="noreferrer" aria-label="LinkedIn" className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-surface text-muted-foreground transition-all hover:border-primary hover:text-primary">
               <Linkedin className="h-4 w-4" />
             </a>
-            <a href="mailto:hello.emolearners@gmail.com" aria-label="Email" className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-surface text-muted-foreground transition-all hover:border-primary hover:text-primary">
+            <Link to="/contact" aria-label="Contact" className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-surface text-muted-foreground transition-all hover:border-primary hover:text-primary">
               <Mail className="h-4 w-4" />
-            </a>
+            </Link>
           </div>
         </div>
 
