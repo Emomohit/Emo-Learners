@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import {
   Flame, Trophy, Sparkles, Lock, CheckCircle2, Play, Rocket, Users,
-  Target, Award, BookOpen, Star, ChevronDown, ArrowRight, Zap,
+  Target, Award, BookOpen, Star, ChevronDown, ArrowRight, Zap, X, Youtube,
 } from "lucide-react";
 import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
@@ -120,11 +120,12 @@ function Hero() {
 
 /* ---------------- Countdown ---------------- */
 function useCountdown(target: string) {
-  const [now, setNow] = useState(() => Date.now());
+  const [now, setNow] = useState(() => new Date(target).getTime());
   useEffect(() => {
+    setNow(Date.now());
     const i = setInterval(() => setNow(Date.now()), 1000);
     return () => clearInterval(i);
-  }, []);
+  }, [target]);
   const diff = Math.max(0, new Date(target).getTime() - now);
   const d = Math.floor(diff / 86400000);
   const h = Math.floor((diff / 3600000) % 24);
@@ -217,37 +218,122 @@ function useCompleted() {
 
 function Tracker() {
   const { done, toggle } = useCompleted();
+  const [openId, setOpenId] = useState<number | null>(null);
+  const openDay = openId != null ? CHALLENGE_DAYS.find((d) => d.id === openId) : null;
+
   return (
     <section className="px-6 py-20">
       <div className="mx-auto max-w-7xl">
-        <SectionHeader eyebrow="The roadmap" title={<>30 Days. 30 <span className="grad-text">Wins.</span></>} subtitle="Click a day to mark it complete. Your progress saves locally — backend sync coming soon." />
+        <SectionHeader eyebrow="The roadmap" title={<>30 Days. 30 <span className="grad-text">Wins.</span></>} subtitle="Tap a day to read the notes, copy the snippet, and watch the matching CodeWithHarry chapter. Progress saves locally." />
         <div className="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6">
           {CHALLENGE_DAYS.map((day) => {
             const completed = done.has(day.id);
             return (
-              <button
+              <div
                 key={day.id}
-                onClick={() => toggle(day.id)}
                 className={`glass glass-hover group relative p-4 text-left ${completed ? "grad-border" : ""}`}
               >
-                <div className="flex items-center justify-between">
-                  <span className="font-mono text-[10px] uppercase tracking-widest text-white/50">
-                    Day {String(day.id).padStart(2, "0")}
-                  </span>
-                  {completed ? (
-                    <CheckCircle2 className="h-4 w-4 text-emerald-400" />
-                  ) : (
-                    <Lock className="h-3.5 w-3.5 text-white/30 group-hover:text-white/60" />
-                  )}
-                </div>
-                <h4 className="mt-3 font-display text-sm font-bold leading-tight">{day.title}</h4>
-                <p className="mt-1 line-clamp-2 text-[11px] text-white/60">{day.topic}</p>
-              </button>
+                <button
+                  type="button"
+                  onClick={() => setOpenId(day.id)}
+                  className="block w-full text-left"
+                  aria-label={`Open notes for Day ${day.id}: ${day.title}`}
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-[10px] uppercase tracking-widest text-white/50">
+                      Day {String(day.id).padStart(2, "0")}
+                    </span>
+                    <BookOpen className="h-3.5 w-3.5 text-white/40 group-hover:text-white/80" />
+                  </div>
+                  <h4 className="mt-3 font-display text-sm font-bold leading-tight">{day.title}</h4>
+                  <p className="mt-1 line-clamp-2 text-[11px] text-white/60">{day.topic}</p>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => toggle(day.id)}
+                  className={`mt-3 flex w-full items-center justify-center gap-1.5 rounded-md border px-2 py-1.5 text-[10px] font-mono uppercase tracking-widest transition ${
+                    completed
+                      ? "border-emerald-400/50 bg-emerald-400/10 text-emerald-300"
+                      : "border-white/10 text-white/50 hover:border-white/30 hover:text-white/90"
+                  }`}
+                  aria-pressed={completed}
+                >
+                  {completed ? <><CheckCircle2 className="h-3 w-3" /> Done</> : <><Lock className="h-3 w-3" /> Mark done</>}
+                </button>
+              </div>
             );
           })}
         </div>
       </div>
+
+      {openDay && <DayNotesDialog day={openDay} onClose={() => setOpenId(null)} />}
     </section>
+  );
+}
+
+function DayNotesDialog({ day, onClose }: { day: typeof CHALLENGE_DAYS[number]; onClose: () => void }) {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    document.addEventListener("keydown", onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => { document.removeEventListener("keydown", onKey); document.body.style.overflow = prev; };
+  }, [onClose]);
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-end justify-center p-4 sm:items-center" role="dialog" aria-modal="true">
+      <button className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={onClose} aria-label="Close" />
+      <div className="glass relative z-10 w-full max-w-2xl overflow-hidden rounded-2xl border border-white/10 bg-[#0b0e1a]/95 p-0 shadow-2xl">
+        <div className="flex items-start justify-between gap-4 border-b border-white/10 p-6">
+          <div>
+            <div className="font-mono text-[10px] uppercase tracking-widest text-white/50">
+              Day {String(day.id).padStart(2, "0")} · CodeWithHarry notes
+            </div>
+            <h3 className="mt-1 font-display text-2xl font-extrabold">{day.title}</h3>
+            <p className="mt-1 text-sm text-white/60">{day.topic}</p>
+          </div>
+          <button onClick={onClose} className="rounded-full p-2 text-white/60 hover:bg-white/10 hover:text-white" aria-label="Close dialog">
+            <X className="h-5 w-5" />
+          </button>
+        </div>
+
+        <div className="max-h-[60vh] overflow-y-auto p-6">
+          <h4 className="font-mono text-[11px] uppercase tracking-widest text-primary">Key notes</h4>
+          <ul className="mt-3 space-y-2 text-sm leading-relaxed text-white/85">
+            {day.notes.map((n, i) => (
+              <li key={i} className="flex gap-3">
+                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                <span>{n}</span>
+              </li>
+            ))}
+          </ul>
+
+          {day.snippet && (
+            <>
+              <h4 className="mt-6 font-mono text-[11px] uppercase tracking-widest text-primary">Try it</h4>
+              <pre className="mt-3 overflow-x-auto rounded-lg border border-white/10 bg-black/60 p-4 text-[12.5px] leading-relaxed text-emerald-200"><code>{day.snippet}</code></pre>
+            </>
+          )}
+        </div>
+
+        <div className="flex flex-col-reverse gap-3 border-t border-white/10 p-4 sm:flex-row sm:justify-between">
+          <a
+            href={day.videoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-2 rounded-lg border border-white/15 px-4 py-2 text-sm font-semibold text-white/80 hover:border-primary hover:text-white"
+          >
+            <Youtube className="h-4 w-4" /> Watch on CodeWithHarry
+          </a>
+          <button
+            onClick={onClose}
+            className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-bold uppercase tracking-widest text-primary-foreground hover:opacity-90"
+          >
+            Got it <ArrowRight className="h-4 w-4" />
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }
 
