@@ -34,8 +34,7 @@ function AdminPage() {
           <ShieldCheck className="mx-auto h-10 w-10 text-primary" />
           <h1 className="mt-4 font-display text-3xl font-extrabold uppercase italic">Admins only</h1>
           <p className="mt-2 text-sm text-muted-foreground">
-            This area is for verified EMO Learners admins. If you're the founder, sign in with{" "}
-            <code className="text-primary">hello.emolearners@gmail.com</code>.
+            This area is for verified EMO Learners admins. Sign in with the founder account to access it.
           </p>
         </div>
         <Footer />

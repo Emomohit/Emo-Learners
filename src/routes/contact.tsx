@@ -49,9 +49,9 @@ function ContactPage() {
             <p className="mt-5 text-muted-foreground">
               Spot a bug? Want a new feature? Need notes for a subject we missed? Drop a line — Mohit reads every message.
             </p>
-            <a href="mailto:hello.emolearners@gmail.com" className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline">
-              <Mail className="h-4 w-4" /> hello.emolearners@gmail.com
-            </a>
+            <p className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-primary">
+              <Mail className="h-4 w-4" /> Use the form — we reply fast.
+            </p>
           </div>
           <form onSubmit={submit} className="space-y-4 rounded-3xl border border-border bg-surface/40 p-6 backdrop-blur">
             <div>

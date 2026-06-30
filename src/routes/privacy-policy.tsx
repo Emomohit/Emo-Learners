@@ -78,10 +78,10 @@ function PrivacyPage() {
               </p>
               <ul className="mt-3 space-y-2">
                 <li>
-                  Email:{" "}
-                  <a href="mailto:hello.emolearners@gmail.com" className="text-primary hover:underline">
-                    hello.emolearners@gmail.com
-                  </a>
+                  Contact:{" "}
+                  <Link to="/contact" className="text-primary hover:underline">
+                    Use our contact form
+                  </Link>
                 </li>
                 <li>
                   Telegram:{" "}

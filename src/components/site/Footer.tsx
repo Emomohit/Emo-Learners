@@ -56,7 +56,7 @@ export function Footer() {
             <li><Link to="/join" className="transition-colors hover:text-foreground">Join Community</Link></li>
             <li><a href="https://t.me/emolarners" target="_blank" rel="noreferrer" className="transition-colors hover:text-foreground">Telegram</a></li>
             <li><a href="https://instagram.com/emolearners" target="_blank" rel="noreferrer" className="transition-colors hover:text-foreground">Instagram</a></li>
-            <li><a href="mailto:hello.emolearners@gmail.com" className="transition-colors hover:text-foreground">hello.emolearners@gmail.com</a></li>
+            <li><Link to="/contact" className="transition-colors hover:text-foreground">Contact Us</Link></li>
             <li><Link to="/privacy-policy" className="transition-colors hover:text-foreground">Privacy Policy</Link></li>
           </ul>
         </div>

@@ -141,12 +141,12 @@ function JoinPage() {
             >
               <MessageCircle className="h-4 w-4" /> Message Mohit
             </a>
-            <a
-              href="mailto:hello.emolearners@gmail.com"
+            <Link
+              to="/contact"
               className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-3 text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-brand transition-transform hover:scale-105"
             >
-              <Mail className="h-4 w-4" /> Email Us
-            </a>
+              <Mail className="h-4 w-4" /> Contact Us
+            </Link>
           </div>
           <div className="mt-8">
             <Link to="/" className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground transition-colors hover:text-primary">
