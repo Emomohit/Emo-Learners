@@ -4,7 +4,7 @@ import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
-import { Upload, Trash2, ShieldCheck, MessagesSquare, FileText } from "lucide-react";
+import { Upload, Trash2, ShieldCheck, MessagesSquare, FileText, ClipboardList, Plus, X as XIcon } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin")({
@@ -15,6 +15,8 @@ export const Route = createFileRoute("/admin")({
 type Subject = { id: string; branch: string; semester: number; code: string; name: string };
 type Resource = { id: string; subject_id: string; kind: string; title: string; file_path: string; created_at: string };
 type Feedback = { id: string; name: string; email: string; message: string; created_at: string };
+type TestQuestion = { q: string; options: string[]; answer: number; explain?: string };
+type CustomTest = { id: string; slug: string; title: string; topic: string; emoji: string; description: string | null; minutes: number; difficulty: string; questions: TestQuestion[]; published: boolean; created_at: string };
 
 function AdminPage() {
   const { user, isAdmin, loading } = useAuth();
