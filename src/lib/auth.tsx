@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import type { Session, User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
+import { ensureFounderAdmin } from "@/lib/admin-bootstrap.functions";
 
 type Role = "admin" | "student" | null;
 
@@ -55,6 +56,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
     let cancelled = false;
     (async () => {
+      // Attempt to promote to admin if this user is the founder (server-checked).
+      try {
+        await ensureFounderAdmin();
+      } catch {
+        // non-fatal — role fetch below still runs
+      }
       const { data } = await supabase
         .from("user_roles")
         .select("role")
