@@ -47,7 +47,7 @@ const platforms = [
     tag: "Career",
     desc: "Career tips, professional network, and industry insights.",
     cta: "Connect",
-    href: "https://linkedin.com/in/mohitahirwar",
+    href: "https://www.linkedin.com/in/mohit-ahirwar-12bb58386/",
   },
 ];
 

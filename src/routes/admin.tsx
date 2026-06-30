@@ -4,7 +4,7 @@ import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
-import { Upload, Trash2, ShieldCheck, MessagesSquare, FileText } from "lucide-react";
+import { Upload, Trash2, ShieldCheck, MessagesSquare, FileText, ClipboardList, Plus, X as XIcon } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin")({
@@ -15,11 +15,13 @@ export const Route = createFileRoute("/admin")({
 type Subject = { id: string; branch: string; semester: number; code: string; name: string };
 type Resource = { id: string; subject_id: string; kind: string; title: string; file_path: string; created_at: string };
 type Feedback = { id: string; name: string; email: string; message: string; created_at: string };
+type TestQuestion = { q: string; options: string[]; answer: number; explain?: string };
+type CustomTest = { id: string; slug: string; title: string; topic: string; emoji: string; description: string | null; minutes: number; difficulty: string; questions: TestQuestion[]; published: boolean; created_at: string };
 
 function AdminPage() {
   const { user, isAdmin, loading } = useAuth();
   const nav = useNavigate();
-  const [tab, setTab] = useState<"upload" | "feedback">("upload");
+  const [tab, setTab] = useState<"upload" | "tests" | "feedback">("upload");
 
   useEffect(() => {
     if (!loading && !user) nav({ to: "/auth" });
@@ -42,6 +44,15 @@ function AdminPage() {
     );
   }
 
+  const tabBtn = (key: typeof tab, label: string, Icon: typeof Upload) => (
+    <button
+      onClick={() => setTab(key)}
+      className={`flex items-center gap-2 rounded-full px-5 py-2 text-xs font-bold uppercase tracking-widest transition-all ${tab === key ? "bg-primary text-primary-foreground" : "text-muted-foreground"}`}
+    >
+      <Icon className="h-3.5 w-3.5" /> {label}
+    </button>
+  );
+
   return (
     <div className="min-h-screen">
       <Navbar />
@@ -54,23 +65,16 @@ function AdminPage() {
             Control <span className="text-primary">Panel</span>
           </h1>
 
-          <div className="mt-6 inline-flex rounded-full border border-border bg-surface/60 p-1">
-            <button
-              onClick={() => setTab("upload")}
-              className={`flex items-center gap-2 rounded-full px-5 py-2 text-xs font-bold uppercase tracking-widest transition-all ${tab === "upload" ? "bg-primary text-primary-foreground" : "text-muted-foreground"}`}
-            >
-              <Upload className="h-3.5 w-3.5" /> Uploads
-            </button>
-            <button
-              onClick={() => setTab("feedback")}
-              className={`flex items-center gap-2 rounded-full px-5 py-2 text-xs font-bold uppercase tracking-widest transition-all ${tab === "feedback" ? "bg-primary text-primary-foreground" : "text-muted-foreground"}`}
-            >
-              <MessagesSquare className="h-3.5 w-3.5" /> Feedback
-            </button>
+          <div className="mt-6 inline-flex flex-wrap rounded-full border border-border bg-surface/60 p-1">
+            {tabBtn("upload", "Uploads", Upload)}
+            {tabBtn("tests", "Tests", ClipboardList)}
+            {tabBtn("feedback", "Feedback", MessagesSquare)}
           </div>
 
           <div className="mt-8">
-            {tab === "upload" ? <UploadPanel /> : <FeedbackPanel />}
+            {tab === "upload" && <UploadPanel />}
+            {tab === "tests" && <TestsPanel />}
+            {tab === "feedback" && <FeedbackPanel />}
           </div>
         </div>
       </section>
@@ -277,5 +281,216 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
       <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{label}</span>
       <div className="mt-1">{children}</div>
     </label>
+  );
+}
+
+function slugify(s: string) {
+  return s
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "")
+    .slice(0, 60);
+}
+
+function emptyQ(): TestQuestion {
+  return { q: "", options: ["", "", "", ""], answer: 0, explain: "" };
+}
+
+function TestsPanel() {
+  const { user } = useAuth();
+  const [items, setItems] = useState<CustomTest[]>([]);
+  const [busy, setBusy] = useState(false);
+  const [title, setTitle] = useState("");
+  const [topic, setTopic] = useState("");
+  const [emoji, setEmoji] = useState("📝");
+  const [minutes, setMinutes] = useState(20);
+  const [difficulty, setDifficulty] = useState<"easy" | "medium" | "hard">("medium");
+  const [description, setDescription] = useState("");
+  const [published, setPublished] = useState(true);
+  const [questions, setQuestions] = useState<TestQuestion[]>([emptyQ()]);
+
+  const refresh = async () => {
+    const { data } = await supabase
+      .from("custom_tests" as any)
+      .select("*")
+      .order("created_at", { ascending: false });
+    setItems(((data ?? []) as unknown) as CustomTest[]);
+  };
+
+  useEffect(() => {
+    refresh();
+  }, []);
+
+  const reset = () => {
+    setTitle("");
+    setTopic("");
+    setEmoji("📝");
+    setMinutes(20);
+    setDifficulty("medium");
+    setDescription("");
+    setPublished(true);
+    setQuestions([emptyQ()]);
+  };
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!title || !topic) return toast.error("Title and topic are required");
+    const clean = questions
+      .map((q) => ({
+        q: q.q.trim(),
+        options: q.options.map((o) => o.trim()),
+        answer: q.answer,
+        explain: q.explain?.trim() || undefined,
+      }))
+      .filter((q) => q.q && q.options.every((o) => o));
+    if (clean.length === 0) return toast.error("Add at least one complete question");
+
+    setBusy(true);
+    try {
+      const slug = `${slugify(title)}-${Math.random().toString(36).slice(2, 6)}`;
+      const { error } = await supabase.from("custom_tests" as any).insert({
+        slug,
+        title,
+        topic,
+        emoji,
+        description: description || null,
+        minutes,
+        difficulty,
+        questions: clean,
+        published,
+        created_by: user?.id,
+      } as any);
+      if (error) throw error;
+      toast.success("Test published");
+      reset();
+      refresh();
+    } catch (err: any) {
+      toast.error(err.message ?? "Failed to publish");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const remove = async (t: CustomTest) => {
+    if (!confirm(`Delete "${t.title}"?`)) return;
+    await supabase.from("custom_tests" as any).delete().eq("id", t.id);
+    toast.success("Deleted");
+    refresh();
+  };
+
+  const togglePublish = async (t: CustomTest) => {
+    await supabase.from("custom_tests" as any).update({ published: !t.published }).eq("id", t.id);
+    refresh();
+  };
+
+  const setQ = (i: number, patch: Partial<TestQuestion>) =>
+    setQuestions((qs) => qs.map((q, idx) => (idx === i ? { ...q, ...patch } : q)));
+  const setOpt = (i: number, oi: number, value: string) =>
+    setQuestions((qs) =>
+      qs.map((q, idx) =>
+        idx === i ? { ...q, options: q.options.map((o, k) => (k === oi ? value : o)) } : q
+      )
+    );
+
+  return (
+    <div className="grid gap-6 lg:grid-cols-[1.1fr_1fr]">
+      <form onSubmit={submit} className="space-y-4 rounded-2xl border border-border bg-surface/40 p-6">
+        <h3 className="font-display text-xl font-extrabold uppercase">New Test</h3>
+        <div className="grid gap-3 sm:grid-cols-[1fr_120px]">
+          <Field label="Title">
+            <input value={title} onChange={(e) => setTitle(e.target.value)} required placeholder="e.g. OS Mid-Sem Mock" className="input" />
+          </Field>
+          <Field label="Emoji">
+            <input value={emoji} onChange={(e) => setEmoji(e.target.value)} className="input text-center" />
+          </Field>
+        </div>
+        <div className="grid gap-3 sm:grid-cols-3">
+          <Field label="Topic">
+            <input value={topic} onChange={(e) => setTopic(e.target.value)} required placeholder="OS / DBMS / AI…" className="input" />
+          </Field>
+          <Field label="Minutes">
+            <input type="number" min={1} value={minutes} onChange={(e) => setMinutes(Number(e.target.value) || 1)} className="input" />
+          </Field>
+          <Field label="Difficulty">
+            <select value={difficulty} onChange={(e) => setDifficulty(e.target.value as any)} className="select">
+              <option value="easy">Easy</option>
+              <option value="medium">Medium</option>
+              <option value="hard">Hard</option>
+            </select>
+          </Field>
+        </div>
+        <Field label="Description">
+          <textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={2} className="input resize-none" />
+        </Field>
+        <label className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-muted-foreground">
+          <input type="checkbox" checked={published} onChange={(e) => setPublished(e.target.checked)} /> Publish immediately
+        </label>
+
+        <div className="border-t border-border pt-4">
+          <div className="flex items-center justify-between">
+            <h4 className="font-display text-sm font-extrabold uppercase tracking-widest">Questions ({questions.length})</h4>
+            <button type="button" onClick={() => setQuestions((qs) => [...qs, emptyQ()])} className="inline-flex items-center gap-1 rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-primary">
+              <Plus className="h-3 w-3" /> Add
+            </button>
+          </div>
+          <div className="mt-3 space-y-4">
+            {questions.map((q, i) => (
+              <div key={i} className="rounded-xl border border-border bg-background/50 p-4">
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-primary">Q{i + 1}</span>
+                  {questions.length > 1 && (
+                    <button type="button" onClick={() => setQuestions((qs) => qs.filter((_, k) => k !== i))} className="text-muted-foreground hover:text-destructive">
+                      <XIcon className="h-3.5 w-3.5" />
+                    </button>
+                  )}
+                </div>
+                <textarea value={q.q} onChange={(e) => setQ(i, { q: e.target.value })} rows={2} placeholder="Question text…" className="input mt-2 resize-none" />
+                <div className="mt-3 space-y-2">
+                  {q.options.map((opt, oi) => (
+                    <div key={oi} className="flex items-center gap-2">
+                      <input type="radio" name={`ans-${i}`} checked={q.answer === oi} onChange={() => setQ(i, { answer: oi })} className="h-3.5 w-3.5" />
+                      <input value={opt} onChange={(e) => setOpt(i, oi, e.target.value)} placeholder={`Option ${oi + 1}`} className="input flex-1" />
+                    </div>
+                  ))}
+                </div>
+                <input value={q.explain ?? ""} onChange={(e) => setQ(i, { explain: e.target.value })} placeholder="Explanation (optional)" className="input mt-3" />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <button type="submit" disabled={busy} className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 text-sm font-bold uppercase tracking-widest text-primary-foreground shadow-brand disabled:opacity-50">
+          {busy ? "Saving…" : "Publish Test"}
+        </button>
+      </form>
+
+      <div className="rounded-2xl border border-border bg-surface/40 p-6">
+        <h3 className="font-display text-xl font-extrabold uppercase">Your tests</h3>
+        {items.length === 0 && <p className="mt-3 text-sm text-muted-foreground">Nothing yet — create your first test.</p>}
+        <div className="mt-3 space-y-2">
+          {items.map((t) => (
+            <div key={t.id} className="rounded-xl border border-border bg-background/50 p-3">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <div className="text-sm font-semibold">{t.emoji} {t.title}</div>
+                  <div className="mt-0.5 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+                    {t.topic} · {t.questions?.length ?? 0} Q · {t.minutes} min · {t.difficulty}
+                  </div>
+                </div>
+                <div className="flex items-center gap-1">
+                  <button onClick={() => togglePublish(t)} className={`rounded-md px-2 py-1 text-[10px] font-bold uppercase tracking-widest ${t.published ? "bg-primary/15 text-primary" : "bg-muted text-muted-foreground"}`}>
+                    {t.published ? "Live" : "Draft"}
+                  </button>
+                  <button onClick={() => remove(t)} className="rounded-lg border border-border p-1.5 text-muted-foreground hover:border-destructive hover:text-destructive">
+                    <Trash2 className="h-3.5 w-3.5" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }

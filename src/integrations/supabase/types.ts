@@ -76,6 +76,54 @@ export type Database = {
           },
         ]
       }
+      custom_tests: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          description: string | null
+          difficulty: string
+          emoji: string
+          id: string
+          minutes: number
+          published: boolean
+          questions: Json
+          slug: string
+          title: string
+          topic: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          difficulty?: string
+          emoji?: string
+          id?: string
+          minutes?: number
+          published?: boolean
+          questions?: Json
+          slug: string
+          title: string
+          topic: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          difficulty?: string
+          emoji?: string
+          id?: string
+          minutes?: number
+          published?: boolean
+          questions?: Json
+          slug?: string
+          title?: string
+          topic?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       feedback: {
         Row: {
           created_at: string
