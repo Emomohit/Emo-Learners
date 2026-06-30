@@ -16,6 +16,7 @@ import { Route as JoinRouteImport } from './routes/join'
 import { Route as InternshipsRouteImport } from './routes/internships'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as ChallengeRouteImport } from './routes/challenge'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AiAssistantRouteImport } from './routes/ai-assistant'
 import { Route as AdminRouteImport } from './routes/admin'
@@ -59,6 +60,11 @@ const DashboardRoute = DashboardRouteImport.update({
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChallengeRoute = ChallengeRouteImport.update({
+  id: '/challenge',
+  path: '/challenge',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -113,6 +119,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRoute
   '/ai-assistant': typeof AiAssistantRoute
   '/auth': typeof AuthRoute
+  '/challenge': typeof ChallengeRoute
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
   '/internships': typeof InternshipsRoute
@@ -131,6 +138,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRoute
   '/ai-assistant': typeof AiAssistantRoute
   '/auth': typeof AuthRoute
+  '/challenge': typeof ChallengeRoute
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
   '/internships': typeof InternshipsRoute
@@ -150,6 +158,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRoute
   '/ai-assistant': typeof AiAssistantRoute
   '/auth': typeof AuthRoute
+  '/challenge': typeof ChallengeRoute
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
   '/internships': typeof InternshipsRoute
@@ -170,6 +179,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/ai-assistant'
     | '/auth'
+    | '/challenge'
     | '/contact'
     | '/dashboard'
     | '/internships'
@@ -188,6 +198,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/ai-assistant'
     | '/auth'
+    | '/challenge'
     | '/contact'
     | '/dashboard'
     | '/internships'
@@ -206,6 +217,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/ai-assistant'
     | '/auth'
+    | '/challenge'
     | '/contact'
     | '/dashboard'
     | '/internships'
@@ -225,6 +237,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRoute
   AiAssistantRoute: typeof AiAssistantRoute
   AuthRoute: typeof AuthRoute
+  ChallengeRoute: typeof ChallengeRoute
   ContactRoute: typeof ContactRoute
   DashboardRoute: typeof DashboardRoute
   InternshipsRoute: typeof InternshipsRoute
@@ -287,6 +300,13 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/challenge': {
+      id: '/challenge'
+      path: '/challenge'
+      fullPath: '/challenge'
+      preLoaderRoute: typeof ChallengeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -361,6 +381,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRoute,
   AiAssistantRoute: AiAssistantRoute,
   AuthRoute: AuthRoute,
+  ChallengeRoute: ChallengeRoute,
   ContactRoute: ContactRoute,
   DashboardRoute: DashboardRoute,
   InternshipsRoute: InternshipsRoute,
@@ -376,3 +397,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
