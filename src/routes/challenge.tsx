@@ -298,7 +298,14 @@ function DayNotesDialog({ day, onClose }: { day: typeof CHALLENGE_DAYS[number]; 
         </div>
 
         <div className="max-h-[60vh] overflow-y-auto p-6">
-          <h4 className="font-mono text-[11px] uppercase tracking-widest text-primary">Key notes</h4>
+          <div className="rounded-xl border border-white/10 bg-white/5 p-4">
+            <div className="flex items-center justify-between gap-3">
+              <span className="font-mono text-[10px] uppercase tracking-widest text-white/50">What you'll learn</span>
+              <span className="rounded-full border border-white/15 px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest text-white/70">~{day.minutes} min</span>
+            </div>
+            <p className="mt-2 text-sm leading-relaxed text-white/85">{day.whatYouLearn}</p>
+          </div>
+          <h4 className="mt-6 font-mono text-[11px] uppercase tracking-widest text-primary">Key notes</h4>
           <ul className="mt-3 space-y-2 text-sm leading-relaxed text-white/85">
             {day.notes.map((n, i) => (
               <li key={i} className="flex gap-3">
