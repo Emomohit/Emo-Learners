@@ -14,6 +14,11 @@ import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as JoinRouteImport } from './routes/join'
 import { Route as InternshipsRouteImport } from './routes/internships'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AiAssistantRouteImport } from './routes/ai-assistant'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as TestsIndexRouteImport } from './routes/tests.index'
@@ -44,6 +49,31 @@ const JoinRoute = JoinRouteImport.update({
 const InternshipsRoute = InternshipsRouteImport.update({
   id: '/internships',
   path: '/internships',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AiAssistantRoute = AiAssistantRouteImport.update({
+  id: '/ai-assistant',
+  path: '/ai-assistant',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -80,6 +110,11 @@ const QuizzesSlugRoute = QuizzesSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRoute
+  '/ai-assistant': typeof AiAssistantRoute
+  '/auth': typeof AuthRoute
+  '/contact': typeof ContactRoute
+  '/dashboard': typeof DashboardRoute
   '/internships': typeof InternshipsRoute
   '/join': typeof JoinRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
@@ -93,6 +128,11 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRoute
+  '/ai-assistant': typeof AiAssistantRoute
+  '/auth': typeof AuthRoute
+  '/contact': typeof ContactRoute
+  '/dashboard': typeof DashboardRoute
   '/internships': typeof InternshipsRoute
   '/join': typeof JoinRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
@@ -107,6 +147,11 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRoute
+  '/ai-assistant': typeof AiAssistantRoute
+  '/auth': typeof AuthRoute
+  '/contact': typeof ContactRoute
+  '/dashboard': typeof DashboardRoute
   '/internships': typeof InternshipsRoute
   '/join': typeof JoinRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
@@ -122,6 +167,11 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/admin'
+    | '/ai-assistant'
+    | '/auth'
+    | '/contact'
+    | '/dashboard'
     | '/internships'
     | '/join'
     | '/privacy-policy'
@@ -135,6 +185,11 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/admin'
+    | '/ai-assistant'
+    | '/auth'
+    | '/contact'
+    | '/dashboard'
     | '/internships'
     | '/join'
     | '/privacy-policy'
@@ -148,6 +203,11 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
+    | '/admin'
+    | '/ai-assistant'
+    | '/auth'
+    | '/contact'
+    | '/dashboard'
     | '/internships'
     | '/join'
     | '/privacy-policy'
@@ -162,6 +222,11 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AdminRoute: typeof AdminRoute
+  AiAssistantRoute: typeof AiAssistantRoute
+  AuthRoute: typeof AuthRoute
+  ContactRoute: typeof ContactRoute
+  DashboardRoute: typeof DashboardRoute
   InternshipsRoute: typeof InternshipsRoute
   JoinRoute: typeof JoinRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
@@ -208,6 +273,41 @@ declare module '@tanstack/react-router' {
       path: '/internships'
       fullPath: '/internships'
       preLoaderRoute: typeof InternshipsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ai-assistant': {
+      id: '/ai-assistant'
+      path: '/ai-assistant'
+      fullPath: '/ai-assistant'
+      preLoaderRoute: typeof AiAssistantRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -258,6 +358,11 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AdminRoute: AdminRoute,
+  AiAssistantRoute: AiAssistantRoute,
+  AuthRoute: AuthRoute,
+  ContactRoute: ContactRoute,
+  DashboardRoute: DashboardRoute,
   InternshipsRoute: InternshipsRoute,
   JoinRoute: JoinRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,

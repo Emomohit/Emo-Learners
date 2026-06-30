@@ -99,7 +99,7 @@ function UploadPanel() {
       const { data } = await supabase
         .from("subjects")
         .select("*")
-        .eq("branch", branch)
+        .eq("branch", branch as any)
         .eq("semester", semester)
         .order("code");
       setSubjects((data ?? []) as Subject[]);
