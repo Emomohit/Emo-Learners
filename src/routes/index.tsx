@@ -123,7 +123,7 @@ function Home() {
             <FeatureCard num="02" icon={<Code2 className="h-5 w-5" />} title="Quizzes" desc="Topic-wise interactive quizzes with instant feedback and explanations." to="/quizzes" />
             <FeatureCard num="03" icon={<Timer className="h-5 w-5" />} title="Tests" desc="Timed mock tests with scoring, review mode, and a results breakdown." to="/tests" />
             <FeatureCard num="04" icon={<Briefcase className="h-5 w-5" />} title="Internships" desc="Curated internships built for Indian tech students. Real experience, real growth." to="/internships" />
-            <FeatureCard num="05" icon={<Sparkles className="h-5 w-5" />} title="Challenges" desc="Cohort-based building challenges. Ship something every single day." to="/about" />
+            <FeatureCard num="05" icon={<Sparkles className="h-5 w-5" />} title="Courses" desc="Free Python, Java, and C — chaptered, with notes, snippets, and deep-linked videos." to="/courses" />
             <FeatureCard num="06" icon={<Users className="h-5 w-5" />} title="Community" desc="A Telegram full of builders sharing resources, opportunities, and accountability." to="/about" />
           </div>
         </div>
