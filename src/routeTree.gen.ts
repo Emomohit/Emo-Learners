@@ -24,8 +24,10 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as TestsIndexRouteImport } from './routes/tests.index'
 import { Route as QuizzesIndexRouteImport } from './routes/quizzes.index'
+import { Route as CoursesIndexRouteImport } from './routes/courses.index'
 import { Route as TestsSlugRouteImport } from './routes/tests.$slug'
 import { Route as QuizzesSlugRouteImport } from './routes/quizzes.$slug'
+import { Route as CoursesSlugRouteImport } from './routes/courses.$slug'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -102,6 +104,11 @@ const QuizzesIndexRoute = QuizzesIndexRouteImport.update({
   path: '/quizzes/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CoursesIndexRoute = CoursesIndexRouteImport.update({
+  id: '/courses/',
+  path: '/courses/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TestsSlugRoute = TestsSlugRouteImport.update({
   id: '/tests/$slug',
   path: '/tests/$slug',
@@ -110,6 +117,11 @@ const TestsSlugRoute = TestsSlugRouteImport.update({
 const QuizzesSlugRoute = QuizzesSlugRouteImport.update({
   id: '/quizzes/$slug',
   path: '/quizzes/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CoursesSlugRoute = CoursesSlugRouteImport.update({
+  id: '/courses/$slug',
+  path: '/courses/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -127,8 +139,10 @@ export interface FileRoutesByFullPath {
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/resources': typeof ResourcesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/courses/$slug': typeof CoursesSlugRoute
   '/quizzes/$slug': typeof QuizzesSlugRoute
   '/tests/$slug': typeof TestsSlugRoute
+  '/courses/': typeof CoursesIndexRoute
   '/quizzes/': typeof QuizzesIndexRoute
   '/tests/': typeof TestsIndexRoute
 }
@@ -146,8 +160,10 @@ export interface FileRoutesByTo {
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/resources': typeof ResourcesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/courses/$slug': typeof CoursesSlugRoute
   '/quizzes/$slug': typeof QuizzesSlugRoute
   '/tests/$slug': typeof TestsSlugRoute
+  '/courses': typeof CoursesIndexRoute
   '/quizzes': typeof QuizzesIndexRoute
   '/tests': typeof TestsIndexRoute
 }
@@ -166,8 +182,10 @@ export interface FileRoutesById {
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/resources': typeof ResourcesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/courses/$slug': typeof CoursesSlugRoute
   '/quizzes/$slug': typeof QuizzesSlugRoute
   '/tests/$slug': typeof TestsSlugRoute
+  '/courses/': typeof CoursesIndexRoute
   '/quizzes/': typeof QuizzesIndexRoute
   '/tests/': typeof TestsIndexRoute
 }
@@ -187,8 +205,10 @@ export interface FileRouteTypes {
     | '/privacy-policy'
     | '/resources'
     | '/sitemap.xml'
+    | '/courses/$slug'
     | '/quizzes/$slug'
     | '/tests/$slug'
+    | '/courses/'
     | '/quizzes/'
     | '/tests/'
   fileRoutesByTo: FileRoutesByTo
@@ -206,8 +226,10 @@ export interface FileRouteTypes {
     | '/privacy-policy'
     | '/resources'
     | '/sitemap.xml'
+    | '/courses/$slug'
     | '/quizzes/$slug'
     | '/tests/$slug'
+    | '/courses'
     | '/quizzes'
     | '/tests'
   id:
@@ -225,8 +247,10 @@ export interface FileRouteTypes {
     | '/privacy-policy'
     | '/resources'
     | '/sitemap.xml'
+    | '/courses/$slug'
     | '/quizzes/$slug'
     | '/tests/$slug'
+    | '/courses/'
     | '/quizzes/'
     | '/tests/'
   fileRoutesById: FileRoutesById
@@ -245,8 +269,10 @@ export interface RootRouteChildren {
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   ResourcesRoute: typeof ResourcesRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  CoursesSlugRoute: typeof CoursesSlugRoute
   QuizzesSlugRoute: typeof QuizzesSlugRoute
   TestsSlugRoute: typeof TestsSlugRoute
+  CoursesIndexRoute: typeof CoursesIndexRoute
   QuizzesIndexRoute: typeof QuizzesIndexRoute
   TestsIndexRoute: typeof TestsIndexRoute
 }
@@ -358,6 +384,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof QuizzesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/courses/': {
+      id: '/courses/'
+      path: '/courses'
+      fullPath: '/courses/'
+      preLoaderRoute: typeof CoursesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/tests/$slug': {
       id: '/tests/$slug'
       path: '/tests/$slug'
@@ -370,6 +403,13 @@ declare module '@tanstack/react-router' {
       path: '/quizzes/$slug'
       fullPath: '/quizzes/$slug'
       preLoaderRoute: typeof QuizzesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/courses/$slug': {
+      id: '/courses/$slug'
+      path: '/courses/$slug'
+      fullPath: '/courses/$slug'
+      preLoaderRoute: typeof CoursesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -389,8 +429,10 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacyPolicyRoute: PrivacyPolicyRoute,
   ResourcesRoute: ResourcesRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  CoursesSlugRoute: CoursesSlugRoute,
   QuizzesSlugRoute: QuizzesSlugRoute,
   TestsSlugRoute: TestsSlugRoute,
+  CoursesIndexRoute: CoursesIndexRoute,
   QuizzesIndexRoute: QuizzesIndexRoute,
   TestsIndexRoute: TestsIndexRoute,
 }
