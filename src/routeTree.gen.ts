@@ -11,6 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ResourcesRouteImport } from './routes/resources'
+import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
+import { Route as JoinRouteImport } from './routes/join'
 import { Route as InternshipsRouteImport } from './routes/internships'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
@@ -27,6 +29,16 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const ResourcesRoute = ResourcesRouteImport.update({
   id: '/resources',
   path: '/resources',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
+  id: '/privacy-policy',
+  path: '/privacy-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JoinRoute = JoinRouteImport.update({
+  id: '/join',
+  path: '/join',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InternshipsRoute = InternshipsRouteImport.update({
@@ -69,6 +81,8 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/internships': typeof InternshipsRoute
+  '/join': typeof JoinRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
   '/resources': typeof ResourcesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/quizzes/$slug': typeof QuizzesSlugRoute
@@ -80,6 +94,8 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/internships': typeof InternshipsRoute
+  '/join': typeof JoinRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
   '/resources': typeof ResourcesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/quizzes/$slug': typeof QuizzesSlugRoute
@@ -92,6 +108,8 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/internships': typeof InternshipsRoute
+  '/join': typeof JoinRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
   '/resources': typeof ResourcesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/quizzes/$slug': typeof QuizzesSlugRoute
@@ -105,6 +123,8 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/internships'
+    | '/join'
+    | '/privacy-policy'
     | '/resources'
     | '/sitemap.xml'
     | '/quizzes/$slug'
@@ -116,6 +136,8 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/internships'
+    | '/join'
+    | '/privacy-policy'
     | '/resources'
     | '/sitemap.xml'
     | '/quizzes/$slug'
@@ -127,6 +149,8 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/internships'
+    | '/join'
+    | '/privacy-policy'
     | '/resources'
     | '/sitemap.xml'
     | '/quizzes/$slug'
@@ -139,6 +163,8 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   InternshipsRoute: typeof InternshipsRoute
+  JoinRoute: typeof JoinRoute
+  PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   ResourcesRoute: typeof ResourcesRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   QuizzesSlugRoute: typeof QuizzesSlugRoute
@@ -161,6 +187,20 @@ declare module '@tanstack/react-router' {
       path: '/resources'
       fullPath: '/resources'
       preLoaderRoute: typeof ResourcesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy-policy': {
+      id: '/privacy-policy'
+      path: '/privacy-policy'
+      fullPath: '/privacy-policy'
+      preLoaderRoute: typeof PrivacyPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/join': {
+      id: '/join'
+      path: '/join'
+      fullPath: '/join'
+      preLoaderRoute: typeof JoinRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/internships': {
@@ -219,6 +259,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   InternshipsRoute: InternshipsRoute,
+  JoinRoute: JoinRoute,
+  PrivacyPolicyRoute: PrivacyPolicyRoute,
   ResourcesRoute: ResourcesRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   QuizzesSlugRoute: QuizzesSlugRoute,
@@ -229,3 +271,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
