@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import {
   Flame, Trophy, Sparkles, Lock, CheckCircle2, Play, Rocket, Users,
-  Target, Award, BookOpen, Star, ChevronDown, ArrowRight, Zap,
+  Target, Award, BookOpen, Star, ChevronDown, ArrowRight, Zap, X, Youtube,
 } from "lucide-react";
 import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
