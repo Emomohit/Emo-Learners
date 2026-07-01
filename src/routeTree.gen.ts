@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
+import { Route as PracticeRouteImport } from './routes/practice'
 import { Route as JoinRouteImport } from './routes/join'
 import { Route as InternshipsRouteImport } from './routes/internships'
 import { Route as DashboardRouteImport } from './routes/dashboard'
@@ -42,6 +43,11 @@ const ResourcesRoute = ResourcesRouteImport.update({
 const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
   id: '/privacy-policy',
   path: '/privacy-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PracticeRoute = PracticeRouteImport.update({
+  id: '/practice',
+  path: '/practice',
   getParentRoute: () => rootRouteImport,
 } as any)
 const JoinRoute = JoinRouteImport.update({
@@ -136,6 +142,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRoute
   '/internships': typeof InternshipsRoute
   '/join': typeof JoinRoute
+  '/practice': typeof PracticeRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/resources': typeof ResourcesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -157,6 +164,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof DashboardRoute
   '/internships': typeof InternshipsRoute
   '/join': typeof JoinRoute
+  '/practice': typeof PracticeRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/resources': typeof ResourcesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -179,6 +187,7 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRoute
   '/internships': typeof InternshipsRoute
   '/join': typeof JoinRoute
+  '/practice': typeof PracticeRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/resources': typeof ResourcesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -202,6 +211,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/internships'
     | '/join'
+    | '/practice'
     | '/privacy-policy'
     | '/resources'
     | '/sitemap.xml'
@@ -223,6 +233,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/internships'
     | '/join'
+    | '/practice'
     | '/privacy-policy'
     | '/resources'
     | '/sitemap.xml'
@@ -244,6 +255,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/internships'
     | '/join'
+    | '/practice'
     | '/privacy-policy'
     | '/resources'
     | '/sitemap.xml'
@@ -266,6 +278,7 @@ export interface RootRouteChildren {
   DashboardRoute: typeof DashboardRoute
   InternshipsRoute: typeof InternshipsRoute
   JoinRoute: typeof JoinRoute
+  PracticeRoute: typeof PracticeRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   ResourcesRoute: typeof ResourcesRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -298,6 +311,13 @@ declare module '@tanstack/react-router' {
       path: '/privacy-policy'
       fullPath: '/privacy-policy'
       preLoaderRoute: typeof PrivacyPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/practice': {
+      id: '/practice'
+      path: '/practice'
+      fullPath: '/practice'
+      preLoaderRoute: typeof PracticeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/join': {
@@ -426,6 +446,7 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardRoute: DashboardRoute,
   InternshipsRoute: InternshipsRoute,
   JoinRoute: JoinRoute,
+  PracticeRoute: PracticeRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
   ResourcesRoute: ResourcesRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,

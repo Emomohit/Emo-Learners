@@ -13,6 +13,8 @@ import { Toaster } from "sonner";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AuthProvider } from "../lib/auth";
+import { BottomNav } from "../components/site/BottomNav";
+import { FeedbackWidget } from "../components/site/FeedbackWidget";
 
 function NotFoundComponent() {
   return (
@@ -122,6 +124,8 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <Outlet />
+        <FeedbackWidget />
+        <BottomNav />
         <Toaster theme="dark" position="top-right" richColors />
       </AuthProvider>
     </QueryClientProvider>
