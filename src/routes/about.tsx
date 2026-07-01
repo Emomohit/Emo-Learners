@@ -63,7 +63,7 @@ function AboutPage() {
               <a href="https://www.linkedin.com/in/mohit-ahirwar-12bb58386/" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-foreground transition-all hover:border-primary hover:text-primary">
                 <Linkedin className="h-4 w-4" /> LinkedIn
               </a>
-              <a href="https://emo-learners.vercel.app" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-brand transition-transform hover:scale-105">
+              <a href="https://mohitahirwarportfolio.vercel.app/" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-brand transition-transform hover:scale-105">
                 <ExternalLink className="h-4 w-4" /> View Portfolio
               </a>
             </div>
