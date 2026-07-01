@@ -24,7 +24,7 @@ export function Footer() {
             <a href="https://instagram.com/emolearners" target="_blank" rel="noreferrer" aria-label="Instagram" className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-surface text-muted-foreground transition-all hover:border-primary hover:text-primary">
               <Instagram className="h-4 w-4" />
             </a>
-            <a href="https://t.me/emolarners" target="_blank" rel="noreferrer" aria-label="Telegram" className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-surface text-muted-foreground transition-all hover:border-primary hover:text-primary">
+            <a href="https://t.me/Emo_Learners" target="_blank" rel="noreferrer" aria-label="Telegram" className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-surface text-muted-foreground transition-all hover:border-primary hover:text-primary">
               <Send className="h-4 w-4" />
             </a>
             <a href="https://youtube.com/@emolearners" target="_blank" rel="noreferrer" aria-label="YouTube" className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-surface text-muted-foreground transition-all hover:border-primary hover:text-primary">
@@ -54,7 +54,7 @@ export function Footer() {
           <h4 className="font-mono text-[11px] font-bold uppercase tracking-[0.25em] text-primary">Community</h4>
           <ul className="mt-4 space-y-2.5 text-sm text-muted-foreground">
             <li><Link to="/join" className="transition-colors hover:text-foreground">Join Community</Link></li>
-            <li><a href="https://t.me/emolarners" target="_blank" rel="noreferrer" className="transition-colors hover:text-foreground">Telegram</a></li>
+            <li><a href="https://t.me/Emo_Learners" target="_blank" rel="noreferrer" className="transition-colors hover:text-foreground">Telegram</a></li>
             <li><a href="https://instagram.com/emolearners" target="_blank" rel="noreferrer" className="transition-colors hover:text-foreground">Instagram</a></li>
             <li><Link to="/contact" className="transition-colors hover:text-foreground">Contact Us</Link></li>
             <li><Link to="/privacy-policy" className="transition-colors hover:text-foreground">Privacy Policy</Link></li>
