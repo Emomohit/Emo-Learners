@@ -14,6 +14,7 @@ import {
   ShieldCheck,
   Clock,
   Heart,
+  Brain,
 } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
