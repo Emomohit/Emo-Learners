@@ -15,6 +15,7 @@ import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as PracticeRouteImport } from './routes/practice'
 import { Route as JoinRouteImport } from './routes/join'
 import { Route as InternshipsRouteImport } from './routes/internships'
+import { Route as EmoiqRouteImport } from './routes/emoiq'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as ChallengeRouteImport } from './routes/challenge'
@@ -25,9 +26,15 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as TestsIndexRouteImport } from './routes/tests.index'
 import { Route as QuizzesIndexRouteImport } from './routes/quizzes.index'
+import { Route as EmoiqIndexRouteImport } from './routes/emoiq.index'
 import { Route as CoursesIndexRouteImport } from './routes/courses.index'
 import { Route as TestsSlugRouteImport } from './routes/tests.$slug'
 import { Route as QuizzesSlugRouteImport } from './routes/quizzes.$slug'
+import { Route as EmoiqQuizRouteImport } from './routes/emoiq.quiz'
+import { Route as EmoiqPredictRouteImport } from './routes/emoiq.predict'
+import { Route as EmoiqPlanRouteImport } from './routes/emoiq.plan'
+import { Route as EmoiqDoubtRouteImport } from './routes/emoiq.doubt'
+import { Route as EmoiqAnalyzeRouteImport } from './routes/emoiq.analyze'
 import { Route as CoursesSlugRouteImport } from './routes/courses.$slug'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -58,6 +65,11 @@ const JoinRoute = JoinRouteImport.update({
 const InternshipsRoute = InternshipsRouteImport.update({
   id: '/internships',
   path: '/internships',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EmoiqRoute = EmoiqRouteImport.update({
+  id: '/emoiq',
+  path: '/emoiq',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardRoute = DashboardRouteImport.update({
@@ -110,6 +122,11 @@ const QuizzesIndexRoute = QuizzesIndexRouteImport.update({
   path: '/quizzes/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EmoiqIndexRoute = EmoiqIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => EmoiqRoute,
+} as any)
 const CoursesIndexRoute = CoursesIndexRouteImport.update({
   id: '/courses/',
   path: '/courses/',
@@ -124,6 +141,31 @@ const QuizzesSlugRoute = QuizzesSlugRouteImport.update({
   id: '/quizzes/$slug',
   path: '/quizzes/$slug',
   getParentRoute: () => rootRouteImport,
+} as any)
+const EmoiqQuizRoute = EmoiqQuizRouteImport.update({
+  id: '/quiz',
+  path: '/quiz',
+  getParentRoute: () => EmoiqRoute,
+} as any)
+const EmoiqPredictRoute = EmoiqPredictRouteImport.update({
+  id: '/predict',
+  path: '/predict',
+  getParentRoute: () => EmoiqRoute,
+} as any)
+const EmoiqPlanRoute = EmoiqPlanRouteImport.update({
+  id: '/plan',
+  path: '/plan',
+  getParentRoute: () => EmoiqRoute,
+} as any)
+const EmoiqDoubtRoute = EmoiqDoubtRouteImport.update({
+  id: '/doubt',
+  path: '/doubt',
+  getParentRoute: () => EmoiqRoute,
+} as any)
+const EmoiqAnalyzeRoute = EmoiqAnalyzeRouteImport.update({
+  id: '/analyze',
+  path: '/analyze',
+  getParentRoute: () => EmoiqRoute,
 } as any)
 const CoursesSlugRoute = CoursesSlugRouteImport.update({
   id: '/courses/$slug',
@@ -140,6 +182,7 @@ export interface FileRoutesByFullPath {
   '/challenge': typeof ChallengeRoute
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
+  '/emoiq': typeof EmoiqRouteWithChildren
   '/internships': typeof InternshipsRoute
   '/join': typeof JoinRoute
   '/practice': typeof PracticeRoute
@@ -147,9 +190,15 @@ export interface FileRoutesByFullPath {
   '/resources': typeof ResourcesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/courses/$slug': typeof CoursesSlugRoute
+  '/emoiq/analyze': typeof EmoiqAnalyzeRoute
+  '/emoiq/doubt': typeof EmoiqDoubtRoute
+  '/emoiq/plan': typeof EmoiqPlanRoute
+  '/emoiq/predict': typeof EmoiqPredictRoute
+  '/emoiq/quiz': typeof EmoiqQuizRoute
   '/quizzes/$slug': typeof QuizzesSlugRoute
   '/tests/$slug': typeof TestsSlugRoute
   '/courses/': typeof CoursesIndexRoute
+  '/emoiq/': typeof EmoiqIndexRoute
   '/quizzes/': typeof QuizzesIndexRoute
   '/tests/': typeof TestsIndexRoute
 }
@@ -169,9 +218,15 @@ export interface FileRoutesByTo {
   '/resources': typeof ResourcesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/courses/$slug': typeof CoursesSlugRoute
+  '/emoiq/analyze': typeof EmoiqAnalyzeRoute
+  '/emoiq/doubt': typeof EmoiqDoubtRoute
+  '/emoiq/plan': typeof EmoiqPlanRoute
+  '/emoiq/predict': typeof EmoiqPredictRoute
+  '/emoiq/quiz': typeof EmoiqQuizRoute
   '/quizzes/$slug': typeof QuizzesSlugRoute
   '/tests/$slug': typeof TestsSlugRoute
   '/courses': typeof CoursesIndexRoute
+  '/emoiq': typeof EmoiqIndexRoute
   '/quizzes': typeof QuizzesIndexRoute
   '/tests': typeof TestsIndexRoute
 }
@@ -185,6 +240,7 @@ export interface FileRoutesById {
   '/challenge': typeof ChallengeRoute
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
+  '/emoiq': typeof EmoiqRouteWithChildren
   '/internships': typeof InternshipsRoute
   '/join': typeof JoinRoute
   '/practice': typeof PracticeRoute
@@ -192,9 +248,15 @@ export interface FileRoutesById {
   '/resources': typeof ResourcesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/courses/$slug': typeof CoursesSlugRoute
+  '/emoiq/analyze': typeof EmoiqAnalyzeRoute
+  '/emoiq/doubt': typeof EmoiqDoubtRoute
+  '/emoiq/plan': typeof EmoiqPlanRoute
+  '/emoiq/predict': typeof EmoiqPredictRoute
+  '/emoiq/quiz': typeof EmoiqQuizRoute
   '/quizzes/$slug': typeof QuizzesSlugRoute
   '/tests/$slug': typeof TestsSlugRoute
   '/courses/': typeof CoursesIndexRoute
+  '/emoiq/': typeof EmoiqIndexRoute
   '/quizzes/': typeof QuizzesIndexRoute
   '/tests/': typeof TestsIndexRoute
 }
@@ -209,6 +271,7 @@ export interface FileRouteTypes {
     | '/challenge'
     | '/contact'
     | '/dashboard'
+    | '/emoiq'
     | '/internships'
     | '/join'
     | '/practice'
@@ -216,9 +279,15 @@ export interface FileRouteTypes {
     | '/resources'
     | '/sitemap.xml'
     | '/courses/$slug'
+    | '/emoiq/analyze'
+    | '/emoiq/doubt'
+    | '/emoiq/plan'
+    | '/emoiq/predict'
+    | '/emoiq/quiz'
     | '/quizzes/$slug'
     | '/tests/$slug'
     | '/courses/'
+    | '/emoiq/'
     | '/quizzes/'
     | '/tests/'
   fileRoutesByTo: FileRoutesByTo
@@ -238,9 +307,15 @@ export interface FileRouteTypes {
     | '/resources'
     | '/sitemap.xml'
     | '/courses/$slug'
+    | '/emoiq/analyze'
+    | '/emoiq/doubt'
+    | '/emoiq/plan'
+    | '/emoiq/predict'
+    | '/emoiq/quiz'
     | '/quizzes/$slug'
     | '/tests/$slug'
     | '/courses'
+    | '/emoiq'
     | '/quizzes'
     | '/tests'
   id:
@@ -253,6 +328,7 @@ export interface FileRouteTypes {
     | '/challenge'
     | '/contact'
     | '/dashboard'
+    | '/emoiq'
     | '/internships'
     | '/join'
     | '/practice'
@@ -260,9 +336,15 @@ export interface FileRouteTypes {
     | '/resources'
     | '/sitemap.xml'
     | '/courses/$slug'
+    | '/emoiq/analyze'
+    | '/emoiq/doubt'
+    | '/emoiq/plan'
+    | '/emoiq/predict'
+    | '/emoiq/quiz'
     | '/quizzes/$slug'
     | '/tests/$slug'
     | '/courses/'
+    | '/emoiq/'
     | '/quizzes/'
     | '/tests/'
   fileRoutesById: FileRoutesById
@@ -276,6 +358,7 @@ export interface RootRouteChildren {
   ChallengeRoute: typeof ChallengeRoute
   ContactRoute: typeof ContactRoute
   DashboardRoute: typeof DashboardRoute
+  EmoiqRoute: typeof EmoiqRouteWithChildren
   InternshipsRoute: typeof InternshipsRoute
   JoinRoute: typeof JoinRoute
   PracticeRoute: typeof PracticeRoute
@@ -332,6 +415,13 @@ declare module '@tanstack/react-router' {
       path: '/internships'
       fullPath: '/internships'
       preLoaderRoute: typeof InternshipsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/emoiq': {
+      id: '/emoiq'
+      path: '/emoiq'
+      fullPath: '/emoiq'
+      preLoaderRoute: typeof EmoiqRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard': {
@@ -404,6 +494,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof QuizzesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/emoiq/': {
+      id: '/emoiq/'
+      path: '/'
+      fullPath: '/emoiq/'
+      preLoaderRoute: typeof EmoiqIndexRouteImport
+      parentRoute: typeof EmoiqRoute
+    }
     '/courses/': {
       id: '/courses/'
       path: '/courses'
@@ -425,6 +522,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof QuizzesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/emoiq/quiz': {
+      id: '/emoiq/quiz'
+      path: '/quiz'
+      fullPath: '/emoiq/quiz'
+      preLoaderRoute: typeof EmoiqQuizRouteImport
+      parentRoute: typeof EmoiqRoute
+    }
+    '/emoiq/predict': {
+      id: '/emoiq/predict'
+      path: '/predict'
+      fullPath: '/emoiq/predict'
+      preLoaderRoute: typeof EmoiqPredictRouteImport
+      parentRoute: typeof EmoiqRoute
+    }
+    '/emoiq/plan': {
+      id: '/emoiq/plan'
+      path: '/plan'
+      fullPath: '/emoiq/plan'
+      preLoaderRoute: typeof EmoiqPlanRouteImport
+      parentRoute: typeof EmoiqRoute
+    }
+    '/emoiq/doubt': {
+      id: '/emoiq/doubt'
+      path: '/doubt'
+      fullPath: '/emoiq/doubt'
+      preLoaderRoute: typeof EmoiqDoubtRouteImport
+      parentRoute: typeof EmoiqRoute
+    }
+    '/emoiq/analyze': {
+      id: '/emoiq/analyze'
+      path: '/analyze'
+      fullPath: '/emoiq/analyze'
+      preLoaderRoute: typeof EmoiqAnalyzeRouteImport
+      parentRoute: typeof EmoiqRoute
+    }
     '/courses/$slug': {
       id: '/courses/$slug'
       path: '/courses/$slug'
@@ -435,6 +567,26 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface EmoiqRouteChildren {
+  EmoiqAnalyzeRoute: typeof EmoiqAnalyzeRoute
+  EmoiqDoubtRoute: typeof EmoiqDoubtRoute
+  EmoiqPlanRoute: typeof EmoiqPlanRoute
+  EmoiqPredictRoute: typeof EmoiqPredictRoute
+  EmoiqQuizRoute: typeof EmoiqQuizRoute
+  EmoiqIndexRoute: typeof EmoiqIndexRoute
+}
+
+const EmoiqRouteChildren: EmoiqRouteChildren = {
+  EmoiqAnalyzeRoute: EmoiqAnalyzeRoute,
+  EmoiqDoubtRoute: EmoiqDoubtRoute,
+  EmoiqPlanRoute: EmoiqPlanRoute,
+  EmoiqPredictRoute: EmoiqPredictRoute,
+  EmoiqQuizRoute: EmoiqQuizRoute,
+  EmoiqIndexRoute: EmoiqIndexRoute,
+}
+
+const EmoiqRouteWithChildren = EmoiqRoute._addFileChildren(EmoiqRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
@@ -444,6 +596,7 @@ const rootRouteChildren: RootRouteChildren = {
   ChallengeRoute: ChallengeRoute,
   ContactRoute: ContactRoute,
   DashboardRoute: DashboardRoute,
+  EmoiqRoute: EmoiqRouteWithChildren,
   InternshipsRoute: InternshipsRoute,
   JoinRoute: JoinRoute,
   PracticeRoute: PracticeRoute,
