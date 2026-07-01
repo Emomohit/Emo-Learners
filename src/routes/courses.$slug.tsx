@@ -1,14 +1,17 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
+import { QuizBlock } from "@/components/site/QuizBlock";
+import { ExerciseBlock } from "@/components/site/ExerciseBlock";
 import { getCourse, chapterUrl, courses } from "@/lib/course-data";
+import { getChapterExtras } from "@/lib/course-extras";
 import {
   ArrowLeft, ArrowRight, CheckCircle2, Circle, Clock, GraduationCap,
-  PlayCircle, Youtube, BookOpen, Sparkles,
+  PlayCircle, Youtube, BookOpen, Sparkles, ListChecks,
 } from "lucide-react";
 
-const SITE = "https://emo-learners.vercel.app";
+const SITE = "https://emotion-spark-unlimited.lovable.app";
 
 export const Route = createFileRoute("/courses/$slug")({
   beforeLoad: ({ params }) => {
@@ -24,6 +27,7 @@ export const Route = createFileRoute("/courses/$slug")({
         { name: "description", content: desc },
         { property: "og:title", content: title },
         { property: "og:description", content: desc },
+        { property: "og:type", content: "article" },
         { property: "og:url", content: `${SITE}/courses/${params.slug}` },
       ],
       links: [{ rel: "canonical", href: `${SITE}/courses/${params.slug}` }],
@@ -60,6 +64,7 @@ function CourseDetail() {
   const { slug } = Route.useParams();
   const course = getCourse(slug)!;
   const storageKey = `emo:course:${slug}:done`;
+  const hasVideo = course.videoId.length > 0;
 
   const [done, setDone] = useState<Set<number>>(() => {
     if (typeof window === "undefined") return new Set();
@@ -70,7 +75,13 @@ function CourseDetail() {
       return new Set();
     }
   });
-  const [open, setOpen] = useState<number | null>(1);
+  const [selectedId, setSelectedId] = useState<number>(1);
+
+  const selectedChapter = useMemo(
+    () => course.chapters.find((c) => c.id === selectedId) ?? course.chapters[0],
+    [course, selectedId],
+  );
+  const extras = getChapterExtras(course.slug, selectedChapter.id);
 
   const toggleDone = (id: number) => {
     setDone((prev) => {
@@ -86,22 +97,25 @@ function CourseDetail() {
 
   const progress = Math.round((done.size / course.chapters.length) * 100);
   const otherCourses = courses.filter((c) => c.slug !== slug);
+  const currentIndex = course.chapters.findIndex((c) => c.id === selectedChapter.id);
+  const prevChapter = currentIndex > 0 ? course.chapters[currentIndex - 1] : null;
+  const nextChapter = currentIndex < course.chapters.length - 1 ? course.chapters[currentIndex + 1] : null;
 
   return (
     <div className="min-h-screen">
       <Navbar />
 
       {/* Hero */}
-      <section className="relative overflow-hidden px-6 pt-16 pb-12 md:pt-24">
+      <section className="relative overflow-hidden px-6 pt-14 pb-10 md:pt-20">
         <div className={`absolute inset-x-0 top-0 -z-10 h-[420px] bg-gradient-to-b ${course.accent} opacity-20 blur-3xl`} />
         <div className="absolute inset-0 -z-10 grid-bg opacity-30" />
-        <div className="mx-auto max-w-5xl animate-rise">
+        <div className="mx-auto max-w-6xl animate-rise">
           <Link to="/courses" className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-muted-foreground transition-colors hover:text-primary">
             <ArrowLeft className="h-3.5 w-3.5" /> All courses
           </Link>
-          <div className="mt-6 flex items-start gap-5">
+          <div className="mt-6 grid gap-6 md:grid-cols-[auto_1fr] md:items-start">
             <div className="text-6xl md:text-7xl">{course.emoji}</div>
-            <div>
+            <div className="min-w-0">
               <span className="inline-flex items-center gap-2 rounded-full border border-border bg-surface/60 px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.3em] text-primary">
                 <Sparkles className="h-3 w-3" /> Free · Self-paced
               </span>
@@ -114,6 +128,7 @@ function CourseDetail() {
                 <Pill icon={<Clock className="h-3 w-3" />}>{course.hours}</Pill>
                 <Pill icon={<PlayCircle className="h-3 w-3" />}>{course.instructor}</Pill>
                 <Pill icon={<BookOpen className="h-3 w-3" />}>{course.chapters.length} chapters</Pill>
+                <Pill icon={<ListChecks className="h-3 w-3" />}>Notes · Quizzes · Exercises</Pill>
               </div>
             </div>
           </div>
@@ -125,17 +140,19 @@ function CourseDetail() {
               <span className="text-primary">{done.size}/{course.chapters.length} · {progress}%</span>
             </div>
             <div className="mt-3 h-2 overflow-hidden rounded-full bg-background/60">
-              <div className="h-full bg-primary transition-all duration-500 ease-out" style={{ width: `${progress}%` }} />
+              <div className="h-full bg-primary transition-all duration-700 ease-out" style={{ width: `${progress}%` }} />
             </div>
             <div className="mt-4 flex flex-wrap gap-3">
-              <a
-                href={`https://youtu.be/${course.videoId}`}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-primary-foreground transition-transform hover:scale-105 active:scale-95"
-              >
-                <Youtube className="h-4 w-4" /> Watch full video
-              </a>
+              {hasVideo && (
+                <a
+                  href={`https://youtu.be/${course.videoId}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-primary-foreground transition-transform hover:scale-105 active:scale-95"
+                >
+                  <Youtube className="h-4 w-4" /> Watch full video
+                </a>
+              )}
               <button
                 onClick={() => { setDone(new Set()); try { localStorage.removeItem(storageKey); } catch {} }}
                 className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-muted-foreground transition-colors hover:text-primary"
@@ -147,104 +164,195 @@ function CourseDetail() {
         </div>
       </section>
 
-      {/* Chapters */}
+      {/* Two-column reading surface */}
       <section className="px-6 pb-20">
-        <div className="mx-auto max-w-5xl">
-          <h2 className="font-display text-2xl font-extrabold tracking-tight md:text-3xl">Course chapters</h2>
-          <p className="mt-1 text-sm text-muted-foreground">Click any chapter to open notes and watch on YouTube.</p>
-
-          <div className="mt-6 space-y-3">
-            {course.chapters.map((ch) => {
-              const isDone = done.has(ch.id);
-              const isOpen = open === ch.id;
-              return (
-                <div
-                  key={ch.id}
-                  className={`overflow-hidden rounded-xl border bg-surface/40 transition-all duration-300 ${
-                    isOpen ? "border-primary/60 shadow-brand" : "border-border hover:border-primary/30"
-                  }`}
-                >
-                  <button
-                    onClick={() => setOpen(isOpen ? null : ch.id)}
-                    className="flex w-full items-center gap-4 px-5 py-4 text-left"
-                  >
+        <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[280px_1fr]">
+          {/* Sidebar: chapter list */}
+          <aside className="lg:sticky lg:top-24 lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto lg:pr-2">
+            <h3 className="font-mono text-[10px] font-bold uppercase tracking-[0.3em] text-primary">
+              Chapters
+            </h3>
+            <ol className="mt-4 space-y-1">
+              {course.chapters.map((ch) => {
+                const isDone = done.has(ch.id);
+                const isActive = ch.id === selectedChapter.id;
+                return (
+                  <li key={ch.id}>
                     <button
-                      onClick={(e) => { e.stopPropagation(); toggleDone(ch.id); }}
-                      className="shrink-0 transition-transform hover:scale-110"
-                      aria-label={isDone ? "Mark incomplete" : "Mark complete"}
+                      onClick={() => setSelectedId(ch.id)}
+                      className={`group flex w-full items-start gap-3 rounded-lg border px-3 py-2.5 text-left transition-all ${
+                        isActive
+                          ? "border-primary/60 bg-primary/10 shadow-brand"
+                          : "border-transparent hover:border-border hover:bg-surface/40"
+                      }`}
                     >
-                      {isDone ? (
-                        <CheckCircle2 className="h-6 w-6 text-primary" />
-                      ) : (
-                        <Circle className="h-6 w-6 text-muted-foreground" />
-                      )}
+                      <span className="mt-0.5 shrink-0">
+                        {isDone ? (
+                          <CheckCircle2 className="h-4 w-4 text-primary" />
+                        ) : (
+                          <Circle className="h-4 w-4 text-muted-foreground/40" />
+                        )}
+                      </span>
+                      <span className="min-w-0 flex-1">
+                        <span className="block font-mono text-[9px] font-bold uppercase tracking-widest text-muted-foreground/80">
+                          Ch {String(ch.id).padStart(2, "0")}
+                        </span>
+                        <span
+                          className={`mt-0.5 block text-sm font-semibold leading-snug ${
+                            isActive ? "text-foreground" : "text-foreground/80"
+                          } ${isDone ? "opacity-70" : ""}`}
+                        >
+                          {ch.title}
+                        </span>
+                      </span>
                     </button>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-[0.25em] text-muted-foreground">
-                        Chapter {String(ch.id).padStart(2, "0")}
-                      </div>
-                      <div className={`mt-0.5 font-display text-lg font-bold tracking-tight ${isDone ? "line-through opacity-60" : ""}`}>
-                        {ch.title}
-                      </div>
-                      <div className="text-xs text-muted-foreground truncate">{ch.topic}</div>
-                    </div>
-                    <ArrowRight className={`h-4 w-4 text-muted-foreground transition-transform duration-300 ${isOpen ? "rotate-90 text-primary" : ""}`} />
-                  </button>
+                  </li>
+                );
+              })}
+            </ol>
+          </aside>
 
-                  <div
-                    className={`grid transition-all duration-300 ease-out ${isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}
-                  >
-                    <div className="overflow-hidden">
-                      <div className="border-t border-border px-5 py-5">
-                        <div className="grid gap-5 md:grid-cols-[1fr_auto]">
-                          <div>
-                            <h4 className="font-mono text-[10px] font-bold uppercase tracking-[0.3em] text-primary">Key notes</h4>
-                            <ul className="mt-3 space-y-2 text-sm text-foreground/90">
-                              {ch.notes.map((n, i) => (
-                                <li key={i} className="flex gap-2">
-                                  <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-primary" />
-                                  <span>{n}</span>
-                                </li>
-                              ))}
-                            </ul>
-                            {ch.snippet && (
-                              <pre className="mt-4 overflow-x-auto rounded-lg border border-border bg-background/80 p-4 font-mono text-xs leading-relaxed text-foreground/90">
-{ch.snippet}
-                              </pre>
-                            )}
-                          </div>
-                          <div className="flex flex-col gap-2 md:w-44">
-                            <a
-                              href={chapterUrl(course.videoId, ch.t)}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-4 py-2.5 text-xs font-bold uppercase tracking-widest text-primary-foreground transition-transform hover:scale-[1.02] active:scale-95"
-                            >
-                              <Youtube className="h-3.5 w-3.5" /> Watch chapter
-                            </a>
-                            <button
-                              onClick={() => toggleDone(ch.id)}
-                              className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-background/60 px-4 py-2.5 text-xs font-bold uppercase tracking-widest text-muted-foreground transition-colors hover:text-primary"
-                            >
-                              {isDone ? "Undo" : "Mark done"}
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+          {/* Main reading content */}
+          <div className="min-w-0">
+            <div className="flex flex-wrap items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-[0.25em] text-muted-foreground">
+              <span className="text-primary">Chapter {String(selectedChapter.id).padStart(2, "0")}</span>
+              <span className="opacity-40">·</span>
+              <span>{selectedChapter.topic}</span>
+            </div>
+            <h2 className="mt-3 font-display text-3xl font-extrabold tracking-tight md:text-4xl">
+              {selectedChapter.title}
+            </h2>
+
+            <div className="mt-6 flex flex-wrap gap-3">
+              {hasVideo && (
+                <a
+                  href={chapterUrl(course.videoId, selectedChapter.t)}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-primary-foreground transition-transform hover:scale-[1.02] active:scale-95"
+                >
+                  <Youtube className="h-3.5 w-3.5" /> Watch chapter
+                </a>
+              )}
+              <button
+                onClick={() => toggleDone(selectedChapter.id)}
+                className={`inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-xs font-bold uppercase tracking-widest transition-colors ${
+                  done.has(selectedChapter.id)
+                    ? "border-primary/40 bg-primary/10 text-primary"
+                    : "border-border bg-surface text-muted-foreground hover:text-primary"
+                }`}
+              >
+                {done.has(selectedChapter.id) ? (
+                  <>
+                    <CheckCircle2 className="h-3.5 w-3.5" /> Completed
+                  </>
+                ) : (
+                  <>
+                    <Circle className="h-3.5 w-3.5" /> Mark done
+                  </>
+                )}
+              </button>
+            </div>
+
+            {/* Notes */}
+            <div className="mt-8 rounded-2xl border border-border bg-surface/40 p-5 md:p-6">
+              <h4 className="font-mono text-[10px] font-bold uppercase tracking-[0.3em] text-primary">
+                Key notes
+              </h4>
+              <ul className="mt-4 space-y-3 text-sm leading-relaxed text-foreground/90">
+                {selectedChapter.notes.map((n, i) => (
+                  <li key={i} className="flex gap-3">
+                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                    <span>{n}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Snippet */}
+            {selectedChapter.snippet && (
+              <div className="mt-6 overflow-hidden rounded-2xl border border-border bg-background/80">
+                <div className="flex items-center justify-between border-b border-border px-4 py-2">
+                  <span className="font-mono text-[10px] font-bold uppercase tracking-[0.3em] text-primary">
+                    Snippet
+                  </span>
+                  <span className="font-mono text-[10px] text-muted-foreground">{course.language.toLowerCase()}</span>
                 </div>
-              );
-            })}
+                <pre className="overflow-x-auto p-5 font-mono text-xs leading-relaxed text-foreground/90">
+{selectedChapter.snippet}
+                </pre>
+              </div>
+            )}
+
+            {/* Quiz */}
+            {extras?.quiz && (
+              <div className="mt-6">
+                <QuizBlock
+                  courseSlug={course.slug}
+                  chapterId={selectedChapter.id}
+                  quiz={extras.quiz}
+                  onPass={() => {
+                    if (!done.has(selectedChapter.id)) toggleDone(selectedChapter.id);
+                  }}
+                />
+              </div>
+            )}
+
+            {/* Exercise */}
+            {extras?.exercise && (
+              <div className="mt-6">
+                <ExerciseBlock exercise={extras.exercise} />
+              </div>
+            )}
+
+            {!extras && (
+              <div className="mt-6 rounded-2xl border border-dashed border-border bg-surface/20 p-5 text-center">
+                <p className="text-sm text-muted-foreground">
+                  More practice for this chapter is on the way. Notes & video are ready.
+                </p>
+              </div>
+            )}
+
+            {/* Prev / next */}
+            <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-stretch sm:justify-between">
+              {prevChapter ? (
+                <button
+                  onClick={() => setSelectedId(prevChapter.id)}
+                  className="group inline-flex flex-1 items-center gap-3 rounded-xl border border-border bg-surface/40 p-4 text-left transition-all hover:border-primary/60"
+                >
+                  <ArrowLeft className="h-4 w-4 text-primary transition-transform group-hover:-translate-x-1" />
+                  <div className="min-w-0">
+                    <div className="font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+                      Previous
+                    </div>
+                    <div className="truncate text-sm font-semibold">{prevChapter.title}</div>
+                  </div>
+                </button>
+              ) : <div className="flex-1" />}
+              {nextChapter ? (
+                <button
+                  onClick={() => setSelectedId(nextChapter.id)}
+                  className="group inline-flex flex-1 items-center gap-3 rounded-xl border border-border bg-surface/40 p-4 text-right transition-all hover:border-primary/60"
+                >
+                  <div className="ml-auto min-w-0">
+                    <div className="font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+                      Next
+                    </div>
+                    <div className="truncate text-sm font-semibold">{nextChapter.title}</div>
+                  </div>
+                  <ArrowRight className="h-4 w-4 text-primary transition-transform group-hover:translate-x-1" />
+                </button>
+              ) : <div className="flex-1" />}
+            </div>
           </div>
         </div>
       </section>
 
       {/* Other courses */}
       <section className="border-t border-border bg-surface/20 px-6 py-16">
-        <div className="mx-auto max-w-5xl">
+        <div className="mx-auto max-w-6xl">
           <h2 className="font-display text-2xl font-extrabold tracking-tight md:text-3xl">Keep learning</h2>
-          <div className="mt-6 grid gap-4 md:grid-cols-2">
+          <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {otherCourses.map((c) => {
               const href = c.slug === "python" ? "/challenge" : `/courses/${c.slug}`;
               return (
@@ -254,11 +362,11 @@ function CourseDetail() {
                   className="group flex items-center gap-4 rounded-xl border border-border bg-surface/40 p-5 transition-all hover:-translate-y-0.5 hover:border-primary/60"
                 >
                   <div className="text-4xl">{c.emoji}</div>
-                  <div className="flex-1">
-                    <div className="font-display text-lg font-extrabold">{c.title}</div>
-                    <div className="text-xs text-muted-foreground">{c.tagline}</div>
+                  <div className="min-w-0 flex-1">
+                    <div className="truncate font-display text-lg font-extrabold">{c.title.split(" — ")[0]}</div>
+                    <div className="truncate text-xs text-muted-foreground">{c.tagline}</div>
                   </div>
-                  <ArrowRight className="h-4 w-4 text-muted-foreground transition-transform group-hover:translate-x-1 group-hover:text-primary" />
+                  <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-1 group-hover:text-primary" />
                 </Link>
               );
             })}

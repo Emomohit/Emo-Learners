@@ -1,6 +1,10 @@
 // Long-form video courses (not a 30-day challenge). Each course is a single
 // CodeWithHarry one-shot video on YouTube, chapterized so learners can hop
-// straight to the lesson they need.
+// straight to the lesson they need. The DSA track is language-agnostic.
+
+import { dsaCourse } from "./dsa-course";
+
+
 
 export type CourseChapter = {
   id: number;
@@ -627,8 +631,10 @@ export const courses: Course[] = [
     accent: "from-sky-400 to-blue-700",
     chapters: cChapters,
   },
+  dsaCourse,
 ];
 
 export function getCourse(slug: string): Course | undefined {
   return courses.find((c) => c.slug === slug);
 }
+
