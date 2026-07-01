@@ -14,6 +14,7 @@ import {
   ShieldCheck,
   Clock,
   Heart,
+  Brain,
 } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
@@ -53,6 +54,13 @@ const quickCards = [
     title: "Learn coding",
     desc: "Full Python, Java, C, and DSA — with notes, code, quizzes and exercises.",
     tag: "Courses",
+  },
+  {
+    to: "/emoiq",
+    icon: Brain,
+    title: "EMoIQ — Exam AI",
+    desc: "Analyze PYQs, predict likely questions, and get a personalized study plan.",
+    tag: "New · AI",
   },
   {
     to: "/practice",

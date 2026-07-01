@@ -42,6 +42,7 @@ export function Footer() {
         <div>
           <h4 className="font-mono text-[11px] font-bold uppercase tracking-[0.25em] text-primary">Explore</h4>
           <ul className="mt-4 space-y-2.5 text-sm text-muted-foreground">
+            <li><Link to="/emoiq" className="transition-colors hover:text-foreground">EMoIQ (AI Exam Engine)</Link></li>
             <li><Link to="/resources" className="transition-colors hover:text-foreground">Resources</Link></li>
             <li><Link to="/internships" className="transition-colors hover:text-foreground">Internships</Link></li>
             <li><Link to="/quizzes" className="transition-colors hover:text-foreground">Quizzes</Link></li>
