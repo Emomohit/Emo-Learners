@@ -126,9 +126,10 @@ function Home() {
             <FeatureCard num="04" icon={<Briefcase className="h-5 w-5" />} title="Internships" desc="Curated internships built for Indian tech students. Real experience, real growth." to="/internships" />
             <FeatureCard num="05" icon={<Sparkles className="h-5 w-5" />} title="Courses" desc="Free Python, Java, C, and DSA — with notes, snippets, quizzes, and hands-on exercises." to="/courses" />
             <FeatureCard num="06" icon={<Users className="h-5 w-5" />} title="Community" desc="A Telegram full of builders sharing resources, opportunities, and accountability." to="/join" />
-
+          </div>
         </div>
       </section>
+
 
       {/* CHALLENGE COUNTDOWN */}
       <section className="relative px-4 py-24">
