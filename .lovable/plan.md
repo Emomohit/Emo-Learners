@@ -1,66 +1,80 @@
+# EMO Learners — Full Rebuild v3
 
-## 1. Fix the infinite-loop crash on Home (root cause of "broken after login")
+## 1. Pick a visual direction
 
-`src/routes/index.tsx` → `useCountdown(target)` receives a `new Date(...)` re-created on every render. The effect depends on `[target]`, so it re-runs every render → `setNow` → re-render → new `target` → "Maximum update depth exceeded" (the exact error in console). After Google sign-in the browser lands on `/` and the home page crashes, which is why the challenge page is unreachable.
+All three keep the same information architecture and motion quality; only the skin changes.
 
-Fix: compute the target date once with `useState`/`useMemo` so the reference is stable, and depend on its timestamp (number) inside the effect — same fix applied in `src/routes/challenge.tsx` if it has the same pattern.
+**A. Aurora Studio** — Midnight canvas `#07070C`, soft aurora blobs (teal `#3DDBD9` → violet `#7C3AED` → magenta `#EC4899`), glassy cards, generous whitespace. Display: Instrument Serif. Body: Inter. Editorial, premium, calm.
 
-## 2. Google sign-in callback → land on `/challenge`
+**B. Terminal Prestige** — Refined evolution of the current cyberpunk brutalist. Near-black `#0A0A0A`, single warm amber accent `#F5A524`, hairline borders, mono labels (JetBrains Mono) paired with a clean sans, dense but disciplined. Feels like Linear + a hacker terminal.
 
-Today the Google flow uses `redirect_uri: window.location.origin` (public, correct) but the user wants to land on the challenge page after auth.
+**C. Paper Circuit** — Light warm paper `#FAF7F2`, ink `#0B0B0F`, electric accent `#2E5BFF`. Fraunces display + Manrope body. Subtle circuit-line motifs. Reads like a printed textbook meets modern SaaS. Bold on light.
 
-- Before calling `lovable.auth.signInWithOAuth("google", ...)` in `src/routes/auth.tsx`, store `sessionStorage.setItem("postAuthRedirect", "/challenge")` (or read it from a `?next=` query param if present on `/auth`).
-- Keep `redirect_uri: window.location.origin` (must stay public per platform rules).
-- In `src/routes/__root.tsx`, extend the existing `supabase.auth.onAuthStateChange` listener: on `SIGNED_IN`, if `sessionStorage.postAuthRedirect` is a same-origin path, `router.navigate({ to: that path })` and clear the key.
-- Also update the email-password path in `auth.tsx` to honor the same `postAuthRedirect` instead of hard-coding `/dashboard`.
-- Add a small note in the sign-in card: "You'll be taken to the 30-Day Python Challenge."
+Say A, B, or C.
 
-Preview-iframe note: per platform guidance, full Google sign-in is verified on the published URL — the preview proxy can interfere with the POST. We will not add iframe detection or alternate `/login?google=1` routes.
+## 2. Global UX rebuild (all directions)
 
-## 3. Rewrite all 30-day notes from the single video `https://youtu.be/UrsmFxEIp5k`
+- New `src/styles.css` tokens per chosen palette; retire the black/orange hard-coded look.
+- Rebuilt shell: sticky `Navbar` with active-route indicator, redesigned `Footer`, unified `Container` and section rhythm.
+- New primitives: `Hero`, `SectionHeader`, `Card`, `Stat`, `Pill`, `ProgressBar`, `CodeBlock`, `QuizCard`, `ExerciseCard`.
+- Motion: framer-motion staggered reveals on cards, animated progress bars, hover lift, reduced-motion respected.
+- Mobile-first pass — grid + `min-w-0` + `shrink-0` on every header row.
+- Head metadata + og:image polish on every route.
 
-Replace `seeds[]` in `src/lib/challenge-data.ts` so every day maps to a chapter of that one-shot video (CodeWithHarry's Python tutorial in Hindi, ~12 hours, chaptered). For each day:
+## 3. Pages rebuilt
 
-- `title` — the chapter name as it appears in the video.
-- `topic` — one-line description of what that chapter covers.
-- `notes` — 4–6 bullets explaining the concept *as taught in that chapter* (definition, syntax, when to use it, common mistake/tip).
-- `snippet` — a runnable Python example matching that chapter.
-- `videoUrl` — `https://youtu.be/UrsmFxEIp5k?t=<seconds>` deep-linked to the chapter start so "Watch on CodeWithHarry" jumps directly to that section.
+- `/` home — new hero, live stats strip, "Learn a language" module (4 courses), 30-day challenge module, resources teaser, quizzes/tests teaser, testimonials, join CTA.
+- `/courses` — polished catalog with progress badges pulled from `localStorage`.
+- `/courses/$slug` — new two-column reading layout (notes left, sticky video/quiz/exercise rail right).
+- `/challenge`, `/quizzes`, `/quizzes/$slug`, `/tests`, `/tests/$slug`, `/resources`, `/about`, `/join`, `/internships`, `/contact`, `/auth`, `/dashboard`, `/admin` — all restyled to the new system; content preserved.
 
-Chapter → Day mapping (drawn from the video's own chapter list):
+## 4. Courses content upgrade (Python, Java, C, DSA)
 
-```text
-Day 1  Introduction & Installation        Day 16 List Methods
-Day 2  Modules, Pip & PyPI                Day 17 Tuples
-Day 3  How Python Works                   Day 18 Sets
-Day 4  Comments, Escape Seq, print()      Day 19 Dictionaries
-Day 5  Variables & Data Types             Day 20 Functions
-Day 6  Operators                          Day 21 Function Arguments & Recursion
-Day 7  Type Conversion & input()          Day 22 File I/O
-Day 8  Strings                            Day 23 Classes & Objects (OOP basics)
-Day 9  String Methods                     Day 24 Constructor & `self`
-Day 10 if / elif / else                   Day 25 Inheritance
-Day 11 Match-case                         Day 26 Access Modifiers, @property
-Day 12 while loops                        Day 27 Static Methods & Class Methods
-Day 13 for loops + range                  Day 28 Exception Handling (try/except)
-Day 14 break, continue, pass              Day 29 Iterators & Generators
-Day 15 Lists                              Day 30 Decorators + Mini Project recap
+For every chapter of every course:
+
+- **5–7 expanded notes** — concepts, gotchas, when-to-use.
+- **2–3 code snippets** — minimal → real usage → common pitfall.
+- **Practice quiz** — 4 auto-graded MCQs with instant feedback + explanation, saved per-chapter to `localStorage`.
+- **1–2 hands-on exercises** — prompt + expected output + solution reveal.
+- Deep-linked "Watch chapter" pill (existing YouTube timestamps preserved).
+- Per-chapter completion counts progress only when notes read + quiz passed.
+
+New DSA track `/courses/dsa`:
+
+- 20 chapters: Big-O, Arrays, Strings, Hashing, Two Pointers, Sliding Window, Stack, Queue, Linked List, Recursion, Sorting, Binary Search, Trees, BST, Heap, Graphs BFS/DFS, Backtracking, DP intro, DP patterns, System design lite.
+- Language-agnostic pseudocode + Python + Java snippets.
+- Each chapter same shape: notes + snippets + quiz + exercise.
+
+## 5. Data model
+
+Course content stays in-repo (`src/lib/course-data.ts`) so it works offline and doesn't need DB writes. Extends the `Chapter` type:
+
+```ts
+type Chapter = {
+  id: number; title: string; topic: string; t: number;
+  notes: string[];              // 5–7 items
+  snippets: { label: string; code: string }[];
+  quiz: { q: string; options: string[]; answer: number; why: string }[];
+  exercises: { prompt: string; expected: string; solution: string }[];
+};
 ```
 
-Each day's `notes` will be written in EMO Learners' voice (short, direct, student-friendly) and explain *why* the concept matters, not just what it is — e.g. for Day 19 (Dictionaries): what a key/value pair is, `{}` vs `dict()`, `.get()` vs `[]` for missing keys, why dicts are ordered since Python 3.7, common bug of using a mutable key.
+`localStorage` keys per user-device: `emo:course:<slug>:done`, `emo:course:<slug>:quiz:<chapId>`.
 
-I'll also remove `COURSE_PLAYLIST_URL` references in the UI so every "Watch" link points at the single requested video at the right timestamp.
+## 6. Technical notes
 
-## 4. Verify
+- No backend changes; no new tables. RLS + admin flow untouched.
+- No new npm deps beyond `framer-motion` (already usable via animations utility, but I'll install it if not present).
+- Web fonts loaded via `<link>` in `src/routes/__root.tsx` (never `@import` remote in `styles.css`).
+- Tailwind v4 tokens via `@theme` in `src/styles.css`.
+- Every new route + head() gets a unique title/description/og.
 
-- Open `/` → no console "Maximum update depth" error; countdown ticks.
-- Open `/auth`, click Continue with Google on published URL → after callback, land on `/challenge` with session active.
-- Open `/challenge`, click any day card → dialog shows new chapter title, explanation bullets, snippet, and the "Watch on CodeWithHarry" button opens the video at that chapter's timestamp.
+## 7. Out of scope
 
-## Files touched
+- No pricing, no paid tier.
+- No Google/OAuth re-enable.
+- No Vercel republish work — that's a separate hosting turn.
 
-- `src/routes/index.tsx` — stabilize `target` in `useCountdown`.
-- `src/routes/challenge.tsx` — same countdown fix if present; honor chapter-deep-linked video URLs.
-- `src/routes/auth.tsx` — read `?next=`, store `postAuthRedirect`, default to `/challenge` for Google.
-- `src/routes/__root.tsx` — on `SIGNED_IN`, navigate to stored `postAuthRedirect`.
-- `src/lib/challenge-data.ts` — full rewrite of `seeds[]` with chapter-accurate notes, snippets, and timestamped video URLs from `youtu.be/UrsmFxEIp5k`.
+## Deliverable
+
+Ship the chosen direction end-to-end in one build turn: tokens → primitives → shell → pages → course content upgrade → DSA course → QA on `/`, `/courses`, `/courses/java`, `/courses/dsa`, `/challenge`, `/tests`, `/quizzes`.
