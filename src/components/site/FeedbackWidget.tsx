@@ -26,10 +26,12 @@ export function FeedbackWidget() {
       return;
     }
     setBusy(true);
+    const page = typeof window !== "undefined" ? window.location.pathname : "";
     const { error } = await supabase.from("feedback" as any).insert({
       user_id: user.id,
-      message: trimmed,
-      page: typeof window !== "undefined" ? window.location.pathname : null,
+      name: (user.user_metadata as any)?.full_name ?? user.email?.split("@")[0] ?? "Student",
+      email: user.email ?? "unknown@emolearners.app",
+      message: `[${page}] ${trimmed}`,
     } as any);
     setBusy(false);
     if (error) {
