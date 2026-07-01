@@ -56,6 +56,13 @@ const quickCards = [
     tag: "Courses",
   },
   {
+    to: "/emoiq",
+    icon: Brain,
+    title: "EMoIQ — Exam AI",
+    desc: "Analyze PYQs, predict likely questions, and get a personalized study plan.",
+    tag: "New · AI",
+  },
+  {
     to: "/practice",
     icon: ListChecks,
     title: "Practice",
