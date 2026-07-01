@@ -124,6 +124,128 @@ export type Database = {
         }
         Relationships: []
       }
+      emoiq_doubt_messages: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          role: string
+          thread_id: string
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          role: string
+          thread_id: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          role?: string
+          thread_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "emoiq_doubt_messages_thread_id_fkey"
+            columns: ["thread_id"]
+            isOneToOne: false
+            referencedRelation: "emoiq_doubt_threads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      emoiq_doubt_threads: {
+        Row: {
+          created_at: string
+          id: string
+          subject: string | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          subject?: string | null
+          title?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          subject?: string | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      emoiq_quiz_attempts: {
+        Row: {
+          created_at: string
+          details: Json
+          id: string
+          score: number
+          subject: string
+          topics: string[]
+          total: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          details?: Json
+          id?: string
+          score?: number
+          subject: string
+          topics?: string[]
+          total?: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          details?: Json
+          id?: string
+          score?: number
+          subject?: string
+          topics?: string[]
+          total?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
+      emoiq_weak_topics: {
+        Row: {
+          id: string
+          score: number
+          subject: string
+          topic: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          score?: number
+          subject: string
+          topic: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          id?: string
+          score?: number
+          subject?: string
+          topic?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       feedback: {
         Row: {
           created_at: string
@@ -150,6 +272,47 @@ export type Database = {
           user_id?: string | null
         }
         Relationships: []
+      }
+      predicted_questions: {
+        Row: {
+          analysis_id: string
+          created_at: string
+          id: string
+          marks: number | null
+          probability: number
+          question: string
+          unit: string | null
+          user_id: string
+        }
+        Insert: {
+          analysis_id: string
+          created_at?: string
+          id?: string
+          marks?: number | null
+          probability?: number
+          question: string
+          unit?: string | null
+          user_id: string
+        }
+        Update: {
+          analysis_id?: string
+          created_at?: string
+          id?: string
+          marks?: number | null
+          probability?: number
+          question?: string
+          unit?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "predicted_questions_analysis_id_fkey"
+            columns: ["analysis_id"]
+            isOneToOne: false
+            referencedRelation: "pyq_analyses"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profiles: {
         Row: {
@@ -181,6 +344,75 @@ export type Database = {
           full_name?: string | null
           id?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      pyq_analyses: {
+        Row: {
+          created_at: string
+          id: string
+          paper_ids: string[]
+          subject: string
+          summary: string | null
+          topic_freq: Json
+          user_id: string
+          weightage: Json
+          year_trend: Json
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          paper_ids?: string[]
+          subject: string
+          summary?: string | null
+          topic_freq?: Json
+          user_id: string
+          weightage?: Json
+          year_trend?: Json
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          paper_ids?: string[]
+          subject?: string
+          summary?: string | null
+          topic_freq?: Json
+          user_id?: string
+          weightage?: Json
+          year_trend?: Json
+        }
+        Relationships: []
+      }
+      pyq_papers: {
+        Row: {
+          created_at: string
+          id: string
+          page_count: number | null
+          status: string
+          storage_path: string
+          subject: string
+          user_id: string
+          year: number | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          page_count?: number | null
+          status?: string
+          storage_path: string
+          subject: string
+          user_id: string
+          year?: number | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          page_count?: number | null
+          status?: string
+          storage_path?: string
+          subject?: string
+          user_id?: string
+          year?: number | null
         }
         Relationships: []
       }
@@ -230,6 +462,42 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      study_plans: {
+        Row: {
+          active: boolean
+          created_at: string
+          days_left: number
+          id: string
+          mode: string
+          plan: Json
+          subject: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          days_left?: number
+          id?: string
+          mode?: string
+          plan?: Json
+          subject: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          days_left?: number
+          id?: string
+          mode?: string
+          plan?: Json
+          subject?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       subjects: {
         Row: {
