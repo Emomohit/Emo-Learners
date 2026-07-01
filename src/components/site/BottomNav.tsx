@@ -3,10 +3,10 @@ import { Home, GraduationCap, ListChecks, FileText, User } from "lucide-react";
 
 const items = [
   { to: "/", label: "Home", icon: Home, exact: true },
-  { to: "/courses", label: "Learn", icon: GraduationCap },
-  { to: "/practice", label: "Practice", icon: ListChecks },
-  { to: "/resources", label: "Notes", icon: FileText },
-  { to: "/dashboard", label: "Me", icon: User },
+  { to: "/courses", label: "Learn", icon: GraduationCap, exact: false },
+  { to: "/practice", label: "Practice", icon: ListChecks, exact: false },
+  { to: "/resources", label: "Notes", icon: FileText, exact: false },
+  { to: "/dashboard", label: "Me", icon: User, exact: false },
 ] as const;
 
 export function BottomNav() {
