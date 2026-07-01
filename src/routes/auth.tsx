@@ -150,6 +150,28 @@ function AuthPage() {
                   {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
               </div>
+              {mode === "signin" && (
+                <div className="text-right">
+                  <button
+                    type="button"
+                    onClick={async () => {
+                      if (!email) return toast.error("Enter your email first, then click Forgot password.");
+                      try {
+                        const { error } = await supabase.auth.resetPasswordForEmail(email, {
+                          redirectTo: `${window.location.origin}/reset-password`,
+                        });
+                        if (error) throw error;
+                        toast.success("Password reset link sent. Check your inbox.");
+                      } catch (err: any) {
+                        toast.error(err.message ?? "Could not send reset email");
+                      }
+                    }}
+                    className="text-xs font-semibold text-primary hover:underline"
+                  >
+                    Forgot password?
+                  </button>
+                </div>
+              )}
               <button
                 type="submit"
                 disabled={busy}

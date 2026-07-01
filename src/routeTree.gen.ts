@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ResourcesRouteImport } from './routes/resources'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as PracticeRouteImport } from './routes/practice'
 import { Route as JoinRouteImport } from './routes/join'
@@ -45,6 +46,11 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const ResourcesRoute = ResourcesRouteImport.update({
   id: '/resources',
   path: '/resources',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
@@ -187,6 +193,7 @@ export interface FileRoutesByFullPath {
   '/join': typeof JoinRoute
   '/practice': typeof PracticeRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/resources': typeof ResourcesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/courses/$slug': typeof CoursesSlugRoute
@@ -215,6 +222,7 @@ export interface FileRoutesByTo {
   '/join': typeof JoinRoute
   '/practice': typeof PracticeRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/resources': typeof ResourcesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/courses/$slug': typeof CoursesSlugRoute
@@ -245,6 +253,7 @@ export interface FileRoutesById {
   '/join': typeof JoinRoute
   '/practice': typeof PracticeRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/resources': typeof ResourcesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/courses/$slug': typeof CoursesSlugRoute
@@ -276,6 +285,7 @@ export interface FileRouteTypes {
     | '/join'
     | '/practice'
     | '/privacy-policy'
+    | '/reset-password'
     | '/resources'
     | '/sitemap.xml'
     | '/courses/$slug'
@@ -304,6 +314,7 @@ export interface FileRouteTypes {
     | '/join'
     | '/practice'
     | '/privacy-policy'
+    | '/reset-password'
     | '/resources'
     | '/sitemap.xml'
     | '/courses/$slug'
@@ -333,6 +344,7 @@ export interface FileRouteTypes {
     | '/join'
     | '/practice'
     | '/privacy-policy'
+    | '/reset-password'
     | '/resources'
     | '/sitemap.xml'
     | '/courses/$slug'
@@ -363,6 +375,7 @@ export interface RootRouteChildren {
   JoinRoute: typeof JoinRoute
   PracticeRoute: typeof PracticeRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   ResourcesRoute: typeof ResourcesRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   CoursesSlugRoute: typeof CoursesSlugRoute
@@ -387,6 +400,13 @@ declare module '@tanstack/react-router' {
       path: '/resources'
       fullPath: '/resources'
       preLoaderRoute: typeof ResourcesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy-policy': {
@@ -601,6 +621,7 @@ const rootRouteChildren: RootRouteChildren = {
   JoinRoute: JoinRoute,
   PracticeRoute: PracticeRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   ResourcesRoute: ResourcesRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   CoursesSlugRoute: CoursesSlugRoute,
