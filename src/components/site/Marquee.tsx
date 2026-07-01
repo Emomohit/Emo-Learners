@@ -1,13 +1,14 @@
 const items = [
   "LEARN AI",
   "BUILD SKILLS",
+  "PYTHON · JAVA · C · DSA",
   "GET INTERNSHIPS",
   "100% FREE",
   "FOR INDIAN STUDENTS",
   "30 DAY PYTHON CHALLENGE",
-  "QUIZZES",
-  "TESTS",
+  "QUIZZES · TESTS · EXERCISES",
 ];
+
 
 export function Marquee() {
   const doubled = [...items, ...items];

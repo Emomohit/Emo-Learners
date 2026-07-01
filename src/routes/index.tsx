@@ -101,9 +101,9 @@ function Home() {
           <div className="mt-20 grid w-full max-w-4xl grid-cols-2 gap-px overflow-hidden rounded-2xl border border-border bg-border md:grid-cols-4">
             {[
               { k: "100%", v: "Free forever" },
+              { k: "4", v: "Full courses" },
+              { k: "80+", v: "Chapters + Quizzes" },
               { k: "30", v: "Day Python challenge" },
-              { k: "20+", v: "AI tools curated" },
-              { k: "∞", v: "Resources" },
             ].map((it) => (
               <div key={it.v} className="bg-surface/60 px-6 py-7 backdrop-blur-sm">
                 <div className="font-display text-3xl font-extrabold text-primary md:text-4xl">{it.k}</div>
@@ -114,6 +114,7 @@ function Home() {
         </div>
       </section>
 
+
       {/* WHAT WE OFFER */}
       <section className="relative px-4 py-24">
         <div className="mx-auto max-w-6xl">
@@ -123,9 +124,9 @@ function Home() {
             <FeatureCard num="02" icon={<Code2 className="h-5 w-5" />} title="Quizzes" desc="Topic-wise interactive quizzes with instant feedback and explanations." to="/quizzes" />
             <FeatureCard num="03" icon={<Timer className="h-5 w-5" />} title="Tests" desc="Timed mock tests with scoring, review mode, and a results breakdown." to="/tests" />
             <FeatureCard num="04" icon={<Briefcase className="h-5 w-5" />} title="Internships" desc="Curated internships built for Indian tech students. Real experience, real growth." to="/internships" />
-            <FeatureCard num="05" icon={<Sparkles className="h-5 w-5" />} title="Courses" desc="Free Python, Java, and C — chaptered, with notes, snippets, and deep-linked videos." to="/courses" />
-            <FeatureCard num="06" icon={<Users className="h-5 w-5" />} title="Community" desc="A Telegram full of builders sharing resources, opportunities, and accountability." to="/about" />
-          </div>
+            <FeatureCard num="05" icon={<Sparkles className="h-5 w-5" />} title="Courses" desc="Free Python, Java, C, and DSA — with notes, snippets, quizzes, and hands-on exercises." to="/courses" />
+            <FeatureCard num="06" icon={<Users className="h-5 w-5" />} title="Community" desc="A Telegram full of builders sharing resources, opportunities, and accountability." to="/join" />
+
         </div>
       </section>
 
