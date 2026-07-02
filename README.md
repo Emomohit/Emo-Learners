@@ -254,117 +254,41 @@ Access gated server-side against `FOUNDER_ADMIN_EMAIL`. The client is never trus
 
 ## 7. How every feature helps students
 
-This section maps each feature back to a real student problem and shows exactly how it saves time, effort, or stress. Nothing on the platform exists just to look nice — every item below earns its place.
+This section explains how each feature solves a real study problem — not what page it lives on, but what it actually does for the student. Nothing here exists just to look nice.
 
-### 7.1 Accounts & Auth
+### Finding the right material fast
 
-- **Email + password only** → zero barrier to entry. A student can start using the site in under 30 seconds; no phone number, no OTP wait, no college-ID upload.
-- **Show / hide password toggle** → fewer failed logins on phones where typos are common. Students stop getting locked out for a mis-typed character.
-- **HIBP leaked-password check** → protects students from using a password that's already been stolen elsewhere. Their EMO Learners account can't be hijacked because of a leak on some other site.
-- **Instant login after sign-up** → the student lands on the dashboard immediately and starts learning, instead of sitting on a "check your inbox" screen that often never delivers.
-- **In-app forgot password** → a student who forgets their password on exam night can reset it right now, without waiting for an email that may go to spam.
-- **Persistent session** → open the site tomorrow and you're still logged in. Streaks, bookmarks, and progress just work.
+Students waste hours scrolling through Telegram groups and WhatsApp forwards to find notes that match their syllabus. On EMO Learners, branch and semester filters align to RGPV Bhopal AICTE Flexible Curricula, so a CSE Sem-3 student sees only their subjects. A typo-tolerant search means "operatng system" still lands on Operating Systems. Subject cards show unit-by-unit breakdowns, so revision the night before an exam is structured and fast. Signed-URL downloads make every PDF private and instant — no public links that break after a week.
 
-### 7.2 Home page
+### Learning to code without getting lost
 
-- **Countdown to the next challenge cohort** → creates urgency and a clear "start date" so students actually begin instead of postponing.
-- **Site-wide search bar** → the student types "linked list" or "sem 3 maths" and lands on the right page in one step, instead of clicking through menus.
-- **Quick-start cards** → a first-time visitor sees the five things the site does within 2 seconds and picks one. No confusion about where to go.
-- **Live stats strip** → social proof. Seeing "X students, Y resources" tells a new visitor this is real and used, so they trust it enough to sign up.
+Long tutorial videos feel good to watch but rarely leave the student able to write real code. The courses on this platform are split into short chapters with notes, working code snippets, and a direct video link to the exact concept timestamp. The student reads first, copies the code into their own editor, and only watches the video part they did not understand. An inline quiz right after each chapter checks if the idea actually landed before the student moves on. A hands-on coding exercise then pushes them from passive watching to active building. A progress tracker always shows what is next, so coming back after a gap feels like resuming, not restarting.
 
-### 7.3 Notes & PYQs
+### Building a daily coding habit
 
-- **Branch + semester filters aligned to RGPV** → a CSE Sem-3 student sees only their subjects. No wading through irrelevant material.
-- **Fuzzy search** → typo-tolerant. Search "operatng system" still finds Operating Systems. Students on mobile keyboards benefit the most.
-- **Subject cards with unit breakdowns** → matches how exams are actually organized. Students can revise unit-by-unit the night before a test.
-- **Signed-URL downloads** → files download instantly and stay private. Notes uploaded by other students aren't scraped by random bots.
-- **Bookmark any resource** → the student saves the exact PDF they need for an upcoming exam and finds it again in one tap from the dashboard.
-- **"Report a mistake"** → students actively improve content. If a PDF has a wrong answer, the founder sees it the same day and fixes it.
+The 30-day Python challenge turns a vague "I want to learn Python" into a fixed daily commitment with an end date. Each day lists exactly what the student will learn and how long it takes — usually 30 to 45 minutes. A streak counter and badge system create a simple loop: the student returns not just for the lesson, but to keep the streak alive. A certificate preview at the end gives a real, shareable reward. The first few days work without an account, so a curious student can try before committing.
 
-### 7.4 Courses (Python, Java, C, DSA)
+### Testing understanding, not just memorising
 
-- **Chapters instead of long videos** → a student with 20 minutes can finish one chapter and feel progress. Long-form videos make people quit at minute 8.
-- **Notes + code + video timestamp per chapter** → the student reads first, tries the code, and only jumps to the video for the exact concept they didn't get. Saves hours over watching passively.
-- **Copy-to-clipboard on code snippets** → students paste code into their own editor without typos. Fewer "why doesn't my code run?" moments.
-- **Inline quiz right after notes** → immediate check that the concept actually landed. If they fail the quiz, they re-read before moving on — the classic learning-science loop.
-- **Hands-on exercise per chapter** → moves from passive reading to actually writing code. This is what turns "I watched a course" into "I can build things".
-- **Progress tracker + sidebar** → the student always knows what's next. No decision fatigue about which chapter to open. Coming back after a week, they resume in one click.
-- **DSA 20-chapter track** → gives placement-prep students a structured path instead of random LeetCode grinding.
+Reading notes feels productive, but real learning happens when the student tries to answer questions. Short quizzes give instant feedback with explanations, so a wrong answer becomes a lesson instead of a failure. Timed mock tests simulate real exam pressure, so the student walks into the hall with nerves already trained. A review mode after every test shows every question again with the correct answer and reasoning — most free quiz apps skip this step.
 
-### 7.5 30-Day Python Challenge
+### Exam strategy that actually works
 
-- **Fixed 30-day structure** → converts a vague "I want to learn Python" into a concrete daily habit with an end date. Way higher completion than open-ended courses.
-- **Single-tutor curriculum** → no confusion from switching styles mid-course. Consistency reduces cognitive load.
-- **Time estimate per day** → the student can honestly commit to 30–45 min a day, and knows in advance if today is doable.
-- **Streak counter and badges** → basic behavioural loop. Students come back not just for content, but to keep the streak alive.
-- **YouTube deep-link to exact timestamp** → skips the intro, sponsors, and recap. The student is watching the actual concept in seconds.
-- **Personalized certificate preview** → a real incentive to finish. Shareable on LinkedIn, useful for placements.
-- **Works before login (localStorage)** → students can try Day 1 without commitment. When they hit Day 3 and want their streak safe, they sign up.
+Before EMoIQ, students guessed which units to study the night before. The PYQ Intelligence Engine reads past papers and tells them which unit carries the most marks and which topics appear every year. Smart Question Prediction then gives ten concrete questions ranked by how likely they are to appear, so revision is focused instead of scattered. The personalised study plan breaks the syllabus into day-by-day tasks. A diagnostic quiz feeds weak topics back into the plan automatically, so the schedule adjusts without the student having to self-diagnose. When time runs out completely, the Last-24-Hour Mode compresses everything into a crash list of what to cover and what to skip — removing the guilt of dropping a unit when the exam is tomorrow.
 
-### 7.6 Practice hub
+### Help at 2 AM before an exam
 
-- **Quizzes with instant feedback** → students learn on the spot instead of finding out days later that they were wrong. Per-question explanations turn every mistake into a lesson.
-- **Timed mock tests** → simulates real exam pressure. Students walk into the real exam with their nerves already trained.
-- **Review mode after submit** → they see every question again with the right answer and reasoning. Most other quiz apps skip this.
-- **One hub for all practice modes** → no hunting between three different pages. The student picks quiz / test / challenge from one screen.
+The AI Study Helper and the EMoIQ Doubt Solver are available at any hour, in simple language that does not drown a first-year in jargon. The AI asks follow-up questions when a topic is too broad, which forces the student to narrow their own doubt — often half the battle in understanding it. Unlike generic chatbots, the doubt solver stays inside the exam syllabus, so answers are relevant and focused.
 
-### 7.7 EMoIQ — Smart Exam Strategy Engine
+### Keeping everything in one place
 
-- **PYQ Intelligence Engine** → answers the eternal question "which units matter for this exam?" with data instead of guesses. A student staring at 5 units the night before can now confidently spend 70% of their time on the one that's actually 35% of the paper.
-- **Smart Question Prediction** → gives 10 concrete questions to focus on with probability scores. Students revise with purpose instead of trying to memorize the whole book.
-- **Personalized Study Plan** → replaces "I don't know where to start" with a specific day-by-day schedule. Turns a mountain of syllabus into a checklist of daily tasks.
-- **Last-24-Hour Mode** → the crash-revision mode every student secretly needs. When there's no time for a full plan, EMoIQ tells them exactly what to cover and what to drop.
-- **Diagnostic Quiz + feedback loop** → the plan literally adjusts to what the student got wrong. The system learns their weak spots so they don't have to self-diagnose.
-- **Skip list** → tells students explicitly what NOT to study. Removes guilt about skipping units when time is short — a huge psychological win.
-- **AI Doubt Solver scoped to syllabus** → generic ChatGPT often over-answers or drifts off-topic. EMoIQ's doubt solver stays inside the exam scope.
+Bookmarks on every chapter, quiz, resource, and test mean the student never has to remember where they left off. The dashboard shows course progress, challenge streaks, and saved material in one view. New notes and PYQs appear in a "recent uploads" section, so a daily check is enough to stay current.
 
-### 7.8 AI Study Helper
+### Staying connected and heard
 
-- **Available 24/7** → the friend who explains things at 2 AM before an exam, without judgement.
-- **Simple language by default** → doesn't drown a first-year in academic jargon. Explains like a senior would.
-- **Asks follow-ups on broad topics** → forces the student to narrow their doubt, which is often half the battle in understanding it.
-- **Server-side Gemini key** → the student uses top-tier AI without paying for ChatGPT Plus.
+A Telegram group and other community channels give students a place to ask questions in real time and find peers who are studying the same subjects. A feedback widget on every page lets any student flag a mistake or request a missing note, and the fix often ships the same day.
 
-### 7.9 Dashboard
-
-- **Everything in one place** → progress, streaks, bookmarks, recent uploads. The student doesn't have to remember where they left off.
-- **Recent uploads section** → students see new notes / PYQs the day they land. Encourages return visits.
-- **Bookmarks list** → the "save for later" that actually gets used. Reading a bookmarked chapter is one tap from login.
-
-### 7.10 Community & content pages
-
-- **`/join` with all social links** → a student who wants to ask questions in real time finds the Telegram group in one click. Community reduces the drop-off that kills self-study.
-- **`/about` with founder's story** → trust. Students know a real engineering student built this for them, not a faceless startup.
-- **`/contact`** → a direct line to the founder for stuck students, bug reports, or content requests.
-- **`/privacy-policy` in plain English** → students actually understand what data is stored. No dark patterns.
-
-### 7.11 Site-wide UX
-
-- **Bookmarks everywhere** → saves the student's short-term memory. They can bounce between resources without losing their place.
-- **Feedback widget on every page** → one-tap way to flag errors. Content quality improves continuously because students patch it in real time.
-- **Bottom nav on mobile** → thumb-reachable navigation. Faster and less frustrating on phones, which is how most students use the site.
-- **Dark mode by default** → easier on the eyes during long night-before-exam sessions.
-- **Reduced motion respected** → students with motion sensitivity aren't punished by animations.
-- **Keyboard accessible** → students on assistive tech or budget devices without a working touchscreen can still use everything.
-- **SSR + SEO** → the right pages show up on Google, so a student searching "RGPV CS-303 notes" finds EMO Learners without ever being told about it.
-
-### 7.12 Admin panel (indirect student benefit)
-
-- **Drag-and-drop PDF uploads** → the founder ships new notes in minutes, not hours. Students get fresh material faster.
-- **Inline subject / resource / quiz / test editing** → typos and outdated PDFs get fixed the same day a student reports them.
-- **Feedback inbox** → every "report a mistake" reaches the founder with context. The student who reported it sees the fix on their next visit.
-- **Server-side admin gate** → students trust the platform because content can't be tampered with by fake admins.
-
-### 7.13 Security posture (why students can trust the site)
-
-- **RLS on every table** → one student can never read or modify another student's data. Bookmarks, progress, and doubts stay private.
-- **Private storage buckets + signed URLs** → uploaded PDFs are not scrapeable via a public link. Content stays on the platform where it belongs.
-- **Roles in a separate table** → a bug in the profile screen can never accidentally make someone an admin.
-- **HIBP + strict security headers + Zod validation** → the boring stuff that makes sure a student's account, streak, and certificate are still there tomorrow.
-
-
-
-## 7. Findings — what I learned building this
+## 8. Findings — what I learned building this
 
 - **Students don't read long text on phones.** Short, chunked notes with code blocks beat walls of paragraphs every time.
 - **The single most-asked-for thing was PYQs.** Not fancy AI, not videos — previous year question papers. So they became a first-class object.
@@ -373,7 +297,7 @@ This section maps each feature back to a real student problem and shows exactly 
 - **Trust matters.** Students only upload their own notes once they see the site takes security seriously (private bucket, signed URLs, real auth). That directly informed the security model.
 - **Plain English wins.** Rewriting "Cyberpunk Brutalist Practice Engine" to "Quizzes with instant answers" doubled the click-through in informal testing.
 
-## 8. Impact
+## 9. Impact
 
 _These numbers are updated by the founder. Placeholders shown below._
 
@@ -391,7 +315,7 @@ Qualitative impact:
 - First-year students who had never written a line of Python have finished the 30-day challenge and shipped their first project.
 - Community members contribute back — sending in PYQs and pointing out errors through the on-page feedback widget.
 
-## 9. Tech stack
+## 10. Tech stack
 
 | Layer | Technology |
 | --- | --- |
@@ -404,7 +328,7 @@ Qualitative impact:
 | Fonts | Syne (display), Inter (body), JetBrains Mono (code) |
 | Hosting | Lovable / Vercel |
 
-## 10. Local development
+## 11. Local development
 
 ```bash
 # Install dependencies
@@ -417,7 +341,7 @@ bun dev
 bun run build
 ```
 
-## 11. Environment variables
+## 12. Environment variables
 
 Public (safe in the client, prefixed `VITE_`):
 
@@ -435,7 +359,7 @@ FOUNDER_ADMIN_EMAIL        # server-side admin identity check
 LOVABLE_API_KEY            # Gemini access through Lovable AI Gateway
 ```
 
-## 12. Security model (short version)
+## 13. Security model (short version)
 
 - RLS on every public table; explicit `GRANT` statements per role.
 - Roles in `user_roles`, checked via `has_role()` security-definer function.
@@ -446,7 +370,7 @@ LOVABLE_API_KEY            # Gemini access through Lovable AI Gateway
 - Strict HTTP security headers on every SSR response.
 - No secrets in the repo. Publishable keys only.
 
-## 13. Roadmap
+## 14. Roadmap
 
 - Bookmarks synced across devices
 - Offline notes (PWA)
@@ -454,11 +378,11 @@ LOVABLE_API_KEY            # Gemini access through Lovable AI Gateway
 - Placement-prep track (aptitude + interview questions)
 - Regional-language support (Hindi first)
 
-## 14. Contributing
+## 15. Contributing
 
 Issues and pull requests are welcome. If you're a student who wants clean notes for your subject added to the platform, message the founder on any community channel.
 
-## 15. Credits
+## 16. Credits
 
 Built with love for the student community.
 
