@@ -11,7 +11,7 @@ import {
   PlayCircle, Youtube, BookOpen, Sparkles, ListChecks,
 } from "lucide-react";
 
-const SITE = "https://emotion-spark-unlimited.lovable.app";
+const SITE = "https://emolearners.vercel.app";
 
 export const Route = createFileRoute("/courses/$slug")({
   beforeLoad: ({ params }) => {

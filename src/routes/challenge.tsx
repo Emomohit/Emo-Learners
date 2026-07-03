@@ -11,7 +11,7 @@ import {
 } from "@/lib/challenge-data";
 import { useAuth } from "@/lib/auth";
 
-const SITE = "https://emotion-spark-unlimited.lovable.app";
+const SITE = "https://emolearners.vercel.app";
 const STORAGE_KEY = "emo:challenge:completed-days";
 
 export const Route = createFileRoute("/challenge")({
