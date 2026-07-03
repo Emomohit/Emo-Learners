@@ -18,7 +18,7 @@ export const Route = createFileRoute("/challenge")({
   head: () => ({
     meta: [
       { title: "30 Days Python Challenge — EMO Learners" },
-      { name: "description", content: "Master Python in 30 days with EMO Learners. Daily structure, progress tracking, badges, and a completion certificate — follow CodeWithHarry's free course." },
+      { name: "description", content: "Master Python in 30 days. Daily lessons, progress tracking, badges, and a certificate — follow CodeWithHarry's free course." },
       { property: "og:title", content: "30 Days Python Challenge — EMO Learners" },
       { property: "og:description", content: "Build consistency. Master Python. Earn your certificate in 30 days." },
       { property: "og:url", content: `${SITE}/challenge` },
