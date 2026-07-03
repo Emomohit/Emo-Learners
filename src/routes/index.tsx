@@ -26,7 +26,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "EMO Learners is a free study platform for Indian engineering students: subject notes, previous year questions (PYQs), Python, Java, C & DSA courses, quizzes, timed tests, EMoIQ exam AI and an AI study helper.",
+          "Free study platform for Indian engineering students: notes, PYQs, coding courses, quizzes, tests & AI tools.",
       },
       {
         name: "keywords",

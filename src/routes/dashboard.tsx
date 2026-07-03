@@ -8,7 +8,12 @@ import { FileText, Download, BookOpen, Sparkles, ShieldCheck, MessagesSquare } f
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/dashboard")({
-  head: () => ({ meta: [{ title: "Dashboard — EMO Learners" }] }),
+  head: () => ({
+    meta: [
+      { title: "Dashboard — EMO Learners" },
+      { name: "description", content: "Your EMO Learners dashboard. View saved bookmarks, recent activity, and manage your account." },
+    ],
+  }),
   component: Dashboard,
 });
 

@@ -8,7 +8,12 @@ import { Send, Sparkles, Bot, User as UserIcon, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/ai-assistant")({
-  head: () => ({ meta: [{ title: "AI Study Assistant — EMO Learners" }] }),
+  head: () => ({
+    meta: [
+      { title: "AI Study Assistant — EMO Learners" },
+      { name: "description", content: "Ask EMO Learners AI anything. Get simple, exam-focused explanations for coding, DSA, and engineering topics." },
+    ],
+  }),
   component: AiPage,
 });
 
