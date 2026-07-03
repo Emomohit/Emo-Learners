@@ -43,7 +43,7 @@ export const Route = createFileRoute("/")({
           "Free notes, PYQs, coding courses, quizzes, tests and AI helpers built for Indian students.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://emotion-spark-unlimited.lovable.app/" },
+      { property: "og:url", content: "https://emolearners.vercel.app/" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "EMO Learners — Free study platform" },
       {
@@ -51,7 +51,7 @@ export const Route = createFileRoute("/")({
         content: "Notes, PYQs, coding courses, quizzes, tests and AI helpers. Free for students.",
       },
     ],
-    links: [{ rel: "canonical", href: "https://emotion-spark-unlimited.lovable.app/" }],
+    links: [{ rel: "canonical", href: "https://emolearners.vercel.app/" }],
     scripts: [
       {
         type: "application/ld+json",
@@ -60,8 +60,8 @@ export const Route = createFileRoute("/")({
           "@type": "Organization",
           name: "EMO Learners",
           alternateName: ["EmoLearners", "EMO Learners App", "Emo Learners"],
-          url: "https://emotion-spark-unlimited.lovable.app/",
-          logo: "https://emotion-spark-unlimited.lovable.app/favicon.ico",
+          url: "https://emolearners.vercel.app/",
+          logo: "https://emolearners.vercel.app/favicon.ico",
           description:
             "Free study platform for Indian engineering students — notes, PYQs, coding courses, quizzes, tests and AI study tools.",
         }),
@@ -73,11 +73,11 @@ export const Route = createFileRoute("/")({
           "@type": "WebSite",
           name: "EMO Learners",
           alternateName: "EmoLearners",
-          url: "https://emotion-spark-unlimited.lovable.app/",
+          url: "https://emolearners.vercel.app/",
           potentialAction: {
             "@type": "SearchAction",
             target:
-              "https://emotion-spark-unlimited.lovable.app/resources?q={search_term_string}",
+              "https://emolearners.vercel.app/resources?q={search_term_string}",
             "query-input": "required name=search_term_string",
           },
         }),

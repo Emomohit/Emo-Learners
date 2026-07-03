@@ -13,9 +13,9 @@ export const Route = createFileRoute("/practice")({
       { name: "description", content: "One place to practice: short quizzes with instant answers, timed mock tests, and the 30-day Python challenge." },
       { property: "og:title", content: "Practice — EMO Learners" },
       { property: "og:description", content: "Quizzes, tests, and the 30-day Python challenge — all in one place." },
-      { property: "og:url", content: "https://emotion-spark-unlimited.lovable.app/practice" },
+      { property: "og:url", content: "https://emolearners.vercel.app/practice" },
     ],
-    links: [{ rel: "canonical", href: "https://emotion-spark-unlimited.lovable.app/practice" }],
+    links: [{ rel: "canonical", href: "https://emolearners.vercel.app/practice" }],
   }),
   component: PracticePage,
 });

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://emotion-spark-unlimited.lovable.app/sitemap.xml
+Sitemap: https://emolearners.vercel.app/sitemap.xml
