@@ -22,19 +22,66 @@ import { useNavigate } from "@tanstack/react-router";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "EMO Learners — Free notes, PYQs, courses & AI help for students" },
+      { title: "EMO Learners — Free Notes, PYQs, Courses & AI Study Help" },
       {
         name: "description",
         content:
-          "One free place for engineering students: subject notes, previous year questions, coding courses (Python, Java, C, DSA), quizzes, timed tests and an AI study helper.",
+          "EMO Learners is a free study platform for Indian engineering students: subject notes, previous year questions (PYQs), Python, Java, C & DSA courses, quizzes, timed tests, EMoIQ exam AI and an AI study helper.",
       },
-      { property: "og:title", content: "EMO Learners — Free study platform for students" },
+      {
+        name: "keywords",
+        content:
+          "EMO Learners, EmoLearners, EMO Learners app, EMoIQ, RGPV notes, engineering PYQs, free coding courses, Python course India, DSA course, AI study helper, student learning platform India",
+      },
+      { name: "application-name", content: "EMO Learners" },
+      { name: "apple-mobile-web-app-title", content: "EMO Learners" },
+      { property: "og:site_name", content: "EMO Learners" },
+      { property: "og:title", content: "EMO Learners — Free Notes, PYQs, Courses & AI Study Help" },
       {
         property: "og:description",
         content:
-          "Notes, PYQs, courses, quizzes, tests and an AI helper. Free, mobile-friendly, built for Indian students.",
+          "Free notes, PYQs, coding courses, quizzes, tests and AI helpers built for Indian students.",
       },
+      { property: "og:type", content: "website" },
       { property: "og:url", content: "https://emotion-spark-unlimited.lovable.app/" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "EMO Learners — Free study platform" },
+      {
+        name: "twitter:description",
+        content: "Notes, PYQs, coding courses, quizzes, tests and AI helpers. Free for students.",
+      },
+    ],
+    links: [{ rel: "canonical", href: "https://emotion-spark-unlimited.lovable.app/" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "EMO Learners",
+          alternateName: ["EmoLearners", "EMO Learners App", "Emo Learners"],
+          url: "https://emotion-spark-unlimited.lovable.app/",
+          logo: "https://emotion-spark-unlimited.lovable.app/favicon.ico",
+          description:
+            "Free study platform for Indian engineering students — notes, PYQs, coding courses, quizzes, tests and AI study tools.",
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "EMO Learners",
+          alternateName: "EmoLearners",
+          url: "https://emotion-spark-unlimited.lovable.app/",
+          potentialAction: {
+            "@type": "SearchAction",
+            target:
+              "https://emotion-spark-unlimited.lovable.app/resources?q={search_term_string}",
+            "query-input": "required name=search_term_string",
+          },
+        }),
+      },
     ],
   }),
   component: Home,
