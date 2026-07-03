@@ -408,8 +408,8 @@ export const dsaCourse: Course = {
   language: "DSA",
   title: "Data Structures & Algorithms — Interview Ready",
   tagline: "20 chapters. Language-agnostic. Fully practiced.",
-  description:
-    "A focused, chapter-wise DSA track: complexity, arrays, strings, hashing, two-pointer, sliding window, stacks, queues, linked lists, recursion, sorting, binary search, trees, heaps, graphs, backtracking, DP, and a taste of system design.",
+    description:
+      "Focused DSA track: complexity, arrays, strings, hashing, stacks, queues, linked lists, recursion, sorting, trees, graphs, backtracking, DP & system design.",
   emoji: "🧠",
   level: "Beginner → Advanced",
   hours: "Self-paced",

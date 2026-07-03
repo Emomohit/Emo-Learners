@@ -9,7 +9,12 @@ import { toast } from "sonner";
 import { Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/contact")({
-  head: () => ({ meta: [{ title: "Contact & Feedback — EMO Learners" }] }),
+  head: () => ({
+    meta: [
+      { title: "Contact & Feedback — EMO Learners" },
+      { name: "description", content: "Contact EMO Learners. Send feedback, report issues, or get in touch with the team." },
+    ],
+  }),
   component: ContactPage,
 });
 
