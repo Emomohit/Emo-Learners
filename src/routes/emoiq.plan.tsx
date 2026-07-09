@@ -17,6 +17,7 @@ function PlanPage() {
   const [weak, setWeak] = useState("");
   const [days, setDays] = useState(7);
   const [mode, setMode] = useState<"normal" | "crash">("normal");
+  const [pdfContext, setPdfContext] = useState("");
   const [loading, setLoading] = useState(false);
   const [plan, setPlan] = useState<PlanResult | null>(null);
 
