@@ -4,7 +4,6 @@ import { toast } from "sonner";
 
 // pdfjs worker setup (uses CDN worker matching installed version)
 import * as pdfjsLib from "pdfjs-dist";
-// @ts-expect-error - vite ?url import for worker
 import workerUrl from "pdfjs-dist/build/pdf.worker.min.mjs?url";
 pdfjsLib.GlobalWorkerOptions.workerSrc = workerUrl;
 
