@@ -65,6 +65,14 @@ function DoubtPage() {
 
       {!user && <p className="mt-4 text-sm text-muted-foreground">Sign in to save chat history (coming soon).</p>}
 
+      <div className="mt-6">
+        <PdfDropzone
+          label="Attach PDFs as context (optional)"
+          hint="Textbook chapters, notes, question papers — AI answers using them."
+          onText={(t) => setPdfContext(t)}
+        />
+      </div>
+
       <div className="mt-8 min-h-[300px] space-y-3 rounded-2xl border border-border bg-surface/40 p-4">
         {messages.length === 0 && <p className="text-sm text-muted-foreground">Try: "Explain deadlock with an example" or "Difference between TCP and UDP for exam".</p>}
         {messages.map((m, i) => (
