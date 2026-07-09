@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { Loader2, Send } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
+import { PdfDropzone } from "@/components/site/PdfDropzone";
 
 export const Route = createFileRoute("/emoiq/doubt")({
   component: DoubtPage,
@@ -17,6 +18,7 @@ function DoubtPage() {
   const { user } = useAuth();
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
+  const [pdfContext, setPdfContext] = useState("");
   const [loading, setLoading] = useState(false);
   const endRef = useRef<HTMLDivElement>(null);
 
@@ -32,6 +34,9 @@ function DoubtPage() {
     try {
       const { data: session } = await supabase.auth.getSession();
       const token = session.session?.access_token;
+      const payload: Msg[] = pdfContext
+        ? [{ role: "user", content: `Reference material from uploaded PDFs (use as context, do not repeat verbatim):\n\n${pdfContext.slice(0, 60000)}` }, ...next]
+        : next;
       const res = await fetch(AI_URL, {
         method: "POST",
         headers: {
@@ -39,7 +44,7 @@ function DoubtPage() {
           apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
           ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
-        body: JSON.stringify({ messages: next }),
+        body: JSON.stringify({ messages: payload }),
       });
       const body = await res.json();
       if (!res.ok) throw new Error(body?.error ?? "AI error");
@@ -59,6 +64,14 @@ function DoubtPage() {
       <p className="mt-3 text-muted-foreground">Ask any doubt from your syllabus. Answers are concise and exam-focused.</p>
 
       {!user && <p className="mt-4 text-sm text-muted-foreground">Sign in to save chat history (coming soon).</p>}
+
+      <div className="mt-6">
+        <PdfDropzone
+          label="Attach PDFs as context (optional)"
+          hint="Textbook chapters, notes, question papers — AI answers using them."
+          onText={(t) => setPdfContext(t)}
+        />
+      </div>
 
       <div className="mt-8 min-h-[300px] space-y-3 rounded-2xl border border-border bg-surface/40 p-4">
         {messages.length === 0 && <p className="text-sm text-muted-foreground">Try: "Explain deadlock with an example" or "Difference between TCP and UDP for exam".</p>}

@@ -5,6 +5,7 @@ import { Loader2, Sparkles } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { callEmoIq, type PredictedQuestion } from "@/lib/emoiq/api";
+import { PdfDropzone } from "@/components/site/PdfDropzone";
 
 export const Route = createFileRoute("/emoiq/predict")({
   validateSearch: (s: Record<string, unknown>) => ({ id: typeof s.id === "string" ? s.id : undefined }),
@@ -20,6 +21,7 @@ function PredictPage() {
   const [selected, setSelected] = useState<string | undefined>(id);
   const [loading, setLoading] = useState(false);
   const [qs, setQs] = useState<PredictedQuestion[] | null>(null);
+  const [pdfContext, setPdfContext] = useState("");
 
   useEffect(() => {
     if (!user) return;
@@ -40,6 +42,7 @@ function PredictPage() {
       const r = await callEmoIq<{ questions: PredictedQuestion[] }>("predict", {
         subject: a.subject,
         analysis: { weightage: a.weightage, topic_freq: a.topic_freq, year_trend: a.year_trend },
+        notes: pdfContext || undefined,
       });
       setQs(r.questions ?? []);
       if (user) {
@@ -84,6 +87,13 @@ function PredictPage() {
               <option key={a.id} value={a.id}>{a.subject} — {new Date(a.created_at).toLocaleDateString()}</option>
             ))}
           </select>
+          <div className="mt-4">
+            <PdfDropzone
+              label="Attach PDFs for extra context (optional)"
+              hint="Syllabus, notes or additional PYQs. Feeds into prediction."
+              onText={(t) => setPdfContext(t)}
+            />
+          </div>
           <button onClick={predict} disabled={loading || !selected} className="mt-4 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-brand disabled:opacity-50">
             {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
             {loading ? "Predicting…" : "Predict top 10"}

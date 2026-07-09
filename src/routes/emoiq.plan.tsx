@@ -3,6 +3,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { Loader2, CalendarClock, Zap } from "lucide-react";
 import { callEmoIq, type PlanResult } from "@/lib/emoiq/api";
+import { PdfDropzone } from "@/components/site/PdfDropzone";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 
@@ -16,6 +17,7 @@ function PlanPage() {
   const [weak, setWeak] = useState("");
   const [days, setDays] = useState(7);
   const [mode, setMode] = useState<"normal" | "crash">("normal");
+  const [pdfContext, setPdfContext] = useState("");
   const [loading, setLoading] = useState(false);
   const [plan, setPlan] = useState<PlanResult | null>(null);
 
@@ -29,6 +31,7 @@ function PlanPage() {
         weakTopics: weak.split(",").map((t) => t.trim()).filter(Boolean),
         daysLeft: mode === "crash" ? 1 : days,
         mode,
+        notes: pdfContext || undefined,
       });
       setPlan(r);
       if (user) {
@@ -71,6 +74,14 @@ function PlanPage() {
             <Zap className="h-3 w-3" /> Last 24h
           </button>
         </div>
+      </div>
+
+      <div className="mt-4">
+        <PdfDropzone
+          label="Upload syllabus / notes PDFs (optional)"
+          hint="AI uses their contents to tailor your plan."
+          onText={(t) => setPdfContext(t)}
+        />
       </div>
 
       <button onClick={generate} disabled={loading} className="mt-6 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-brand disabled:opacity-50">

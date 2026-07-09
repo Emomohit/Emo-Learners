@@ -3,6 +3,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { Loader2, Sparkles, CheckCircle2, XCircle } from "lucide-react";
 import { callEmoIq, type QuizQuestion } from "@/lib/emoiq/api";
+import { PdfDropzone } from "@/components/site/PdfDropzone";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 
@@ -14,6 +15,7 @@ function QuizPage() {
   const { user } = useAuth();
   const [subject, setSubject] = useState("");
   const [topics, setTopics] = useState("");
+  const [pdfContext, setPdfContext] = useState("");
   const [loading, setLoading] = useState(false);
   const [qs, setQs] = useState<QuizQuestion[] | null>(null);
   const [picks, setPicks] = useState<Record<number, number>>({});
@@ -27,6 +29,7 @@ function QuizPage() {
       const r = await callEmoIq<{ questions: QuizQuestion[] }>("quiz", {
         subject,
         topics: topics.split(",").map((t) => t.trim()).filter(Boolean),
+        notes: pdfContext || undefined,
       });
       setQs(r.questions ?? []);
     } catch (e) {
@@ -78,6 +81,13 @@ function QuizPage() {
           <div className="mt-8 grid gap-4 md:grid-cols-2">
             <input className="rounded-xl border border-border bg-surface px-4 py-3 text-sm focus:border-primary" placeholder="Subject" value={subject} onChange={(e) => setSubject(e.target.value)} />
             <input className="rounded-xl border border-border bg-surface px-4 py-3 text-sm focus:border-primary" placeholder="Topics (optional)" value={topics} onChange={(e) => setTopics(e.target.value)} />
+          </div>
+          <div className="mt-4">
+            <PdfDropzone
+              label="Upload notes / textbook PDFs (optional)"
+              hint="Quiz questions will be drawn from their content."
+              onText={(t) => setPdfContext(t)}
+            />
           </div>
           <button onClick={generate} disabled={loading} className="mt-6 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-brand disabled:opacity-50">
             {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
