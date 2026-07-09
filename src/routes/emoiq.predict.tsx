@@ -87,6 +87,13 @@ function PredictPage() {
               <option key={a.id} value={a.id}>{a.subject} — {new Date(a.created_at).toLocaleDateString()}</option>
             ))}
           </select>
+          <div className="mt-4">
+            <PdfDropzone
+              label="Attach PDFs for extra context (optional)"
+              hint="Syllabus, notes or additional PYQs. Feeds into prediction."
+              onText={(t) => setPdfContext(t)}
+            />
+          </div>
           <button onClick={predict} disabled={loading || !selected} className="mt-4 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-brand disabled:opacity-50">
             {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
             {loading ? "Predicting…" : "Predict top 10"}
