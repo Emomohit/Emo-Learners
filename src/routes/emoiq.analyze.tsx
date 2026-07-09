@@ -4,7 +4,8 @@ import { toast } from "sonner";
 import { callEmoIq, type AnalyzeResult } from "@/lib/emoiq/api";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
-import { Loader2, Upload, Sparkles } from "lucide-react";
+import { Loader2, Sparkles } from "lucide-react";
+import { PdfDropzone } from "@/components/site/PdfDropzone";
 
 export const Route = createFileRoute("/emoiq/analyze")({
   component: AnalyzePage,
