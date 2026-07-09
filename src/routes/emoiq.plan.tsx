@@ -31,6 +31,7 @@ function PlanPage() {
         weakTopics: weak.split(",").map((t) => t.trim()).filter(Boolean),
         daysLeft: mode === "crash" ? 1 : days,
         mode,
+        notes: pdfContext || undefined,
       });
       setPlan(r);
       if (user) {
