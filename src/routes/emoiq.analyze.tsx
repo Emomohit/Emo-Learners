@@ -89,9 +89,20 @@ function AnalyzePage() {
           onChange={(e) => setYears(e.target.value)}
         />
       </div>
+      <div className="mt-4">
+        <PdfDropzone
+          label="Upload PYQ PDFs (optional)"
+          hint="Drop one or more past-year paper PDFs. Text is extracted and added below."
+          onText={(t) => setText((prev) => {
+            const marker = "\n\n--- ";
+            const base = prev.split(marker)[0];
+            return t ? `${base}${base ? "\n\n" : ""}${t}` : base;
+          })}
+        />
+      </div>
       <textarea
         className="mt-4 min-h-[240px] w-full rounded-xl border border-border bg-surface px-4 py-3 text-sm outline-none focus:border-primary"
-        placeholder="Paste past-year paper text here (copy from PDF). Include years if visible."
+        placeholder="Paste past-year paper text here — or upload PDFs above."
         value={text}
         onChange={(e) => setText(e.target.value)}
       />
