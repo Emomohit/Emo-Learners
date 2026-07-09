@@ -15,6 +15,7 @@ function QuizPage() {
   const { user } = useAuth();
   const [subject, setSubject] = useState("");
   const [topics, setTopics] = useState("");
+  const [pdfContext, setPdfContext] = useState("");
   const [loading, setLoading] = useState(false);
   const [qs, setQs] = useState<QuizQuestion[] | null>(null);
   const [picks, setPicks] = useState<Record<number, number>>({});
