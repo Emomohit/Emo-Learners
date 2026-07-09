@@ -34,6 +34,9 @@ function DoubtPage() {
     try {
       const { data: session } = await supabase.auth.getSession();
       const token = session.session?.access_token;
+      const payload: Msg[] = pdfContext
+        ? [{ role: "user", content: `Reference material from uploaded PDFs (use as context, do not repeat verbatim):\n\n${pdfContext.slice(0, 60000)}` }, ...next]
+        : next;
       const res = await fetch(AI_URL, {
         method: "POST",
         headers: {
@@ -41,7 +44,7 @@ function DoubtPage() {
           apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
           ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
-        body: JSON.stringify({ messages: next }),
+        body: JSON.stringify({ messages: payload }),
       });
       const body = await res.json();
       if (!res.ok) throw new Error(body?.error ?? "AI error");
