@@ -3,6 +3,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { Loader2, Sparkles, CheckCircle2, XCircle } from "lucide-react";
 import { callEmoIq, type QuizQuestion } from "@/lib/emoiq/api";
+import { PdfDropzone } from "@/components/site/PdfDropzone";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 
