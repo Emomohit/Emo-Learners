@@ -5,6 +5,7 @@ import { Loader2, Sparkles } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { callEmoIq, type PredictedQuestion } from "@/lib/emoiq/api";
+import { PdfDropzone } from "@/components/site/PdfDropzone";
 
 export const Route = createFileRoute("/emoiq/predict")({
   validateSearch: (s: Record<string, unknown>) => ({ id: typeof s.id === "string" ? s.id : undefined }),
