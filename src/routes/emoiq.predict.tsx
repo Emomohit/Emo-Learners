@@ -21,6 +21,7 @@ function PredictPage() {
   const [selected, setSelected] = useState<string | undefined>(id);
   const [loading, setLoading] = useState(false);
   const [qs, setQs] = useState<PredictedQuestion[] | null>(null);
+  const [pdfContext, setPdfContext] = useState("");
 
   useEffect(() => {
     if (!user) return;
