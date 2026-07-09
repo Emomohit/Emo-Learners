@@ -42,6 +42,7 @@ function PredictPage() {
       const r = await callEmoIq<{ questions: PredictedQuestion[] }>("predict", {
         subject: a.subject,
         analysis: { weightage: a.weightage, topic_freq: a.topic_freq, year_trend: a.year_trend },
+        notes: pdfContext || undefined,
       });
       setQs(r.questions ?? []);
       if (user) {
