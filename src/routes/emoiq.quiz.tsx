@@ -82,6 +82,13 @@ function QuizPage() {
             <input className="rounded-xl border border-border bg-surface px-4 py-3 text-sm focus:border-primary" placeholder="Subject" value={subject} onChange={(e) => setSubject(e.target.value)} />
             <input className="rounded-xl border border-border bg-surface px-4 py-3 text-sm focus:border-primary" placeholder="Topics (optional)" value={topics} onChange={(e) => setTopics(e.target.value)} />
           </div>
+          <div className="mt-4">
+            <PdfDropzone
+              label="Upload notes / textbook PDFs (optional)"
+              hint="Quiz questions will be drawn from their content."
+              onText={(t) => setPdfContext(t)}
+            />
+          </div>
           <button onClick={generate} disabled={loading} className="mt-6 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-brand disabled:opacity-50">
             {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
             {loading ? "Generating…" : "Generate quiz"}
