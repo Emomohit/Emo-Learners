@@ -29,6 +29,7 @@ function QuizPage() {
       const r = await callEmoIq<{ questions: QuizQuestion[] }>("quiz", {
         subject,
         topics: topics.split(",").map((t) => t.trim()).filter(Boolean),
+        notes: pdfContext || undefined,
       });
       setQs(r.questions ?? []);
     } catch (e) {
