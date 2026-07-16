@@ -1,6 +1,6 @@
 import { supabase } from "@/integrations/supabase/client";
 
-export type EmoIqAction = "analyze" | "predict" | "plan" | "quiz";
+export type EmoIqAction = "analyze" | "predict" | "plan" | "quiz" | "roadmap";
 
 const FN_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/emoiq`;
 
