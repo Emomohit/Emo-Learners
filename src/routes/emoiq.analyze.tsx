@@ -71,9 +71,11 @@ function AnalyzePage() {
     setLoading(true);
     setResult(null);
     setSavedId(null);
+    setTop32(null);
     try {
       const r = await callEmoIq<AnalyzeResult>("analyze", { subject, years, text });
       setResult(r);
+      let newId: string | null = null;
       if (user) {
         const { data, error } = await supabase
           .from("pyq_analyses")
@@ -87,9 +89,13 @@ function AnalyzePage() {
           })
           .select("id")
           .single();
-        if (!error && data) setSavedId(data.id);
+        if (!error && data) {
+          setSavedId(data.id);
+          newId = data.id;
+        }
       }
-      toast.success("Analysis ready");
+      toast.success("Analysis ready · generating Top 32 questions");
+      void generateTop32(r, newId);
     } catch (e) {
       toast.error((e as Error).message);
     } finally {
