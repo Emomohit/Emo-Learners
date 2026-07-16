@@ -19,11 +19,13 @@ const primaryLinks = [
   { to: "/practice", label: "Practice" },
   { to: "/emoiq", label: "EMoIQ" },
   { to: "/placement", label: "Placement" },
+  { to: "/roadmap", label: "Roadmap" },
   { to: "/resources", label: "Notes & PYQs" },
-  { to: "/ai-assistant", label: "AI Helper" },
 ] as const;
 
 const moreLinks = [
+  { to: "/progress", label: "My Progress" },
+  { to: "/ai-assistant", label: "AI Helper" },
   { to: "/challenge", label: "30-Day Python" },
   { to: "/internships", label: "Internships" },
   { to: "/about", label: "About" },
