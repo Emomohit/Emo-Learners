@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Brain, FileSearch, Sparkles, CalendarClock, MessageCircleQuestion, TrendingUp } from "lucide-react";
+import { Brain, FileSearch, Sparkles, CalendarClock, MessageCircleQuestion, TrendingUp, Flame } from "lucide-react";
 
 export const Route = createFileRoute("/emoiq/")({
   component: EmoIqHome,
