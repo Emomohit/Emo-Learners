@@ -213,6 +213,84 @@ function AnalyzePage() {
               </ul>
             </div>
           </div>
+
+          <div className="rounded-2xl border border-primary/40 bg-primary/5 p-6">
+            <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+              <div>
+                <div className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-primary">
+                  <Flame className="h-3 w-3" /> Top 32 · from your analysis
+                </div>
+                <h2 className="mt-3 font-display text-2xl font-extrabold uppercase tracking-tighter md:text-3xl">
+                  32 Most <span className="italic text-primary">Important</span> Questions
+                </h2>
+                <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+                  Ranked from the PYQs you uploaded — high-weightage units and repeat topics first.
+                </p>
+              </div>
+              <button
+                onClick={() => result && generateTop32(result, savedId)}
+                disabled={top32Loading}
+                className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-4 py-2 font-mono text-[11px] uppercase tracking-widest text-primary hover:bg-primary hover:text-primary-foreground disabled:opacity-50"
+              >
+                {top32Loading ? <Loader2 className="h-3 w-3 animate-spin" /> : <Sparkles className="h-3 w-3" />}
+                {top32Loading ? "Generating…" : top32 ? "Regenerate" : "Generate Top 32"}
+              </button>
+            </div>
+
+            {top32Loading && !top32 && (
+              <div className="mt-6 grid gap-3 md:grid-cols-2">
+                {Array.from({ length: 8 }).map((_, i) => (
+                  <div key={i} className="h-20 animate-pulse rounded-xl border border-border bg-surface/40" />
+                ))}
+              </div>
+            )}
+
+            {top32 && top32.length > 0 && (() => {
+              const units = ["All", ...Array.from(new Set(top32.map((q) => q.unit)))];
+              const list = subjectFilter === "All" ? top32 : top32.filter((q) => q.unit === subjectFilter);
+              return (
+                <>
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    {units.map((s) => (
+                      <button
+                        key={s}
+                        onClick={() => setSubjectFilter(s)}
+                        className={`rounded-full border px-3 py-1 font-mono text-[10px] uppercase tracking-widest transition-colors ${
+                          subjectFilter === s
+                            ? "border-primary bg-primary text-primary-foreground"
+                            : "border-border bg-surface/60 text-muted-foreground hover:border-primary hover:text-primary"
+                        }`}
+                      >
+                        {s}
+                      </button>
+                    ))}
+                  </div>
+                  <ol className="mt-4 grid gap-3 md:grid-cols-2">
+                    {list.map((q, i) => (
+                      <li key={i} className="rounded-xl border border-border bg-surface/60 p-4">
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="flex items-start gap-3">
+                            <span className="mt-0.5 shrink-0 rounded-md bg-primary/10 px-2 py-1 font-mono text-[10px] font-bold text-primary">
+                              {String(i + 1).padStart(2, "0")}
+                            </span>
+                            <p className="text-sm font-medium leading-snug">{q.question}</p>
+                          </div>
+                          <span className="shrink-0 rounded-full border border-primary/40 bg-primary/10 px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest text-primary">
+                            {Math.round(q.probability)}%
+                          </span>
+                        </div>
+                        <div className="mt-3 flex flex-wrap gap-2 text-[11px] text-muted-foreground">
+                          <span className="rounded-full border border-border px-2 py-0.5 font-mono uppercase tracking-widest">{q.unit}</span>
+                          <span className="rounded-full border border-border px-2 py-0.5 font-mono uppercase tracking-widest">{q.marks} marks</span>
+                        </div>
+                        {q.reason && <p className="mt-2 text-xs text-muted-foreground">Why: {q.reason}</p>}
+                      </li>
+                    ))}
+                  </ol>
+                </>
+              );
+            })()}
+          </div>
         </div>
       )}
     </section>
