@@ -1,7 +1,21 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { toast } from "sonner";
-import { Loader2, Route as RouteIcon, Sparkles, Milestone, Wrench, FolderGit2, Briefcase } from "lucide-react";
+import {
+  Loader2,
+  Route as RouteIcon,
+  Sparkles,
+  Milestone,
+  Wrench,
+  FolderGit2,
+  Briefcase,
+  Download,
+  FileJson,
+  RefreshCw,
+  AlertTriangle,
+  ClipboardList,
+  Copy,
+} from "lucide-react";
 import { Navbar } from "@/components/site/Navbar";
 import { Marquee } from "@/components/site/Marquee";
 import { Footer } from "@/components/site/Footer";
@@ -21,6 +35,15 @@ export const Route = createFileRoute("/roadmap")({
 
 const BRANCHES = ["CSE", "IT", "AIML", "ECE", "EE", "Mechanical", "Civil"] as const;
 
+function friendlyError(msg: string): string {
+  const m = msg.toLowerCase();
+  if (m.includes("failed to fetch") || m.includes("network")) return "Network hiccup. Check your connection and try again.";
+  if (m.includes("401") || m.includes("unauthor")) return "Please sign in to generate a roadmap.";
+  if (m.includes("429") || m.includes("rate")) return "You're going a bit fast — wait a moment and retry.";
+  if (m.includes("timeout")) return "The AI took too long. Try fewer weeks or retry.";
+  return msg || "Something went wrong. Please try again.";
+}
+
 function RoadmapPage() {
   const [branch, setBranch] = useState<string>("CSE");
   const [semester, setSemester] = useState<number>(5);
@@ -30,10 +53,12 @@ function RoadmapPage() {
   const [weeks, setWeeks] = useState(12);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<RoadmapResult | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   async function generate() {
     setLoading(true);
     setResult(null);
+    setError(null);
     try {
       const r = await callEmoIq<RoadmapResult>("roadmap", {
         branch,
@@ -49,9 +74,89 @@ function RoadmapPage() {
       } catch {}
       toast.success("Roadmap ready");
     } catch (e) {
-      toast.error((e as Error).message);
+      const nice = friendlyError((e as Error).message);
+      setError(nice);
+      toast.error(nice);
     } finally {
       setLoading(false);
+    }
+  }
+
+  const summary = useMemo(() => {
+    if (!result) return null;
+    const totalTopics = result.milestones?.reduce((a, m) => a + (m.topics?.length ?? 0), 0) ?? 0;
+    const totalOutcomes = result.milestones?.reduce((a, m) => a + (m.outcomes?.length ?? 0), 0) ?? 0;
+    const subjectsSet = new Set<string>();
+    result.milestones?.forEach((m) => m.subjects?.forEach((s) => subjectsSet.add(s)));
+    return {
+      weeks: result.milestones?.length ?? 0,
+      totalTopics,
+      totalOutcomes,
+      subjects: [...subjectsSet],
+      skills: result.skills?.length ?? 0,
+      projects: result.projects?.length ?? 0,
+      placement: result.placement_prep?.length ?? 0,
+      estHours: (result.milestones?.length ?? 0) * hours,
+    };
+  }, [result, hours]);
+
+  function buildMarkdown(r: RoadmapResult): string {
+    const lines: string[] = [];
+    lines.push(`# ${r.title}`, "", r.summary, "");
+    lines.push(`**Branch:** ${branch}  \n**Semester:** ${semester}  \n**Goal:** ${goal}  \n**Hours/week:** ${hours}  \n**Weeks:** ${weeks}`, "");
+    lines.push(`## Weekly Milestones`, "");
+    r.milestones?.forEach((m) => {
+      lines.push(`### Week ${m.week} — ${m.theme}`);
+      if (m.subjects?.length) lines.push(`_Subjects:_ ${m.subjects.join(", ")}`);
+      if (m.topics?.length) lines.push(`\n**Topics**\n${m.topics.map((t) => `- ${t}`).join("\n")}`);
+      if (m.outcomes?.length) lines.push(`\n**Outcomes**\n${m.outcomes.map((t) => `- ${t}`).join("\n")}`);
+      if (m.resources?.length) lines.push(`\n**Resources**\n${m.resources.map((t) => `- ${t}`).join("\n")}`);
+      lines.push("");
+    });
+    if (r.skills?.length) {
+      lines.push(`## Key Skills`, "");
+      r.skills.forEach((s) => lines.push(`- **${s.name}** — ${s.why}`));
+      lines.push("");
+    }
+    if (r.projects?.length) {
+      lines.push(`## Projects`, "");
+      r.projects.forEach((p) => lines.push(`- **${p.name}** — ${p.brief} _(stack: ${p.stack?.join(", ") ?? "—"})_`));
+      lines.push("");
+    }
+    if (r.placement_prep?.length) {
+      lines.push(`## Placement Prep`, "");
+      r.placement_prep.forEach((p) => lines.push(`- ${p}`));
+    }
+    return lines.join("\n");
+  }
+
+  function download(name: string, data: string, type: string) {
+    const blob = new Blob([data], { type });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = name;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function exportMarkdown() {
+    if (!result) return;
+    download(`roadmap-${branch}-sem${semester}.md`, buildMarkdown(result), "text/markdown");
+    toast.success("Markdown downloaded");
+  }
+  function exportJson() {
+    if (!result) return;
+    download(`roadmap-${branch}-sem${semester}.json`, JSON.stringify({ meta: { branch, semester, goal, hours, weeks }, ...result }, null, 2), "application/json");
+    toast.success("JSON downloaded");
+  }
+  async function copyMarkdown() {
+    if (!result) return;
+    try {
+      await navigator.clipboard.writeText(buildMarkdown(result));
+      toast.success("Copied to clipboard");
+    } catch {
+      toast.error("Clipboard blocked by browser");
     }
   }
 
@@ -103,24 +208,110 @@ function RoadmapPage() {
             <input type="number" min={2} max={16} value={weeks} onChange={(e) => setWeeks(Number(e.target.value))}
               className="w-full rounded-xl border border-border bg-surface px-4 py-3 text-sm outline-none focus:border-primary" />
           </Field>
-          <div className="md:col-span-2">
+          <div className="md:col-span-2 flex flex-wrap items-center gap-3">
             <button onClick={generate} disabled={loading}
               className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-brand disabled:opacity-50">
               {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
-              {loading ? "Generating…" : "Generate roadmap"}
+              {loading ? "Generating…" : result ? "Regenerate" : "Generate roadmap"}
             </button>
+            {error && !loading && (
+              <button onClick={generate}
+                className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-5 py-3 font-mono text-xs font-bold uppercase tracking-widest hover:border-primary">
+                <RefreshCw className="h-4 w-4" /> Retry
+              </button>
+            )}
           </div>
         </div>
       </section>
 
-      {result && (
+      {loading && (
+        <section className="px-4 pb-24">
+          <div className="mx-auto max-w-5xl space-y-6">
+            <SkeletonBlock className="h-32" />
+            <SkeletonBlock className="h-8 w-56" />
+            <div className="grid gap-3">
+              {Array.from({ length: 3 }).map((_, i) => <SkeletonBlock key={i} className="h-40" />)}
+            </div>
+            <div className="grid gap-6 md:grid-cols-2">
+              <SkeletonBlock className="h-64" />
+              <SkeletonBlock className="h-64" />
+            </div>
+          </div>
+        </section>
+      )}
+
+      {error && !loading && !result && (
+        <section className="px-4 pb-24">
+          <div className="mx-auto max-w-5xl">
+            <div className="flex flex-col items-start gap-3 rounded-2xl border border-destructive/40 bg-destructive/10 p-6 md:flex-row md:items-center md:justify-between">
+              <div className="flex items-start gap-3">
+                <AlertTriangle className="mt-0.5 h-5 w-5 text-destructive" />
+                <div>
+                  <div className="font-display text-lg font-extrabold uppercase">Couldn't generate roadmap</div>
+                  <div className="mt-1 text-sm text-muted-foreground">{error}</div>
+                </div>
+              </div>
+              <button onClick={generate}
+                className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 font-mono text-xs font-bold uppercase tracking-widest text-primary-foreground">
+                <RefreshCw className="h-4 w-4" /> Try again
+              </button>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {result && !loading && (
         <section className="px-4 pb-24">
           <div className="mx-auto max-w-5xl space-y-6">
             <div className="rounded-2xl border border-primary/40 bg-primary/5 p-6">
-              <div className="font-mono text-[11px] uppercase tracking-widest text-primary">Roadmap</div>
-              <h2 className="mt-2 font-display text-2xl font-extrabold uppercase md:text-3xl">{result.title}</h2>
-              <p className="mt-3 text-sm text-muted-foreground">{result.summary}</p>
+              <div className="flex flex-wrap items-start justify-between gap-4">
+                <div>
+                  <div className="font-mono text-[11px] uppercase tracking-widest text-primary">Roadmap</div>
+                  <h2 className="mt-2 font-display text-2xl font-extrabold uppercase md:text-3xl">{result.title}</h2>
+                  <p className="mt-3 max-w-2xl text-sm text-muted-foreground">{result.summary}</p>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  <button onClick={exportMarkdown}
+                    className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-2 font-mono text-[11px] font-bold uppercase tracking-widest hover:border-primary">
+                    <Download className="h-3.5 w-3.5" /> Export .md
+                  </button>
+                  <button onClick={exportJson}
+                    className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-2 font-mono text-[11px] font-bold uppercase tracking-widest hover:border-primary">
+                    <FileJson className="h-3.5 w-3.5" /> Export .json
+                  </button>
+                  <button onClick={copyMarkdown}
+                    className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-2 font-mono text-[11px] font-bold uppercase tracking-widest hover:border-primary">
+                    <Copy className="h-3.5 w-3.5" /> Copy
+                  </button>
+                </div>
+              </div>
             </div>
+
+            {summary && (
+              <div className="rounded-2xl border border-border bg-surface/40 p-6">
+                <div className="flex items-center gap-2">
+                  <ClipboardList className="h-5 w-5 text-primary" />
+                  <h3 className="font-display text-xl font-extrabold uppercase tracking-tighter">Summary</h3>
+                </div>
+                <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                  <SummaryStat label="Weeks" value={summary.weeks} />
+                  <SummaryStat label="Est. hours" value={summary.estHours} />
+                  <SummaryStat label="Topics" value={summary.totalTopics} />
+                  <SummaryStat label="Outcomes" value={summary.totalOutcomes} />
+                  <SummaryStat label="Skills" value={summary.skills} />
+                  <SummaryStat label="Projects" value={summary.projects} />
+                  <SummaryStat label="Placement items" value={summary.placement} />
+                  <SummaryStat label="Subjects covered" value={summary.subjects.length} />
+                </div>
+                {summary.subjects.length > 0 && (
+                  <div className="mt-5 flex flex-wrap gap-1.5">
+                    {summary.subjects.map((s) => (
+                      <span key={s} className="rounded-full border border-primary/40 bg-primary/10 px-3 py-0.5 font-mono text-[10px] uppercase tracking-widest text-primary">{s}</span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
 
             <div>
               <SectionTitle icon={Milestone} title="Weekly milestones" />
@@ -215,4 +406,17 @@ function MiniList({ label, items }: { label: string; items?: string[] }) {
       </ul>
     </div>
   );
+}
+
+function SummaryStat({ label, value }: { label: string; value: number }) {
+  return (
+    <div className="rounded-xl border border-border bg-surface/60 p-4">
+      <div className="font-display text-2xl font-extrabold">{value}</div>
+      <div className="mt-1 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">{label}</div>
+    </div>
+  );
+}
+
+function SkeletonBlock({ className = "" }: { className?: string }) {
+  return <div className={`animate-pulse rounded-2xl border border-border bg-surface/40 ${className}`} />;
 }

@@ -1,10 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
+import { toast } from "sonner";
 import { Navbar } from "@/components/site/Navbar";
 import { Marquee } from "@/components/site/Marquee";
 import { Footer } from "@/components/site/Footer";
 import { getBookmarks } from "@/lib/bookmarks";
-import { TrendingUp, BookOpen, ListChecks, Flame, Route as RouteIcon, Bookmark, GraduationCap } from "lucide-react";
+import { TrendingUp, BookOpen, ListChecks, Flame, Route as RouteIcon, Bookmark, GraduationCap, RefreshCw, AlertTriangle, ClipboardList } from "lucide-react";
 
 export const Route = createFileRoute("/progress")({
   head: () => ({
@@ -64,7 +65,27 @@ function readSnapshot(): Snapshot {
 
 function ProgressPage() {
   const [snap, setSnap] = useState<Snapshot | null>(null);
-  useEffect(() => { setSnap(readSnapshot()); }, []);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  function load() {
+    setLoading(true);
+    setError(null);
+    // small delay so skeletons don't flash on fast devices
+    setTimeout(() => {
+      try {
+        setSnap(readSnapshot());
+      } catch (e) {
+        const msg = (e as Error)?.message ?? "Couldn't load your progress.";
+        setError(msg);
+        toast.error("We couldn't load your progress. Please retry.");
+      } finally {
+        setLoading(false);
+      }
+    }, 250);
+  }
+
+  useEffect(() => { load(); }, []);
 
   const stats = useMemo(() => {
     if (!snap) return null;
@@ -78,6 +99,15 @@ function ProgressPage() {
     };
   }, [snap]);
 
+  const summary = useMemo(() => {
+    if (!snap || !stats) return null;
+    const activeCourses = snap.courses.length;
+    const quizzedTopics = snap.quizzes.length;
+    const totalActivity = stats.totalCourse + stats.totalQuiz + stats.streak + stats.bookmarks;
+    const level = totalActivity < 5 ? "Just getting started" : totalActivity < 25 ? "Building momentum" : totalActivity < 75 ? "On a roll" : "Power learner";
+    return { activeCourses, quizzedTopics, totalActivity, level };
+  }, [snap, stats]);
+
   return (
     <div className="min-h-screen">
       <Marquee />
@@ -87,8 +117,14 @@ function ProgressPage() {
         <div className="pointer-events-none absolute inset-0 grid-bg opacity-40" />
         <div className="pointer-events-none absolute inset-0 radial-glow" />
         <div className="relative mx-auto max-w-6xl">
-          <div className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-primary">
-            <TrendingUp className="h-3 w-3" /> Progress Analytics
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-primary">
+              <TrendingUp className="h-3 w-3" /> Progress Analytics
+            </div>
+            <button onClick={load} disabled={loading}
+              className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-2 font-mono text-[11px] font-bold uppercase tracking-widest hover:border-primary disabled:opacity-50">
+              <RefreshCw className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`} /> Refresh
+            </button>
           </div>
           <h1 className="mt-4 font-display text-4xl font-extrabold uppercase leading-[0.9] tracking-tighter md:text-6xl">
             Your <span className="italic text-primary">learning graph</span>
@@ -97,64 +133,117 @@ function ProgressPage() {
             A quick view of what you've completed so far — courses, quizzes, streak days, bookmarks, and your active AI roadmap.
           </p>
         </div>
+
       </section>
+
+      {error && !loading && (
+        <section className="px-4 pb-10">
+          <div className="mx-auto max-w-6xl">
+            <div className="flex flex-col items-start gap-3 rounded-2xl border border-destructive/40 bg-destructive/10 p-6 md:flex-row md:items-center md:justify-between">
+              <div className="flex items-start gap-3">
+                <AlertTriangle className="mt-0.5 h-5 w-5 text-destructive" />
+                <div>
+                  <div className="font-display text-lg font-extrabold uppercase">Couldn't load progress</div>
+                  <div className="mt-1 text-sm text-muted-foreground">{error}</div>
+                </div>
+              </div>
+              <button onClick={load}
+                className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 font-mono text-xs font-bold uppercase tracking-widest text-primary-foreground">
+                <RefreshCw className="h-4 w-4" /> Retry
+              </button>
+            </div>
+          </div>
+        </section>
+      )}
 
       <section className="px-4 pb-10">
         <div className="mx-auto grid max-w-6xl gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <Stat icon={GraduationCap} label="Course lessons done" value={stats?.totalCourse ?? 0} />
-          <Stat icon={ListChecks} label="Quiz answers attempted" value={stats?.totalQuiz ?? 0} />
-          <Stat icon={Flame} label="Challenge day streak" value={stats?.streak ?? 0} />
-          <Stat icon={Bookmark} label="Saved bookmarks" value={stats?.bookmarks ?? 0} />
+          {loading ? (
+            Array.from({ length: 4 }).map((_, i) => <SkeletonBlock key={i} className="h-32" />)
+          ) : (
+            <>
+              <Stat icon={GraduationCap} label="Course lessons done" value={stats?.totalCourse ?? 0} />
+              <Stat icon={ListChecks} label="Quiz answers attempted" value={stats?.totalQuiz ?? 0} />
+              <Stat icon={Flame} label="Challenge day streak" value={stats?.streak ?? 0} />
+              <Stat icon={Bookmark} label="Saved bookmarks" value={stats?.bookmarks ?? 0} />
+            </>
+          )}
         </div>
       </section>
+
+      {!loading && summary && (
+        <section className="px-4 pb-10">
+          <div className="mx-auto max-w-6xl rounded-2xl border border-primary/40 bg-primary/5 p-6">
+            <div className="flex items-center gap-2">
+              <ClipboardList className="h-5 w-5 text-primary" />
+              <h3 className="font-display text-xl font-extrabold uppercase tracking-tighter">Summary</h3>
+            </div>
+            <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              <SummaryStat label="Level" value={summary.level} />
+              <SummaryStat label="Total activity" value={summary.totalActivity} />
+              <SummaryStat label="Active courses" value={summary.activeCourses} />
+              <SummaryStat label="Quizzed topics" value={summary.quizzedTopics} />
+            </div>
+          </div>
+        </section>
+      )}
+
+
 
       <section className="px-4 pb-24">
         <div className="mx-auto grid max-w-6xl gap-6 md:grid-cols-2">
-          <Panel icon={BookOpen} title="Courses progress">
-            {snap?.courses.length ? (
-              <ul className="space-y-2">
-                {snap.courses.map((c) => (
-                  <li key={c.slug} className="flex items-center justify-between rounded-xl border border-border bg-surface/50 px-4 py-3 text-sm">
-                    <span className="font-mono text-xs uppercase tracking-widest">{c.slug}</span>
-                    <span className="rounded-full border border-primary/40 bg-primary/10 px-3 py-0.5 font-mono text-[10px] text-primary">{c.done} lessons</span>
-                  </li>
-                ))}
-              </ul>
-            ) : <Empty text="No course progress yet. Start a course to see stats." to="/courses" cta="Open courses" />}
-          </Panel>
+          {loading ? (
+            Array.from({ length: 4 }).map((_, i) => <SkeletonBlock key={i} className="h-56" />)
+          ) : (
+            <>
+              <Panel icon={BookOpen} title="Courses progress">
+                {snap?.courses.length ? (
+                  <ul className="space-y-2">
+                    {snap.courses.map((c) => (
+                      <li key={c.slug} className="flex items-center justify-between rounded-xl border border-border bg-surface/50 px-4 py-3 text-sm">
+                        <span className="font-mono text-xs uppercase tracking-widest">{c.slug}</span>
+                        <span className="rounded-full border border-primary/40 bg-primary/10 px-3 py-0.5 font-mono text-[10px] text-primary">{c.done} lessons</span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : <Empty text="No course progress yet. Start a course to see stats." to="/courses" cta="Open courses" />}
+              </Panel>
 
-          <Panel icon={RouteIcon} title="Active AI roadmap">
-            {snap?.lastRoadmap ? (
-              <div className="rounded-xl border border-border bg-surface/50 p-5">
-                <div className="font-mono text-[11px] uppercase tracking-widest text-primary">Latest</div>
-                <div className="mt-1 font-semibold">{snap.lastRoadmap.title ?? "Roadmap"}</div>
-                <div className="mt-1 text-xs text-muted-foreground">{snap.lastRoadmap.branch} · Sem {snap.lastRoadmap.semester}</div>
-                <Link to="/roadmap" className="mt-4 inline-flex text-xs font-bold uppercase tracking-widest text-primary hover:underline">Open roadmap →</Link>
-              </div>
-            ) : <Empty text="No roadmap yet. Generate a personalized weekly plan." to="/roadmap" cta="Generate roadmap" />}
-          </Panel>
+              <Panel icon={RouteIcon} title="Active AI roadmap">
+                {snap?.lastRoadmap ? (
+                  <div className="rounded-xl border border-border bg-surface/50 p-5">
+                    <div className="font-mono text-[11px] uppercase tracking-widest text-primary">Latest</div>
+                    <div className="mt-1 font-semibold">{snap.lastRoadmap.title ?? "Roadmap"}</div>
+                    <div className="mt-1 text-xs text-muted-foreground">{snap.lastRoadmap.branch} · Sem {snap.lastRoadmap.semester}</div>
+                    <Link to="/roadmap" className="mt-4 inline-flex text-xs font-bold uppercase tracking-widest text-primary hover:underline">Open roadmap →</Link>
+                  </div>
+                ) : <Empty text="No roadmap yet. Generate a personalized weekly plan." to="/roadmap" cta="Generate roadmap" />}
+              </Panel>
 
-          <Panel icon={ListChecks} title="Quiz attempts">
-            {snap?.quizzes.length ? (
-              <ul className="space-y-2">
-                {snap.quizzes.slice(0, 8).map((q) => (
-                  <li key={q.key} className="flex items-center justify-between rounded-xl border border-border bg-surface/50 px-4 py-3 text-sm">
-                    <span className="truncate font-mono text-xs">{q.key}</span>
-                    <span className="rounded-full border border-primary/40 bg-primary/10 px-3 py-0.5 font-mono text-[10px] text-primary">{q.attempted}</span>
-                  </li>
-                ))}
-              </ul>
-            ) : <Empty text="Attempt a quiz to see stats here." to="/practice" cta="Try practice" />}
-          </Panel>
+              <Panel icon={ListChecks} title="Quiz attempts">
+                {snap?.quizzes.length ? (
+                  <ul className="space-y-2">
+                    {snap.quizzes.slice(0, 8).map((q) => (
+                      <li key={q.key} className="flex items-center justify-between rounded-xl border border-border bg-surface/50 px-4 py-3 text-sm">
+                        <span className="truncate font-mono text-xs">{q.key}</span>
+                        <span className="rounded-full border border-primary/40 bg-primary/10 px-3 py-0.5 font-mono text-[10px] text-primary">{q.attempted}</span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : <Empty text="Attempt a quiz to see stats here." to="/practice" cta="Try practice" />}
+              </Panel>
 
-          <Panel icon={Flame} title="30-Day Python streak">
-            <div className="rounded-xl border border-border bg-surface/50 p-5">
-              <div className="font-display text-4xl font-extrabold text-primary">{snap?.streakDays ?? 0}<span className="ml-2 text-base text-muted-foreground">days</span></div>
-              <Link to="/challenge" className="mt-4 inline-flex text-xs font-bold uppercase tracking-widest text-primary hover:underline">Continue challenge →</Link>
-            </div>
-          </Panel>
+              <Panel icon={Flame} title="30-Day Python streak">
+                <div className="rounded-xl border border-border bg-surface/50 p-5">
+                  <div className="font-display text-4xl font-extrabold text-primary">{snap?.streakDays ?? 0}<span className="ml-2 text-base text-muted-foreground">days</span></div>
+                  <Link to="/challenge" className="mt-4 inline-flex text-xs font-bold uppercase tracking-widest text-primary hover:underline">Continue challenge →</Link>
+                </div>
+              </Panel>
+            </>
+          )}
         </div>
       </section>
+
 
       <Footer />
     </div>
@@ -191,3 +280,17 @@ function Empty({ text, to, cta }: { text: string; to: string; cta: string }) {
     </div>
   );
 }
+
+function SummaryStat({ label, value }: { label: string; value: number | string }) {
+  return (
+    <div className="rounded-xl border border-border bg-surface/60 p-4">
+      <div className="font-display text-2xl font-extrabold">{value}</div>
+      <div className="mt-1 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">{label}</div>
+    </div>
+  );
+}
+
+function SkeletonBlock({ className = "" }: { className?: string }) {
+  return <div className={`animate-pulse rounded-2xl border border-border bg-surface/40 ${className}`} />;
+}
+
