@@ -280,3 +280,17 @@ function Empty({ text, to, cta }: { text: string; to: string; cta: string }) {
     </div>
   );
 }
+
+function SummaryStat({ label, value }: { label: string; value: number | string }) {
+  return (
+    <div className="rounded-xl border border-border bg-surface/60 p-4">
+      <div className="font-display text-2xl font-extrabold">{value}</div>
+      <div className="mt-1 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">{label}</div>
+    </div>
+  );
+}
+
+function SkeletonBlock({ className = "" }: { className?: string }) {
+  return <div className={`animate-pulse rounded-2xl border border-border bg-surface/40 ${className}`} />;
+}
+
