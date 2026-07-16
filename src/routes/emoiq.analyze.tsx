@@ -1,10 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
-import { callEmoIq, type AnalyzeResult } from "@/lib/emoiq/api";
+import { callEmoIq, type AnalyzeResult, type PredictedQuestion } from "@/lib/emoiq/api";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
-import { Loader2, Sparkles } from "lucide-react";
+import { Flame, Loader2, Sparkles } from "lucide-react";
 import { PdfDropzone } from "@/components/site/PdfDropzone";
 
 export const Route = createFileRoute("/emoiq/analyze")({
