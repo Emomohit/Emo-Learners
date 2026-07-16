@@ -29,10 +29,11 @@ Deno.serve(async (req) => {
       system = "You are EMoIQ, an exam-strategy AI. Analyze past-year exam paper text and output strict JSON only, no prose. Focus on Indian university curricula (RGPV Bhopal AICTE flexible curriculum by default).";
       user = `Subject: ${subject}\nYears covered (if known): ${years ?? "unknown"}\n\nPYQ TEXT:\n"""${String(text).slice(0, 60000)}"""\n\nReturn JSON with this exact shape:\n{\n  "summary": string,\n  "weightage": [{"unit": string, "percent": number, "priority": "HIGH"|"MEDIUM"|"LOW"}],\n  "topic_freq": [{"topic": string, "count": number, "unit": string}],\n  "year_trend": [{"year": string, "top_topics": string[]}]\n}\nRules: 5-6 units max. Percentages sum ~100. topic_freq top 15. year_trend one per year seen.`;
     } else if (action === "predict") {
-      const { subject, analysis } = payload ?? {};
+      const { subject, analysis, notes } = payload ?? {};
+      const count = Math.max(1, Math.min(50, Number((payload ?? {}).count) || 10));
       if (!subject || !analysis) return json({ error: "subject and analysis required" }, 400);
-      system = "You are EMoIQ. Predict exam questions from analyzed PYQ data. Output strict JSON only.";
-      user = `Subject: ${subject}\nAnalysis JSON:\n${JSON.stringify(analysis).slice(0, 40000)}\n\nReturn JSON:\n{"questions":[{"question": string, "probability": number, "unit": string, "marks": number, "reason": string}]}\nRules: 10 questions, probability 0-100 realistic, sorted desc. Cover HIGH-weightage units more.`;
+      system = "You are EMoIQ. Predict the most important exam questions from analyzed PYQ data. Output strict JSON only.";
+      user = `Subject: ${subject}\nAnalysis JSON:\n${JSON.stringify(analysis).slice(0, 40000)}\nExtra notes (optional):\n${String(notes ?? "").slice(0, 8000)}\n\nReturn JSON:\n{"questions":[{"question": string, "probability": number, "unit": string, "marks": number, "reason": string}]}\nRules: exactly ${count} questions, probability 0-100 realistic, sorted desc by probability. Cover HIGH-weightage units more heavily. Prefer questions that have repeated across multiple years. Use exam-style phrasing (Explain / Derive / Solve / Compare). No duplicates.`;
     } else if (action === "plan") {
       const { subject, weakTopics, daysLeft, mode, syllabus } = payload ?? {};
       if (!subject || !daysLeft) return json({ error: "subject and daysLeft required" }, 400);
