@@ -6,7 +6,8 @@ export const Route = createFileRoute("/emoiq/")({
 });
 
 const tools = [
-  { to: "/emoiq/analyze", icon: FileSearch, title: "Analyze PYQs", desc: "Upload past-year papers. AI detects units, topic weightage, yearly trends and the Top 32 most important questions." },
+  { to: "/emoiq/analyze", icon: FileSearch, title: "Analyze PYQs", desc: "Upload past-year papers. AI detects units, topic weightage, and yearly trends." },
+  { to: "/emoiq/top32", icon: Flame, title: "Top 32 Important Questions", desc: "Upload PYQs and get the 32 most important questions ranked by probability." },
   { to: "/emoiq/predict", icon: Sparkles, title: "Predict Questions", desc: "Get probability-ranked questions from your PYQ analysis." },
   { to: "/emoiq/plan", icon: CalendarClock, title: "Study Plan", desc: "Day-by-day plan based on weak topics and days left. Includes Last-24h crash mode." },
   { to: "/emoiq/quiz", icon: TrendingUp, title: "Diagnostic Quiz", desc: "10-question quiz that finds your weak areas and updates your plan." },
