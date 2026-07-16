@@ -136,14 +136,59 @@ function ProgressPage() {
 
       </section>
 
+      {error && !loading && (
+        <section className="px-4 pb-10">
+          <div className="mx-auto max-w-6xl">
+            <div className="flex flex-col items-start gap-3 rounded-2xl border border-destructive/40 bg-destructive/10 p-6 md:flex-row md:items-center md:justify-between">
+              <div className="flex items-start gap-3">
+                <AlertTriangle className="mt-0.5 h-5 w-5 text-destructive" />
+                <div>
+                  <div className="font-display text-lg font-extrabold uppercase">Couldn't load progress</div>
+                  <div className="mt-1 text-sm text-muted-foreground">{error}</div>
+                </div>
+              </div>
+              <button onClick={load}
+                className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 font-mono text-xs font-bold uppercase tracking-widest text-primary-foreground">
+                <RefreshCw className="h-4 w-4" /> Retry
+              </button>
+            </div>
+          </div>
+        </section>
+      )}
+
       <section className="px-4 pb-10">
         <div className="mx-auto grid max-w-6xl gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <Stat icon={GraduationCap} label="Course lessons done" value={stats?.totalCourse ?? 0} />
-          <Stat icon={ListChecks} label="Quiz answers attempted" value={stats?.totalQuiz ?? 0} />
-          <Stat icon={Flame} label="Challenge day streak" value={stats?.streak ?? 0} />
-          <Stat icon={Bookmark} label="Saved bookmarks" value={stats?.bookmarks ?? 0} />
+          {loading ? (
+            Array.from({ length: 4 }).map((_, i) => <SkeletonBlock key={i} className="h-32" />)
+          ) : (
+            <>
+              <Stat icon={GraduationCap} label="Course lessons done" value={stats?.totalCourse ?? 0} />
+              <Stat icon={ListChecks} label="Quiz answers attempted" value={stats?.totalQuiz ?? 0} />
+              <Stat icon={Flame} label="Challenge day streak" value={stats?.streak ?? 0} />
+              <Stat icon={Bookmark} label="Saved bookmarks" value={stats?.bookmarks ?? 0} />
+            </>
+          )}
         </div>
       </section>
+
+      {!loading && summary && (
+        <section className="px-4 pb-10">
+          <div className="mx-auto max-w-6xl rounded-2xl border border-primary/40 bg-primary/5 p-6">
+            <div className="flex items-center gap-2">
+              <ClipboardList className="h-5 w-5 text-primary" />
+              <h3 className="font-display text-xl font-extrabold uppercase tracking-tighter">Summary</h3>
+            </div>
+            <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              <SummaryStat label="Level" value={summary.level} />
+              <SummaryStat label="Total activity" value={summary.totalActivity} />
+              <SummaryStat label="Active courses" value={summary.activeCourses} />
+              <SummaryStat label="Quizzed topics" value={summary.quizzedTopics} />
+            </div>
+          </div>
+        </section>
+      )}
+
+
 
       <section className="px-4 pb-24">
         <div className="mx-auto grid max-w-6xl gap-6 md:grid-cols-2">
