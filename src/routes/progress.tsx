@@ -192,51 +192,58 @@ function ProgressPage() {
 
       <section className="px-4 pb-24">
         <div className="mx-auto grid max-w-6xl gap-6 md:grid-cols-2">
-          <Panel icon={BookOpen} title="Courses progress">
-            {snap?.courses.length ? (
-              <ul className="space-y-2">
-                {snap.courses.map((c) => (
-                  <li key={c.slug} className="flex items-center justify-between rounded-xl border border-border bg-surface/50 px-4 py-3 text-sm">
-                    <span className="font-mono text-xs uppercase tracking-widest">{c.slug}</span>
-                    <span className="rounded-full border border-primary/40 bg-primary/10 px-3 py-0.5 font-mono text-[10px] text-primary">{c.done} lessons</span>
-                  </li>
-                ))}
-              </ul>
-            ) : <Empty text="No course progress yet. Start a course to see stats." to="/courses" cta="Open courses" />}
-          </Panel>
+          {loading ? (
+            Array.from({ length: 4 }).map((_, i) => <SkeletonBlock key={i} className="h-56" />)
+          ) : (
+            <>
+              <Panel icon={BookOpen} title="Courses progress">
+                {snap?.courses.length ? (
+                  <ul className="space-y-2">
+                    {snap.courses.map((c) => (
+                      <li key={c.slug} className="flex items-center justify-between rounded-xl border border-border bg-surface/50 px-4 py-3 text-sm">
+                        <span className="font-mono text-xs uppercase tracking-widest">{c.slug}</span>
+                        <span className="rounded-full border border-primary/40 bg-primary/10 px-3 py-0.5 font-mono text-[10px] text-primary">{c.done} lessons</span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : <Empty text="No course progress yet. Start a course to see stats." to="/courses" cta="Open courses" />}
+              </Panel>
 
-          <Panel icon={RouteIcon} title="Active AI roadmap">
-            {snap?.lastRoadmap ? (
-              <div className="rounded-xl border border-border bg-surface/50 p-5">
-                <div className="font-mono text-[11px] uppercase tracking-widest text-primary">Latest</div>
-                <div className="mt-1 font-semibold">{snap.lastRoadmap.title ?? "Roadmap"}</div>
-                <div className="mt-1 text-xs text-muted-foreground">{snap.lastRoadmap.branch} · Sem {snap.lastRoadmap.semester}</div>
-                <Link to="/roadmap" className="mt-4 inline-flex text-xs font-bold uppercase tracking-widest text-primary hover:underline">Open roadmap →</Link>
-              </div>
-            ) : <Empty text="No roadmap yet. Generate a personalized weekly plan." to="/roadmap" cta="Generate roadmap" />}
-          </Panel>
+              <Panel icon={RouteIcon} title="Active AI roadmap">
+                {snap?.lastRoadmap ? (
+                  <div className="rounded-xl border border-border bg-surface/50 p-5">
+                    <div className="font-mono text-[11px] uppercase tracking-widest text-primary">Latest</div>
+                    <div className="mt-1 font-semibold">{snap.lastRoadmap.title ?? "Roadmap"}</div>
+                    <div className="mt-1 text-xs text-muted-foreground">{snap.lastRoadmap.branch} · Sem {snap.lastRoadmap.semester}</div>
+                    <Link to="/roadmap" className="mt-4 inline-flex text-xs font-bold uppercase tracking-widest text-primary hover:underline">Open roadmap →</Link>
+                  </div>
+                ) : <Empty text="No roadmap yet. Generate a personalized weekly plan." to="/roadmap" cta="Generate roadmap" />}
+              </Panel>
 
-          <Panel icon={ListChecks} title="Quiz attempts">
-            {snap?.quizzes.length ? (
-              <ul className="space-y-2">
-                {snap.quizzes.slice(0, 8).map((q) => (
-                  <li key={q.key} className="flex items-center justify-between rounded-xl border border-border bg-surface/50 px-4 py-3 text-sm">
-                    <span className="truncate font-mono text-xs">{q.key}</span>
-                    <span className="rounded-full border border-primary/40 bg-primary/10 px-3 py-0.5 font-mono text-[10px] text-primary">{q.attempted}</span>
-                  </li>
-                ))}
-              </ul>
-            ) : <Empty text="Attempt a quiz to see stats here." to="/practice" cta="Try practice" />}
-          </Panel>
+              <Panel icon={ListChecks} title="Quiz attempts">
+                {snap?.quizzes.length ? (
+                  <ul className="space-y-2">
+                    {snap.quizzes.slice(0, 8).map((q) => (
+                      <li key={q.key} className="flex items-center justify-between rounded-xl border border-border bg-surface/50 px-4 py-3 text-sm">
+                        <span className="truncate font-mono text-xs">{q.key}</span>
+                        <span className="rounded-full border border-primary/40 bg-primary/10 px-3 py-0.5 font-mono text-[10px] text-primary">{q.attempted}</span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : <Empty text="Attempt a quiz to see stats here." to="/practice" cta="Try practice" />}
+              </Panel>
 
-          <Panel icon={Flame} title="30-Day Python streak">
-            <div className="rounded-xl border border-border bg-surface/50 p-5">
-              <div className="font-display text-4xl font-extrabold text-primary">{snap?.streakDays ?? 0}<span className="ml-2 text-base text-muted-foreground">days</span></div>
-              <Link to="/challenge" className="mt-4 inline-flex text-xs font-bold uppercase tracking-widest text-primary hover:underline">Continue challenge →</Link>
-            </div>
-          </Panel>
+              <Panel icon={Flame} title="30-Day Python streak">
+                <div className="rounded-xl border border-border bg-surface/50 p-5">
+                  <div className="font-display text-4xl font-extrabold text-primary">{snap?.streakDays ?? 0}<span className="ml-2 text-base text-muted-foreground">days</span></div>
+                  <Link to="/challenge" className="mt-4 inline-flex text-xs font-bold uppercase tracking-widest text-primary hover:underline">Continue challenge →</Link>
+                </div>
+              </Panel>
+            </>
+          )}
         </div>
       </section>
+
 
       <Footer />
     </div>
