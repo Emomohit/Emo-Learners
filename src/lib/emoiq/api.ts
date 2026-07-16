@@ -34,3 +34,13 @@ export type PredictedQuestion = { question: string; probability: number; unit: s
 export type PlanDay = { day: number; focus: string; topics: string[]; tasks: string[]; hours: number };
 export type PlanResult = { headline: string; strategy: string; days: PlanDay[]; skip: string[] };
 export type QuizQuestion = { q: string; options: string[]; answer: number; topic: string; explain: string };
+
+export type RoadmapMilestone = { week: number; theme: string; subjects: string[]; topics: string[]; outcomes: string[]; resources: string[] };
+export type RoadmapResult = {
+  title: string;
+  summary: string;
+  milestones: RoadmapMilestone[];
+  skills: { name: string; why: string }[];
+  projects: { name: string; brief: string; stack: string[] }[];
+  placement_prep: string[];
+};
