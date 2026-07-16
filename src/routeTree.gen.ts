@@ -13,6 +13,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as RoadmapRouteImport } from './routes/roadmap'
 import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as ProgressRouteImport } from './routes/progress'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as PracticeRouteImport } from './routes/practice'
 import { Route as PlacementRouteImport } from './routes/placement'
@@ -63,6 +64,11 @@ const ResourcesRoute = ResourcesRouteImport.update({
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
   path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProgressRoute = ProgressRouteImport.update({
+  id: '/progress',
+  path: '/progress',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
@@ -236,6 +242,7 @@ export interface FileRoutesByFullPath {
   '/placement': typeof PlacementRouteWithChildren
   '/practice': typeof PracticeRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
+  '/progress': typeof ProgressRoute
   '/reset-password': typeof ResetPasswordRoute
   '/resources': typeof ResourcesRoute
   '/roadmap': typeof RoadmapRoute
@@ -271,6 +278,7 @@ export interface FileRoutesByTo {
   '/join': typeof JoinRoute
   '/practice': typeof PracticeRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
+  '/progress': typeof ProgressRoute
   '/reset-password': typeof ResetPasswordRoute
   '/resources': typeof ResourcesRoute
   '/roadmap': typeof RoadmapRoute
@@ -309,6 +317,7 @@ export interface FileRoutesById {
   '/placement': typeof PlacementRouteWithChildren
   '/practice': typeof PracticeRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
+  '/progress': typeof ProgressRoute
   '/reset-password': typeof ResetPasswordRoute
   '/resources': typeof ResourcesRoute
   '/roadmap': typeof RoadmapRoute
@@ -348,6 +357,7 @@ export interface FileRouteTypes {
     | '/placement'
     | '/practice'
     | '/privacy-policy'
+    | '/progress'
     | '/reset-password'
     | '/resources'
     | '/roadmap'
@@ -383,6 +393,7 @@ export interface FileRouteTypes {
     | '/join'
     | '/practice'
     | '/privacy-policy'
+    | '/progress'
     | '/reset-password'
     | '/resources'
     | '/roadmap'
@@ -420,6 +431,7 @@ export interface FileRouteTypes {
     | '/placement'
     | '/practice'
     | '/privacy-policy'
+    | '/progress'
     | '/reset-password'
     | '/resources'
     | '/roadmap'
@@ -458,6 +470,7 @@ export interface RootRouteChildren {
   PlacementRoute: typeof PlacementRouteWithChildren
   PracticeRoute: typeof PracticeRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
+  ProgressRoute: typeof ProgressRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   ResourcesRoute: typeof ResourcesRoute
   RoadmapRoute: typeof RoadmapRoute
@@ -498,6 +511,13 @@ declare module '@tanstack/react-router' {
       path: '/reset-password'
       fullPath: '/reset-password'
       preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/progress': {
+      id: '/progress'
+      path: '/progress'
+      fullPath: '/progress'
+      preLoaderRoute: typeof ProgressRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy-policy': {
@@ -775,6 +795,7 @@ const rootRouteChildren: RootRouteChildren = {
   PlacementRoute: PlacementRouteWithChildren,
   PracticeRoute: PracticeRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
+  ProgressRoute: ProgressRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   ResourcesRoute: ResourcesRoute,
   RoadmapRoute: RoadmapRoute,
