@@ -372,8 +372,10 @@ function Home() {
         </div>
       </section>
 
-
+      {/* WHY EMO */}
+      <section className="relative px-4 py-20">
         <div className="mx-auto max-w-6xl">
+
           <SectionHeader tag="// Why EMO Learners" title="Built for real students." />
           <div className="mt-12 grid gap-px overflow-hidden rounded-2xl border border-border bg-border md:grid-cols-3">
             {[
