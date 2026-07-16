@@ -285,9 +285,97 @@ function Home() {
         </div>
       </section>
 
+      {/* CONCEPT PITCH */}
+      <section className="relative px-4 py-20">
+        <div className="mx-auto max-w-6xl">
+          <SectionHeader tag="// The concept" title="Learning + career, unified." subtitle="Engineering students juggle YouTube, PDFs, coaching apps and placement portals. EMO Learners folds it all into one AI-driven workspace." />
+          <div className="mt-10 grid gap-4 md:grid-cols-3">
+            {[
+              { t: "Syllabus-aware learning", d: "Notes, PYQs and roadmaps mapped to RGPV Bhopal AICTE flexible curriculum, branch by branch." },
+              { t: "AI that actually helps", d: "Doubt solver, PYQ predictor, quiz generator and mock interviews — one gateway, zero setup." },
+              { t: "Placement-ready by design", d: "Coding practice, aptitude, resume analysis and interview prep baked into the same flow." },
+            ].map((c) => (
+              <div key={c.t} className="rounded-2xl border border-border bg-surface/50 p-6 backdrop-blur-sm">
+                <h4 className="font-display text-lg font-extrabold uppercase tracking-tighter">{c.t}</h4>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{c.d}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* OBJECTIVES */}
+      <section className="relative px-4 py-16">
+        <div className="mx-auto max-w-6xl">
+          <SectionHeader tag="// Objectives" title="What we're building." />
+          <ol className="mt-10 grid gap-3 md:grid-cols-2">
+            {[
+              "Give every Indian engineering student a free, syllabus-aware study hub.",
+              "Replace scattered notes/videos/PDFs with one AI-powered workspace.",
+              "Turn past-year papers into predictions, plans and quizzes automatically.",
+              "Prepare students for placement — DSA, aptitude, HR, resume — end-to-end.",
+              "Track real progress: courses, quizzes, streaks and roadmap milestones.",
+              "Stay affordable at scale via a SaaS model for colleges and universities.",
+            ].map((o, i) => (
+              <li key={o} className="flex items-start gap-3 rounded-xl border border-border bg-surface/40 p-4">
+                <span className="mt-0.5 font-mono text-xs font-bold text-primary">{String(i + 1).padStart(2, "0")}</span>
+                <span className="text-sm">{o}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      {/* BLOCK DIAGRAM */}
+      <section className="relative px-4 py-16">
+        <div className="mx-auto max-w-6xl">
+          <SectionHeader tag="// Block diagram" title="How the platform flows." />
+          <div className="mt-10 rounded-3xl border border-border bg-surface/40 p-6 md:p-10">
+            <div className="flex flex-col items-center gap-3">
+              <BlockNode>Student</BlockNode>
+              <Arrow />
+              <BlockNode>Login & Profile</BlockNode>
+              <Arrow />
+              <BlockNode primary>AI Assessment Engine</BlockNode>
+              <Arrow />
+              <div className="grid w-full gap-3 md:grid-cols-5">
+                {["Learning Roadmap", "Doubt Solver", "PYQ Analysis", "Coding Practice", "Placement Module"].map((n) => (
+                  <BlockNode key={n}>{n}</BlockNode>
+                ))}
+              </div>
+              <Arrow />
+              <BlockNode>Progress Analytics</BlockNode>
+              <Arrow />
+              <BlockNode primary>Personalized Recommendations</BlockNode>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* MARKET */}
+      <section className="relative px-4 py-16">
+        <div className="mx-auto max-w-6xl">
+          <SectionHeader tag="// Market" title="Why now." />
+          <div className="mt-10 grid gap-4 md:grid-cols-4">
+            {[
+              { k: "40M+", v: "Higher-ed students in India" },
+              { k: "1.5M+", v: "Engineering graduates every year" },
+              { k: "70%+", v: "Struggle with placement readiness" },
+              { k: "SaaS", v: "Affordable college-wide deployment" },
+            ].map((s) => (
+              <div key={s.k} className="rounded-2xl border border-border bg-surface/40 p-6 text-center">
+                <div className="font-display text-3xl font-extrabold text-primary md:text-4xl">{s.k}</div>
+                <div className="mt-2 text-sm text-muted-foreground">{s.v}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* WHY EMO */}
       <section className="relative px-4 py-20">
         <div className="mx-auto max-w-6xl">
+
           <SectionHeader tag="// Why EMO Learners" title="Built for real students." />
           <div className="mt-12 grid gap-px overflow-hidden rounded-2xl border border-border bg-border md:grid-cols-3">
             {[
@@ -359,4 +447,16 @@ function SectionHeader({ tag, title, subtitle }: { tag: string; title: string; s
       {subtitle && <p className="mt-2 max-w-xl text-sm text-muted-foreground">{subtitle}</p>}
     </div>
   );
+}
+
+function BlockNode({ children, primary }: { children: React.ReactNode; primary?: boolean }) {
+  return (
+    <div className={`w-full rounded-xl border px-4 py-3 text-center text-sm font-semibold uppercase tracking-widest ${primary ? "border-primary bg-primary/10 text-primary" : "border-border bg-surface/60 text-foreground"}`}>
+      {children}
+    </div>
+  );
+}
+
+function Arrow() {
+  return <div className="h-6 w-px bg-border" aria-hidden="true" />;
 }
