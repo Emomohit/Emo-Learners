@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as RoadmapRouteImport } from './routes/roadmap'
 import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
@@ -47,6 +48,11 @@ import { Route as CoursesSlugRouteImport } from './routes/courses.$slug'
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RoadmapRoute = RoadmapRouteImport.update({
+  id: '/roadmap',
+  path: '/roadmap',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResourcesRoute = ResourcesRouteImport.update({
@@ -232,6 +238,7 @@ export interface FileRoutesByFullPath {
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/resources': typeof ResourcesRoute
+  '/roadmap': typeof RoadmapRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/emoiq/analyze': typeof EmoiqAnalyzeRoute
@@ -266,6 +273,7 @@ export interface FileRoutesByTo {
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/resources': typeof ResourcesRoute
+  '/roadmap': typeof RoadmapRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/emoiq/analyze': typeof EmoiqAnalyzeRoute
@@ -303,6 +311,7 @@ export interface FileRoutesById {
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/resources': typeof ResourcesRoute
+  '/roadmap': typeof RoadmapRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/emoiq/analyze': typeof EmoiqAnalyzeRoute
@@ -341,6 +350,7 @@ export interface FileRouteTypes {
     | '/privacy-policy'
     | '/reset-password'
     | '/resources'
+    | '/roadmap'
     | '/sitemap.xml'
     | '/courses/$slug'
     | '/emoiq/analyze'
@@ -375,6 +385,7 @@ export interface FileRouteTypes {
     | '/privacy-policy'
     | '/reset-password'
     | '/resources'
+    | '/roadmap'
     | '/sitemap.xml'
     | '/courses/$slug'
     | '/emoiq/analyze'
@@ -411,6 +422,7 @@ export interface FileRouteTypes {
     | '/privacy-policy'
     | '/reset-password'
     | '/resources'
+    | '/roadmap'
     | '/sitemap.xml'
     | '/courses/$slug'
     | '/emoiq/analyze'
@@ -448,6 +460,7 @@ export interface RootRouteChildren {
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   ResourcesRoute: typeof ResourcesRoute
+  RoadmapRoute: typeof RoadmapRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   CoursesSlugRoute: typeof CoursesSlugRoute
   QuizzesSlugRoute: typeof QuizzesSlugRoute
@@ -464,6 +477,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/roadmap': {
+      id: '/roadmap'
+      path: '/roadmap'
+      fullPath: '/roadmap'
+      preLoaderRoute: typeof RoadmapRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/resources': {
@@ -757,6 +777,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacyPolicyRoute: PrivacyPolicyRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   ResourcesRoute: ResourcesRoute,
+  RoadmapRoute: RoadmapRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   CoursesSlugRoute: CoursesSlugRoute,
   QuizzesSlugRoute: QuizzesSlugRoute,
