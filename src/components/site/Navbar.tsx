@@ -18,6 +18,7 @@ const primaryLinks = [
   { to: "/courses", label: "Learn" },
   { to: "/practice", label: "Practice" },
   { to: "/emoiq", label: "EMoIQ" },
+  { to: "/placement", label: "Placement" },
   { to: "/resources", label: "Notes & PYQs" },
   { to: "/ai-assistant", label: "AI Helper" },
 ] as const;
