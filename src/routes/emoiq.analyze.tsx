@@ -25,9 +25,6 @@ function AnalyzePage() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<AnalyzeResult | null>(null);
   const [savedId, setSavedId] = useState<string | null>(null);
-  const [top32, setTop32] = useState<PredictedQuestion[] | null>(null);
-  const [top32Loading, setTop32Loading] = useState(false);
-  const [subjectFilter, setSubjectFilter] = useState<string>("All");
 
   async function generateTop32(analysisResult: AnalyzeResult, analysisId: string | null) {
     setTop32Loading(true);
