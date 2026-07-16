@@ -43,6 +43,11 @@ Deno.serve(async (req) => {
       if (!subject) return json({ error: "subject required" }, 400);
       system = "You are EMoIQ. Generate a diagnostic MCQ quiz. Output strict JSON only.";
       user = `Subject: ${subject}\nTopics: ${(topics ?? []).join(", ") || "core topics"}\n\nReturn JSON:\n{"questions":[{"q": string, "options": string[4], "answer": number (0-3), "topic": string, "explain": string}]}\nRules: 10 questions, mix easy/medium/hard, options concise, cover topics evenly.`;
+    } else if (action === "roadmap") {
+      const { branch, semester, subjects, goal, hoursPerWeek, weeks } = payload ?? {};
+      if (!branch || !semester) return json({ error: "branch and semester required" }, 400);
+      system = "You are EMoIQ, a study roadmap planner for Indian engineering students. Output strict JSON only.";
+      user = `Branch: ${branch}\nSemester: ${semester}\nSubjects: ${(subjects ?? []).join(", ") || "auto-pick core subjects for this branch+sem"}\nCareer goal: ${goal ?? "strong fundamentals + placement ready"}\nHours per week: ${hoursPerWeek ?? 12}\nWeeks: ${weeks ?? 12}\nSyllabus hint: RGPV Bhopal AICTE flexible curriculum.\n\nReturn JSON:\n{\n  "title": string,\n  "summary": string,\n  "milestones": [{"week": number, "theme": string, "subjects": string[], "topics": string[], "outcomes": string[], "resources": string[]}],\n  "skills": [{"name": string, "why": string}],\n  "projects": [{"name": string, "brief": string, "stack": string[]}],\n  "placement_prep": string[]\n}\nRules: milestones = one per week for weeks provided (max 16). Include DSA and placement prep in later weeks. Keep language simple.`;
     } else {
       return json({ error: "unknown action" }, 400);
     }
