@@ -39,6 +39,7 @@ import { Route as PlacementResumeRouteImport } from './routes/placement.resume'
 import { Route as PlacementInterviewRouteImport } from './routes/placement.interview'
 import { Route as PlacementCodingRouteImport } from './routes/placement.coding'
 import { Route as PlacementAptitudeRouteImport } from './routes/placement.aptitude'
+import { Route as EmoiqTop32RouteImport } from './routes/emoiq.top32'
 import { Route as EmoiqQuizRouteImport } from './routes/emoiq.quiz'
 import { Route as EmoiqPredictRouteImport } from './routes/emoiq.predict'
 import { Route as EmoiqPlanRouteImport } from './routes/emoiq.plan'
@@ -196,6 +197,11 @@ const PlacementAptitudeRoute = PlacementAptitudeRouteImport.update({
   path: '/aptitude',
   getParentRoute: () => PlacementRoute,
 } as any)
+const EmoiqTop32Route = EmoiqTop32RouteImport.update({
+  id: '/top32',
+  path: '/top32',
+  getParentRoute: () => EmoiqRoute,
+} as any)
 const EmoiqQuizRoute = EmoiqQuizRouteImport.update({
   id: '/quiz',
   path: '/quiz',
@@ -253,6 +259,7 @@ export interface FileRoutesByFullPath {
   '/emoiq/plan': typeof EmoiqPlanRoute
   '/emoiq/predict': typeof EmoiqPredictRoute
   '/emoiq/quiz': typeof EmoiqQuizRoute
+  '/emoiq/top32': typeof EmoiqTop32Route
   '/placement/aptitude': typeof PlacementAptitudeRoute
   '/placement/coding': typeof PlacementCodingRoute
   '/placement/interview': typeof PlacementInterviewRoute
@@ -289,6 +296,7 @@ export interface FileRoutesByTo {
   '/emoiq/plan': typeof EmoiqPlanRoute
   '/emoiq/predict': typeof EmoiqPredictRoute
   '/emoiq/quiz': typeof EmoiqQuizRoute
+  '/emoiq/top32': typeof EmoiqTop32Route
   '/placement/aptitude': typeof PlacementAptitudeRoute
   '/placement/coding': typeof PlacementCodingRoute
   '/placement/interview': typeof PlacementInterviewRoute
@@ -328,6 +336,7 @@ export interface FileRoutesById {
   '/emoiq/plan': typeof EmoiqPlanRoute
   '/emoiq/predict': typeof EmoiqPredictRoute
   '/emoiq/quiz': typeof EmoiqQuizRoute
+  '/emoiq/top32': typeof EmoiqTop32Route
   '/placement/aptitude': typeof PlacementAptitudeRoute
   '/placement/coding': typeof PlacementCodingRoute
   '/placement/interview': typeof PlacementInterviewRoute
@@ -368,6 +377,7 @@ export interface FileRouteTypes {
     | '/emoiq/plan'
     | '/emoiq/predict'
     | '/emoiq/quiz'
+    | '/emoiq/top32'
     | '/placement/aptitude'
     | '/placement/coding'
     | '/placement/interview'
@@ -404,6 +414,7 @@ export interface FileRouteTypes {
     | '/emoiq/plan'
     | '/emoiq/predict'
     | '/emoiq/quiz'
+    | '/emoiq/top32'
     | '/placement/aptitude'
     | '/placement/coding'
     | '/placement/interview'
@@ -442,6 +453,7 @@ export interface FileRouteTypes {
     | '/emoiq/plan'
     | '/emoiq/predict'
     | '/emoiq/quiz'
+    | '/emoiq/top32'
     | '/placement/aptitude'
     | '/placement/coding'
     | '/placement/interview'
@@ -695,6 +707,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlacementAptitudeRouteImport
       parentRoute: typeof PlacementRoute
     }
+    '/emoiq/top32': {
+      id: '/emoiq/top32'
+      path: '/top32'
+      fullPath: '/emoiq/top32'
+      preLoaderRoute: typeof EmoiqTop32RouteImport
+      parentRoute: typeof EmoiqRoute
+    }
     '/emoiq/quiz': {
       id: '/emoiq/quiz'
       path: '/quiz'
@@ -746,6 +765,7 @@ interface EmoiqRouteChildren {
   EmoiqPlanRoute: typeof EmoiqPlanRoute
   EmoiqPredictRoute: typeof EmoiqPredictRoute
   EmoiqQuizRoute: typeof EmoiqQuizRoute
+  EmoiqTop32Route: typeof EmoiqTop32Route
   EmoiqIndexRoute: typeof EmoiqIndexRoute
 }
 
@@ -755,6 +775,7 @@ const EmoiqRouteChildren: EmoiqRouteChildren = {
   EmoiqPlanRoute: EmoiqPlanRoute,
   EmoiqPredictRoute: EmoiqPredictRoute,
   EmoiqQuizRoute: EmoiqQuizRoute,
+  EmoiqTop32Route: EmoiqTop32Route,
   EmoiqIndexRoute: EmoiqIndexRoute,
 }
 

@@ -1,10 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
-import { callEmoIq, type AnalyzeResult, type PredictedQuestion } from "@/lib/emoiq/api";
+import { callEmoIq, type AnalyzeResult } from "@/lib/emoiq/api";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
-import { Flame, Loader2, Sparkles } from "lucide-react";
+import { Loader2, Sparkles } from "lucide-react";
 import { PdfDropzone } from "@/components/site/PdfDropzone";
 
 export const Route = createFileRoute("/emoiq/analyze")({
@@ -25,43 +25,6 @@ function AnalyzePage() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<AnalyzeResult | null>(null);
   const [savedId, setSavedId] = useState<string | null>(null);
-  const [top32, setTop32] = useState<PredictedQuestion[] | null>(null);
-  const [top32Loading, setTop32Loading] = useState(false);
-  const [subjectFilter, setSubjectFilter] = useState<string>("All");
-
-  async function generateTop32(analysisResult: AnalyzeResult, analysisId: string | null) {
-    setTop32Loading(true);
-    setTop32(null);
-    try {
-      const r = await callEmoIq<{ questions: PredictedQuestion[] }>("predict", {
-        subject,
-        count: 32,
-        analysis: {
-          weightage: analysisResult.weightage,
-          topic_freq: analysisResult.topic_freq,
-          year_trend: analysisResult.year_trend,
-        },
-      });
-      const qs = (r.questions ?? []).slice(0, 32);
-      setTop32(qs);
-      if (user && analysisId) {
-        await supabase.from("predicted_questions").insert(
-          qs.map((q) => ({
-            user_id: user.id,
-            analysis_id: analysisId,
-            question: q.question,
-            probability: q.probability,
-            unit: q.unit,
-            marks: q.marks,
-          })),
-        );
-      }
-    } catch (e) {
-      toast.error((e as Error).message);
-    } finally {
-      setTop32Loading(false);
-    }
-  }
 
   async function analyze() {
     if (!subject.trim() || !text.trim()) {
@@ -71,11 +34,9 @@ function AnalyzePage() {
     setLoading(true);
     setResult(null);
     setSavedId(null);
-    setTop32(null);
     try {
       const r = await callEmoIq<AnalyzeResult>("analyze", { subject, years, text });
       setResult(r);
-      let newId: string | null = null;
       if (user) {
         const { data, error } = await supabase
           .from("pyq_analyses")
@@ -89,13 +50,9 @@ function AnalyzePage() {
           })
           .select("id")
           .single();
-        if (!error && data) {
-          setSavedId(data.id);
-          newId = data.id;
-        }
+        if (!error && data) setSavedId(data.id);
       }
-      toast.success("Analysis ready · generating Top 32 questions");
-      void generateTop32(r, newId);
+      toast.success("Analysis ready");
     } catch (e) {
       toast.error((e as Error).message);
     } finally {
@@ -163,11 +120,16 @@ function AnalyzePage() {
           <div className="rounded-2xl border border-border bg-surface/60 p-6">
             <div className="font-mono text-[11px] uppercase tracking-widest text-primary">// Summary</div>
             <p className="mt-2 text-sm leading-relaxed text-foreground">{result.summary}</p>
-            {savedId && (
-              <Link to="/emoiq/predict" search={{ id: savedId } as never} className="mt-4 inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-4 py-2 font-mono text-[11px] uppercase tracking-widest text-primary hover:bg-primary hover:text-primary-foreground">
-                Predict questions from this →
+            <div className="mt-4 flex flex-wrap gap-2">
+              {savedId && (
+                <Link to="/emoiq/predict" search={{ id: savedId } as never} className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-4 py-2 font-mono text-[11px] uppercase tracking-widest text-primary hover:bg-primary hover:text-primary-foreground">
+                  Predict questions →
+                </Link>
+              )}
+              <Link to="/emoiq/top32" search={savedId ? ({ id: savedId } as never) : (undefined as never)} className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-4 py-2 font-mono text-[11px] uppercase tracking-widest text-primary hover:bg-primary hover:text-primary-foreground">
+                Top 32 important questions →
               </Link>
-            )}
+            </div>
           </div>
 
           <div>
@@ -212,84 +174,6 @@ function AnalyzePage() {
                 ))}
               </ul>
             </div>
-          </div>
-
-          <div className="rounded-2xl border border-primary/40 bg-primary/5 p-6">
-            <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-              <div>
-                <div className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-primary">
-                  <Flame className="h-3 w-3" /> Top 32 · from your analysis
-                </div>
-                <h2 className="mt-3 font-display text-2xl font-extrabold uppercase tracking-tighter md:text-3xl">
-                  32 Most <span className="italic text-primary">Important</span> Questions
-                </h2>
-                <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-                  Ranked from the PYQs you uploaded — high-weightage units and repeat topics first.
-                </p>
-              </div>
-              <button
-                onClick={() => result && generateTop32(result, savedId)}
-                disabled={top32Loading}
-                className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-4 py-2 font-mono text-[11px] uppercase tracking-widest text-primary hover:bg-primary hover:text-primary-foreground disabled:opacity-50"
-              >
-                {top32Loading ? <Loader2 className="h-3 w-3 animate-spin" /> : <Sparkles className="h-3 w-3" />}
-                {top32Loading ? "Generating…" : top32 ? "Regenerate" : "Generate Top 32"}
-              </button>
-            </div>
-
-            {top32Loading && !top32 && (
-              <div className="mt-6 grid gap-3 md:grid-cols-2">
-                {Array.from({ length: 8 }).map((_, i) => (
-                  <div key={i} className="h-20 animate-pulse rounded-xl border border-border bg-surface/40" />
-                ))}
-              </div>
-            )}
-
-            {top32 && top32.length > 0 && (() => {
-              const units = ["All", ...Array.from(new Set(top32.map((q) => q.unit)))];
-              const list = subjectFilter === "All" ? top32 : top32.filter((q) => q.unit === subjectFilter);
-              return (
-                <>
-                  <div className="mt-5 flex flex-wrap gap-2">
-                    {units.map((s) => (
-                      <button
-                        key={s}
-                        onClick={() => setSubjectFilter(s)}
-                        className={`rounded-full border px-3 py-1 font-mono text-[10px] uppercase tracking-widest transition-colors ${
-                          subjectFilter === s
-                            ? "border-primary bg-primary text-primary-foreground"
-                            : "border-border bg-surface/60 text-muted-foreground hover:border-primary hover:text-primary"
-                        }`}
-                      >
-                        {s}
-                      </button>
-                    ))}
-                  </div>
-                  <ol className="mt-4 grid gap-3 md:grid-cols-2">
-                    {list.map((q, i) => (
-                      <li key={i} className="rounded-xl border border-border bg-surface/60 p-4">
-                        <div className="flex items-start justify-between gap-3">
-                          <div className="flex items-start gap-3">
-                            <span className="mt-0.5 shrink-0 rounded-md bg-primary/10 px-2 py-1 font-mono text-[10px] font-bold text-primary">
-                              {String(i + 1).padStart(2, "0")}
-                            </span>
-                            <p className="text-sm font-medium leading-snug">{q.question}</p>
-                          </div>
-                          <span className="shrink-0 rounded-full border border-primary/40 bg-primary/10 px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest text-primary">
-                            {Math.round(q.probability)}%
-                          </span>
-                        </div>
-                        <div className="mt-3 flex flex-wrap gap-2 text-[11px] text-muted-foreground">
-                          <span className="rounded-full border border-border px-2 py-0.5 font-mono uppercase tracking-widest">{q.unit}</span>
-                          <span className="rounded-full border border-border px-2 py-0.5 font-mono uppercase tracking-widest">{q.marks} marks</span>
-                        </div>
-                        {q.reason && <p className="mt-2 text-xs text-muted-foreground">Why: {q.reason}</p>}
-                      </li>
-                    ))}
-                  </ol>
-                </>
-              );
-            })()}
           </div>
         </div>
       )}
