@@ -1,10 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
+import { toast } from "sonner";
 import { Navbar } from "@/components/site/Navbar";
 import { Marquee } from "@/components/site/Marquee";
 import { Footer } from "@/components/site/Footer";
 import { getBookmarks } from "@/lib/bookmarks";
-import { TrendingUp, BookOpen, ListChecks, Flame, Route as RouteIcon, Bookmark, GraduationCap } from "lucide-react";
+import { TrendingUp, BookOpen, ListChecks, Flame, Route as RouteIcon, Bookmark, GraduationCap, RefreshCw, AlertTriangle, ClipboardList } from "lucide-react";
 
 export const Route = createFileRoute("/progress")({
   head: () => ({
