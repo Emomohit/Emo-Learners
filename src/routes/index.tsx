@@ -448,3 +448,15 @@ function SectionHeader({ tag, title, subtitle }: { tag: string; title: string; s
     </div>
   );
 }
+
+function BlockNode({ children, primary }: { children: React.ReactNode; primary?: boolean }) {
+  return (
+    <div className={`w-full rounded-xl border px-4 py-3 text-center text-sm font-semibold uppercase tracking-widest ${primary ? "border-primary bg-primary/10 text-primary" : "border-border bg-surface/60 text-foreground"}`}>
+      {children}
+    </div>
+  );
+}
+
+function Arrow() {
+  return <div className="h-6 w-px bg-border" aria-hidden="true" />;
+}
