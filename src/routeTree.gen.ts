@@ -14,6 +14,7 @@ import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as PracticeRouteImport } from './routes/practice'
+import { Route as PlacementRouteImport } from './routes/placement'
 import { Route as JoinRouteImport } from './routes/join'
 import { Route as InternshipsRouteImport } from './routes/internships'
 import { Route as EmoiqRouteImport } from './routes/emoiq'
@@ -27,10 +28,15 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as TestsIndexRouteImport } from './routes/tests.index'
 import { Route as QuizzesIndexRouteImport } from './routes/quizzes.index'
+import { Route as PlacementIndexRouteImport } from './routes/placement.index'
 import { Route as EmoiqIndexRouteImport } from './routes/emoiq.index'
 import { Route as CoursesIndexRouteImport } from './routes/courses.index'
 import { Route as TestsSlugRouteImport } from './routes/tests.$slug'
 import { Route as QuizzesSlugRouteImport } from './routes/quizzes.$slug'
+import { Route as PlacementResumeRouteImport } from './routes/placement.resume'
+import { Route as PlacementInterviewRouteImport } from './routes/placement.interview'
+import { Route as PlacementCodingRouteImport } from './routes/placement.coding'
+import { Route as PlacementAptitudeRouteImport } from './routes/placement.aptitude'
 import { Route as EmoiqQuizRouteImport } from './routes/emoiq.quiz'
 import { Route as EmoiqPredictRouteImport } from './routes/emoiq.predict'
 import { Route as EmoiqPlanRouteImport } from './routes/emoiq.plan'
@@ -61,6 +67,11 @@ const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
 const PracticeRoute = PracticeRouteImport.update({
   id: '/practice',
   path: '/practice',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlacementRoute = PlacementRouteImport.update({
+  id: '/placement',
+  path: '/placement',
   getParentRoute: () => rootRouteImport,
 } as any)
 const JoinRoute = JoinRouteImport.update({
@@ -128,6 +139,11 @@ const QuizzesIndexRoute = QuizzesIndexRouteImport.update({
   path: '/quizzes/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PlacementIndexRoute = PlacementIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PlacementRoute,
+} as any)
 const EmoiqIndexRoute = EmoiqIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -147,6 +163,26 @@ const QuizzesSlugRoute = QuizzesSlugRouteImport.update({
   id: '/quizzes/$slug',
   path: '/quizzes/$slug',
   getParentRoute: () => rootRouteImport,
+} as any)
+const PlacementResumeRoute = PlacementResumeRouteImport.update({
+  id: '/resume',
+  path: '/resume',
+  getParentRoute: () => PlacementRoute,
+} as any)
+const PlacementInterviewRoute = PlacementInterviewRouteImport.update({
+  id: '/interview',
+  path: '/interview',
+  getParentRoute: () => PlacementRoute,
+} as any)
+const PlacementCodingRoute = PlacementCodingRouteImport.update({
+  id: '/coding',
+  path: '/coding',
+  getParentRoute: () => PlacementRoute,
+} as any)
+const PlacementAptitudeRoute = PlacementAptitudeRouteImport.update({
+  id: '/aptitude',
+  path: '/aptitude',
+  getParentRoute: () => PlacementRoute,
 } as any)
 const EmoiqQuizRoute = EmoiqQuizRouteImport.update({
   id: '/quiz',
@@ -191,6 +227,7 @@ export interface FileRoutesByFullPath {
   '/emoiq': typeof EmoiqRouteWithChildren
   '/internships': typeof InternshipsRoute
   '/join': typeof JoinRoute
+  '/placement': typeof PlacementRouteWithChildren
   '/practice': typeof PracticeRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/reset-password': typeof ResetPasswordRoute
@@ -202,10 +239,15 @@ export interface FileRoutesByFullPath {
   '/emoiq/plan': typeof EmoiqPlanRoute
   '/emoiq/predict': typeof EmoiqPredictRoute
   '/emoiq/quiz': typeof EmoiqQuizRoute
+  '/placement/aptitude': typeof PlacementAptitudeRoute
+  '/placement/coding': typeof PlacementCodingRoute
+  '/placement/interview': typeof PlacementInterviewRoute
+  '/placement/resume': typeof PlacementResumeRoute
   '/quizzes/$slug': typeof QuizzesSlugRoute
   '/tests/$slug': typeof TestsSlugRoute
   '/courses/': typeof CoursesIndexRoute
   '/emoiq/': typeof EmoiqIndexRoute
+  '/placement/': typeof PlacementIndexRoute
   '/quizzes/': typeof QuizzesIndexRoute
   '/tests/': typeof TestsIndexRoute
 }
@@ -231,10 +273,15 @@ export interface FileRoutesByTo {
   '/emoiq/plan': typeof EmoiqPlanRoute
   '/emoiq/predict': typeof EmoiqPredictRoute
   '/emoiq/quiz': typeof EmoiqQuizRoute
+  '/placement/aptitude': typeof PlacementAptitudeRoute
+  '/placement/coding': typeof PlacementCodingRoute
+  '/placement/interview': typeof PlacementInterviewRoute
+  '/placement/resume': typeof PlacementResumeRoute
   '/quizzes/$slug': typeof QuizzesSlugRoute
   '/tests/$slug': typeof TestsSlugRoute
   '/courses': typeof CoursesIndexRoute
   '/emoiq': typeof EmoiqIndexRoute
+  '/placement': typeof PlacementIndexRoute
   '/quizzes': typeof QuizzesIndexRoute
   '/tests': typeof TestsIndexRoute
 }
@@ -251,6 +298,7 @@ export interface FileRoutesById {
   '/emoiq': typeof EmoiqRouteWithChildren
   '/internships': typeof InternshipsRoute
   '/join': typeof JoinRoute
+  '/placement': typeof PlacementRouteWithChildren
   '/practice': typeof PracticeRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/reset-password': typeof ResetPasswordRoute
@@ -262,10 +310,15 @@ export interface FileRoutesById {
   '/emoiq/plan': typeof EmoiqPlanRoute
   '/emoiq/predict': typeof EmoiqPredictRoute
   '/emoiq/quiz': typeof EmoiqQuizRoute
+  '/placement/aptitude': typeof PlacementAptitudeRoute
+  '/placement/coding': typeof PlacementCodingRoute
+  '/placement/interview': typeof PlacementInterviewRoute
+  '/placement/resume': typeof PlacementResumeRoute
   '/quizzes/$slug': typeof QuizzesSlugRoute
   '/tests/$slug': typeof TestsSlugRoute
   '/courses/': typeof CoursesIndexRoute
   '/emoiq/': typeof EmoiqIndexRoute
+  '/placement/': typeof PlacementIndexRoute
   '/quizzes/': typeof QuizzesIndexRoute
   '/tests/': typeof TestsIndexRoute
 }
@@ -283,6 +336,7 @@ export interface FileRouteTypes {
     | '/emoiq'
     | '/internships'
     | '/join'
+    | '/placement'
     | '/practice'
     | '/privacy-policy'
     | '/reset-password'
@@ -294,10 +348,15 @@ export interface FileRouteTypes {
     | '/emoiq/plan'
     | '/emoiq/predict'
     | '/emoiq/quiz'
+    | '/placement/aptitude'
+    | '/placement/coding'
+    | '/placement/interview'
+    | '/placement/resume'
     | '/quizzes/$slug'
     | '/tests/$slug'
     | '/courses/'
     | '/emoiq/'
+    | '/placement/'
     | '/quizzes/'
     | '/tests/'
   fileRoutesByTo: FileRoutesByTo
@@ -323,10 +382,15 @@ export interface FileRouteTypes {
     | '/emoiq/plan'
     | '/emoiq/predict'
     | '/emoiq/quiz'
+    | '/placement/aptitude'
+    | '/placement/coding'
+    | '/placement/interview'
+    | '/placement/resume'
     | '/quizzes/$slug'
     | '/tests/$slug'
     | '/courses'
     | '/emoiq'
+    | '/placement'
     | '/quizzes'
     | '/tests'
   id:
@@ -342,6 +406,7 @@ export interface FileRouteTypes {
     | '/emoiq'
     | '/internships'
     | '/join'
+    | '/placement'
     | '/practice'
     | '/privacy-policy'
     | '/reset-password'
@@ -353,10 +418,15 @@ export interface FileRouteTypes {
     | '/emoiq/plan'
     | '/emoiq/predict'
     | '/emoiq/quiz'
+    | '/placement/aptitude'
+    | '/placement/coding'
+    | '/placement/interview'
+    | '/placement/resume'
     | '/quizzes/$slug'
     | '/tests/$slug'
     | '/courses/'
     | '/emoiq/'
+    | '/placement/'
     | '/quizzes/'
     | '/tests/'
   fileRoutesById: FileRoutesById
@@ -373,6 +443,7 @@ export interface RootRouteChildren {
   EmoiqRoute: typeof EmoiqRouteWithChildren
   InternshipsRoute: typeof InternshipsRoute
   JoinRoute: typeof JoinRoute
+  PlacementRoute: typeof PlacementRouteWithChildren
   PracticeRoute: typeof PracticeRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
@@ -421,6 +492,13 @@ declare module '@tanstack/react-router' {
       path: '/practice'
       fullPath: '/practice'
       preLoaderRoute: typeof PracticeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/placement': {
+      id: '/placement'
+      path: '/placement'
+      fullPath: '/placement'
+      preLoaderRoute: typeof PlacementRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/join': {
@@ -514,6 +592,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof QuizzesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/placement/': {
+      id: '/placement/'
+      path: '/'
+      fullPath: '/placement/'
+      preLoaderRoute: typeof PlacementIndexRouteImport
+      parentRoute: typeof PlacementRoute
+    }
     '/emoiq/': {
       id: '/emoiq/'
       path: '/'
@@ -541,6 +626,34 @@ declare module '@tanstack/react-router' {
       fullPath: '/quizzes/$slug'
       preLoaderRoute: typeof QuizzesSlugRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/placement/resume': {
+      id: '/placement/resume'
+      path: '/resume'
+      fullPath: '/placement/resume'
+      preLoaderRoute: typeof PlacementResumeRouteImport
+      parentRoute: typeof PlacementRoute
+    }
+    '/placement/interview': {
+      id: '/placement/interview'
+      path: '/interview'
+      fullPath: '/placement/interview'
+      preLoaderRoute: typeof PlacementInterviewRouteImport
+      parentRoute: typeof PlacementRoute
+    }
+    '/placement/coding': {
+      id: '/placement/coding'
+      path: '/coding'
+      fullPath: '/placement/coding'
+      preLoaderRoute: typeof PlacementCodingRouteImport
+      parentRoute: typeof PlacementRoute
+    }
+    '/placement/aptitude': {
+      id: '/placement/aptitude'
+      path: '/aptitude'
+      fullPath: '/placement/aptitude'
+      preLoaderRoute: typeof PlacementAptitudeRouteImport
+      parentRoute: typeof PlacementRoute
     }
     '/emoiq/quiz': {
       id: '/emoiq/quiz'
@@ -607,6 +720,26 @@ const EmoiqRouteChildren: EmoiqRouteChildren = {
 
 const EmoiqRouteWithChildren = EmoiqRoute._addFileChildren(EmoiqRouteChildren)
 
+interface PlacementRouteChildren {
+  PlacementAptitudeRoute: typeof PlacementAptitudeRoute
+  PlacementCodingRoute: typeof PlacementCodingRoute
+  PlacementInterviewRoute: typeof PlacementInterviewRoute
+  PlacementResumeRoute: typeof PlacementResumeRoute
+  PlacementIndexRoute: typeof PlacementIndexRoute
+}
+
+const PlacementRouteChildren: PlacementRouteChildren = {
+  PlacementAptitudeRoute: PlacementAptitudeRoute,
+  PlacementCodingRoute: PlacementCodingRoute,
+  PlacementInterviewRoute: PlacementInterviewRoute,
+  PlacementResumeRoute: PlacementResumeRoute,
+  PlacementIndexRoute: PlacementIndexRoute,
+}
+
+const PlacementRouteWithChildren = PlacementRoute._addFileChildren(
+  PlacementRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
@@ -619,6 +752,7 @@ const rootRouteChildren: RootRouteChildren = {
   EmoiqRoute: EmoiqRouteWithChildren,
   InternshipsRoute: InternshipsRoute,
   JoinRoute: JoinRoute,
+  PlacementRoute: PlacementRouteWithChildren,
   PracticeRoute: PracticeRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
   ResetPasswordRoute: ResetPasswordRoute,
@@ -634,13 +768,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
