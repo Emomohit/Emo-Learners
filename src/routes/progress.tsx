@@ -65,7 +65,27 @@ function readSnapshot(): Snapshot {
 
 function ProgressPage() {
   const [snap, setSnap] = useState<Snapshot | null>(null);
-  useEffect(() => { setSnap(readSnapshot()); }, []);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  function load() {
+    setLoading(true);
+    setError(null);
+    // small delay so skeletons don't flash on fast devices
+    setTimeout(() => {
+      try {
+        setSnap(readSnapshot());
+      } catch (e) {
+        const msg = (e as Error)?.message ?? "Couldn't load your progress.";
+        setError(msg);
+        toast.error("We couldn't load your progress. Please retry.");
+      } finally {
+        setLoading(false);
+      }
+    }, 250);
+  }
+
+  useEffect(() => { load(); }, []);
 
   const stats = useMemo(() => {
     if (!snap) return null;
@@ -79,6 +99,15 @@ function ProgressPage() {
     };
   }, [snap]);
 
+  const summary = useMemo(() => {
+    if (!snap || !stats) return null;
+    const activeCourses = snap.courses.length;
+    const quizzedTopics = snap.quizzes.length;
+    const totalActivity = stats.totalCourse + stats.totalQuiz + stats.streak + stats.bookmarks;
+    const level = totalActivity < 5 ? "Just getting started" : totalActivity < 25 ? "Building momentum" : totalActivity < 75 ? "On a roll" : "Power learner";
+    return { activeCourses, quizzedTopics, totalActivity, level };
+  }, [snap, stats]);
+
   return (
     <div className="min-h-screen">
       <Marquee />
@@ -88,8 +117,14 @@ function ProgressPage() {
         <div className="pointer-events-none absolute inset-0 grid-bg opacity-40" />
         <div className="pointer-events-none absolute inset-0 radial-glow" />
         <div className="relative mx-auto max-w-6xl">
-          <div className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-primary">
-            <TrendingUp className="h-3 w-3" /> Progress Analytics
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-primary">
+              <TrendingUp className="h-3 w-3" /> Progress Analytics
+            </div>
+            <button onClick={load} disabled={loading}
+              className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-2 font-mono text-[11px] font-bold uppercase tracking-widest hover:border-primary disabled:opacity-50">
+              <RefreshCw className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`} /> Refresh
+            </button>
           </div>
           <h1 className="mt-4 font-display text-4xl font-extrabold uppercase leading-[0.9] tracking-tighter md:text-6xl">
             Your <span className="italic text-primary">learning graph</span>
@@ -98,6 +133,7 @@ function ProgressPage() {
             A quick view of what you've completed so far — courses, quizzes, streak days, bookmarks, and your active AI roadmap.
           </p>
         </div>
+
       </section>
 
       <section className="px-4 pb-10">
