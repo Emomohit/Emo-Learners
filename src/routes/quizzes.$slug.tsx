@@ -47,7 +47,8 @@ export const Route = createFileRoute("/quizzes/$slug")({
 });
 
 function QuizPage() {
-  const { quiz } = Route.useLoaderData();
+  const { slug } = Route.useParams();
+  const quiz = quizzes.find((q) => q.slug === slug)!;
 
   return (
     <div className="min-h-screen">
