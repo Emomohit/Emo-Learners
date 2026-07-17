@@ -39,6 +39,9 @@ function Top32Page() {
   const [loading, setLoading] = useState(false);
   const [questions, setQuestions] = useState<PredictedQuestion[] | null>(null);
   const [unitFilter, setUnitFilter] = useState<string>("All");
+  const [query, setQuery] = useState("");
+  const [sortBy, setSortBy] = useState<"probability" | "marks" | "unit">("probability");
+  const [sortDir, setSortDir] = useState<"desc" | "asc">("desc");
 
   useEffect(() => {
     if (!user) return;
