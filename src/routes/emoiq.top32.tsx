@@ -280,7 +280,7 @@ function Top32Page() {
         <div className="mt-10">
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <div className="font-mono text-[11px] uppercase tracking-widest text-primary">
-              // {questions.length} questions · sorted by probability
+              // {filtered.length}/{questions.length} shown · sorted by {sortBy} {sortDir === "desc" ? "↓" : "↑"}
             </div>
             <button
               onClick={run}
@@ -288,6 +288,36 @@ function Top32Page() {
               className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1.5 font-mono text-[10px] uppercase tracking-widest text-muted-foreground hover:border-primary hover:text-primary disabled:opacity-50"
             >
               <RefreshCw className="h-3 w-3" /> Refresh
+            </button>
+          </div>
+
+          <div className="mt-4 grid gap-3 md:grid-cols-[1fr_auto_auto]">
+            <div className="relative">
+              <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <input
+                type="search"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search questions, units, reasoning…"
+                className="w-full rounded-full border border-border bg-surface py-2 pl-10 pr-4 text-sm outline-none focus:border-primary"
+              />
+            </div>
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
+              className="rounded-full border border-border bg-surface px-4 py-2 font-mono text-[11px] uppercase tracking-widest outline-none focus:border-primary"
+            >
+              <option value="probability">Sort: Probability</option>
+              <option value="marks">Sort: Marks</option>
+              <option value="unit">Sort: Unit</option>
+            </select>
+            <button
+              onClick={() => setSortDir((d) => (d === "desc" ? "asc" : "desc"))}
+              title={`Toggle direction (${sortDir === "desc" ? "descending" : "ascending"})`}
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-surface px-4 py-2 font-mono text-[11px] uppercase tracking-widest text-muted-foreground hover:border-primary hover:text-primary"
+            >
+              <ArrowUpDown className="h-3.5 w-3.5" />
+              {sortDir === "desc" ? "Desc" : "Asc"}
             </button>
           </div>
 
@@ -306,6 +336,12 @@ function Top32Page() {
               </button>
             ))}
           </div>
+
+          {filtered.length === 0 && (
+            <p className="mt-6 rounded-2xl border border-dashed border-border bg-surface/40 p-6 text-center text-sm text-muted-foreground">
+              No questions match your search. Try clearing filters or a different keyword.
+            </p>
+          )}
 
           <ol className="mt-5 grid gap-3 md:grid-cols-2">
             {filtered.map((q, i) => (
