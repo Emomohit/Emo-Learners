@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { Flame, Loader2, Sparkles, RefreshCw } from "lucide-react";
+import { Flame, Loader2, Sparkles, RefreshCw, Search, ArrowUpDown } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { callEmoIq, type AnalyzeResult, type PredictedQuestion } from "@/lib/emoiq/api";
@@ -39,6 +39,9 @@ function Top32Page() {
   const [loading, setLoading] = useState(false);
   const [questions, setQuestions] = useState<PredictedQuestion[] | null>(null);
   const [unitFilter, setUnitFilter] = useState<string>("All");
+  const [query, setQuery] = useState("");
+  const [sortBy, setSortBy] = useState<"probability" | "marks" | "unit">("probability");
+  const [sortDir, setSortDir] = useState<"desc" | "asc">("desc");
 
   useEffect(() => {
     if (!user) return;
@@ -146,11 +149,26 @@ function Top32Page() {
   const units = questions
     ? ["All", ...Array.from(new Set(questions.map((q) => q.unit)))]
     : [];
-  const filtered = questions
-    ? unitFilter === "All"
-      ? questions
-      : questions.filter((q) => q.unit === unitFilter)
-    : [];
+  const filtered = (() => {
+    if (!questions) return [];
+    const q = query.trim().toLowerCase();
+    let list = unitFilter === "All" ? questions.slice() : questions.filter((x) => x.unit === unitFilter);
+    if (q) {
+      list = list.filter(
+        (x) =>
+          x.question.toLowerCase().includes(q) ||
+          x.unit.toLowerCase().includes(q) ||
+          (x.reason ?? "").toLowerCase().includes(q),
+      );
+    }
+    const dir = sortDir === "asc" ? 1 : -1;
+    list.sort((a, b) => {
+      if (sortBy === "probability") return (a.probability - b.probability) * dir;
+      if (sortBy === "marks") return (a.marks - b.marks) * dir;
+      return a.unit.localeCompare(b.unit) * dir;
+    });
+    return list;
+  })();
 
   return (
     <section className="mx-auto max-w-6xl px-4 py-14">
@@ -262,7 +280,7 @@ function Top32Page() {
         <div className="mt-10">
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <div className="font-mono text-[11px] uppercase tracking-widest text-primary">
-              // {questions.length} questions · sorted by probability
+              // {filtered.length}/{questions.length} shown · sorted by {sortBy} {sortDir === "desc" ? "↓" : "↑"}
             </div>
             <button
               onClick={run}
@@ -270,6 +288,36 @@ function Top32Page() {
               className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1.5 font-mono text-[10px] uppercase tracking-widest text-muted-foreground hover:border-primary hover:text-primary disabled:opacity-50"
             >
               <RefreshCw className="h-3 w-3" /> Refresh
+            </button>
+          </div>
+
+          <div className="mt-4 grid gap-3 md:grid-cols-[1fr_auto_auto]">
+            <div className="relative">
+              <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <input
+                type="search"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search questions, units, reasoning…"
+                className="w-full rounded-full border border-border bg-surface py-2 pl-10 pr-4 text-sm outline-none focus:border-primary"
+              />
+            </div>
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
+              className="rounded-full border border-border bg-surface px-4 py-2 font-mono text-[11px] uppercase tracking-widest outline-none focus:border-primary"
+            >
+              <option value="probability">Sort: Probability</option>
+              <option value="marks">Sort: Marks</option>
+              <option value="unit">Sort: Unit</option>
+            </select>
+            <button
+              onClick={() => setSortDir((d) => (d === "desc" ? "asc" : "desc"))}
+              title={`Toggle direction (${sortDir === "desc" ? "descending" : "ascending"})`}
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-surface px-4 py-2 font-mono text-[11px] uppercase tracking-widest text-muted-foreground hover:border-primary hover:text-primary"
+            >
+              <ArrowUpDown className="h-3.5 w-3.5" />
+              {sortDir === "desc" ? "Desc" : "Asc"}
             </button>
           </div>
 
@@ -288,6 +336,12 @@ function Top32Page() {
               </button>
             ))}
           </div>
+
+          {filtered.length === 0 && (
+            <p className="mt-6 rounded-2xl border border-dashed border-border bg-surface/40 p-6 text-center text-sm text-muted-foreground">
+              No questions match your search. Try clearing filters or a different keyword.
+            </p>
+          )}
 
           <ol className="mt-5 grid gap-3 md:grid-cols-2">
             {filtered.map((q, i) => (
