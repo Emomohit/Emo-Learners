@@ -47,7 +47,8 @@ export const Route = createFileRoute("/quizzes/$slug")({
 });
 
 function QuizPage() {
-  const { quiz } = Route.useLoaderData();
+  const data = Route.useLoaderData() as { quiz: (typeof import("@/lib/learn-data"))["quizzes"][number] };
+  const { quiz } = data;
 
   return (
     <div className="min-h-screen">
