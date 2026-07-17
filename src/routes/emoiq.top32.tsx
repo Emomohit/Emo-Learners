@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { Flame, Loader2, Sparkles, RefreshCw } from "lucide-react";
+import { Flame, Loader2, Sparkles, RefreshCw, Search, ArrowUpDown } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { callEmoIq, type AnalyzeResult, type PredictedQuestion } from "@/lib/emoiq/api";
