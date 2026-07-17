@@ -149,11 +149,26 @@ function Top32Page() {
   const units = questions
     ? ["All", ...Array.from(new Set(questions.map((q) => q.unit)))]
     : [];
-  const filtered = questions
-    ? unitFilter === "All"
-      ? questions
-      : questions.filter((q) => q.unit === unitFilter)
-    : [];
+  const filtered = (() => {
+    if (!questions) return [];
+    const q = query.trim().toLowerCase();
+    let list = unitFilter === "All" ? questions.slice() : questions.filter((x) => x.unit === unitFilter);
+    if (q) {
+      list = list.filter(
+        (x) =>
+          x.question.toLowerCase().includes(q) ||
+          x.unit.toLowerCase().includes(q) ||
+          (x.reason ?? "").toLowerCase().includes(q),
+      );
+    }
+    const dir = sortDir === "asc" ? 1 : -1;
+    list.sort((a, b) => {
+      if (sortBy === "probability") return (a.probability - b.probability) * dir;
+      if (sortBy === "marks") return (a.marks - b.marks) * dir;
+      return a.unit.localeCompare(b.unit) * dir;
+    });
+    return list;
+  })();
 
   return (
     <section className="mx-auto max-w-6xl px-4 py-14">
