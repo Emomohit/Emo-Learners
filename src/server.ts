@@ -52,14 +52,25 @@ function withSecurityHeaders(response: Response, request: Request): Response {
   headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
   headers.set(
     "Permissions-Policy",
-    "camera=(), microphone=(), geolocation=(), payment=(), interest-cohort=()",
+    "camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=(), interest-cohort=()",
   );
   headers.set("X-DNS-Prefetch-Control", "on");
-  // Modest CSP — allows Supabase + fonts + inline styles for Tailwind runtime.
-  // Kept in Report-Only for now to avoid breaking editor previews; flip to
-  // Content-Security-Policy when a full audit is done.
+  // Force HTTPS for 2 years, include subdomains, allow preload list submission.
+  headers.set("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload");
+  // Isolate the browsing context so cross-origin pages can't peek into ours.
+  headers.set("Cross-Origin-Opener-Policy", "same-origin");
+  headers.set("Cross-Origin-Resource-Policy", "same-site");
+  // Reveal only the origin, not the referrer path, to cross-origin destinations.
+  headers.set("Origin-Agent-Cluster", "?1");
+  // Legacy XSS auditor — modern browsers ignore, but harmless on old ones.
+  headers.set("X-XSS-Protection", "0");
+  // Never let hosts change our detected content-type.
+  headers.set("X-Permitted-Cross-Domain-Policies", "none");
+
+  // Enforced CSP — allows Supabase + fonts + inline styles for Tailwind runtime
+  // and inline hydration scripts. `frame-ancestors` keeps the Lovable editor preview working.
   headers.set(
-    "Content-Security-Policy-Report-Only",
+    "Content-Security-Policy",
     [
       "default-src 'self'",
       "img-src 'self' data: blob: https:",
@@ -67,9 +78,13 @@ function withSecurityHeaders(response: Response, request: Request): Response {
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "script-src 'self' 'unsafe-inline' 'unsafe-eval' https:",
       "connect-src 'self' https: wss:",
+      "worker-src 'self' blob:",
+      "media-src 'self' https: data: blob:",
+      "object-src 'none'",
       "frame-ancestors 'self' https://lovable.dev https://*.lovable.app https://*.lovable.dev",
       "base-uri 'self'",
       "form-action 'self'",
+      "upgrade-insecure-requests",
     ].join("; "),
   );
 
@@ -95,6 +110,8 @@ export default {
           "content-type": "text/html; charset=utf-8",
           "X-Content-Type-Options": "nosniff",
           "Referrer-Policy": "strict-origin-when-cross-origin",
+          "Strict-Transport-Security": "max-age=63072000; includeSubDomains; preload",
+          "X-Frame-Options": "SAMEORIGIN",
         },
       });
     }
