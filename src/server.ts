@@ -110,6 +110,8 @@ export default {
           "content-type": "text/html; charset=utf-8",
           "X-Content-Type-Options": "nosniff",
           "Referrer-Policy": "strict-origin-when-cross-origin",
+          "Strict-Transport-Security": "max-age=63072000; includeSubDomains; preload",
+          "X-Frame-Options": "SAMEORIGIN",
         },
       });
     }
