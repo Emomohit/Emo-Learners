@@ -85,8 +85,8 @@ function PrivacyPage() {
                 </li>
                 <li>
                   Telegram:{" "}
-                  <a href="https://t.me/placeholder" target="_blank" rel="noreferrer" className="text-primary hover:underline">
-                    @username
+                  <a href="https://t.me/Emomohit" target="_blank" rel="noreferrer" className="text-primary hover:underline">
+                    @Emomohit
                   </a>
                 </li>
               </ul>
