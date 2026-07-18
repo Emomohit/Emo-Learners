@@ -109,6 +109,15 @@
     color: var(--primary-foreground);
   }
 
+  /* Hide any spurious text caret site-wide; re-enable only for real text fields */
+  html {
+    caret-color: transparent;
+  }
+  input, textarea, select, [contenteditable="true"], [contenteditable=""] {
+    caret-color: var(--color-foreground);
+  }
+
+
   h1, h2, h3, h4 {
     font-family: var(--font-display);
     letter-spacing: -0.03em;
