@@ -47,7 +47,7 @@ const platforms = [
     tag: "Career",
     desc: "Career tips, professional network, and industry insights.",
     cta: "Connect",
-    href: "https://www.linkedin.com/in/mohit-ahirwar-12bb58386/",
+    href: "https://linkedin.com/in/username/",
   },
 ];
 
@@ -134,7 +134,7 @@ function JoinPage() {
           <h2 className="mt-3 font-display text-2xl font-extrabold uppercase italic md:text-3xl">Talk to the founder.</h2>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             <a
-              href="https://t.me/Emomohit"
+              href="https://t.me/placeholder"
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-5 py-3 text-xs font-bold uppercase tracking-widest text-foreground transition-all hover:border-primary hover:text-primary"

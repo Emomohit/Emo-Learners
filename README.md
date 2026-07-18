@@ -4,7 +4,7 @@
 
 **Founder:** Mohit Ahirwar
 **Live site:** https://emolearners.vercel.app
-**Community:** [Telegram](https://t.me/Emo_Learners) · [Instagram](https://www.instagram.com/Emolearners) · [YouTube](https://www.youtube.com/@EmoLearners) · [LinkedIn](https://www.linkedin.com/in/mohit-ahirwar-12bb58386/)
+**Community:** [Telegram](https://t.me/Emo_Learners) · [Instagram](https://www.instagram.com/Emolearners) · [YouTube](https://www.youtube.com/@EmoLearners) · [LinkedIn](https://linkedin.com/in/username/)
 
 ---
 

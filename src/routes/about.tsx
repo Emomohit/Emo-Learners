@@ -60,7 +60,7 @@ function AboutPage() {
               <a href="https://t.me/emolarners" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-foreground transition-all hover:border-primary hover:text-primary">
                 <Send className="h-4 w-4" /> Telegram
               </a>
-              <a href="https://www.linkedin.com/in/mohit-ahirwar-12bb58386/" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-foreground transition-all hover:border-primary hover:text-primary">
+              <a href="https://linkedin.com/in/username/" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-foreground transition-all hover:border-primary hover:text-primary">
                 <Linkedin className="h-4 w-4" /> LinkedIn
               </a>
               <a href="https://mohitahirwarportfolio.vercel.app/" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-brand transition-transform hover:scale-105">
