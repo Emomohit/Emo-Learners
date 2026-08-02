@@ -45,8 +45,15 @@ export function PdfDropzone({ onText, label = "Upload PDFs", hint = "Drop one or
   }, [onText]);
 
   const addFiles = useCallback(async (list: FileList | File[]) => {
-    const pdfs = Array.from(list).filter((f) => f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf"));
-    if (pdfs.length === 0) { toast.error("Only PDF files are supported"); return; }
+    const MAX_BYTES = 20 * 1024 * 1024;
+    const MAX_FILES = 6;
+    const candidates = Array.from(list).filter((f) => f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf"));
+    if (candidates.length === 0) { toast.error("Only PDF files are supported"); return; }
+    const oversized = candidates.filter((f) => f.size > MAX_BYTES || f.size === 0);
+    if (oversized.length > 0) toast.error(`Skipped ${oversized.length} file(s) — each PDF must be under 20 MB.`);
+    const pdfs = candidates.filter((f) => f.size > 0 && f.size <= MAX_BYTES).slice(0, MAX_FILES);
+    if (pdfs.length === 0) return;
+
     setBusy(true);
     try {
       const newEntries: FileEntry[] = [];
