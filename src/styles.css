@@ -44,40 +44,40 @@
 }
 
 :root {
-  --radius: 0.75rem;
+  --radius: 1rem;
 
-  /* Cyberpunk brutalist: near-black canvas, electric orange accent */
-  --background: oklch(0.13 0 0);
-  --foreground: oklch(0.985 0 0);
-  --surface: oklch(0.17 0.005 30);
-  --surface-elevated: oklch(0.21 0.008 30);
+  /* Midnight Indigo: deep navy canvas, electric indigo accent */
+  --background: oklch(0.15 0.035 280);
+  --foreground: oklch(0.97 0.01 280);
+  --surface: oklch(0.21 0.055 282);
+  --surface-elevated: oklch(0.26 0.065 282);
 
-  --card: oklch(0.17 0.005 30);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.17 0.005 30);
-  --popover-foreground: oklch(0.985 0 0);
+  --card: oklch(0.21 0.055 282);
+  --card-foreground: oklch(0.97 0.01 280);
+  --popover: oklch(0.21 0.055 282);
+  --popover-foreground: oklch(0.97 0.01 280);
 
-  --primary: oklch(0.71 0.21 41);
-  --primary-foreground: oklch(0.13 0 0);
+  --primary: oklch(0.55 0.23 275);
+  --primary-foreground: oklch(0.99 0 0);
 
-  --secondary: oklch(0.22 0.01 30);
-  --secondary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.27 0.07 282);
+  --secondary-foreground: oklch(0.97 0.01 280);
 
-  --muted: oklch(0.2 0.005 30);
-  --muted-foreground: oklch(0.65 0.01 30);
+  --muted: oklch(0.24 0.055 282);
+  --muted-foreground: oklch(0.72 0.04 280);
 
-  --accent: oklch(0.71 0.21 41);
-  --accent-foreground: oklch(0.13 0 0);
+  --accent: oklch(0.66 0.19 272);
+  --accent-foreground: oklch(0.99 0 0);
 
-  --destructive: oklch(0.6 0.23 25);
-  --destructive-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.6 0.23 22);
+  --destructive-foreground: oklch(0.99 0 0);
 
-  --success: oklch(0.72 0.18 150);
-  --success-foreground: oklch(0.13 0 0);
+  --success: oklch(0.74 0.17 158);
+  --success-foreground: oklch(0.15 0.035 280);
 
-  --border: oklch(1 0 0 / 8%);
-  --input: oklch(1 0 0 / 12%);
-  --ring: oklch(0.71 0.21 41);
+  --border: oklch(0.72 0.14 278 / 18%);
+  --input: oklch(0.72 0.14 278 / 26%);
+  --ring: oklch(0.66 0.19 272);
 }
 
 .dark {
