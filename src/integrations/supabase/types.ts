@@ -273,6 +273,30 @@ export type Database = {
         }
         Relationships: []
       }
+      password_reset_attempts: {
+        Row: {
+          created_at: string
+          email_lc: string
+          id: string
+          ip: string | null
+          succeeded: boolean
+        }
+        Insert: {
+          created_at?: string
+          email_lc: string
+          id?: string
+          ip?: string | null
+          succeeded?: boolean
+        }
+        Update: {
+          created_at?: string
+          email_lc?: string
+          id?: string
+          ip?: string | null
+          succeeded?: boolean
+        }
+        Relationships: []
+      }
       predicted_questions: {
         Row: {
           analysis_id: string
