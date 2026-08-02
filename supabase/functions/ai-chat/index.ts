@@ -29,6 +29,10 @@ Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: cors });
 
   try {
+    // Reject anonymous callers before spending any AI credits.
+    const auth = await requireUser(req);
+    if (auth instanceof Response) return auth;
+
     const { messages } = await req.json();
     if (!Array.isArray(messages)) {
       return json({ error: "messages[] required" }, 400);
@@ -36,6 +40,7 @@ Deno.serve(async (req) => {
 
     const apiKey = Deno.env.get("LOVABLE_API_KEY");
     if (!apiKey) return json({ error: "LOVABLE_API_KEY missing" }, 500);
+
 
     const safe = messages
       .slice(-20)

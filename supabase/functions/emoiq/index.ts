@@ -1,6 +1,9 @@
 // EMoIQ AI backend — actions: analyze, predict, plan, quiz
 // Uses Lovable AI Gateway (google/gemini-2.5-flash) via LOVABLE_API_KEY.
+//
+// AUTH: signed-in users only — every action spends AI credits.
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
+import { requireUser } from "../_shared/require-user.ts";
 
 const cors = {
   "Access-Control-Allow-Origin": "*",
