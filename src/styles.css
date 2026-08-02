@@ -403,3 +403,151 @@
   filter: blur(60px);
   animation: aurora 16s ease-in-out infinite;
 }
+
+/* ============ 3D + motion layer (Gen-Z depth, tasteful restraint) ============ */
+
+@keyframes pop-in {
+  from { opacity: 0; transform: perspective(900px) translate3d(0, 26px, -40px) rotateX(8deg); }
+  to { opacity: 1; transform: perspective(900px) translate3d(0, 0, 0) rotateX(0deg); }
+}
+
+@utility animate-pop {
+  animation: pop-in 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes tilt-idle {
+  0%, 100% { transform: perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0); }
+  50% { transform: perspective(1000px) rotateX(1.5deg) rotateY(-2deg) translateY(-6px); }
+}
+
+/* Interactive card that leans toward the cursor side and lifts off the page. */
+@utility tilt-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.3s ease;
+  will-change: transform;
+  &:hover {
+    transform: perspective(1000px) translate3d(0, -8px, 24px) rotateX(4deg) rotateY(-3deg) scale(1.015);
+    border-color: color-mix(in oklab, var(--primary) 60%, transparent);
+    box-shadow: 0 34px 70px -30px color-mix(in oklab, var(--primary) 70%, transparent),
+      0 2px 0 0 color-mix(in oklab, white 10%, transparent) inset;
+  }
+  &:active {
+    transform: perspective(1000px) translate3d(0, -2px, 8px) scale(0.995);
+  }
+}
+
+/* Children of a tilt-3d card can be pushed forward for real parallax depth. */
+@utility layer-front {
+  transform: translateZ(36px);
+}
+
+/* Light sweeping across glossy surfaces on hover. */
+@keyframes shine-sweep {
+  from { transform: translateX(-120%) skewX(-18deg); }
+  to { transform: translateX(220%) skewX(-18deg); }
+}
+
+@utility shine {
+  position: relative;
+  overflow: hidden;
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 45%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in oklab, white 16%, transparent),
+      transparent
+    );
+    opacity: 0;
+    pointer-events: none;
+  }
+  &:hover::after {
+    opacity: 1;
+    animation: shine-sweep 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+}
+
+/* Animated gradient ring that breathes around hero/feature surfaces. */
+@keyframes ring-spin {
+  to { transform: rotate(1turn); }
+}
+
+@utility glow-ring {
+  position: relative;
+  isolation: isolate;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: conic-gradient(
+      from 0deg,
+      transparent 0deg,
+      color-mix(in oklab, var(--primary) 90%, transparent) 90deg,
+      oklch(0.7 0.2 300) 160deg,
+      transparent 240deg
+    );
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: ring-spin 8s linear infinite;
+    opacity: 0.55;
+    z-index: -1;
+    pointer-events: none;
+  }
+}
+
+@keyframes hue-drift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Living gradient headline. */
+@utility grad-text-anim {
+  background: linear-gradient(
+    100deg,
+    oklch(0.94 0.04 275),
+    oklch(0.72 0.18 272),
+    oklch(0.62 0.23 300),
+    oklch(0.94 0.04 275)
+  );
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: hue-drift 9s ease-in-out infinite;
+}
+
+@keyframes bob {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50% { transform: translate3d(0, -10px, 0) rotate(-2deg); }
+}
+
+@utility animate-bob {
+  animation: bob 5.5s ease-in-out infinite;
+}
+
+@utility animate-tilt-idle {
+  animation: tilt-idle 9s ease-in-out infinite;
+}
+
+/* Respect users who ask the OS for less motion. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .tilt-3d:hover {
+    transform: none !important;
+  }
+}
