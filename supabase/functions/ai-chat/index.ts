@@ -1,10 +1,14 @@
 // AI Study Assistant — uses the Lovable AI Gateway (free during preview).
 // Requires LOVABLE_API_KEY (auto-provided by Lovable Cloud).
 //
+// AUTH: signed-in users only. This endpoint spends AI credits, so anonymous
+// callers are rejected before any gateway request is made.
+//
 // Body: { messages: { role: "user"|"assistant"|"system", content: string }[] }
 // Returns: { reply: string }
 
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
+import { requireUser } from "../_shared/require-user.ts";
 
 const SYSTEM_PROMPT = `You are EMO Learners' AI Study Assistant — a friendly, sharp tutor for Indian B.Tech students in CSE, CSE-IT, CSE-CY, and AIML.
 
