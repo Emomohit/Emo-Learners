@@ -167,11 +167,19 @@ export function Navbar() {
             ))}
             {user ? (
               <>
-                <Link to="/dashboard" onClick={() => setOpen(false)} className="rounded-md px-3 py-2.5 text-muted-foreground hover:bg-surface hover:text-foreground">
+                <Link
+                  to="/dashboard"
+                  onClick={() => setOpen(false)}
+                  className="rounded-md px-3 py-2.5 text-muted-foreground hover:bg-surface hover:text-foreground"
+                >
                   My space
                 </Link>
                 {isAdmin && (
-                  <Link to="/admin" onClick={() => setOpen(false)} className="rounded-md px-3 py-2.5 text-primary hover:bg-surface">
+                  <Link
+                    to="/admin"
+                    onClick={() => setOpen(false)}
+                    className="rounded-md px-3 py-2.5 text-primary hover:bg-surface"
+                  >
                     Admin panel
                   </Link>
                 )}

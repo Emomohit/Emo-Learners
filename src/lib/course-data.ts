@@ -4,8 +4,6 @@
 
 import { dsaCourse } from "./dsa-course";
 
-
-
 export type CourseChapter = {
   id: number;
   title: string;
@@ -42,7 +40,8 @@ export const chapterUrl = (videoId: string, t: number) =>
 
 const javaChapters: CourseChapter[] = [
   {
-    id: 1, t: 0,
+    id: 1,
+    t: 0,
     title: "Introduction to Java",
     topic: "What Java is and why it still rules enterprise + Android.",
     notes: [
@@ -53,7 +52,8 @@ const javaChapters: CourseChapter[] = [
     ],
   },
   {
-    id: 2, t: 600,
+    id: 2,
+    t: 600,
     title: "Install JDK & IntelliJ / VS Code",
     topic: "Setting up the toolchain.",
     notes: [
@@ -65,7 +65,8 @@ const javaChapters: CourseChapter[] = [
     snippet: `public class HelloWorld {\n  public static void main(String[] args) {\n    System.out.println("Hello, EMO Learners!");\n  }\n}`,
   },
   {
-    id: 3, t: 1500,
+    id: 3,
+    t: 1500,
     title: "Variables & Data Types",
     topic: "Primitives vs reference types.",
     notes: [
@@ -77,7 +78,8 @@ const javaChapters: CourseChapter[] = [
     snippet: `int age = 21;\ndouble pi = 3.14159;\nString name = "Mohit";\nboolean isStudent = true;`,
   },
   {
-    id: 4, t: 2400,
+    id: 4,
+    t: 2400,
     title: "Type Casting",
     topic: "Widening, narrowing, and the cast operator.",
     notes: [
@@ -89,7 +91,8 @@ const javaChapters: CourseChapter[] = [
     snippet: `double d = 9.7;\nint i = (int) d; // 9 — truncated, not rounded`,
   },
   {
-    id: 5, t: 3300,
+    id: 5,
+    t: 3300,
     title: "Operators",
     topic: "Arithmetic, relational, logical, bitwise.",
     notes: [
@@ -100,18 +103,20 @@ const javaChapters: CourseChapter[] = [
     ],
   },
   {
-    id: 6, t: 4200,
+    id: 6,
+    t: 4200,
     title: "Conditionals: if / else / switch",
     topic: "Branching logic.",
     notes: [
       "`if / else if / else` for ranged conditions.",
-      "Java 14+ switch expressions: `String day = switch(n) { case 1 -> \"Mon\"; ... };`.",
+      'Java 14+ switch expressions: `String day = switch(n) { case 1 -> "Mon"; ... };`.',
       "Old-style switch needs `break` — forgetting one falls through.",
       "Ternary `a ? b : c` is fine for short two-way picks.",
     ],
   },
   {
-    id: 7, t: 5100,
+    id: 7,
+    t: 5100,
     title: "Loops: for / while / do-while",
     topic: "Repetition.",
     notes: [
@@ -123,18 +128,20 @@ const javaChapters: CourseChapter[] = [
     snippet: `int[] nums = {1,2,3,4,5};\nint sum = 0;\nfor (int n : nums) sum += n;\nSystem.out.println(sum); // 15`,
   },
   {
-    id: 8, t: 6000,
+    id: 8,
+    t: 6000,
     title: "Strings & String Methods",
     topic: "Working with text.",
     notes: [
       "Strings are immutable — every modification returns a new String.",
-      "Common methods: `length()`, `charAt(i)`, `substring(a,b)`, `toUpperCase()`, `split(\",\")`.",
-      "Concatenate with `+` or use `String.format(\"%s is %d\", name, age)`.",
+      'Common methods: `length()`, `charAt(i)`, `substring(a,b)`, `toUpperCase()`, `split(",")`.',
+      'Concatenate with `+` or use `String.format("%s is %d", name, age)`.',
       "For heavy concatenation in loops, use `StringBuilder`.",
     ],
   },
   {
-    id: 9, t: 7200,
+    id: 9,
+    t: 7200,
     title: "Arrays & 2D Arrays",
     topic: "Fixed-size collections.",
     notes: [
@@ -146,7 +153,8 @@ const javaChapters: CourseChapter[] = [
     snippet: `int[][] grid = {{1,2,3},{4,5,6}};\nfor (int r = 0; r < grid.length; r++)\n  for (int c = 0; c < grid[r].length; c++)\n    System.out.print(grid[r][c] + " ");`,
   },
   {
-    id: 10, t: 8400,
+    id: 10,
+    t: 8400,
     title: "Methods & Method Overloading",
     topic: "Functions that live on classes.",
     notes: [
@@ -158,7 +166,8 @@ const javaChapters: CourseChapter[] = [
     snippet: `static int add(int a, int b) { return a + b; }\nstatic double add(double a, double b) { return a + b; }`,
   },
   {
-    id: 11, t: 9600,
+    id: 11,
+    t: 9600,
     title: "OOP: Classes & Objects",
     topic: "The heart of Java.",
     notes: [
@@ -170,7 +179,8 @@ const javaChapters: CourseChapter[] = [
     snippet: `class Student {\n  String name;\n  Student(String n) { this.name = n; }\n}\nStudent s = new Student("Mohit");`,
   },
   {
-    id: 12, t: 10800,
+    id: 12,
+    t: 10800,
     title: "Encapsulation & Access Modifiers",
     topic: "Hiding internals.",
     notes: [
@@ -180,7 +190,8 @@ const javaChapters: CourseChapter[] = [
     ],
   },
   {
-    id: 13, t: 12000,
+    id: 13,
+    t: 12000,
     title: "Inheritance",
     topic: "`extends` and the `super` keyword.",
     notes: [
@@ -191,7 +202,8 @@ const javaChapters: CourseChapter[] = [
     ],
   },
   {
-    id: 14, t: 13200,
+    id: 14,
+    t: 13200,
     title: "Polymorphism & Overriding",
     topic: "One interface, many forms.",
     notes: [
@@ -201,7 +213,8 @@ const javaChapters: CourseChapter[] = [
     ],
   },
   {
-    id: 15, t: 14400,
+    id: 15,
+    t: 14400,
     title: "Abstract Classes & Interfaces",
     topic: "Contracts and partial implementations.",
     notes: [
@@ -212,7 +225,8 @@ const javaChapters: CourseChapter[] = [
     ],
   },
   {
-    id: 16, t: 16200,
+    id: 16,
+    t: 16200,
     title: "Static, Final, and the `static` Keyword",
     topic: "Class-level state.",
     notes: [
@@ -222,7 +236,8 @@ const javaChapters: CourseChapter[] = [
     ],
   },
   {
-    id: 17, t: 18000,
+    id: 17,
+    t: 18000,
     title: "Exception Handling",
     topic: "`try / catch / finally / throw`.",
     notes: [
@@ -234,7 +249,8 @@ const javaChapters: CourseChapter[] = [
     snippet: `try (Scanner sc = new Scanner(System.in)) {\n  int n = Integer.parseInt(sc.nextLine());\n} catch (NumberFormatException e) {\n  System.out.println("Not a number");\n}`,
   },
   {
-    id: 18, t: 20400,
+    id: 18,
+    t: 20400,
     title: "Collections: ArrayList, HashMap, HashSet",
     topic: "Dynamic data structures.",
     notes: [
@@ -246,7 +262,8 @@ const javaChapters: CourseChapter[] = [
     snippet: `Map<String, Integer> ages = new HashMap<>();\nages.put("Mohit", 21);\nSystem.out.println(ages.get("Mohit"));`,
   },
   {
-    id: 19, t: 23400,
+    id: 19,
+    t: 23400,
     title: "Generics",
     topic: "Type parameters.",
     notes: [
@@ -257,7 +274,8 @@ const javaChapters: CourseChapter[] = [
     ],
   },
   {
-    id: 20, t: 26100,
+    id: 20,
+    t: 26100,
     title: "Lambdas & Functional Interfaces",
     topic: "Java 8 style.",
     notes: [
@@ -269,7 +287,8 @@ const javaChapters: CourseChapter[] = [
     snippet: `Runnable r = () -> System.out.println("Hi");\nFunction<Integer,Integer> sq = x -> x * x;\nSystem.out.println(sq.apply(5));`,
   },
   {
-    id: 21, t: 28800,
+    id: 21,
+    t: 28800,
     title: "Streams API",
     topic: "Declarative collection processing.",
     notes: [
@@ -281,18 +300,20 @@ const javaChapters: CourseChapter[] = [
     snippet: `List<Integer> evens = List.of(1,2,3,4,5,6).stream()\n  .filter(n -> n % 2 == 0)\n  .toList();\nSystem.out.println(evens); // [2, 4, 6]`,
   },
   {
-    id: 22, t: 31500,
+    id: 22,
+    t: 31500,
     title: "File I/O",
     topic: "Reading and writing files.",
     notes: [
-      "Modern path API: `Files.readString(Path.of(\"file.txt\"))`.",
-      "`Files.writeString(Path.of(\"out.txt\"), content)` for writing.",
+      'Modern path API: `Files.readString(Path.of("file.txt"))`.',
+      '`Files.writeString(Path.of("out.txt"), content)` for writing.',
       "Use try-with-resources with `BufferedReader` / `BufferedWriter` for large files.",
       "Always handle `IOException`.",
     ],
   },
   {
-    id: 23, t: 33000,
+    id: 23,
+    t: 33000,
     title: "Multithreading Basics",
     topic: "Running code concurrently.",
     notes: [
@@ -303,7 +324,8 @@ const javaChapters: CourseChapter[] = [
     ],
   },
   {
-    id: 24, t: 34500,
+    id: 24,
+    t: 34500,
     title: "Wrap-Up & What to Build Next",
     topic: "From course to project.",
     notes: [
@@ -317,7 +339,8 @@ const javaChapters: CourseChapter[] = [
 
 const cChapters: CourseChapter[] = [
   {
-    id: 1, t: 0,
+    id: 1,
+    t: 0,
     title: "Introduction to C",
     topic: "Why every serious programmer learns C.",
     notes: [
@@ -328,7 +351,8 @@ const cChapters: CourseChapter[] = [
     ],
   },
   {
-    id: 2, t: 480,
+    id: 2,
+    t: 480,
     title: "Install GCC & a Code Editor",
     topic: "Setting up the toolchain.",
     notes: [
@@ -340,7 +364,8 @@ const cChapters: CourseChapter[] = [
     snippet: `#include <stdio.h>\nint main() {\n  printf("Hello, EMO Learners!\\n");\n  return 0;\n}`,
   },
   {
-    id: 3, t: 1200,
+    id: 3,
+    t: 1200,
     title: "Variables & Data Types",
     topic: "Primitives in C.",
     notes: [
@@ -352,19 +377,21 @@ const cChapters: CourseChapter[] = [
     snippet: `int age = 21;\nfloat pi = 3.14f;\nchar grade = 'A';`,
   },
   {
-    id: 4, t: 2100,
+    id: 4,
+    t: 2100,
     title: "printf & scanf — Input / Output",
     topic: "Reading and writing to the terminal.",
     notes: [
       "Format specifiers: `%d` int, `%f` float, `%c` char, `%s` string, `%lf` double.",
-      "`scanf` needs `&` on variable addresses: `scanf(\"%d\", &n);`.",
+      '`scanf` needs `&` on variable addresses: `scanf("%d", &n);`.',
       "Forgetting `&` is the #1 beginner crash (segfault).",
       "Use `\\n` to break lines — `printf` does NOT auto-newline.",
     ],
     snippet: `int n;\nprintf("Enter a number: ");\nscanf("%d", &n);\nprintf("You entered %d\\n", n);`,
   },
   {
-    id: 5, t: 3000,
+    id: 5,
+    t: 3000,
     title: "Operators & Type Casting",
     topic: "Computing and converting.",
     notes: [
@@ -375,7 +402,8 @@ const cChapters: CourseChapter[] = [
     ],
   },
   {
-    id: 6, t: 3900,
+    id: 6,
+    t: 3900,
     title: "Conditionals: if / else / switch",
     topic: "Branching.",
     notes: [
@@ -385,7 +413,8 @@ const cChapters: CourseChapter[] = [
     ],
   },
   {
-    id: 7, t: 4800,
+    id: 7,
+    t: 4800,
     title: "Loops: for / while / do-while",
     topic: "Repetition.",
     notes: [
@@ -397,7 +426,8 @@ const cChapters: CourseChapter[] = [
     snippet: `for (int i = 1; i <= 5; i++) {\n  printf("%d ", i * i);\n}\n// 1 4 9 16 25`,
   },
   {
-    id: 8, t: 5700,
+    id: 8,
+    t: 5700,
     title: "Arrays",
     topic: "Contiguous fixed-size storage.",
     notes: [
@@ -408,7 +438,8 @@ const cChapters: CourseChapter[] = [
     ],
   },
   {
-    id: 9, t: 6600,
+    id: 9,
+    t: 6600,
     title: "2D Arrays",
     topic: "Tables and matrices.",
     notes: [
@@ -419,19 +450,21 @@ const cChapters: CourseChapter[] = [
     snippet: `int grid[2][3] = {{1,2,3},{4,5,6}};\nfor (int r = 0; r < 2; r++) {\n  for (int c = 0; c < 3; c++) printf("%d ", grid[r][c]);\n  printf("\\n");\n}`,
   },
   {
-    id: 10, t: 7500,
+    id: 10,
+    t: 7500,
     title: "Strings in C",
     topic: "Null-terminated character arrays.",
     notes: [
       "A C string is `char[]` ending in `'\\0'`.",
       "`<string.h>` gives you `strlen`, `strcpy`, `strcmp`, `strcat`.",
       "Never use `gets()` — buffer overflow risk. Use `fgets()`.",
-      "String literals (`\"hello\"`) live in read-only memory — don't modify them.",
+      'String literals (`"hello"`) live in read-only memory — don\'t modify them.',
     ],
     snippet: `char name[20];\nfgets(name, sizeof(name), stdin);\nprintf("Hi %s", name);`,
   },
   {
-    id: 11, t: 8400,
+    id: 11,
+    t: 8400,
     title: "Functions",
     topic: "Reusable code blocks.",
     notes: [
@@ -443,7 +476,8 @@ const cChapters: CourseChapter[] = [
     snippet: `int add(int a, int b) {\n  return a + b;\n}\nint main() { printf("%d", add(2, 3)); }`,
   },
   {
-    id: 12, t: 9300,
+    id: 12,
+    t: 9300,
     title: "Recursion",
     topic: "Functions that call themselves.",
     notes: [
@@ -455,7 +489,8 @@ const cChapters: CourseChapter[] = [
     snippet: `int fact(int n) {\n  if (n <= 1) return 1;\n  return n * fact(n - 1);\n}`,
   },
   {
-    id: 13, t: 10200,
+    id: 13,
+    t: 10200,
     title: "Pointers — The Big One",
     topic: "Variables that hold addresses.",
     notes: [
@@ -467,7 +502,8 @@ const cChapters: CourseChapter[] = [
     snippet: `int x = 42;\nint *p = &x;\nprintf("%d\\n", *p); // 42\n*p = 100;\nprintf("%d\\n", x);  // 100`,
   },
   {
-    id: 14, t: 11400,
+    id: 14,
+    t: 11400,
     title: "Pointer Arithmetic & Arrays",
     topic: "Why arrays and pointers feel like the same thing.",
     notes: [
@@ -478,7 +514,8 @@ const cChapters: CourseChapter[] = [
     ],
   },
   {
-    id: 15, t: 12600,
+    id: 15,
+    t: 12600,
     title: "Pointers to Pointers & Pass-by-Reference",
     topic: "Modifying caller variables.",
     notes: [
@@ -489,7 +526,8 @@ const cChapters: CourseChapter[] = [
     snippet: `void swap(int *a, int *b) {\n  int t = *a; *a = *b; *b = t;\n}\nint x = 1, y = 2;\nswap(&x, &y);`,
   },
   {
-    id: 16, t: 13800,
+    id: 16,
+    t: 13800,
     title: "Dynamic Memory: malloc, calloc, realloc, free",
     topic: "Heap allocation.",
     notes: [
@@ -501,7 +539,8 @@ const cChapters: CourseChapter[] = [
     snippet: `int *arr = malloc(n * sizeof(int));\nif (!arr) { perror("malloc"); exit(1); }\n// ... use arr ...\nfree(arr);\narr = NULL;`,
   },
   {
-    id: 17, t: 15000,
+    id: 17,
+    t: 15000,
     title: "Structures (struct)",
     topic: "Custom record types.",
     notes: [
@@ -513,7 +552,8 @@ const cChapters: CourseChapter[] = [
     snippet: `typedef struct {\n  char name[50];\n  int age;\n} Student;\nStudent s = {"Mohit", 21};\nprintf("%s is %d\\n", s.name, s.age);`,
   },
   {
-    id: 18, t: 16200,
+    id: 18,
+    t: 16200,
     title: "Unions & Enums",
     topic: "Variants and named constants.",
     notes: [
@@ -523,11 +563,12 @@ const cChapters: CourseChapter[] = [
     ],
   },
   {
-    id: 19, t: 17100,
+    id: 19,
+    t: 17100,
     title: "File I/O",
     topic: "Reading and writing files.",
     notes: [
-      "Open with `FILE *f = fopen(\"data.txt\", \"r\");` — check for NULL.",
+      'Open with `FILE *f = fopen("data.txt", "r");` — check for NULL.',
       "Modes: `r` read, `w` write (truncate), `a` append, `b` binary.",
       "Read with `fgets`, `fscanf`, `fread`. Write with `fprintf`, `fputs`, `fwrite`.",
       "Always `fclose(f);` — buffers may not flush otherwise.",
@@ -535,7 +576,8 @@ const cChapters: CourseChapter[] = [
     snippet: `FILE *f = fopen("out.txt", "w");\nif (!f) return 1;\nfprintf(f, "Score: %d\\n", 95);\nfclose(f);`,
   },
   {
-    id: 20, t: 18600,
+    id: 20,
+    t: 18600,
     title: "Storage Classes",
     topic: "auto, static, extern, register.",
     notes: [
@@ -546,18 +588,20 @@ const cChapters: CourseChapter[] = [
     ],
   },
   {
-    id: 21, t: 19500,
+    id: 21,
+    t: 19500,
     title: "The Preprocessor",
     topic: "#include, #define, macros.",
     notes: [
-      "`#include <header.h>` for system headers, `\"local.h\"` for your own.",
+      '`#include <header.h>` for system headers, `"local.h"` for your own.',
       "`#define PI 3.14159` — text substitution before compilation.",
       "Function-like macros: `#define SQ(x) ((x)*(x))` — always parenthesize args.",
       "`#ifdef` / `#ifndef` / `#endif` for conditional compilation and include guards.",
     ],
   },
   {
-    id: 22, t: 20700,
+    id: 22,
+    t: 20700,
     title: "Multi-file Projects & Makefiles",
     topic: "Splitting code across files.",
     notes: [
@@ -568,7 +612,8 @@ const cChapters: CourseChapter[] = [
     ],
   },
   {
-    id: 23, t: 21600,
+    id: 23,
+    t: 21600,
     title: "Common Pitfalls & Undefined Behavior",
     topic: "What separates a C beginner from a C programmer.",
     notes: [
@@ -579,7 +624,8 @@ const cChapters: CourseChapter[] = [
     ],
   },
   {
-    id: 24, t: 22500,
+    id: 24,
+    t: 22500,
     title: "Wrap-Up & What to Build Next",
     topic: "From course to project.",
     notes: [
@@ -652,4 +698,3 @@ export const courses: Course[] = [
 export function getCourse(slug: string): Course | undefined {
   return courses.find((c) => c.slug === slug);
 }
-

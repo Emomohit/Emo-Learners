@@ -14,10 +14,26 @@ const AI_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-chat`;
 
 type Mode = "hr" | "technical" | "system-design" | "behavioral";
 const modes: { id: Mode; label: string; role: string }[] = [
-  { id: "hr", label: "HR Round", role: "You are a friendly HR interviewer at a top Indian tech company. Ask standard HR questions (tell me about yourself, strengths/weaknesses, why us, career goals). After each answer, give short constructive feedback in italics and then ask the next question. Keep replies under 120 words." },
-  { id: "technical", label: "Technical", role: "You are a senior software engineer interviewing a B.Tech final-year student. Ask CS-fundamentals + coding questions (DSA, OS, DBMS, OOP, Networking). After each answer, rate it 1-10, point out gaps, and ask a follow-up. Keep replies under 150 words." },
-  { id: "system-design", label: "System Design", role: "You are a staff engineer conducting an entry-level system design interview. Start with a simple prompt (URL shortener, chat app, notification service). Guide with hints, then critique. Keep replies under 150 words." },
-  { id: "behavioral", label: "Behavioral", role: "You conduct STAR-method behavioral interviews. Ask situation-based questions (conflict, failure, teamwork). After each answer, evaluate against the STAR structure and coach the candidate. Keep replies under 120 words." },
+  {
+    id: "hr",
+    label: "HR Round",
+    role: "You are a friendly HR interviewer at a top Indian tech company. Ask standard HR questions (tell me about yourself, strengths/weaknesses, why us, career goals). After each answer, give short constructive feedback in italics and then ask the next question. Keep replies under 120 words.",
+  },
+  {
+    id: "technical",
+    label: "Technical",
+    role: "You are a senior software engineer interviewing a B.Tech final-year student. Ask CS-fundamentals + coding questions (DSA, OS, DBMS, OOP, Networking). After each answer, rate it 1-10, point out gaps, and ask a follow-up. Keep replies under 150 words.",
+  },
+  {
+    id: "system-design",
+    label: "System Design",
+    role: "You are a staff engineer conducting an entry-level system design interview. Start with a simple prompt (URL shortener, chat app, notification service). Guide with hints, then critique. Keep replies under 150 words.",
+  },
+  {
+    id: "behavioral",
+    label: "Behavioral",
+    role: "You conduct STAR-method behavioral interviews. Ask situation-based questions (conflict, failure, teamwork). After each answer, evaluate against the STAR structure and coach the candidate. Keep replies under 120 words.",
+  },
 ];
 
 function MockInterviewPage() {
@@ -29,15 +45,23 @@ function MockInterviewPage() {
   const [loading, setLoading] = useState(false);
   const endRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => { endRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);
+  useEffect(() => {
+    endRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   async function send(content: string, history: Msg[]) {
     setLoading(true);
     try {
       const { data: session } = await supabase.auth.getSession();
       const token = session.session?.access_token;
-      const system = modes.find((m) => m.id === mode)!.role + ` The candidate is applying for: ${role}. This is a mock interview — stay in character.`;
-      const payload: Msg[] = [{ role: "system", content: system }, ...history, { role: "user", content }];
+      const system =
+        modes.find((m) => m.id === mode)!.role +
+        ` The candidate is applying for: ${role}. This is a mock interview — stay in character.`;
+      const payload: Msg[] = [
+        { role: "system", content: system },
+        ...history,
+        { role: "user", content },
+      ];
       const res = await fetch(AI_URL, {
         method: "POST",
         headers: {
@@ -49,7 +73,11 @@ function MockInterviewPage() {
       });
       const body = await res.json();
       if (!res.ok) throw new Error(body?.error ?? "AI error");
-      setMessages([...history, { role: "user", content }, { role: "assistant", content: body.reply ?? "" }]);
+      setMessages([
+        ...history,
+        { role: "user", content },
+        { role: "assistant", content: body.reply ?? "" },
+      ]);
     } catch (e) {
       toast.error((e as Error).message);
     } finally {
@@ -60,7 +88,10 @@ function MockInterviewPage() {
   async function start() {
     setStarted(true);
     setMessages([]);
-    await send(`Let's begin the ${modes.find((m) => m.id === mode)?.label} interview for the ${role} role. Ask me your first question.`, []);
+    await send(
+      `Let's begin the ${modes.find((m) => m.id === mode)?.label} interview for the ${role} role. Ask me your first question.`,
+      [],
+    );
   }
 
   async function reply() {
@@ -84,11 +115,16 @@ function MockInterviewPage() {
           Mock <span className="grad-text">Interview</span>
         </h1>
       </div>
-      <p className="mt-3 text-muted-foreground">Live AI interviewer. Answer like you would in a real interview — get feedback after every response.</p>
+      <p className="mt-3 text-muted-foreground">
+        Live AI interviewer. Answer like you would in a real interview — get feedback after every
+        response.
+      </p>
 
       {!started ? (
         <div className="mt-8 panel p-6">
-          <label className="font-mono text-[11px] uppercase tracking-widest text-primary">Interview type</label>
+          <label className="font-mono text-[11px] uppercase tracking-widest text-primary">
+            Interview type
+          </label>
           <div className="mt-2 flex flex-wrap gap-2">
             {modes.map((m) => (
               <button
@@ -100,15 +136,25 @@ function MockInterviewPage() {
               </button>
             ))}
           </div>
-          <label className="mt-6 block font-mono text-[11px] uppercase tracking-widest text-primary">Target role</label>
+          <label className="mt-6 block font-mono text-[11px] uppercase tracking-widest text-primary">
+            Target role
+          </label>
           <input
             className="mt-2 w-full rounded-xl border border-border bg-surface px-4 py-3 text-sm outline-none focus:border-primary"
             value={role}
             onChange={(e) => setRole(e.target.value)}
             placeholder="e.g. Software Engineer, Data Analyst, SDE Intern"
           />
-          <button onClick={start} disabled={loading} className="mt-6 inline-flex items-center gap-2 rounded-full px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest btn-grad disabled:opacity-50">
-            {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <MessagesSquare className="h-4 w-4" />}
+          <button
+            onClick={start}
+            disabled={loading}
+            className="mt-6 inline-flex items-center gap-2 rounded-full px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest btn-grad disabled:opacity-50"
+          >
+            {loading ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <MessagesSquare className="h-4 w-4" />
+            )}
             {loading ? "Starting…" : "Start interview"}
           </button>
         </div>
@@ -118,19 +164,33 @@ function MockInterviewPage() {
             <div className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
               {modes.find((m) => m.id === mode)?.label} · {role}
             </div>
-            <button onClick={reset} className="inline-flex items-center gap-1 rounded-full border border-border px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-muted-foreground hover:text-primary">
+            <button
+              onClick={reset}
+              className="inline-flex items-center gap-1 rounded-full border border-border px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-muted-foreground hover:text-primary"
+            >
               <RotateCcw className="h-3 w-3" /> New session
             </button>
           </div>
 
           <div className="mt-4 min-h-[300px] space-y-3 panel p-4">
-            {messages.filter((m) => m.role !== "system").map((m, i) => (
-              <div key={i} className={`rounded-xl px-4 py-3 text-sm ${m.role === "user" ? "ml-8 bg-primary/10 text-foreground" : "mr-8 border border-border bg-surface text-foreground"}`}>
-                <div className="mb-1 font-mono text-[10px] uppercase tracking-widest text-primary">{m.role === "user" ? "You" : "Interviewer"}</div>
-                <div className="whitespace-pre-wrap">{m.content}</div>
+            {messages
+              .filter((m) => m.role !== "system")
+              .map((m, i) => (
+                <div
+                  key={i}
+                  className={`rounded-xl px-4 py-3 text-sm ${m.role === "user" ? "ml-8 bg-primary/10 text-foreground" : "mr-8 border border-border bg-surface text-foreground"}`}
+                >
+                  <div className="mb-1 font-mono text-[10px] uppercase tracking-widest text-primary">
+                    {m.role === "user" ? "You" : "Interviewer"}
+                  </div>
+                  <div className="whitespace-pre-wrap">{m.content}</div>
+                </div>
+              ))}
+            {loading && (
+              <div className="text-sm text-muted-foreground">
+                <Loader2 className="inline h-4 w-4 animate-spin" /> Thinking…
               </div>
-            ))}
-            {loading && <div className="text-sm text-muted-foreground"><Loader2 className="inline h-4 w-4 animate-spin" /> Thinking…</div>}
+            )}
             <div ref={endRef} />
           </div>
 
@@ -140,9 +200,15 @@ function MockInterviewPage() {
               placeholder="Type your answer…"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => { if (e.key === "Enter" && !loading) reply(); }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !loading) reply();
+              }}
             />
-            <button onClick={reply} disabled={loading || !input.trim()} className="inline-flex items-center gap-2 rounded-full px-5 py-3 font-mono text-xs font-bold uppercase tracking-widest btn-grad disabled:opacity-50">
+            <button
+              onClick={reply}
+              disabled={loading || !input.trim()}
+              className="inline-flex items-center gap-2 rounded-full px-5 py-3 font-mono text-xs font-bold uppercase tracking-widest btn-grad disabled:opacity-50"
+            >
               <Send className="h-4 w-4" /> Send
             </button>
           </div>

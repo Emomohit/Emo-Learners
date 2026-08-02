@@ -7,9 +7,16 @@ export const Route = createFileRoute("/placement")({
   head: () => ({
     meta: [
       { title: "Placement Prep — Coding, Aptitude, Mock Interview, Resume" },
-      { name: "description", content: "AI-powered placement prep for B.Tech students: coding practice, aptitude quizzes, mock interviews, and resume analysis in one place." },
+      {
+        name: "description",
+        content:
+          "AI-powered placement prep for B.Tech students: coding practice, aptitude quizzes, mock interviews, and resume analysis in one place.",
+      },
       { property: "og:title", content: "Placement Prep — EMO Learners AI" },
-      { property: "og:description", content: "Coding practice, aptitude, mock interviews, and resume analysis powered by AI." },
+      {
+        property: "og:description",
+        content: "Coding practice, aptitude, mock interviews, and resume analysis powered by AI.",
+      },
     ],
   }),
   component: PlacementLayout,

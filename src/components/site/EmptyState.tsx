@@ -18,7 +18,9 @@ export function EmptyState({ icon: Icon, title, description, actionLabel, action
         </div>
       )}
       <h3 className="mt-4 font-display text-xl font-bold">{title}</h3>
-      {description && <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">{description}</p>}
+      {description && (
+        <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">{description}</p>
+      )}
       {actionLabel && actionHref && (
         <Link
           to={actionHref}

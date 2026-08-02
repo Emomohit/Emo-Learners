@@ -9,9 +9,15 @@ export const Route = createFileRoute("/quizzes/")({
   head: () => ({
     meta: [
       { title: "Quizzes — EMO Learners" },
-      { name: "description", content: "Topic-wise interactive quizzes with instant feedback and explanations." },
+      {
+        name: "description",
+        content: "Topic-wise interactive quizzes with instant feedback and explanations.",
+      },
       { property: "og:title", content: "Quizzes — EMO Learners" },
-      { property: "og:description", content: "Topic-wise interactive quizzes with instant feedback and explanations." },
+      {
+        property: "og:description",
+        content: "Topic-wise interactive quizzes with instant feedback and explanations.",
+      },
     ],
   }),
   component: QuizzesIndex,
@@ -27,12 +33,15 @@ function QuizzesIndex() {
         <div className="pointer-events-none absolute inset-0 grid-bg opacity-40" />
         <div className="pointer-events-none absolute inset-0 radial-glow" />
         <div className="relative mx-auto max-w-6xl">
-          <span className="font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-primary">// Practice</span>
+          <span className="font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-primary">
+            // Practice
+          </span>
           <h1 className="mt-4 font-display text-5xl font-bold leading-[0.85] tracking-tighter md:text-7xl">
             Quizzes <span className="grad-text">that teach.</span>
           </h1>
           <p className="mt-6 max-w-xl text-muted-foreground">
-            Short, focused rounds. Instant feedback after every answer with the why. Built for the bus, the break, the boring class.
+            Short, focused rounds. Instant feedback after every answer with the why. Built for the
+            bus, the break, the boring class.
           </p>
         </div>
       </section>
@@ -55,7 +64,10 @@ function QuizzesIndex() {
               <h3 className="mt-6 font-display text-2xl font-bold">{q.title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{q.description}</p>
               <div className="mt-6 flex items-center justify-between border-t border-border pt-5 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-                <span><Trophy className="mr-1 inline h-3 w-3 text-primary" /> {q.questions.length} Q · {q.minutes} min</span>
+                <span>
+                  <Trophy className="mr-1 inline h-3 w-3 text-primary" /> {q.questions.length} Q ·{" "}
+                  {q.minutes} min
+                </span>
                 <span className="inline-flex items-center gap-1 text-primary opacity-0 transition-opacity group-hover:opacity-100">
                   Start <ArrowRight className="h-3 w-3" />
                 </span>

@@ -6,7 +6,8 @@ import type { Course, CourseChapter } from "./course-data";
 
 const dsaChapters: CourseChapter[] = [
   {
-    id: 1, t: 0,
+    id: 1,
+    t: 0,
     title: "Big-O & How to Think About Speed",
     topic: "The vocabulary every serious engineer speaks.",
     notes: [
@@ -24,7 +25,8 @@ for i in range(n):        # O(n)
 # Answer: O(n²)`,
   },
   {
-    id: 2, t: 400,
+    id: 2,
+    t: 400,
     title: "Arrays & Dynamic Arrays",
     topic: "The workhorse data structure.",
     notes: [
@@ -40,7 +42,8 @@ for i in range(1_000_000):
     nums.append(i)`,
   },
   {
-    id: 3, t: 800,
+    id: 3,
+    t: 800,
     title: "Strings",
     topic: "Character sequences and their gotchas.",
     notes: [
@@ -59,7 +62,8 @@ def is_pal(s):
     return True`,
   },
   {
-    id: 4, t: 1200,
+    id: 4,
+    t: 1200,
     title: "Hash Maps & Sets",
     topic: "Constant-time lookups.",
     notes: [
@@ -75,7 +79,8 @@ freq = Counter("mississippi")
 print(freq)  # {'i': 4, 's': 4, 'p': 2, 'm': 1}`,
   },
   {
-    id: 5, t: 1600,
+    id: 5,
+    t: 1600,
     title: "Two Pointers",
     topic: "Twin cursors, single pass.",
     notes: [
@@ -95,7 +100,8 @@ def dedupe(a):
     return k`,
   },
   {
-    id: 6, t: 2000,
+    id: 6,
+    t: 2000,
     title: "Sliding Window",
     topic: "Reuse work as the window moves.",
     notes: [
@@ -116,7 +122,8 @@ def longest_unique(s):
     return best`,
   },
   {
-    id: 7, t: 2400,
+    id: 7,
+    t: 2400,
     title: "Stacks — LIFO",
     topic: "The last-in-first-out mindset.",
     notes: [
@@ -136,7 +143,8 @@ def next_greater(a):
     return res`,
   },
   {
-    id: 8, t: 2800,
+    id: 8,
+    t: 2800,
     title: "Queues & Deques",
     topic: "First-in-first-out, plus double-ended.",
     notes: [
@@ -154,7 +162,8 @@ while q:
     # ...enqueue neighbors...`,
   },
   {
-    id: 9, t: 3200,
+    id: 9,
+    t: 3200,
     title: "Linked Lists",
     topic: "Nodes and pointers.",
     notes: [
@@ -175,7 +184,8 @@ def reverse(head):
     return prev`,
   },
   {
-    id: 10, t: 3600,
+    id: 10,
+    t: 3600,
     title: "Recursion & the Call Stack",
     topic: "Solving problems by shrinking them.",
     notes: [
@@ -191,7 +201,8 @@ def reverse(head):
     return n * factorial(n - 1)`,
   },
   {
-    id: 11, t: 4000,
+    id: 11,
+    t: 4000,
     title: "Sorting Algorithms",
     topic: "Bubble, insertion, merge, quick, heap.",
     notes: [
@@ -216,7 +227,8 @@ def merge(l, r):
     return out + l[i:] + r[j:]`,
   },
   {
-    id: 12, t: 4400,
+    id: 12,
+    t: 4400,
     title: "Binary Search",
     topic: "Halving the search space.",
     notes: [
@@ -236,7 +248,8 @@ def merge(l, r):
     return -1`,
   },
   {
-    id: 13, t: 4800,
+    id: 13,
+    t: 4800,
     title: "Trees & Traversals",
     topic: "Hierarchy in every interview.",
     notes: [
@@ -257,7 +270,8 @@ def preorder(node, out):
     preorder(node.r, out)`,
   },
   {
-    id: 14, t: 5200,
+    id: 14,
+    t: 5200,
     title: "Binary Search Trees",
     topic: "Ordered trees with O(log n) hopes.",
     notes: [
@@ -274,7 +288,8 @@ def preorder(node, out):
     return None`,
   },
   {
-    id: 15, t: 5600,
+    id: 15,
+    t: 5600,
     title: "Heaps & Priority Queues",
     topic: "Repeatedly grab the smallest (or largest).",
     notes: [
@@ -291,7 +306,8 @@ for x in [4, 1, 7, 3]:
 print(heapq.heappop(h))  # 1`,
   },
   {
-    id: 16, t: 6000,
+    id: 16,
+    t: 6000,
     title: "Graphs — BFS & DFS",
     topic: "Vertices, edges, and how to walk them.",
     notes: [
@@ -312,7 +328,8 @@ print(heapq.heappop(h))  # 1`,
     return out`,
   },
   {
-    id: 17, t: 6400,
+    id: 17,
+    t: 6400,
     title: "Backtracking",
     topic: "Try, recurse, undo.",
     notes: [
@@ -337,7 +354,8 @@ print(heapq.heappop(h))  # 1`,
     return res`,
   },
   {
-    id: 18, t: 6800,
+    id: 18,
+    t: 6800,
     title: "Dynamic Programming — Intro",
     topic: "Remember to stop repeating yourself.",
     notes: [
@@ -355,7 +373,8 @@ def fib(n):
     return a`,
   },
   {
-    id: 19, t: 7200,
+    id: 19,
+    t: 7200,
     title: "DP Patterns You'll See Again",
     topic: "LCS, knapsack, coin change, edit distance.",
     notes: [
@@ -376,7 +395,8 @@ def coin_change(coins, amount):
     return -1 if dp[amount] == INF else dp[amount]`,
   },
   {
-    id: 20, t: 7600,
+    id: 20,
+    t: 7600,
     title: "System Design Lite for Coders",
     topic: "Data structures + tradeoffs, out in the wild.",
     notes: [
@@ -408,8 +428,8 @@ export const dsaCourse: Course = {
   language: "DSA",
   title: "Data Structures & Algorithms — Interview Ready",
   tagline: "20 chapters. Language-agnostic. Fully practiced.",
-    description:
-      "Focused DSA track: complexity, arrays, strings, hashing, stacks, queues, linked lists, recursion, sorting, trees, graphs, backtracking, DP & system design.",
+  description:
+    "Focused DSA track: complexity, arrays, strings, hashing, stacks, queues, linked lists, recursion, sorting, trees, graphs, backtracking, DP & system design.",
   emoji: "🧠",
   level: "Beginner → Advanced",
   hours: "Self-paced",

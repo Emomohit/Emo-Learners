@@ -33,7 +33,8 @@ function AuthPage() {
 
   useEffect(() => {
     if (!loading && user) {
-      const stored = typeof window !== "undefined" ? sessionStorage.getItem("postAuthRedirect") : null;
+      const stored =
+        typeof window !== "undefined" ? sessionStorage.getItem("postAuthRedirect") : null;
       const dest = stored && stored.startsWith("/") && !stored.startsWith("//") ? stored : nextPath;
       if (typeof window !== "undefined") sessionStorage.removeItem("postAuthRedirect");
       nav({ to: dest });
@@ -82,7 +83,6 @@ function AuthPage() {
     }
   };
 
-
   return (
     <div className="min-h-screen">
       <Navbar />
@@ -104,7 +104,6 @@ function AuthPage() {
             </p>
 
             <div className="mt-6" />
-
 
             <form onSubmit={submit} className="space-y-3">
               {mode === "signup" && (
@@ -155,7 +154,8 @@ function AuthPage() {
                   <button
                     type="button"
                     onClick={async () => {
-                      if (!email) return toast.error("Enter your email first, then click Forgot password.");
+                      if (!email)
+                        return toast.error("Enter your email first, then click Forgot password.");
                       try {
                         const { error } = await supabase.auth.resetPasswordForEmail(email, {
                           redirectTo: `${window.location.origin}/reset-password`,
@@ -183,12 +183,19 @@ function AuthPage() {
 
             <p className="mt-5 text-center text-xs text-muted-foreground">
               {mode === "signin" ? "New here?" : "Already have an account?"}{" "}
-              <button onClick={() => setMode(mode === "signin" ? "signup" : "signin")} className="font-bold text-primary hover:underline">
+              <button
+                onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
+                className="font-bold text-primary hover:underline"
+              >
                 {mode === "signin" ? "Create account" : "Sign in"}
               </button>
             </p>
             <p className="mt-3 text-center text-[10px] text-muted-foreground">
-              By continuing you agree to our <Link to="/privacy-policy" className="underline">Privacy Policy</Link>.
+              By continuing you agree to our{" "}
+              <Link to="/privacy-policy" className="underline">
+                Privacy Policy
+              </Link>
+              .
             </p>
           </div>
         </div>

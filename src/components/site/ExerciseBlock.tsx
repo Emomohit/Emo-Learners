@@ -11,9 +11,7 @@ export function ExerciseBlock({ exercise }: Props) {
     <div className="panel p-5 md:p-6">
       <div className="flex items-center gap-2">
         <Terminal className="h-4 w-4 text-primary" />
-        <h4 className="font-display text-lg font-bold tracking-tight">
-          Hands-on exercise
-        </h4>
+        <h4 className="font-display text-lg font-bold tracking-tight">Hands-on exercise</h4>
       </div>
 
       <p className="mt-4 text-sm leading-relaxed text-foreground/90">{exercise.prompt}</p>
@@ -23,7 +21,7 @@ export function ExerciseBlock({ exercise }: Props) {
           Expected output
         </div>
         <pre className="mt-2 whitespace-pre-wrap font-mono text-xs leading-relaxed text-foreground/90">
-{exercise.expected}
+          {exercise.expected}
         </pre>
       </div>
 
@@ -44,7 +42,7 @@ export function ExerciseBlock({ exercise }: Props) {
 
       {revealed && (
         <pre className="mt-4 overflow-x-auto rounded-lg border border-border bg-background/80 p-4 font-mono text-xs leading-relaxed text-foreground/90">
-{exercise.solution}
+          {exercise.solution}
         </pre>
       )}
     </div>

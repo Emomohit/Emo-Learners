@@ -32,12 +32,7 @@ const javaExtras: CourseExtras = {
     quiz: [
       {
         q: "Which line will NOT compile?",
-        options: [
-          "int x = 5;",
-          "double d = 3;",
-          "int y = 3.14;",
-          "var z = 10;",
-        ],
+        options: ["int x = 5;", "double d = 3;", "int y = 3.14;", "var z = 10;"],
         answer: 2,
         why: "3.14 is a double — assigning it to an int needs an explicit cast.",
       },
@@ -54,14 +49,15 @@ const javaExtras: CourseExtras = {
         why: "String is an object; the other three are primitives.",
       },
       {
-        q: "`var name = \"Mohit\";` — what is the type of `name`?",
+        q: '`var name = "Mohit";` — what is the type of `name`?',
         options: ["Object", "var", "String", "char[]"],
         answer: 2,
         why: "`var` infers the type at compile time — the compiler picks String.",
       },
     ],
     exercise: {
-      prompt: "Declare three variables — your name (String), your age (int), and your CGPA (double). Print them on one line, comma separated.",
+      prompt:
+        "Declare three variables — your name (String), your age (int), and your CGPA (double). Print them on one line, comma separated.",
       expected: "Mohit, 21, 8.4",
       solution: `String name = "Mohit";
 int age = 21;
@@ -107,7 +103,8 @@ System.out.println(name + ", " + age + ", " + cgpa);`,
       },
     ],
     exercise: {
-      prompt: "Read an integer n from `Scanner`. Print the sum of all even numbers from 1 to n. If n = 10, output should be 30.",
+      prompt:
+        "Read an integer n from `Scanner`. Print the sum of all even numbers from 1 to n. If n = 10, output should be 30.",
       expected: "30",
       solution: `Scanner sc = new Scanner(System.in);
 int n = sc.nextInt();
@@ -142,7 +139,12 @@ System.out.println(sum);`,
       },
       {
         q: "You created a class with no constructor. Can you still do `new MyClass()`?",
-        options: ["No", "Only if it's static", "Yes, Java adds a default no-arg constructor", "Only inside main"],
+        options: [
+          "No",
+          "Only if it's static",
+          "Yes, Java adds a default no-arg constructor",
+          "Only inside main",
+        ],
         answer: 2,
         why: "If you don't define any constructor, the compiler generates a public no-arg default constructor.",
       },
@@ -154,7 +156,8 @@ System.out.println(sum);`,
       },
     ],
     exercise: {
-      prompt: "Create a `Book` class with fields `title` (String) and `pages` (int), a constructor that takes both, and a method `summary()` that returns `\"<title> — <pages>p\"`. Instantiate `new Book(\"Atomic Habits\", 320)` and print its summary.",
+      prompt:
+        'Create a `Book` class with fields `title` (String) and `pages` (int), a constructor that takes both, and a method `summary()` that returns `"<title> — <pages>p"`. Instantiate `new Book("Atomic Habits", 320)` and print its summary.',
       expected: "Atomic Habits — 320p",
       solution: `class Book {
   String title; int pages;
@@ -202,7 +205,8 @@ System.out.println(new Book("Atomic Habits", 320).summary());`,
       },
     ],
     exercise: {
-      prompt: "Create `Animal` with method `speak()` printing \"Some sound\". Create `Dog extends Animal` overriding `speak()` to print \"Woof\". `new Dog().speak();` should print Woof.",
+      prompt:
+        'Create `Animal` with method `speak()` printing "Some sound". Create `Dog extends Animal` overriding `speak()` to print "Woof". `new Dog().speak();` should print Woof.',
       expected: "Woof",
       solution: `class Animal { void speak() { System.out.println("Some sound"); } }
 class Dog extends Animal { @Override void speak() { System.out.println("Woof"); } }
@@ -247,7 +251,8 @@ new Dog().speak();`,
       },
     ],
     exercise: {
-      prompt: "Define an interface `Playable` with method `play()`. Make a class `Music` that implements it and prints \"🎵 playing\". Call `new Music().play();`.",
+      prompt:
+        'Define an interface `Playable` with method `play()`. Make a class `Music` that implements it and prints "🎵 playing". Call `new Music().play();`.',
       expected: "🎵 playing",
       solution: `interface Playable { void play(); }
 class Music implements Playable {
@@ -260,7 +265,12 @@ new Music().play();`,
     quiz: [
       {
         q: "Checked exceptions extend…",
-        options: ["Error", "RuntimeException", "Exception (but NOT RuntimeException)", "Throwable directly"],
+        options: [
+          "Error",
+          "RuntimeException",
+          "Exception (but NOT RuntimeException)",
+          "Throwable directly",
+        ],
         answer: 2,
         why: "Checked exceptions extend Exception. Unchecked extend RuntimeException.",
       },
@@ -294,7 +304,8 @@ new Music().play();`,
       },
     ],
     exercise: {
-      prompt: "Read an integer with `Integer.parseInt(sc.nextLine())`. If parsing fails, print \"Invalid input\" and don't crash.",
+      prompt:
+        'Read an integer with `Integer.parseInt(sc.nextLine())`. If parsing fails, print "Invalid input" and don\'t crash.',
       expected: "Invalid input",
       solution: `try {
   int n = Integer.parseInt(new Scanner(System.in).nextLine());
@@ -324,7 +335,7 @@ new Music().play();`,
           "`new ArrayList<>().add(1)`",
           "`List.of(1,2,3).add(4)`",
           "`new HashSet<>().remove(1)`",
-          "`new HashMap<>().put(\"a\", 1)`",
+          '`new HashMap<>().put("a", 1)`',
         ],
         answer: 1,
         why: "`List.of` returns an IMMUTABLE list. Any mutation throws UnsupportedOperationException.",
@@ -337,7 +348,7 @@ new Music().play();`,
       },
     ],
     exercise: {
-      prompt: "Given `String[] words = {\"go\", \"go\", \"build\"}`, print each unique word.",
+      prompt: 'Given `String[] words = {"go", "go", "build"}`, print each unique word.',
       expected: "go\nbuild",
       solution: `String[] words = {"go", "go", "build"};
 Set<String> seen = new LinkedHashSet<>(List.of(words));
@@ -370,14 +381,15 @@ seen.forEach(System.out::println);`,
         why: "`Predicate<T>.test(T)` returns a boolean — it's a test.",
       },
       {
-        q: "`() -> System.out.println(\"hi\")` matches which interface?",
+        q: '`() -> System.out.println("hi")` matches which interface?',
         options: ["Runnable", "Function", "Consumer", "Supplier"],
         answer: 0,
         why: "No args and no return — that's Runnable (or any custom void-no-arg functional interface).",
       },
     ],
     exercise: {
-      prompt: "Using a lambda, sort a `List<String>` of `[\"go\", \"build\", \"a\", \"lot\"]` by length ascending.",
+      prompt:
+        'Using a lambda, sort a `List<String>` of `["go", "build", "a", "lot"]` by length ascending.',
       expected: "[a, go, lot, build]",
       solution: `List<String> words = new ArrayList<>(List.of("go", "build", "a", "lot"));
 words.sort((x, y) -> Integer.compare(x.length(), y.length()));
@@ -388,7 +400,12 @@ System.out.println(words);`,
     quiz: [
       {
         q: "Streams are…",
-        options: ["Eager and reusable", "Lazy and single-use", "Always parallel", "Always sequential"],
+        options: [
+          "Eager and reusable",
+          "Lazy and single-use",
+          "Always parallel",
+          "Always sequential",
+        ],
         answer: 1,
         why: "Nothing happens until a terminal op, and a stream can only be consumed once.",
       },
@@ -422,7 +439,8 @@ System.out.println(words);`,
       },
     ],
     exercise: {
-      prompt: "Given a list of ints [1..10], use a stream to compute the sum of the squares of the even numbers.",
+      prompt:
+        "Given a list of ints [1..10], use a stream to compute the sum of the squares of the even numbers.",
       expected: "220",
       solution: `int sum = IntStream.rangeClosed(1, 10)
   .filter(n -> n % 2 == 0)
@@ -447,18 +465,18 @@ const cExtras: CourseExtras = {
       },
       {
         q: "Which is the correct char declaration?",
-        options: [
-          "char c = \"a\";",
-          "char c = 'a';",
-          "String c = \"a\";",
-          "char c = a;",
-        ],
+        options: ['char c = "a";', "char c = 'a';", 'String c = "a";', "char c = a;"],
         answer: 1,
         why: "Single quotes for chars, double quotes for strings. Double quotes make a char[].",
       },
       {
         q: "The type `unsigned int` cannot store…",
-        options: ["0", "The value 4294967295 (on 32-bit)", "Negative numbers", "Very large numbers"],
+        options: [
+          "0",
+          "The value 4294967295 (on 32-bit)",
+          "Negative numbers",
+          "Very large numbers",
+        ],
         answer: 2,
         why: "Unsigned types drop the sign bit — they represent 0 and positive values only.",
       },
@@ -475,7 +493,8 @@ const cExtras: CourseExtras = {
       },
     ],
     exercise: {
-      prompt: "Declare an int, a float, and a char. Print them each with the correct format specifier.",
+      prompt:
+        "Declare an int, a float, and a char. Print them each with the correct format specifier.",
       expected: "21 3.14 A",
       solution: `int age = 21;\nfloat pi = 3.14f;\nchar grade = 'A';\nprintf("%d %.2f %c\\n", age, pi, grade);`,
     },
@@ -483,7 +502,7 @@ const cExtras: CourseExtras = {
   4: {
     quiz: [
       {
-        q: "You forgot the `&` in `scanf(\"%d\", n);`. What happens?",
+        q: 'You forgot the `&` in `scanf("%d", n);`. What happens?',
         options: [
           "Compile error",
           "It works fine",
@@ -500,7 +519,7 @@ const cExtras: CourseExtras = {
         why: "%lf for scanf reading a double. %f in printf also works for doubles (they get promoted).",
       },
       {
-        q: "`printf(\"%d\\n\", 3.14);` prints what?",
+        q: '`printf("%d\\n", 3.14);` prints what?',
         options: ["3.14", "3", "Undefined — wrong specifier", "Compile error"],
         answer: 2,
         why: "Mismatched format specifier and argument is UB. The compiler may warn but won't stop you.",
@@ -565,12 +584,17 @@ const cExtras: CourseExtras = {
     quiz: [
       {
         q: "What is `arr[5]` if `int arr[5]`?",
-        options: ["The last element", "The 5th element (0-indexed)", "Undefined behavior — one past the end", "0"],
+        options: [
+          "The last element",
+          "The 5th element (0-indexed)",
+          "Undefined behavior — one past the end",
+          "0",
+        ],
         answer: 2,
         why: "Valid indices are 0..4. arr[5] is one past the end — reading it is UB.",
       },
       {
-        q: "`int arr[3] = {1, 2, 3}; printf(\"%zu\", sizeof(arr));` prints (on 32-bit int)?",
+        q: '`int arr[3] = {1, 2, 3}; printf("%zu", sizeof(arr));` prints (on 32-bit int)?',
         options: ["3", "12", "4", "Depends on the compiler"],
         answer: 1,
         why: "3 ints × 4 bytes each = 12 bytes.",
@@ -588,7 +612,12 @@ const cExtras: CourseExtras = {
       },
       {
         q: "Can you resize a `int arr[5]` at runtime?",
-        options: ["Yes, use realloc", "No, its size is fixed at declaration", "Only in C99+", "Yes, use arr = new int[10]"],
+        options: [
+          "Yes, use realloc",
+          "No, its size is fixed at declaration",
+          "Only in C99+",
+          "Yes, use arr = new int[10]",
+        ],
         answer: 1,
         why: "Static arrays are fixed at declaration. For resizable storage, use malloc/realloc on the heap.",
       },
@@ -608,7 +637,7 @@ const cExtras: CourseExtras = {
         why: "The null terminator '\\0' (a byte of value 0) marks the end of a C string.",
       },
       {
-        q: "`char s[] = \"hi\";` — what is `sizeof(s)`?",
+        q: '`char s[] = "hi";` — what is `sizeof(s)`?',
         options: ["2", "3", "4", "Undefined"],
         answer: 1,
         why: "'h', 'i', '\\0' — three chars.",
@@ -620,13 +649,8 @@ const cExtras: CourseExtras = {
         why: "gets has no length limit — it's been removed from modern C. Use fgets.",
       },
       {
-        q: "`strcmp(\"abc\", \"abd\")` returns…",
-        options: [
-          "0",
-          "A positive number",
-          "A negative number",
-          "1 or -1 only",
-        ],
+        q: '`strcmp("abc", "abd")` returns…',
+        options: ["0", "A positive number", "A negative number", "1 or -1 only"],
         answer: 2,
         why: "strcmp returns negative if s1 < s2, 0 if equal, positive if s1 > s2. 'c' < 'd' so this is negative.",
       },
@@ -647,12 +671,7 @@ const cExtras: CourseExtras = {
       },
       {
         q: "`int *p = NULL; *p = 10;` — what happens?",
-        options: [
-          "Sets p to 10",
-          "Compile error",
-          "Segfault (dereferencing NULL)",
-          "Nothing",
-        ],
+        options: ["Sets p to 10", "Compile error", "Segfault (dereferencing NULL)", "Nothing"],
         answer: 2,
         why: "Dereferencing a NULL pointer is undefined behavior — on most systems it segfaults.",
       },
@@ -670,7 +689,8 @@ const cExtras: CourseExtras = {
       },
     ],
     exercise: {
-      prompt: "Write a function `void increment(int *n)` that increments the caller's integer. Call it on a local `int x = 4;` — after the call, x should be 5.",
+      prompt:
+        "Write a function `void increment(int *n)` that increments the caller's integer. Call it on a local `int x = 4;` — after the call, x should be 5.",
       expected: "5",
       solution: `void increment(int *n) { (*n)++; }
 int main() {
@@ -702,7 +722,12 @@ int main() {
       },
       {
         q: "You free a pointer but keep using it. What is that called?",
-        options: ["Memory leak", "Dangling pointer / use-after-free", "Double free", "Stack overflow"],
+        options: [
+          "Memory leak",
+          "Dangling pointer / use-after-free",
+          "Double free",
+          "Stack overflow",
+        ],
         answer: 1,
         why: "Using a freed pointer is a use-after-free — classic UB. Set p = NULL after free() to catch this.",
       },
@@ -714,7 +739,8 @@ int main() {
       },
     ],
     exercise: {
-      prompt: "Allocate an int array of size n (read from stdin), fill it with i*i, print the sum, then free.",
+      prompt:
+        "Allocate an int array of size n (read from stdin), fill it with i*i, print the sum, then free.",
       expected: "n = 4\nSum = 14",
       solution: `int n;\nscanf("%d", &n);\nint *arr = malloc(n * sizeof(int));\nif (!arr) return 1;\nint sum = 0;\nfor (int i = 0; i < n; i++) { arr[i] = i * i; sum += arr[i]; }\nprintf("Sum = %d\\n", sum);\nfree(arr);\narr = NULL;`,
     },
@@ -729,18 +755,18 @@ int main() {
       },
       {
         q: "`typedef struct { int x; } Point;` lets you write…",
-        options: [
-          "struct Point p;",
-          "Point p;",
-          "typedef p;",
-          "struct p;",
-        ],
+        options: ["struct Point p;", "Point p;", "typedef p;", "struct p;"],
         answer: 1,
         why: "typedef gives you a plain type alias — no `struct` keyword required.",
       },
       {
         q: "Structs in C can contain…",
-        options: ["Methods", "Other structs, arrays, and pointers", "Static variables like Java classes", "Nothing but ints"],
+        options: [
+          "Methods",
+          "Other structs, arrays, and pointers",
+          "Static variables like Java classes",
+          "Nothing but ints",
+        ],
         answer: 1,
         why: "C structs are pure data records. They can nest and hold any type of data. No methods.",
       },
@@ -757,7 +783,8 @@ int main() {
       },
     ],
     exercise: {
-      prompt: "Define a struct Student with fields name (char[50]) and marks (int). Fill one and print it.",
+      prompt:
+        "Define a struct Student with fields name (char[50]) and marks (int). Fill one and print it.",
       expected: "Mohit scored 95",
       solution: `typedef struct { char name[50]; int marks; } Student;\nStudent s = {"Mohit", 95};\nprintf("%s scored %d\\n", s.name, s.marks);`,
     },
@@ -801,9 +828,11 @@ const dsaExtras: CourseExtras = {
       },
     ],
     exercise: {
-      prompt: "Given a function that does two independent single loops (each n) then a nested loop of n × n, state the overall time complexity in Big-O.",
+      prompt:
+        "Given a function that does two independent single loops (each n) then a nested loop of n × n, state the overall time complexity in Big-O.",
       expected: "O(n²)",
-      solution: "O(n) + O(n) + O(n²) → dominated by n² → O(n²). Constants and slower-growing terms drop.",
+      solution:
+        "O(n) + O(n) + O(n²) → dominated by n² → O(n²). Constants and slower-growing terms drop.",
     },
   },
   2: {
@@ -834,7 +863,8 @@ const dsaExtras: CourseExtras = {
       },
     ],
     exercise: {
-      prompt: "Given an int array and a target, return the FIRST index where the target appears, or -1.",
+      prompt:
+        "Given an int array and a target, return the FIRST index where the target appears, or -1.",
       expected: "target=7 → 2",
       solution: `def find_first(arr, target):
     for i, v in enumerate(arr):
@@ -873,7 +903,7 @@ const dsaExtras: CourseExtras = {
         q: "Which is TRUE about strings in most languages?",
         options: [
           "They are mutable everywhere",
-          "In Python/Java/JS they are immutable — `s + \"a\"` builds a new string",
+          'In Python/Java/JS they are immutable — `s + "a"` builds a new string',
           "They are always O(1) to concatenate",
           "They cannot contain non-ASCII characters",
         ],
@@ -913,7 +943,12 @@ const dsaExtras: CourseExtras = {
       },
       {
         q: "You want counts of each character. Best structure?",
-        options: ["Array of 26/128", "HashMap<Char, Int>", "Both work — array wins for ASCII", "Neither"],
+        options: [
+          "Array of 26/128",
+          "HashMap<Char, Int>",
+          "Both work — array wins for ASCII",
+          "Neither",
+        ],
         answer: 2,
         why: "For a small fixed alphabet, an array is faster and simpler. For general strings, use a hash map.",
       },
@@ -951,7 +986,12 @@ const dsaExtras: CourseExtras = {
       },
       {
         q: "For an unsorted array, can two-pointer solve pair-sum in O(n) without extra memory?",
-        options: ["Yes, always", "No — you'd need to sort first (O(n log n)) or use a hash set (O(n) with O(n) space)", "Only for positive numbers", "Only for small n"],
+        options: [
+          "Yes, always",
+          "No — you'd need to sort first (O(n log n)) or use a hash set (O(n) with O(n) space)",
+          "Only for positive numbers",
+          "Only for small n",
+        ],
         answer: 1,
         why: "Two pointers rely on order. Without sorting, use a hash set.",
       },
@@ -968,7 +1008,8 @@ const dsaExtras: CourseExtras = {
       },
     ],
     exercise: {
-      prompt: "Given a SORTED array and target, return the two indices whose values sum to target (1-based), or [-1, -1].",
+      prompt:
+        "Given a SORTED array and target, return the two indices whose values sum to target (1-based), or [-1, -1].",
       expected: "[2, 7, 11, 15], target=9 → [1, 2]",
       solution: `def two_sum_sorted(arr, target):
     l, r = 0, len(arr) - 1
@@ -1045,12 +1086,7 @@ const dsaExtras: CourseExtras = {
       },
       {
         q: "Which is a classic stack problem?",
-        options: [
-          "Cycle detection",
-          "Valid parentheses",
-          "Kth smallest element",
-          "Binary search",
-        ],
+        options: ["Cycle detection", "Valid parentheses", "Kth smallest element", "Binary search"],
         answer: 1,
         why: "Push open brackets, pop when you see a close — must match.",
       },
@@ -1085,12 +1121,7 @@ const dsaExtras: CourseExtras = {
       },
       {
         q: "Which uses a queue naturally?",
-        options: [
-          "Depth-first search",
-          "Breadth-first search",
-          "Binary search",
-          "Merge sort",
-        ],
+        options: ["Depth-first search", "Breadth-first search", "Binary search", "Merge sort"],
         answer: 1,
         why: "BFS explores level by level — you enqueue neighbors and dequeue in order.",
       },
@@ -1108,7 +1139,8 @@ const dsaExtras: CourseExtras = {
       },
     ],
     exercise: {
-      prompt: "Simulate a print queue: process 5 jobs in the order they arrive. Print each job number as it's processed.",
+      prompt:
+        "Simulate a print queue: process 5 jobs in the order they arrive. Print each job number as it's processed.",
       expected: "1 2 3 4 5",
       solution: `from collections import deque
 q = deque(range(1, 6))
@@ -1175,12 +1207,7 @@ while q:
     quiz: [
       {
         q: "Every recursive function needs:",
-        options: [
-          "A loop",
-          "A base case",
-          "A global variable",
-          "Tail recursion",
-        ],
+        options: ["A loop", "A base case", "A global variable", "Tail recursion"],
         answer: 1,
         why: "Without a base case, recursion never stops — stack overflow.",
       },
@@ -1257,12 +1284,7 @@ print(people)`,
     quiz: [
       {
         q: "Binary search requires:",
-        options: [
-          "The array to be sorted",
-          "The array to be unsorted",
-          "A hash map",
-          "Recursion",
-        ],
+        options: ["The array to be sorted", "The array to be unsorted", "A hash map", "Recursion"],
         answer: 0,
         why: "Halving only works when order is known.",
       },
@@ -1318,7 +1340,12 @@ print(people)`,
       },
       {
         q: "Order of nodes visited in in-order traversal:",
-        options: ["root, left, right", "left, root, right", "left, right, root", "right, root, left"],
+        options: [
+          "root, left, right",
+          "left, root, right",
+          "left, right, root",
+          "right, root, left",
+        ],
         answer: 1,
         why: "In-order = LNR. On a BST it yields sorted output.",
       },
@@ -1380,7 +1407,8 @@ print(people)`,
       },
     ],
     exercise: {
-      prompt: "Insert values [5, 3, 8, 1, 4] into an empty BST and return an in-order traversal (should be sorted).",
+      prompt:
+        "Insert values [5, 3, 8, 1, 4] into an empty BST and return an in-order traversal (should be sorted).",
       expected: "[1, 3, 4, 5, 8]",
       solution: `class N:
     def __init__(s, v): s.v, s.l, s.r = v, None, None
@@ -1465,7 +1493,12 @@ def top_k(arr, k):
       },
       {
         q: "To avoid revisiting nodes:",
-        options: ["Sort the graph", "Maintain a `visited` set", "Use two pointers", "Use recursion"],
+        options: [
+          "Sort the graph",
+          "Maintain a `visited` set",
+          "Use two pointers",
+          "Use recursion",
+        ],
         answer: 1,
         why: "Mark visited on first encounter; skip on subsequent.",
       },
@@ -1561,7 +1594,12 @@ def bfs(graph, src):
       },
       {
         q: "Bottom-up DP =",
-        options: ["Recursion", "Fill a table iteratively from base cases up", "Sorting", "Backtracking"],
+        options: [
+          "Recursion",
+          "Fill a table iteratively from base cases up",
+          "Sorting",
+          "Backtracking",
+        ],
         answer: 1,
         why: "You build the answer piece by piece without recursion overhead.",
       },
@@ -1573,7 +1611,8 @@ def bfs(graph, src):
       },
     ],
     exercise: {
-      prompt: "Given `cost[]` where cost[i] is the price to step on stair i, find the min cost to reach the top (you can start from step 0 or 1, and take 1 or 2 steps at a time).",
+      prompt:
+        "Given `cost[]` where cost[i] is the price to step on stair i, find the min cost to reach the top (you can start from step 0 or 1, and take 1 or 2 steps at a time).",
       expected: "cost=[10, 15, 20] → 15",
       solution: `def min_cost(cost):
     n = len(cost)
@@ -1599,7 +1638,12 @@ def bfs(graph, src):
       },
       {
         q: "Coin-change (min coins) with unlimited coins is:",
-        options: ["Greedy always works", "DP over amount and coins, O(n·amount)", "O(1)", "O(coins!)"],
+        options: [
+          "Greedy always works",
+          "DP over amount and coins, O(n·amount)",
+          "O(1)",
+          "O(coins!)",
+        ],
         answer: 1,
         why: "Greedy fails on some coin sets (e.g. [1, 3, 4] for 6). DP is safe.",
       },
@@ -1634,12 +1678,7 @@ def bfs(graph, src):
     quiz: [
       {
         q: "A hash-based URL shortener stores mapping:",
-        options: [
-          "short_code → long_url",
-          "long_url → short_code",
-          "Both",
-          "Neither",
-        ],
+        options: ["short_code → long_url", "long_url → short_code", "Both", "Neither"],
         answer: 2,
         why: "One direction for redirect lookup, the other to avoid re-shortening the same URL.",
       },
@@ -1668,7 +1707,8 @@ def bfs(graph, src):
       },
     ],
     exercise: {
-      prompt: "Design an in-memory LRU cache with `get(key)` and `put(key, value)` both in O(1). Sketch the data structures involved.",
+      prompt:
+        "Design an in-memory LRU cache with `get(key)` and `put(key, value)` both in O(1). Sketch the data structures involved.",
       expected: "Hash map (key → node) + doubly-linked list (front = most recent)",
       solution: `from collections import OrderedDict
 class LRU:

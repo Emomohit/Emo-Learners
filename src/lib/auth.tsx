@@ -74,10 +74,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       } catch {
         // non-fatal — role fetch below still runs
       }
-      const { data } = await supabase
-        .from("user_roles")
-        .select("role")
-        .eq("user_id", uid);
+      const { data } = await supabase.from("user_roles").select("role").eq("user_id", uid);
       if (cancelled) return;
       const roles = (data ?? []).map((r) => r.role);
       setRole(roles.includes("admin") ? "admin" : roles.includes("student") ? "student" : null);

@@ -8,9 +8,16 @@ export const Route = createFileRoute("/internships")({
   head: () => ({
     meta: [
       { title: "Internships — EMO Learners" },
-      { name: "description", content: "Verified, skill-matched internships for Indian students. Launching soon — join Telegram for first access." },
+      {
+        name: "description",
+        content:
+          "Verified, skill-matched internships for Indian students. Launching soon — join Telegram for first access.",
+      },
       { property: "og:title", content: "Internships — EMO Learners" },
-      { property: "og:description", content: "Verified, skill-matched internships for Indian students. Launching soon." },
+      {
+        property: "og:description",
+        content: "Verified, skill-matched internships for Indian students. Launching soon.",
+      },
     ],
   }),
   component: InternshipsPage,
@@ -55,8 +62,8 @@ function InternshipsPage() {
             Intern<span className="grad-text">ships.</span>
           </h1>
           <p className="mx-auto mt-6 max-w-xl text-muted-foreground">
-            We're curating real internship opportunities for students who've built real skills.
-            Not generic job boards — verified, current, and matched to what you've been learning.
+            We're curating real internship opportunities for students who've built real skills. Not
+            generic job boards — verified, current, and matched to what you've been learning.
           </p>
           <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.25em] text-foreground">
             Be the first to know when we launch →
@@ -85,7 +92,10 @@ function InternshipsPage() {
       <section className="px-4 pb-24">
         <div className="mx-auto grid max-w-5xl gap-4 md:grid-cols-3">
           {promises.map((p) => (
-            <div key={p.title} className="relative panel p-7 backdrop-blur-sm transition-colors hover:border-primary/60">
+            <div
+              key={p.title}
+              className="relative panel p-7 backdrop-blur-sm transition-colors hover:border-primary/60"
+            >
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
                 {p.icon}
               </div>
@@ -105,8 +115,8 @@ function InternshipsPage() {
             In the meantime — <span className="text-primary">build skills.</span>
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-sm text-muted-foreground">
-            The students who get hired aren't the ones with the longest resumes. They're the ones who ship.
-            Start the 30-Day Python Challenge and stack real projects.
+            The students who get hired aren't the ones with the longest resumes. They're the ones
+            who ship. Start the 30-Day Python Challenge and stack real projects.
           </p>
         </div>
       </section>

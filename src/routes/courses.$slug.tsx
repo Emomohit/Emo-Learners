@@ -8,8 +8,17 @@ import { ExerciseBlock } from "@/components/site/ExerciseBlock";
 import { getCourse, chapterUrl, courses } from "@/lib/course-data";
 import { getChapterExtras } from "@/lib/course-extras";
 import {
-  ArrowLeft, ArrowRight, CheckCircle2, Circle, Clock, GraduationCap,
-  PlayCircle, Youtube, BookOpen, Sparkles, ListChecks,
+  ArrowLeft,
+  ArrowRight,
+  CheckCircle2,
+  Circle,
+  Clock,
+  GraduationCap,
+  PlayCircle,
+  Youtube,
+  BookOpen,
+  Sparkles,
+  ListChecks,
 } from "lucide-react";
 
 const SITE = "https://emolearners.vercel.app";
@@ -40,7 +49,10 @@ export const Route = createFileRoute("/courses/$slug")({
       <div className="mx-auto max-w-3xl px-6 py-32 text-center">
         <h1 className="font-display text-4xl font-bold">Course not found</h1>
         <p className="mt-3 text-muted-foreground">That course doesn't exist yet.</p>
-        <Link to="/courses" className="mt-6 inline-block rounded-full bg-primary px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-primary-foreground">
+        <Link
+          to="/courses"
+          className="mt-6 inline-block rounded-full bg-primary px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-primary-foreground"
+        >
           See all courses
         </Link>
       </div>
@@ -53,7 +65,12 @@ export const Route = createFileRoute("/courses/$slug")({
       <div className="mx-auto max-w-3xl px-6 py-32 text-center">
         <h1 className="font-display text-4xl font-bold">Something broke</h1>
         <p className="mt-3 text-sm text-muted-foreground">{error.message}</p>
-        <button onClick={reset} className="mt-6 rounded-full bg-primary px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-primary-foreground">Try again</button>
+        <button
+          onClick={reset}
+          className="mt-6 rounded-full bg-primary px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-primary-foreground"
+        >
+          Try again
+        </button>
       </div>
       <Footer />
     </div>
@@ -100,7 +117,8 @@ function CourseDetail() {
   const otherCourses = courses.filter((c) => c.slug !== slug);
   const currentIndex = course.chapters.findIndex((c) => c.id === selectedChapter.id);
   const prevChapter = currentIndex > 0 ? course.chapters[currentIndex - 1] : null;
-  const nextChapter = currentIndex < course.chapters.length - 1 ? course.chapters[currentIndex + 1] : null;
+  const nextChapter =
+    currentIndex < course.chapters.length - 1 ? course.chapters[currentIndex + 1] : null;
 
   return (
     <div className="min-h-screen">
@@ -108,10 +126,15 @@ function CourseDetail() {
 
       {/* Hero */}
       <section className="relative overflow-hidden px-6 pt-14 pb-10 md:pt-20">
-        <div className={`absolute inset-x-0 top-0 -z-10 h-[420px] bg-gradient-to-b ${course.accent} opacity-20 blur-3xl`} />
+        <div
+          className={`absolute inset-x-0 top-0 -z-10 h-[420px] bg-gradient-to-b ${course.accent} opacity-20 blur-3xl`}
+        />
         <div className="absolute inset-0 -z-10 grid-bg opacity-30" />
         <div className="mx-auto max-w-6xl animate-rise">
-          <Link to="/courses" className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-muted-foreground transition-colors hover:text-primary">
+          <Link
+            to="/courses"
+            className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-muted-foreground transition-colors hover:text-primary"
+          >
             <ArrowLeft className="h-3.5 w-3.5" /> All courses
           </Link>
           <div className="mt-6 grid gap-6 md:grid-cols-[auto_1fr] md:items-start">
@@ -123,12 +146,16 @@ function CourseDetail() {
               <h1 className="mt-3 font-display text-4xl font-bold tracking-tighter md:text-6xl">
                 {course.title}
               </h1>
-              <p className="mt-3 max-w-2xl text-base text-muted-foreground md:text-lg">{course.description}</p>
+              <p className="mt-3 max-w-2xl text-base text-muted-foreground md:text-lg">
+                {course.description}
+              </p>
               <div className="mt-5 flex flex-wrap gap-2 text-[11px] font-bold uppercase tracking-widest">
                 <Pill icon={<GraduationCap className="h-3 w-3" />}>{course.level}</Pill>
                 <Pill icon={<Clock className="h-3 w-3" />}>{course.hours}</Pill>
                 <Pill icon={<PlayCircle className="h-3 w-3" />}>{course.instructor}</Pill>
-                <Pill icon={<BookOpen className="h-3 w-3" />}>{course.chapters.length} chapters</Pill>
+                <Pill icon={<BookOpen className="h-3 w-3" />}>
+                  {course.chapters.length} chapters
+                </Pill>
                 <Pill icon={<ListChecks className="h-3 w-3" />}>Notes · Quizzes · Exercises</Pill>
               </div>
               <TeacherCredit
@@ -145,10 +172,15 @@ function CourseDetail() {
           <div className="mt-8 panel p-5">
             <div className="flex items-center justify-between text-xs font-bold uppercase tracking-widest">
               <span className="text-muted-foreground">Your progress</span>
-              <span className="text-primary">{done.size}/{course.chapters.length} · {progress}%</span>
+              <span className="text-primary">
+                {done.size}/{course.chapters.length} · {progress}%
+              </span>
             </div>
             <div className="mt-3 h-2 overflow-hidden rounded-full bg-background/60">
-              <div className="h-full bg-primary transition-all duration-700 ease-out" style={{ width: `${progress}%` }} />
+              <div
+                className="h-full bg-primary transition-all duration-700 ease-out"
+                style={{ width: `${progress}%` }}
+              />
             </div>
             <div className="mt-4 flex flex-wrap gap-3">
               {hasVideo && (
@@ -162,7 +194,12 @@ function CourseDetail() {
                 </a>
               )}
               <button
-                onClick={() => { setDone(new Set()); try { localStorage.removeItem(storageKey); } catch {} }}
+                onClick={() => {
+                  setDone(new Set());
+                  try {
+                    localStorage.removeItem(storageKey);
+                  } catch {}
+                }}
                 className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-muted-foreground transition-colors hover:text-primary"
               >
                 Reset progress
@@ -223,7 +260,9 @@ function CourseDetail() {
           {/* Main reading content */}
           <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-[0.25em] text-muted-foreground">
-              <span className="text-primary">Chapter {String(selectedChapter.id).padStart(2, "0")}</span>
+              <span className="text-primary">
+                Chapter {String(selectedChapter.id).padStart(2, "0")}
+              </span>
               <span className="opacity-40">·</span>
               <span>{selectedChapter.topic}</span>
             </div>
@@ -284,10 +323,12 @@ function CourseDetail() {
                   <span className="font-mono text-[10px] font-bold uppercase tracking-[0.3em] text-primary">
                     Snippet
                   </span>
-                  <span className="font-mono text-[10px] text-muted-foreground">{course.language.toLowerCase()}</span>
+                  <span className="font-mono text-[10px] text-muted-foreground">
+                    {course.language.toLowerCase()}
+                  </span>
                 </div>
                 <pre className="overflow-x-auto p-5 font-mono text-xs leading-relaxed text-foreground/90">
-{selectedChapter.snippet}
+                  {selectedChapter.snippet}
                 </pre>
               </div>
             )}
@@ -336,7 +377,9 @@ function CourseDetail() {
                     <div className="truncate text-sm font-semibold">{prevChapter.title}</div>
                   </div>
                 </button>
-              ) : <div className="flex-1" />}
+              ) : (
+                <div className="flex-1" />
+              )}
               {nextChapter ? (
                 <button
                   onClick={() => setSelectedId(nextChapter.id)}
@@ -350,7 +393,9 @@ function CourseDetail() {
                   </div>
                   <ArrowRight className="h-4 w-4 text-primary transition-transform group-hover:translate-x-1" />
                 </button>
-              ) : <div className="flex-1" />}
+              ) : (
+                <div className="flex-1" />
+              )}
             </div>
           </div>
         </div>
@@ -359,7 +404,9 @@ function CourseDetail() {
       {/* Other courses */}
       <section className="border-t border-border bg-surface/20 px-6 py-16">
         <div className="mx-auto max-w-6xl">
-          <h2 className="font-display text-2xl font-bold tracking-tight md:text-3xl">Keep learning</h2>
+          <h2 className="font-display text-2xl font-bold tracking-tight md:text-3xl">
+            Keep learning
+          </h2>
           <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {otherCourses.map((c) => {
               const href = c.slug === "python" ? "/challenge" : `/courses/${c.slug}`;
@@ -371,7 +418,9 @@ function CourseDetail() {
                 >
                   <div className="text-4xl">{c.emoji}</div>
                   <div className="min-w-0 flex-1">
-                    <div className="truncate font-display text-lg font-bold">{c.title.split(" — ")[0]}</div>
+                    <div className="truncate font-display text-lg font-bold">
+                      {c.title.split(" — ")[0]}
+                    </div>
                     <div className="truncate text-xs text-muted-foreground">{c.tagline}</div>
                   </div>
                   <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-1 group-hover:text-primary" />

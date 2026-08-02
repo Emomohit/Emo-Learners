@@ -11,9 +11,15 @@ export const Route = createFileRoute("/tests/")({
   head: () => ({
     meta: [
       { title: "Tests — EMO Learners" },
-      { name: "description", content: "Timed mock tests with scoring and a full review breakdown." },
+      {
+        name: "description",
+        content: "Timed mock tests with scoring and a full review breakdown.",
+      },
       { property: "og:title", content: "Tests — EMO Learners" },
-      { property: "og:description", content: "Timed mock tests with scoring and a full review breakdown." },
+      {
+        property: "og:description",
+        content: "Timed mock tests with scoring and a full review breakdown.",
+      },
     ],
   }),
   component: TestsIndex,
@@ -77,12 +83,15 @@ function TestsIndex() {
         <div className="pointer-events-none absolute inset-0 grid-bg opacity-40" />
         <div className="pointer-events-none absolute inset-0 radial-glow" />
         <div className="relative mx-auto max-w-6xl">
-          <span className="font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-primary">// Prove</span>
+          <span className="font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-primary">
+            // Prove
+          </span>
           <h1 className="mt-4 font-display text-5xl font-bold leading-[0.85] tracking-tighter md:text-7xl">
             Tests <span className="grad-text">under pressure.</span>
           </h1>
           <p className="mt-6 max-w-xl text-muted-foreground">
-            Longer, timed, and unforgiving. Score, review every answer, and learn where you actually stand.
+            Longer, timed, and unforgiving. Score, review every answer, and learn where you actually
+            stand.
           </p>
         </div>
       </section>
@@ -110,9 +119,14 @@ function TestsIndex() {
                 </div>
               </div>
               <h3 className="mt-6 font-display text-2xl font-bold">{t.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground line-clamp-2">{t.description}</p>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground line-clamp-2">
+                {t.description}
+              </p>
               <div className="mt-6 flex items-center justify-between border-t border-border pt-5 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-                <span><Timer className="mr-1 inline h-3 w-3 text-primary" /> {t.count} Q · {t.minutes} min</span>
+                <span>
+                  <Timer className="mr-1 inline h-3 w-3 text-primary" /> {t.count} Q · {t.minutes}{" "}
+                  min
+                </span>
                 <span className="inline-flex items-center gap-1 text-primary opacity-0 transition-opacity group-hover:opacity-100">
                   Start <ArrowRight className="h-3 w-3" />
                 </span>

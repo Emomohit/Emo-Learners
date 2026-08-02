@@ -10,9 +10,16 @@ export const Route = createFileRoute("/practice")({
   head: () => ({
     meta: [
       { title: "Practice — Quizzes, Tests & 30-Day Python | EMO Learners" },
-      { name: "description", content: "One place to practice: short quizzes with instant answers, timed mock tests, and the 30-day Python challenge." },
+      {
+        name: "description",
+        content:
+          "One place to practice: short quizzes with instant answers, timed mock tests, and the 30-day Python challenge.",
+      },
       { property: "og:title", content: "Practice — EMO Learners" },
-      { property: "og:description", content: "Quizzes, tests, and the 30-day Python challenge — all in one place." },
+      {
+        property: "og:description",
+        content: "Quizzes, tests, and the 30-day Python challenge — all in one place.",
+      },
       { property: "og:url", content: "https://emolearners.vercel.app/practice" },
     ],
     links: [{ rel: "canonical", href: "https://emolearners.vercel.app/practice" }],
@@ -41,8 +48,8 @@ function PracticePage() {
             Learn by <span className="grad-text">doing.</span>
           </h1>
           <p className="mt-6 max-w-xl text-muted-foreground">
-            Short quizzes with instant answers, timed mock tests, and a daily habit that
-            turns 30 days of small steps into your first Python project.
+            Short quizzes with instant answers, timed mock tests, and a daily habit that turns 30
+            days of small steps into your first Python project.
           </p>
         </div>
       </section>
@@ -94,13 +101,17 @@ function PracticePage() {
                   className="group relative overflow-hidden panel p-6 tilt-3d shine"
                 >
                   <div className="flex items-start justify-between">
-                    <span className="text-3xl" aria-hidden="true">{q.emoji}</span>
+                    <span className="text-3xl" aria-hidden="true">
+                      {q.emoji}
+                    </span>
                     <span className="rounded-full border border-primary/30 bg-primary/10 px-3 py-0.5 font-mono text-[9px] font-bold uppercase tracking-widest text-primary">
                       {q.topic}
                     </span>
                   </div>
                   <h3 className="mt-5 font-display text-xl font-bold">{q.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{q.description}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                    {q.description}
+                  </p>
                   <div className="mt-5 flex items-center justify-between border-t border-border pt-4 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
                     <span>
                       <Trophy className="mr-1 inline h-3 w-3 text-primary" />
@@ -130,13 +141,17 @@ function PracticePage() {
                   className="group relative overflow-hidden panel p-6 tilt-3d shine"
                 >
                   <div className="flex items-start justify-between">
-                    <span className="text-3xl" aria-hidden="true">{t.emoji}</span>
+                    <span className="text-3xl" aria-hidden="true">
+                      {t.emoji}
+                    </span>
                     <span className="rounded-full border border-primary/30 bg-primary/10 px-3 py-0.5 font-mono text-[9px] font-bold uppercase tracking-widest text-primary">
                       {t.topic}
                     </span>
                   </div>
                   <h3 className="mt-5 font-display text-xl font-bold">{t.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{t.description}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                    {t.description}
+                  </p>
                   <div className="mt-5 flex items-center justify-between border-t border-border pt-4 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
                     <span>
                       <Timer className="mr-1 inline h-3 w-3 text-primary" />
@@ -162,8 +177,8 @@ function PracticePage() {
                 30-Day <span className="text-primary">Python</span> Challenge
               </h2>
               <p className="mt-6 text-muted-foreground">
-                A small step every day. Watch a short lesson, read the notes, try the exercise.
-                In 30 days you go from zero Python to a first project you can show off.
+                A small step every day. Watch a short lesson, read the notes, try the exercise. In
+                30 days you go from zero Python to a first project you can show off.
               </p>
               <ul className="mt-6 space-y-3 text-sm text-muted-foreground">
                 <li>• Video lesson, notes, and code for each day</li>
@@ -181,9 +196,9 @@ function PracticePage() {
             <div className="rounded-3xl border border-border bg-gradient-to-br from-primary/15 via-surface/40 to-background p-8">
               <h3 className="font-display text-2xl font-bold">Why 30 days?</h3>
               <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-                Most students give up in the first week because they try to learn too much
-                at once. This challenge is built the other way — small daily steps, one topic
-                a day, so you keep showing up.
+                Most students give up in the first week because they try to learn too much at once.
+                This challenge is built the other way — small daily steps, one topic a day, so you
+                keep showing up.
               </p>
               <div className="mt-6 grid grid-cols-3 gap-3">
                 {[
@@ -191,7 +206,10 @@ function PracticePage() {
                   { k: "30", v: "Lessons" },
                   { k: "1", v: "Real project" },
                 ].map((s) => (
-                  <div key={s.v} className="rounded-xl border border-border bg-background/60 p-4 text-center">
+                  <div
+                    key={s.v}
+                    className="rounded-xl border border-border bg-background/60 p-4 text-center"
+                  >
                     <div className="font-display text-2xl font-bold text-primary">{s.k}</div>
                     <div className="mt-1 font-mono text-[9px] uppercase tracking-widest text-muted-foreground">
                       {s.v}

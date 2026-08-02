@@ -30,12 +30,37 @@ export type AnalyzeResult = {
   topic_freq: TopicFreq[];
   year_trend: YearTrend[];
 };
-export type PredictedQuestion = { question: string; probability: number; unit: string; marks: number; reason: string };
-export type PlanDay = { day: number; focus: string; topics: string[]; tasks: string[]; hours: number };
+export type PredictedQuestion = {
+  question: string;
+  probability: number;
+  unit: string;
+  marks: number;
+  reason: string;
+};
+export type PlanDay = {
+  day: number;
+  focus: string;
+  topics: string[];
+  tasks: string[];
+  hours: number;
+};
 export type PlanResult = { headline: string; strategy: string; days: PlanDay[]; skip: string[] };
-export type QuizQuestion = { q: string; options: string[]; answer: number; topic: string; explain: string };
+export type QuizQuestion = {
+  q: string;
+  options: string[];
+  answer: number;
+  topic: string;
+  explain: string;
+};
 
-export type RoadmapMilestone = { week: number; theme: string; subjects: string[]; topics: string[]; outcomes: string[]; resources: string[] };
+export type RoadmapMilestone = {
+  week: number;
+  theme: string;
+  subjects: string[];
+  topics: string[];
+  outcomes: string[];
+  resources: string[];
+};
 export type RoadmapResult = {
   title: string;
   summary: string;

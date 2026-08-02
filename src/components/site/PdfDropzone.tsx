@@ -30,53 +30,71 @@ async function extractPdfText(file: File): Promise<string> {
   return out.trim();
 }
 
-export function PdfDropzone({ onText, label = "Upload PDFs", hint = "Drop one or more PDFs. Text is extracted in your browser.", className = "" }: PdfDropzoneProps) {
+export function PdfDropzone({
+  onText,
+  label = "Upload PDFs",
+  hint = "Drop one or more PDFs. Text is extracted in your browser.",
+  className = "",
+}: PdfDropzoneProps) {
   const [files, setFiles] = useState<FileEntry[]>([]);
   const [texts, setTexts] = useState<string[]>([]);
   const [busy, setBusy] = useState(false);
   const [drag, setDrag] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const emit = useCallback((entries: FileEntry[], parts: string[]) => {
-    const combined = parts
-      .map((t, i) => `--- ${entries[i]?.name ?? `file ${i + 1}`} ---\n${t}`)
-      .join("\n\n");
-    onText(combined, entries);
-  }, [onText]);
+  const emit = useCallback(
+    (entries: FileEntry[], parts: string[]) => {
+      const combined = parts
+        .map((t, i) => `--- ${entries[i]?.name ?? `file ${i + 1}`} ---\n${t}`)
+        .join("\n\n");
+      onText(combined, entries);
+    },
+    [onText],
+  );
 
-  const addFiles = useCallback(async (list: FileList | File[]) => {
-    const MAX_BYTES = 20 * 1024 * 1024;
-    const MAX_FILES = 6;
-    const candidates = Array.from(list).filter((f) => f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf"));
-    if (candidates.length === 0) { toast.error("Only PDF files are supported"); return; }
-    const oversized = candidates.filter((f) => f.size > MAX_BYTES || f.size === 0);
-    if (oversized.length > 0) toast.error(`Skipped ${oversized.length} file(s) — each PDF must be under 20 MB.`);
-    const pdfs = candidates.filter((f) => f.size > 0 && f.size <= MAX_BYTES).slice(0, MAX_FILES);
-    if (pdfs.length === 0) return;
-
-    setBusy(true);
-    try {
-      const newEntries: FileEntry[] = [];
-      const newTexts: string[] = [];
-      for (const f of pdfs) {
-        try {
-          const t = await extractPdfText(f);
-          newEntries.push({ name: f.name, chars: t.length });
-          newTexts.push(t);
-        } catch (e) {
-          toast.error(`Failed to read ${f.name}: ${(e as Error).message}`);
-        }
+  const addFiles = useCallback(
+    async (list: FileList | File[]) => {
+      const MAX_BYTES = 20 * 1024 * 1024;
+      const MAX_FILES = 6;
+      const candidates = Array.from(list).filter(
+        (f) => f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf"),
+      );
+      if (candidates.length === 0) {
+        toast.error("Only PDF files are supported");
+        return;
       }
-      const nextEntries = [...files, ...newEntries];
-      const nextTexts = [...texts, ...newTexts];
-      setFiles(nextEntries);
-      setTexts(nextTexts);
-      emit(nextEntries, nextTexts);
-      if (newEntries.length) toast.success(`Loaded ${newEntries.length} PDF${newEntries.length > 1 ? "s" : ""}`);
-    } finally {
-      setBusy(false);
-    }
-  }, [files, texts, emit]);
+      const oversized = candidates.filter((f) => f.size > MAX_BYTES || f.size === 0);
+      if (oversized.length > 0)
+        toast.error(`Skipped ${oversized.length} file(s) — each PDF must be under 20 MB.`);
+      const pdfs = candidates.filter((f) => f.size > 0 && f.size <= MAX_BYTES).slice(0, MAX_FILES);
+      if (pdfs.length === 0) return;
+
+      setBusy(true);
+      try {
+        const newEntries: FileEntry[] = [];
+        const newTexts: string[] = [];
+        for (const f of pdfs) {
+          try {
+            const t = await extractPdfText(f);
+            newEntries.push({ name: f.name, chars: t.length });
+            newTexts.push(t);
+          } catch (e) {
+            toast.error(`Failed to read ${f.name}: ${(e as Error).message}`);
+          }
+        }
+        const nextEntries = [...files, ...newEntries];
+        const nextTexts = [...texts, ...newTexts];
+        setFiles(nextEntries);
+        setTexts(nextTexts);
+        emit(nextEntries, nextTexts);
+        if (newEntries.length)
+          toast.success(`Loaded ${newEntries.length} PDF${newEntries.length > 1 ? "s" : ""}`);
+      } finally {
+        setBusy(false);
+      }
+    },
+    [files, texts, emit],
+  );
 
   function removeAt(i: number) {
     const nextEntries = files.filter((_, idx) => idx !== i);
@@ -87,22 +105,32 @@ export function PdfDropzone({ onText, label = "Upload PDFs", hint = "Drop one or
   }
 
   function clearAll() {
-    setFiles([]); setTexts([]); onText("", []);
+    setFiles([]);
+    setTexts([]);
+    onText("", []);
   }
 
   return (
     <div className={className}>
       <div
-        onDragOver={(e) => { e.preventDefault(); setDrag(true); }}
+        onDragOver={(e) => {
+          e.preventDefault();
+          setDrag(true);
+        }}
         onDragLeave={() => setDrag(false)}
         onDrop={(e) => {
-          e.preventDefault(); setDrag(false);
+          e.preventDefault();
+          setDrag(false);
           if (e.dataTransfer.files?.length) addFiles(e.dataTransfer.files);
         }}
         onClick={() => inputRef.current?.click()}
         className={`flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed px-4 py-8 text-center transition-colors ${drag ? "border-primary bg-primary/5" : "border-border bg-surface/40 hover:border-primary/50"}`}
       >
-        {busy ? <Loader2 className="h-6 w-6 animate-spin text-primary" /> : <FileUp className="h-6 w-6 text-primary" />}
+        {busy ? (
+          <Loader2 className="h-6 w-6 animate-spin text-primary" />
+        ) : (
+          <FileUp className="h-6 w-6 text-primary" />
+        )}
         <div className="font-mono text-[11px] uppercase tracking-widest text-primary">{label}</div>
         <div className="text-xs text-muted-foreground">{hint}</div>
         <input
@@ -111,24 +139,43 @@ export function PdfDropzone({ onText, label = "Upload PDFs", hint = "Drop one or
           accept="application/pdf,.pdf"
           multiple
           className="hidden"
-          onChange={(e) => { if (e.target.files) addFiles(e.target.files); e.target.value = ""; }}
+          onChange={(e) => {
+            if (e.target.files) addFiles(e.target.files);
+            e.target.value = "";
+          }}
         />
       </div>
       {files.length > 0 && (
         <div className="mt-3 space-y-2">
           {files.map((f, i) => (
-            <div key={i} className="flex items-center justify-between rounded-lg border border-border bg-surface/60 px-3 py-2 text-xs">
+            <div
+              key={i}
+              className="flex items-center justify-between rounded-lg border border-border bg-surface/60 px-3 py-2 text-xs"
+            >
               <div className="flex min-w-0 items-center gap-2">
                 <FileText className="h-4 w-4 shrink-0 text-primary" />
                 <span className="truncate">{f.name}</span>
-                <span className="shrink-0 font-mono text-[10px] text-muted-foreground">{(f.chars / 1000).toFixed(1)}k chars</span>
+                <span className="shrink-0 font-mono text-[10px] text-muted-foreground">
+                  {(f.chars / 1000).toFixed(1)}k chars
+                </span>
               </div>
-              <button onClick={(e) => { e.stopPropagation(); removeAt(i); }} className="rounded p-1 text-muted-foreground hover:bg-border hover:text-foreground">
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  removeAt(i);
+                }}
+                className="rounded p-1 text-muted-foreground hover:bg-border hover:text-foreground"
+              >
                 <X className="h-3 w-3" />
               </button>
             </div>
           ))}
-          <button onClick={clearAll} className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground hover:text-primary">Clear all</button>
+          <button
+            onClick={clearAll}
+            className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground hover:text-primary"
+          >
+            Clear all
+          </button>
         </div>
       )}
     </div>

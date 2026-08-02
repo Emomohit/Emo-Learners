@@ -31,7 +31,6 @@ export function QuizBlock({ courseSlug, chapterId, quiz, onPass }: Props) {
       const raw = window.localStorage.getItem(storageKey);
       if (raw) setState(JSON.parse(raw) as SavedState);
     } catch {}
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [storageKey]);
 
   const pick = (qi: number, oi: number) => {
@@ -40,10 +39,7 @@ export function QuizBlock({ courseSlug, chapterId, quiz, onPass }: Props) {
   };
 
   const submit = () => {
-    const score = quiz.reduce(
-      (acc, q, i) => acc + (state.answers[i] === q.answer ? 1 : 0),
-      0,
-    );
+    const score = quiz.reduce((acc, q, i) => acc + (state.answers[i] === q.answer ? 1 : 0), 0);
     const next = { ...state, submitted: true, score };
     setState(next);
     try {
@@ -68,9 +64,7 @@ export function QuizBlock({ courseSlug, chapterId, quiz, onPass }: Props) {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Sparkles className="h-4 w-4 text-primary" />
-          <h4 className="font-display text-lg font-bold tracking-tight">
-            Practice quiz
-          </h4>
+          <h4 className="font-display text-lg font-bold tracking-tight">Practice quiz</h4>
         </div>
         {state.submitted && (
           <span

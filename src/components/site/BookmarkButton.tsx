@@ -33,7 +33,11 @@ export function BookmarkButton({ compact, ...b }: Props) {
           : "inline-flex items-center gap-2 rounded-full border border-border bg-surface/60 px-4 py-2 text-xs font-bold uppercase tracking-widest text-muted-foreground transition-colors hover:border-primary hover:text-primary"
       }
     >
-      {saved ? <BookmarkCheck className="h-4 w-4 text-primary" /> : <Bookmark className="h-4 w-4" />}
+      {saved ? (
+        <BookmarkCheck className="h-4 w-4 text-primary" />
+      ) : (
+        <Bookmark className="h-4 w-4" />
+      )}
       {!compact && <span>{saved ? "Saved" : "Save"}</span>}
     </button>
   );

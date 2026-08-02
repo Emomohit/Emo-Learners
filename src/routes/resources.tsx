@@ -3,7 +3,17 @@ import { Navbar } from "@/components/site/Navbar";
 import { Marquee } from "@/components/site/Marquee";
 import { Footer } from "@/components/site/Footer";
 import { useEffect, useMemo, useState } from "react";
-import { ExternalLink, Search, FileText, BookOpen, Download, ChevronRight, Sparkles, GraduationCap, Lock } from "lucide-react";
+import {
+  ExternalLink,
+  Search,
+  FileText,
+  BookOpen,
+  Download,
+  ChevronRight,
+  Sparkles,
+  GraduationCap,
+  Lock,
+} from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { toast } from "sonner";
@@ -12,7 +22,11 @@ export const Route = createFileRoute("/resources")({
   head: () => ({
     meta: [
       { title: "Resources — EMO Learners" },
-      { name: "description", content: "B.Tech notes, PYQs, syllabus & AI tools for CSE, CSE-IT, CSE-CY, and AIML students." },
+      {
+        name: "description",
+        content:
+          "B.Tech notes, PYQs, syllabus & AI tools for CSE, CSE-IT, CSE-CY, and AIML students.",
+      },
     ],
   }),
   component: ResourcesPage,
@@ -47,22 +61,107 @@ const KIND_LABEL: Record<Resource["kind"], string> = {
 
 type AiTool = { name: string; cat: string; desc: string; url: string; tag?: string };
 const aiTools: AiTool[] = [
-  { name: "ChatGPT", cat: "AI", desc: "The reasoning workhorse. Great for explanations, planning, and code review.", url: "https://chat.openai.com", tag: "Daily" },
-  { name: "Claude", cat: "AI", desc: "Strong at long-context reasoning and writing.", url: "https://claude.ai" },
-  { name: "Perplexity", cat: "AI", desc: "AI research with citations. Better than Google for studying.", url: "https://perplexity.ai", tag: "Research" },
-  { name: "Cursor", cat: "Coding", desc: "AI-first code editor. Pair-program with frontier models.", url: "https://cursor.sh" },
-  { name: "GitHub Copilot", cat: "Coding", desc: "Free for verified students. Inline autocomplete and chat.", url: "https://github.com/features/copilot", tag: "Student Free" },
-  { name: "Replit", cat: "Coding", desc: "Code in the browser. Free hosting for student projects.", url: "https://replit.com" },
-  { name: "Notion AI", cat: "Productivity", desc: "Notes, docs, and a database — supercharged with AI.", url: "https://notion.so" },
-  { name: "Obsidian", cat: "Productivity", desc: "Local-first notes with backlinks.", url: "https://obsidian.md" },
-  { name: "freeCodeCamp", cat: "Learning", desc: "Free, certificate-backed courses.", url: "https://freecodecamp.org" },
-  { name: "Hugging Face", cat: "AI", desc: "Open-source models, datasets, and demos.", url: "https://huggingface.co" },
-  { name: "Kaggle", cat: "Learning", desc: "Datasets, notebooks, competitions.", url: "https://kaggle.com" },
-  { name: "LeetCode", cat: "DSA", desc: "Daily problems for interviews.", url: "https://leetcode.com" },
-  { name: "Excalidraw", cat: "Productivity", desc: "Hand-drawn diagrams in your browser.", url: "https://excalidraw.com" },
-  { name: "v0 by Vercel", cat: "AI", desc: "Generate React + Tailwind UI from prompts.", url: "https://v0.dev" },
-  { name: "NPTEL", cat: "Learning", desc: "Free courses from IITs with certificates.", url: "https://nptel.ac.in", tag: "🇮🇳" },
-  { name: "Unstop", cat: "Career", desc: "Internships, hackathons, competitions.", url: "https://unstop.com", tag: "🇮🇳" },
+  {
+    name: "ChatGPT",
+    cat: "AI",
+    desc: "The reasoning workhorse. Great for explanations, planning, and code review.",
+    url: "https://chat.openai.com",
+    tag: "Daily",
+  },
+  {
+    name: "Claude",
+    cat: "AI",
+    desc: "Strong at long-context reasoning and writing.",
+    url: "https://claude.ai",
+  },
+  {
+    name: "Perplexity",
+    cat: "AI",
+    desc: "AI research with citations. Better than Google for studying.",
+    url: "https://perplexity.ai",
+    tag: "Research",
+  },
+  {
+    name: "Cursor",
+    cat: "Coding",
+    desc: "AI-first code editor. Pair-program with frontier models.",
+    url: "https://cursor.sh",
+  },
+  {
+    name: "GitHub Copilot",
+    cat: "Coding",
+    desc: "Free for verified students. Inline autocomplete and chat.",
+    url: "https://github.com/features/copilot",
+    tag: "Student Free",
+  },
+  {
+    name: "Replit",
+    cat: "Coding",
+    desc: "Code in the browser. Free hosting for student projects.",
+    url: "https://replit.com",
+  },
+  {
+    name: "Notion AI",
+    cat: "Productivity",
+    desc: "Notes, docs, and a database — supercharged with AI.",
+    url: "https://notion.so",
+  },
+  {
+    name: "Obsidian",
+    cat: "Productivity",
+    desc: "Local-first notes with backlinks.",
+    url: "https://obsidian.md",
+  },
+  {
+    name: "freeCodeCamp",
+    cat: "Learning",
+    desc: "Free, certificate-backed courses.",
+    url: "https://freecodecamp.org",
+  },
+  {
+    name: "Hugging Face",
+    cat: "AI",
+    desc: "Open-source models, datasets, and demos.",
+    url: "https://huggingface.co",
+  },
+  {
+    name: "Kaggle",
+    cat: "Learning",
+    desc: "Datasets, notebooks, competitions.",
+    url: "https://kaggle.com",
+  },
+  {
+    name: "LeetCode",
+    cat: "DSA",
+    desc: "Daily problems for interviews.",
+    url: "https://leetcode.com",
+  },
+  {
+    name: "Excalidraw",
+    cat: "Productivity",
+    desc: "Hand-drawn diagrams in your browser.",
+    url: "https://excalidraw.com",
+  },
+  {
+    name: "v0 by Vercel",
+    cat: "AI",
+    desc: "Generate React + Tailwind UI from prompts.",
+    url: "https://v0.dev",
+  },
+  {
+    name: "NPTEL",
+    cat: "Learning",
+    desc: "Free courses from IITs with certificates.",
+    url: "https://nptel.ac.in",
+    tag: "🇮🇳",
+  },
+  {
+    name: "Unstop",
+    cat: "Career",
+    desc: "Internships, hackathons, competitions.",
+    url: "https://unstop.com",
+    tag: "🇮🇳",
+  },
 ];
 const aiCats = ["All", "AI", "Coding", "Learning", "Productivity", "DSA", "Career"] as const;
 
@@ -78,12 +177,15 @@ function ResourcesPage() {
         <div className="pointer-events-none absolute inset-0 grid-bg opacity-40" />
         <div className="pointer-events-none absolute inset-0 radial-glow" />
         <div className="relative mx-auto max-w-6xl">
-          <span className="font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-primary">// Study Hub</span>
+          <span className="font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-primary">
+            // Study Hub
+          </span>
           <h1 className="mt-4 font-display text-5xl font-bold leading-[0.85] tracking-tighter md:text-7xl">
             Everything you need <span className="grad-text">to top your sems.</span>
           </h1>
           <p className="mt-6 max-w-xl text-muted-foreground">
-            Branch-wise notes, PYQs, and syllabus for CSE, CSE-IT, CSE-CY, and AIML — plus a curated AI tools directory.
+            Branch-wise notes, PYQs, and syllabus for CSE, CSE-IT, CSE-CY, and AIML — plus a curated
+            AI tools directory.
           </p>
 
           <div className="mt-8 inline-flex rounded-full border border-border bg-surface/60 p-1 backdrop-blur">
@@ -248,7 +350,9 @@ function Academics() {
                 }`}
               >
                 <div>
-                  <div className="font-mono text-[10px] font-bold uppercase tracking-widest text-primary">{s.code}</div>
+                  <div className="font-mono text-[10px] font-bold uppercase tracking-widest text-primary">
+                    {s.code}
+                  </div>
                   <div className="font-semibold">{s.name}</div>
                 </div>
                 <ChevronRight className="h-4 w-4 text-muted-foreground transition-transform group-hover:translate-x-1 group-hover:text-primary" />
@@ -261,14 +365,18 @@ function Academics() {
           {!activeSubject && (
             <div className="flex h-full min-h-[300px] flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-surface/30 p-10 text-center">
               <BookOpen className="h-10 w-10 text-muted-foreground" />
-              <p className="mt-3 text-sm text-muted-foreground">Pick a subject to see notes, PYQs and syllabus.</p>
+              <p className="mt-3 text-sm text-muted-foreground">
+                Pick a subject to see notes, PYQs and syllabus.
+              </p>
             </div>
           )}
           {activeSubject && (
             <div className="panel p-6">
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <div className="font-mono text-[10px] font-bold uppercase tracking-widest text-primary">{activeSubject.code}</div>
+                  <div className="font-mono text-[10px] font-bold uppercase tracking-widest text-primary">
+                    {activeSubject.code}
+                  </div>
                   <h3 className="mt-1 font-display text-2xl font-bold">{activeSubject.name}</h3>
                 </div>
               </div>
@@ -276,8 +384,13 @@ function Academics() {
               <div className="mt-6 space-y-3">
                 {!user && (
                   <div className="rounded-xl border border-dashed border-border bg-background/40 p-6 text-center">
-                    <p className="text-sm text-muted-foreground">Sign in to view notes, PYQs and syllabus files.</p>
-                    <Link to="/auth" className="mt-2 inline-block text-xs font-bold uppercase tracking-widest text-primary hover:underline">
+                    <p className="text-sm text-muted-foreground">
+                      Sign in to view notes, PYQs and syllabus files.
+                    </p>
+                    <Link
+                      to="/auth"
+                      className="mt-2 inline-block text-xs font-bold uppercase tracking-widest text-primary hover:underline"
+                    >
                       Go to login
                     </Link>
                   </div>
@@ -288,30 +401,49 @@ function Academics() {
                       No materials uploaded yet for this subject.
                     </p>
                     <p className="mt-1 text-xs text-muted-foreground">
-                      Admin uploads from <Link to="/admin" className="text-primary hover:underline">/admin</Link>.
+                      Admin uploads from{" "}
+                      <Link to="/admin" className="text-primary hover:underline">
+                        /admin
+                      </Link>
+                      .
                     </p>
                   </div>
                 )}
                 {resources.map((r) => (
-                  <div key={r.id} className="flex items-center justify-between gap-3 rounded-xl border border-border bg-background/50 p-4">
+                  <div
+                    key={r.id}
+                    className="flex items-center justify-between gap-3 rounded-xl border border-border bg-background/50 p-4"
+                  >
                     <div className="flex items-start gap-3">
                       <div className="rounded-lg bg-primary/10 p-2 text-primary">
                         <FileText className="h-4 w-4" />
                       </div>
                       <div>
                         <div className="flex flex-wrap items-center gap-2">
-                          <span className="font-mono text-[9px] font-bold uppercase tracking-widest text-primary">{KIND_LABEL[r.kind]}</span>
-                          {r.year && <span className="font-mono text-[9px] text-muted-foreground">· {r.year}</span>}
+                          <span className="font-mono text-[9px] font-bold uppercase tracking-widest text-primary">
+                            {KIND_LABEL[r.kind]}
+                          </span>
+                          {r.year && (
+                            <span className="font-mono text-[9px] text-muted-foreground">
+                              · {r.year}
+                            </span>
+                          )}
                         </div>
                         <div className="font-semibold">{r.title}</div>
-                        {r.description && <p className="text-xs text-muted-foreground">{r.description}</p>}
+                        {r.description && (
+                          <p className="text-xs text-muted-foreground">{r.description}</p>
+                        )}
                       </div>
                     </div>
                     <button
                       onClick={() => download(r.file_path)}
                       className="inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-[10px] font-bold uppercase tracking-widest btn-grad"
                     >
-                      {user ? <Download className="h-3.5 w-3.5" /> : <Lock className="h-3.5 w-3.5" />}
+                      {user ? (
+                        <Download className="h-3.5 w-3.5" />
+                      ) : (
+                        <Lock className="h-3.5 w-3.5" />
+                      )}
                       {user ? "Download" : "Login"}
                     </button>
                   </div>
@@ -377,7 +509,9 @@ function AiToolsDirectory() {
             className="group relative panel p-6 backdrop-blur-sm tilt-3d shine"
           >
             <div className="flex items-start justify-between">
-              <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-primary">{r.cat}</span>
+              <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-primary">
+                {r.cat}
+              </span>
               <ExternalLink className="h-4 w-4 text-muted-foreground transition-colors group-hover:text-primary" />
             </div>
             <h3 className="mt-4 font-display text-xl font-bold">{r.name}</h3>
