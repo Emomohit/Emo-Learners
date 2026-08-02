@@ -175,8 +175,8 @@ function Top32Page() {
       <div className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-primary">
         <Flame className="h-3 w-3" /> AI · from your PYQs
       </div>
-      <h1 className="mt-3 font-display text-3xl font-extrabold uppercase tracking-tighter md:text-5xl">
-        Top 32 <span className="italic text-primary">Important</span> Questions
+      <h1 className="mt-3 font-display text-3xl font-bold tracking-tighter md:text-5xl">
+        Top 32 <span className="grad-text">Important</span> Questions
       </h1>
       <p className="mt-3 max-w-2xl text-muted-foreground">
         Upload your past-year papers (or pick a saved analysis). EMoIQ analyses them and returns the 32 most important questions ranked by probability.
@@ -262,7 +262,7 @@ function Top32Page() {
       <button
         onClick={run}
         disabled={loading}
-        className="mt-6 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-brand transition-transform hover:scale-[1.02] disabled:opacity-50"
+        className="mt-6 inline-flex items-center gap-2 rounded-full px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest btn-grad transition-transform hover:scale-[1.02] disabled:opacity-50"
       >
         {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
         {loading ? "Working…" : questions ? "Regenerate top 32" : "Generate top 32"}
@@ -271,7 +271,7 @@ function Top32Page() {
       {loading && !questions && (
         <div className="mt-10 grid gap-3 md:grid-cols-2">
           {Array.from({ length: 10 }).map((_, i) => (
-            <div key={i} className="h-24 animate-pulse rounded-2xl border border-border bg-surface/40" />
+            <div key={i} className="h-24 animate-pulse panel" />
           ))}
         </div>
       )}
@@ -345,7 +345,7 @@ function Top32Page() {
 
           <ol className="mt-5 grid gap-3 md:grid-cols-2">
             {filtered.map((q, i) => (
-              <li key={i} className="rounded-2xl border border-border bg-surface/60 p-4 transition-colors hover:border-primary">
+              <li key={i} className="panel p-4 transition-colors hover:border-primary">
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-start gap-3">
                     <span className="mt-0.5 shrink-0 rounded-md bg-primary/10 px-2 py-1 font-mono text-[10px] font-bold text-primary">

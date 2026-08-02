@@ -50,8 +50,8 @@ function AptitudePage() {
     <section className="mx-auto max-w-3xl px-4 py-14">
       <div className="flex items-center gap-3">
         <Brain className="h-6 w-6 text-primary" />
-        <h1 className="font-display text-3xl font-extrabold uppercase tracking-tighter md:text-5xl">
-          Aptitude <span className="italic text-primary">Quiz</span>
+        <h1 className="font-display text-3xl font-bold tracking-tighter md:text-5xl">
+          Aptitude <span className="grad-text">Quiz</span>
         </h1>
       </div>
       <p className="mt-3 text-muted-foreground">Pick a category. AI generates a fresh 10-question set every time.</p>
@@ -69,7 +69,7 @@ function AptitudePage() {
               </button>
             ))}
           </div>
-          <button onClick={generate} disabled={loading} className="mt-6 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-brand disabled:opacity-50">
+          <button onClick={generate} disabled={loading} className="mt-6 inline-flex items-center gap-2 rounded-full px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest btn-grad disabled:opacity-50">
             {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
             {loading ? "Generating…" : "Generate quiz"}
           </button>
@@ -81,7 +81,7 @@ function AptitudePage() {
           {qs.map((q, i) => {
             const picked = picks[i];
             return (
-              <div key={i} className="rounded-xl border border-border bg-surface/60 p-5">
+              <div key={i} className="panel rounded-xl p-5">
                 <div className="font-bold">{i + 1}. {q.q}</div>
                 <div className="mt-3 grid gap-2">
                   {q.options.map((opt, oi) => {
@@ -114,7 +114,7 @@ function AptitudePage() {
             );
           })}
           {!submitted ? (
-            <button onClick={submit} className="rounded-full bg-primary px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-brand">Submit</button>
+            <button onClick={submit} className="rounded-full px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest btn-grad">Submit</button>
           ) : (
             <button onClick={() => setQs(null)} className="rounded-full border border-border bg-surface px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest">Try another</button>
           )}

@@ -54,8 +54,8 @@ function PlanPage() {
 
   return (
     <section className="mx-auto max-w-5xl px-4 py-14">
-      <h1 className="font-display text-3xl font-extrabold uppercase tracking-tighter md:text-5xl">
-        Study <span className="italic text-primary">Plan</span>
+      <h1 className="font-display text-3xl font-bold tracking-tighter md:text-5xl">
+        Study <span className="grad-text">Plan</span>
       </h1>
       <p className="mt-3 text-muted-foreground">A day-by-day plan tuned to your weak topics and time left. Try Last-24h mode if the exam is tomorrow.</p>
 
@@ -84,7 +84,7 @@ function PlanPage() {
         />
       </div>
 
-      <button onClick={generate} disabled={loading} className="mt-6 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-brand disabled:opacity-50">
+      <button onClick={generate} disabled={loading} className="mt-6 inline-flex items-center gap-2 rounded-full px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest btn-grad disabled:opacity-50">
         {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Zap className="h-4 w-4" />}
         {loading ? "Building plan…" : "Build my plan"}
       </button>
@@ -92,12 +92,12 @@ function PlanPage() {
       {plan && (
         <div className="mt-10 space-y-6">
           <div className="rounded-2xl border border-primary/40 bg-primary/5 p-6">
-            <div className="font-display text-xl font-extrabold uppercase">{plan.headline}</div>
+            <div className="font-display text-xl font-bold">{plan.headline}</div>
             <p className="mt-2 text-sm text-muted-foreground">{plan.strategy}</p>
           </div>
           <div className="grid gap-3 md:grid-cols-2">
             {plan.days?.map((d) => (
-              <div key={d.day} className="rounded-xl border border-border bg-surface/60 p-4">
+              <div key={d.day} className="panel rounded-xl p-4">
                 <div className="flex items-center justify-between">
                   <div className="font-mono text-[11px] uppercase tracking-widest text-primary">
                     {mode === "crash" ? `Block ${d.day}` : `Day ${d.day}`}
@@ -113,7 +113,7 @@ function PlanPage() {
             ))}
           </div>
           {plan.skip?.length ? (
-            <div className="rounded-xl border border-border bg-surface/40 p-4">
+            <div className="panel rounded-xl p-4">
               <div className="font-mono text-[11px] uppercase tracking-widest text-red-400">// Skip for now</div>
               <div className="mt-2 text-sm">{plan.skip.join(" · ")}</div>
             </div>

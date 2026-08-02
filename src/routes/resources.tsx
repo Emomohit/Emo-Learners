@@ -79,8 +79,8 @@ function ResourcesPage() {
         <div className="pointer-events-none absolute inset-0 radial-glow" />
         <div className="relative mx-auto max-w-6xl">
           <span className="font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-primary">// Study Hub</span>
-          <h1 className="mt-4 font-display text-5xl font-extrabold uppercase leading-[0.85] tracking-tighter md:text-7xl">
-            Everything you need <span className="italic text-primary">to top your sems.</span>
+          <h1 className="mt-4 font-display text-5xl font-bold leading-[0.85] tracking-tighter md:text-7xl">
+            Everything you need <span className="grad-text">to top your sems.</span>
           </h1>
           <p className="mt-6 max-w-xl text-muted-foreground">
             Branch-wise notes, PYQs, and syllabus for CSE, CSE-IT, CSE-CY, and AIML — plus a curated AI tools directory.
@@ -90,7 +90,7 @@ function ResourcesPage() {
             <button
               onClick={() => setTab("academics")}
               className={`flex items-center gap-2 rounded-full px-5 py-2 text-xs font-bold uppercase tracking-widest transition-all ${
-                tab === "academics" ? "bg-primary text-primary-foreground shadow-brand" : "text-muted-foreground hover:text-foreground"
+                tab === "academics" ? "btn-grad" : "text-muted-foreground hover:text-foreground"
               }`}
             >
               <GraduationCap className="h-3.5 w-3.5" /> Academics
@@ -98,7 +98,7 @@ function ResourcesPage() {
             <button
               onClick={() => setTab("ai")}
               className={`flex items-center gap-2 rounded-full px-5 py-2 text-xs font-bold uppercase tracking-widest transition-all ${
-                tab === "ai" ? "bg-primary text-primary-foreground shadow-brand" : "text-muted-foreground hover:text-foreground"
+                tab === "ai" ? "btn-grad" : "text-muted-foreground hover:text-foreground"
               }`}
             >
               <Sparkles className="h-3.5 w-3.5" /> AI Tools
@@ -265,11 +265,11 @@ function Academics() {
             </div>
           )}
           {activeSubject && (
-            <div className="rounded-2xl border border-border bg-surface/40 p-6">
+            <div className="panel p-6">
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <div className="font-mono text-[10px] font-bold uppercase tracking-widest text-primary">{activeSubject.code}</div>
-                  <h3 className="mt-1 font-display text-2xl font-extrabold uppercase">{activeSubject.name}</h3>
+                  <h3 className="mt-1 font-display text-2xl font-bold">{activeSubject.name}</h3>
                 </div>
               </div>
 
@@ -309,7 +309,7 @@ function Academics() {
                     </div>
                     <button
                       onClick={() => download(r.file_path)}
-                      className="inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-primary-foreground shadow-brand"
+                      className="inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-[10px] font-bold uppercase tracking-widest btn-grad"
                     >
                       {user ? <Download className="h-3.5 w-3.5" /> : <Lock className="h-3.5 w-3.5" />}
                       {user ? "Download" : "Login"}
@@ -374,13 +374,13 @@ function AiToolsDirectory() {
             href={r.url}
             target="_blank"
             rel="noreferrer"
-            className="group relative rounded-2xl border border-border bg-surface/40 p-6 backdrop-blur-sm transition-all hover:-translate-y-1 hover:border-primary"
+            className="group relative panel p-6 backdrop-blur-sm panel-hover"
           >
             <div className="flex items-start justify-between">
               <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-primary">{r.cat}</span>
               <ExternalLink className="h-4 w-4 text-muted-foreground transition-colors group-hover:text-primary" />
             </div>
-            <h3 className="mt-4 font-display text-xl font-extrabold uppercase">{r.name}</h3>
+            <h3 className="mt-4 font-display text-xl font-bold">{r.name}</h3>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{r.desc}</p>
             {r.tag && (
               <span className="mt-4 inline-block rounded-full border border-primary/30 bg-primary/10 px-3 py-0.5 font-mono text-[9px] font-bold uppercase tracking-widest text-primary">

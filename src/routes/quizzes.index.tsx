@@ -28,8 +28,8 @@ function QuizzesIndex() {
         <div className="pointer-events-none absolute inset-0 radial-glow" />
         <div className="relative mx-auto max-w-6xl">
           <span className="font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-primary">// Practice</span>
-          <h1 className="mt-4 font-display text-5xl font-extrabold uppercase leading-[0.85] tracking-tighter md:text-7xl">
-            Quizzes <span className="italic text-primary">that teach.</span>
+          <h1 className="mt-4 font-display text-5xl font-bold leading-[0.85] tracking-tighter md:text-7xl">
+            Quizzes <span className="grad-text">that teach.</span>
           </h1>
           <p className="mt-6 max-w-xl text-muted-foreground">
             Short, focused rounds. Instant feedback after every answer with the why. Built for the bus, the break, the boring class.
@@ -44,7 +44,7 @@ function QuizzesIndex() {
               key={q.slug}
               to="/quizzes/$slug"
               params={{ slug: q.slug }}
-              className="group relative overflow-hidden rounded-2xl border border-border bg-surface/40 p-7 backdrop-blur-sm transition-all hover:-translate-y-1 hover:border-primary"
+              className="group relative overflow-hidden panel p-7 backdrop-blur-sm panel-hover"
             >
               <div className="flex items-start justify-between">
                 <span className="text-4xl">{q.emoji}</span>
@@ -52,7 +52,7 @@ function QuizzesIndex() {
                   {q.topic}
                 </span>
               </div>
-              <h3 className="mt-6 font-display text-2xl font-extrabold uppercase">{q.title}</h3>
+              <h3 className="mt-6 font-display text-2xl font-bold">{q.title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{q.description}</p>
               <div className="mt-6 flex items-center justify-between border-t border-border pt-5 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
                 <span><Trophy className="mr-1 inline h-3 w-3 text-primary" /> {q.questions.length} Q · {q.minutes} min</span>

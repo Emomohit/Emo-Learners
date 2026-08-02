@@ -53,10 +53,10 @@ export function Navbar() {
     <header className="sticky top-0 z-50 border-b border-border bg-background/70 backdrop-blur-xl">
       <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-4 md:h-18 md:px-6">
         <Link to="/" className="flex items-center gap-3 group" aria-label="EMO Learners home">
-          <div className="flex h-9 w-9 rotate-12 items-center justify-center rounded-lg bg-primary shadow-brand transition-transform group-hover:rotate-[24deg] md:h-10 md:w-10">
+          <div className="flex h-9 w-9 rotate-12 items-center justify-center rounded-lg btn-grad transition-transform group-hover:rotate-[24deg] md:h-10 md:w-10">
             <Zap className="h-4 w-4 text-primary-foreground md:h-5 md:w-5" strokeWidth={2.5} />
           </div>
-          <span className="font-display text-lg font-extrabold italic uppercase tracking-tighter md:text-xl">
+          <span className="font-display text-lg font-bold tracking-tighter md:text-xl">
             EMO <span className="text-primary">Learners</span>
           </span>
         </Link>
@@ -117,7 +117,7 @@ export function Navbar() {
               {isAdmin && (
                 <Link
                   to="/admin"
-                  className="hidden items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-brand md:inline-flex"
+                  className="hidden items-center gap-1.5 rounded-full px-4 py-2 text-xs font-bold uppercase tracking-widest btn-grad md:inline-flex"
                 >
                   <ShieldCheck className="h-3.5 w-3.5" /> Admin
                 </Link>
@@ -134,7 +134,7 @@ export function Navbar() {
           ) : (
             <Link
               to="/auth"
-              className="hidden items-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-brand transition-all hover:scale-105 active:scale-95 md:inline-flex"
+              className="hidden items-center gap-1.5 rounded-full px-5 py-2.5 text-xs font-bold uppercase tracking-widest btn-grad transition-all hover:scale-105 active:scale-95 md:inline-flex"
             >
               <LogIn className="h-3.5 w-3.5" /> Sign in
             </Link>

@@ -172,8 +172,8 @@ function RoadmapPage() {
           <div className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-primary">
             <RouteIcon className="h-3 w-3" /> AI Roadmap · Personalized
           </div>
-          <h1 className="mt-4 font-display text-4xl font-extrabold uppercase leading-[0.9] tracking-tighter md:text-6xl">
-            Your <span className="italic text-primary">week-by-week</span> plan
+          <h1 className="mt-4 font-display text-4xl font-bold leading-[0.9] tracking-tighter md:text-6xl">
+            Your <span className="grad-text">week-by-week</span> plan
           </h1>
           <p className="mt-4 max-w-2xl text-muted-foreground">
             Tell us your branch, semester, and goal. Get a week-wise roadmap with topics, projects, skills, and placement prep milestones.
@@ -182,7 +182,7 @@ function RoadmapPage() {
       </section>
 
       <section className="px-4 pb-14">
-        <div className="mx-auto grid max-w-5xl gap-4 rounded-2xl border border-border bg-surface/40 p-6 md:grid-cols-2">
+        <div className="mx-auto grid max-w-5xl gap-4 panel p-6 md:grid-cols-2">
           <Field label="Branch">
             <select value={branch} onChange={(e) => setBranch(e.target.value)} className="w-full rounded-xl border border-border bg-surface px-4 py-3 text-sm outline-none focus:border-primary">
               {BRANCHES.map((b) => <option key={b}>{b}</option>)}
@@ -210,7 +210,7 @@ function RoadmapPage() {
           </Field>
           <div className="md:col-span-2 flex flex-wrap items-center gap-3">
             <button onClick={generate} disabled={loading}
-              className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-brand disabled:opacity-50">
+              className="inline-flex items-center gap-2 rounded-full px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest btn-grad disabled:opacity-50">
               {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
               {loading ? "Generating…" : result ? "Regenerate" : "Generate roadmap"}
             </button>
@@ -247,7 +247,7 @@ function RoadmapPage() {
               <div className="flex items-start gap-3">
                 <AlertTriangle className="mt-0.5 h-5 w-5 text-destructive" />
                 <div>
-                  <div className="font-display text-lg font-extrabold uppercase">Couldn't generate roadmap</div>
+                  <div className="font-display text-lg font-bold">Couldn't generate roadmap</div>
                   <div className="mt-1 text-sm text-muted-foreground">{error}</div>
                 </div>
               </div>
@@ -267,7 +267,7 @@ function RoadmapPage() {
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div>
                   <div className="font-mono text-[11px] uppercase tracking-widest text-primary">Roadmap</div>
-                  <h2 className="mt-2 font-display text-2xl font-extrabold uppercase md:text-3xl">{result.title}</h2>
+                  <h2 className="mt-2 font-display text-2xl font-bold md:text-3xl">{result.title}</h2>
                   <p className="mt-3 max-w-2xl text-sm text-muted-foreground">{result.summary}</p>
                 </div>
                 <div className="flex flex-wrap gap-2">
@@ -288,10 +288,10 @@ function RoadmapPage() {
             </div>
 
             {summary && (
-              <div className="rounded-2xl border border-border bg-surface/40 p-6">
+              <div className="panel p-6">
                 <div className="flex items-center gap-2">
                   <ClipboardList className="h-5 w-5 text-primary" />
-                  <h3 className="font-display text-xl font-extrabold uppercase tracking-tighter">Summary</h3>
+                  <h3 className="font-display text-xl font-bold tracking-tighter">Summary</h3>
                 </div>
                 <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                   <SummaryStat label="Weeks" value={summary.weeks} />
@@ -317,12 +317,12 @@ function RoadmapPage() {
               <SectionTitle icon={Milestone} title="Weekly milestones" />
               <ol className="mt-4 space-y-3">
                 {result.milestones?.map((m) => (
-                  <li key={m.week} className="rounded-2xl border border-border bg-surface/50 p-5">
+                  <li key={m.week} className="panel p-5">
                     <div className="flex items-center justify-between">
                       <div className="font-mono text-[11px] uppercase tracking-widest text-primary">Week {m.week}</div>
                       <div className="text-xs text-muted-foreground">{m.subjects?.join(" · ")}</div>
                     </div>
-                    <h3 className="mt-1 font-display text-lg font-extrabold uppercase">{m.theme}</h3>
+                    <h3 className="mt-1 font-display text-lg font-bold">{m.theme}</h3>
                     <div className="mt-3 grid gap-3 md:grid-cols-3">
                       <MiniList label="Topics" items={m.topics} />
                       <MiniList label="Outcomes" items={m.outcomes} />
@@ -338,7 +338,7 @@ function RoadmapPage() {
                 <SectionTitle icon={Wrench} title="Key skills" />
                 <ul className="mt-4 space-y-2">
                   {result.skills?.map((s, i) => (
-                    <li key={i} className="rounded-xl border border-border bg-surface/50 p-4">
+                    <li key={i} className="panel rounded-xl p-4">
                       <div className="font-semibold">{s.name}</div>
                       <div className="mt-1 text-xs text-muted-foreground">{s.why}</div>
                     </li>
@@ -349,7 +349,7 @@ function RoadmapPage() {
                 <SectionTitle icon={FolderGit2} title="Projects to build" />
                 <ul className="mt-4 space-y-2">
                   {result.projects?.map((p, i) => (
-                    <li key={i} className="rounded-xl border border-border bg-surface/50 p-4">
+                    <li key={i} className="panel rounded-xl p-4">
                       <div className="font-semibold">{p.name}</div>
                       <div className="mt-1 text-xs text-muted-foreground">{p.brief}</div>
                       <div className="mt-2 flex flex-wrap gap-1">
@@ -365,7 +365,7 @@ function RoadmapPage() {
               <SectionTitle icon={Briefcase} title="Placement prep" />
               <ul className="mt-4 grid gap-2 md:grid-cols-2">
                 {result.placement_prep?.map((p, i) => (
-                  <li key={i} className="rounded-xl border border-border bg-surface/50 px-4 py-3 text-sm">{p}</li>
+                  <li key={i} className="panel rounded-xl px-4 py-3 text-sm">{p}</li>
                 ))}
               </ul>
             </div>
@@ -391,7 +391,7 @@ function SectionTitle({ icon: Icon, title }: { icon: React.ComponentType<{ class
   return (
     <div className="flex items-center gap-2">
       <Icon className="h-5 w-5 text-primary" />
-      <h3 className="font-display text-xl font-extrabold uppercase tracking-tighter">{title}</h3>
+      <h3 className="font-display text-xl font-bold tracking-tighter">{title}</h3>
     </div>
   );
 }
@@ -410,13 +410,13 @@ function MiniList({ label, items }: { label: string; items?: string[] }) {
 
 function SummaryStat({ label, value }: { label: string; value: number }) {
   return (
-    <div className="rounded-xl border border-border bg-surface/60 p-4">
-      <div className="font-display text-2xl font-extrabold">{value}</div>
+    <div className="panel rounded-xl p-4">
+      <div className="font-display text-2xl font-bold">{value}</div>
       <div className="mt-1 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">{label}</div>
     </div>
   );
 }
 
 function SkeletonBlock({ className = "" }: { className?: string }) {
-  return <div className={`animate-pulse rounded-2xl border border-border bg-surface/40 ${className}`} />;
+  return <div className={`animate-pulse panel ${className}`} />;
 }

@@ -52,8 +52,8 @@ function ContactPage() {
         <div className="relative mx-auto grid max-w-5xl gap-10 lg:grid-cols-2">
           <div>
             <span className="font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-primary">// Talk to us</span>
-            <h1 className="mt-3 font-display text-5xl font-extrabold uppercase leading-[0.9] tracking-tighter md:text-6xl">
-              Feedback <span className="italic text-primary">moves us.</span>
+            <h1 className="mt-3 font-display text-5xl font-bold leading-[0.9] tracking-tighter md:text-6xl">
+              Feedback <span className="grad-text">moves us.</span>
             </h1>
             <p className="mt-5 text-muted-foreground">
               Spot a bug? Want a new feature? Need notes for a subject we missed? Drop a line — Mohit reads every message.
@@ -67,7 +67,7 @@ function ContactPage() {
               </p>
             )}
           </div>
-          <form onSubmit={submit} className="space-y-4 rounded-3xl border border-border bg-surface/40 p-6 backdrop-blur">
+          <form onSubmit={submit} className="space-y-4 panel p-6 backdrop-blur">
             <div>
               <label className="font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Name</label>
               <input required value={name} onChange={(e) => setName(e.target.value)} className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-2.5 text-sm focus:border-primary focus:outline-none" />
@@ -86,7 +86,7 @@ function ContactPage() {
               <label className="font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Message</label>
               <textarea required rows={6} minLength={5} value={message} onChange={(e) => setMessage(e.target.value)} className="mt-1 w-full resize-none rounded-xl border border-border bg-background px-3 py-2.5 text-sm focus:border-primary focus:outline-none" />
             </div>
-            <button type="submit" disabled={busy || !user} className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 text-sm font-bold uppercase tracking-widest text-primary-foreground shadow-brand disabled:opacity-50">
+            <button type="submit" disabled={busy || !user} className="inline-flex w-full items-center justify-center gap-2 rounded-xl py-3 text-sm font-bold uppercase tracking-widest btn-grad disabled:opacity-50">
               <Send className="h-4 w-4" /> {busy ? "Sending…" : "Send"}
             </button>
           </form>

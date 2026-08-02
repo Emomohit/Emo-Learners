@@ -1,3 +1,4 @@
+import { TeacherCredit } from "@/components/site/TeacherCredit";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { Navbar } from "@/components/site/Navbar";
@@ -37,7 +38,7 @@ export const Route = createFileRoute("/courses/$slug")({
     <div className="min-h-screen">
       <Navbar />
       <div className="mx-auto max-w-3xl px-6 py-32 text-center">
-        <h1 className="font-display text-4xl font-extrabold">Course not found</h1>
+        <h1 className="font-display text-4xl font-bold">Course not found</h1>
         <p className="mt-3 text-muted-foreground">That course doesn't exist yet.</p>
         <Link to="/courses" className="mt-6 inline-block rounded-full bg-primary px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-primary-foreground">
           See all courses
@@ -50,7 +51,7 @@ export const Route = createFileRoute("/courses/$slug")({
     <div className="min-h-screen">
       <Navbar />
       <div className="mx-auto max-w-3xl px-6 py-32 text-center">
-        <h1 className="font-display text-4xl font-extrabold">Something broke</h1>
+        <h1 className="font-display text-4xl font-bold">Something broke</h1>
         <p className="mt-3 text-sm text-muted-foreground">{error.message}</p>
         <button onClick={reset} className="mt-6 rounded-full bg-primary px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-primary-foreground">Try again</button>
       </div>
@@ -119,7 +120,7 @@ function CourseDetail() {
               <span className="inline-flex items-center gap-2 rounded-full border border-border bg-surface/60 px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.3em] text-primary">
                 <Sparkles className="h-3 w-3" /> Free · Self-paced
               </span>
-              <h1 className="mt-3 font-display text-4xl font-extrabold tracking-tighter md:text-6xl">
+              <h1 className="mt-3 font-display text-4xl font-bold tracking-tighter md:text-6xl">
                 {course.title}
               </h1>
               <p className="mt-3 max-w-2xl text-base text-muted-foreground md:text-lg">{course.description}</p>
@@ -130,11 +131,18 @@ function CourseDetail() {
                 <Pill icon={<BookOpen className="h-3 w-3" />}>{course.chapters.length} chapters</Pill>
                 <Pill icon={<ListChecks className="h-3 w-3" />}>Notes · Quizzes · Exercises</Pill>
               </div>
+              <TeacherCredit
+                className="mt-5 max-w-xl"
+                teacher={course.teacher}
+                channel={course.channel}
+                channelUrl={course.channelUrl}
+                sourceUrl={course.videoId ? `https://youtu.be/${course.videoId}` : undefined}
+              />
             </div>
           </div>
 
           {/* Progress */}
-          <div className="mt-8 rounded-2xl border border-border bg-surface/40 p-5">
+          <div className="mt-8 panel p-5">
             <div className="flex items-center justify-between text-xs font-bold uppercase tracking-widest">
               <span className="text-muted-foreground">Your progress</span>
               <span className="text-primary">{done.size}/{course.chapters.length} · {progress}%</span>
@@ -182,7 +190,7 @@ function CourseDetail() {
                       onClick={() => setSelectedId(ch.id)}
                       className={`group flex w-full items-start gap-3 rounded-lg border px-3 py-2.5 text-left transition-all ${
                         isActive
-                          ? "border-primary/60 bg-primary/10 shadow-brand"
+                          ? "border-primary/60 bg-primary/10 btn-grad"
                           : "border-transparent hover:border-border hover:bg-surface/40"
                       }`}
                     >
@@ -219,7 +227,7 @@ function CourseDetail() {
               <span className="opacity-40">·</span>
               <span>{selectedChapter.topic}</span>
             </div>
-            <h2 className="mt-3 font-display text-3xl font-extrabold tracking-tight md:text-4xl">
+            <h2 className="mt-3 font-display text-3xl font-bold tracking-tight md:text-4xl">
               {selectedChapter.title}
             </h2>
 
@@ -255,7 +263,7 @@ function CourseDetail() {
             </div>
 
             {/* Notes */}
-            <div className="mt-8 rounded-2xl border border-border bg-surface/40 p-5 md:p-6">
+            <div className="mt-8 panel p-5 md:p-6">
               <h4 className="font-mono text-[10px] font-bold uppercase tracking-[0.3em] text-primary">
                 Key notes
               </h4>
@@ -318,7 +326,7 @@ function CourseDetail() {
               {prevChapter ? (
                 <button
                   onClick={() => setSelectedId(prevChapter.id)}
-                  className="group inline-flex flex-1 items-center gap-3 rounded-xl border border-border bg-surface/40 p-4 text-left transition-all hover:border-primary/60"
+                  className="group inline-flex flex-1 items-center gap-3 panel rounded-xl p-4 text-left transition-all hover:border-primary/60"
                 >
                   <ArrowLeft className="h-4 w-4 text-primary transition-transform group-hover:-translate-x-1" />
                   <div className="min-w-0">
@@ -332,7 +340,7 @@ function CourseDetail() {
               {nextChapter ? (
                 <button
                   onClick={() => setSelectedId(nextChapter.id)}
-                  className="group inline-flex flex-1 items-center gap-3 rounded-xl border border-border bg-surface/40 p-4 text-right transition-all hover:border-primary/60"
+                  className="group inline-flex flex-1 items-center gap-3 panel rounded-xl p-4 text-right transition-all hover:border-primary/60"
                 >
                   <div className="ml-auto min-w-0">
                     <div className="font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
@@ -351,7 +359,7 @@ function CourseDetail() {
       {/* Other courses */}
       <section className="border-t border-border bg-surface/20 px-6 py-16">
         <div className="mx-auto max-w-6xl">
-          <h2 className="font-display text-2xl font-extrabold tracking-tight md:text-3xl">Keep learning</h2>
+          <h2 className="font-display text-2xl font-bold tracking-tight md:text-3xl">Keep learning</h2>
           <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {otherCourses.map((c) => {
               const href = c.slug === "python" ? "/challenge" : `/courses/${c.slug}`;
@@ -359,11 +367,11 @@ function CourseDetail() {
                 <Link
                   key={c.slug}
                   to={href}
-                  className="group flex items-center gap-4 rounded-xl border border-border bg-surface/40 p-5 transition-all hover:-translate-y-0.5 hover:border-primary/60"
+                  className="group flex items-center gap-4 panel rounded-xl p-5 transition-all hover:-translate-y-0.5 hover:border-primary/60"
                 >
                   <div className="text-4xl">{c.emoji}</div>
                   <div className="min-w-0 flex-1">
-                    <div className="truncate font-display text-lg font-extrabold">{c.title.split(" — ")[0]}</div>
+                    <div className="truncate font-display text-lg font-bold">{c.title.split(" — ")[0]}</div>
                     <div className="truncate text-xs text-muted-foreground">{c.tagline}</div>
                   </div>
                   <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-1 group-hover:text-primary" />

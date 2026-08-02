@@ -126,8 +126,8 @@ function ProgressPage() {
               <RefreshCw className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`} /> Refresh
             </button>
           </div>
-          <h1 className="mt-4 font-display text-4xl font-extrabold uppercase leading-[0.9] tracking-tighter md:text-6xl">
-            Your <span className="italic text-primary">learning graph</span>
+          <h1 className="mt-4 font-display text-4xl font-bold leading-[0.9] tracking-tighter md:text-6xl">
+            Your <span className="grad-text">learning graph</span>
           </h1>
           <p className="mt-4 max-w-2xl text-muted-foreground">
             A quick view of what you've completed so far — courses, quizzes, streak days, bookmarks, and your active AI roadmap.
@@ -143,7 +143,7 @@ function ProgressPage() {
               <div className="flex items-start gap-3">
                 <AlertTriangle className="mt-0.5 h-5 w-5 text-destructive" />
                 <div>
-                  <div className="font-display text-lg font-extrabold uppercase">Couldn't load progress</div>
+                  <div className="font-display text-lg font-bold">Couldn't load progress</div>
                   <div className="mt-1 text-sm text-muted-foreground">{error}</div>
                 </div>
               </div>
@@ -176,7 +176,7 @@ function ProgressPage() {
           <div className="mx-auto max-w-6xl rounded-2xl border border-primary/40 bg-primary/5 p-6">
             <div className="flex items-center gap-2">
               <ClipboardList className="h-5 w-5 text-primary" />
-              <h3 className="font-display text-xl font-extrabold uppercase tracking-tighter">Summary</h3>
+              <h3 className="font-display text-xl font-bold tracking-tighter">Summary</h3>
             </div>
             <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               <SummaryStat label="Level" value={summary.level} />
@@ -200,7 +200,7 @@ function ProgressPage() {
                 {snap?.courses.length ? (
                   <ul className="space-y-2">
                     {snap.courses.map((c) => (
-                      <li key={c.slug} className="flex items-center justify-between rounded-xl border border-border bg-surface/50 px-4 py-3 text-sm">
+                      <li key={c.slug} className="flex items-center justify-between panel rounded-xl px-4 py-3 text-sm">
                         <span className="font-mono text-xs uppercase tracking-widest">{c.slug}</span>
                         <span className="rounded-full border border-primary/40 bg-primary/10 px-3 py-0.5 font-mono text-[10px] text-primary">{c.done} lessons</span>
                       </li>
@@ -211,7 +211,7 @@ function ProgressPage() {
 
               <Panel icon={RouteIcon} title="Active AI roadmap">
                 {snap?.lastRoadmap ? (
-                  <div className="rounded-xl border border-border bg-surface/50 p-5">
+                  <div className="panel rounded-xl p-5">
                     <div className="font-mono text-[11px] uppercase tracking-widest text-primary">Latest</div>
                     <div className="mt-1 font-semibold">{snap.lastRoadmap.title ?? "Roadmap"}</div>
                     <div className="mt-1 text-xs text-muted-foreground">{snap.lastRoadmap.branch} · Sem {snap.lastRoadmap.semester}</div>
@@ -224,7 +224,7 @@ function ProgressPage() {
                 {snap?.quizzes.length ? (
                   <ul className="space-y-2">
                     {snap.quizzes.slice(0, 8).map((q) => (
-                      <li key={q.key} className="flex items-center justify-between rounded-xl border border-border bg-surface/50 px-4 py-3 text-sm">
+                      <li key={q.key} className="flex items-center justify-between panel rounded-xl px-4 py-3 text-sm">
                         <span className="truncate font-mono text-xs">{q.key}</span>
                         <span className="rounded-full border border-primary/40 bg-primary/10 px-3 py-0.5 font-mono text-[10px] text-primary">{q.attempted}</span>
                       </li>
@@ -234,8 +234,8 @@ function ProgressPage() {
               </Panel>
 
               <Panel icon={Flame} title="30-Day Python streak">
-                <div className="rounded-xl border border-border bg-surface/50 p-5">
-                  <div className="font-display text-4xl font-extrabold text-primary">{snap?.streakDays ?? 0}<span className="ml-2 text-base text-muted-foreground">days</span></div>
+                <div className="panel rounded-xl p-5">
+                  <div className="font-display text-4xl font-bold text-primary">{snap?.streakDays ?? 0}<span className="ml-2 text-base text-muted-foreground">days</span></div>
                   <Link to="/challenge" className="mt-4 inline-flex text-xs font-bold uppercase tracking-widest text-primary hover:underline">Continue challenge →</Link>
                 </div>
               </Panel>
@@ -252,9 +252,9 @@ function ProgressPage() {
 
 function Stat({ icon: Icon, label, value }: { icon: React.ComponentType<{ className?: string }>; label: string; value: number }) {
   return (
-    <div className="rounded-2xl border border-border bg-surface/40 p-5">
+    <div className="panel p-5">
       <Icon className="h-5 w-5 text-primary" />
-      <div className="mt-3 font-display text-3xl font-extrabold">{value}</div>
+      <div className="mt-3 font-display text-3xl font-bold">{value}</div>
       <div className="mt-1 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">{label}</div>
     </div>
   );
@@ -262,10 +262,10 @@ function Stat({ icon: Icon, label, value }: { icon: React.ComponentType<{ classN
 
 function Panel({ icon: Icon, title, children }: { icon: React.ComponentType<{ className?: string }>; title: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-2xl border border-border bg-surface/40 p-6">
+    <div className="panel p-6">
       <div className="flex items-center gap-2">
         <Icon className="h-5 w-5 text-primary" />
-        <h3 className="font-display text-xl font-extrabold uppercase tracking-tighter">{title}</h3>
+        <h3 className="font-display text-xl font-bold tracking-tighter">{title}</h3>
       </div>
       <div className="mt-4">{children}</div>
     </div>
@@ -283,14 +283,14 @@ function Empty({ text, to, cta }: { text: string; to: string; cta: string }) {
 
 function SummaryStat({ label, value }: { label: string; value: number | string }) {
   return (
-    <div className="rounded-xl border border-border bg-surface/60 p-4">
-      <div className="font-display text-2xl font-extrabold">{value}</div>
+    <div className="panel rounded-xl p-4">
+      <div className="font-display text-2xl font-bold">{value}</div>
       <div className="mt-1 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">{label}</div>
     </div>
   );
 }
 
 function SkeletonBlock({ className = "" }: { className?: string }) {
-  return <div className={`animate-pulse rounded-2xl border border-border bg-surface/40 ${className}`} />;
+  return <div className={`animate-pulse panel ${className}`} />;
 }
 

@@ -69,8 +69,8 @@ function JoinPage() {
         <div className="pointer-events-none absolute inset-0 radial-glow" />
         <div className="relative mx-auto max-w-3xl text-center">
           <span className="font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-primary">// 100% Free · Always</span>
-          <h1 className="mt-4 font-display text-5xl font-extrabold uppercase leading-[0.85] tracking-tighter md:text-7xl">
-            Start your journey. <span className="italic text-primary">today.</span>
+          <h1 className="mt-4 font-display text-5xl font-bold leading-[0.85] tracking-tighter md:text-7xl">
+            Start your journey. <span className="grad-text">today.</span>
           </h1>
           <p className="mx-auto mt-6 max-w-xl text-muted-foreground">
             No signup form. No email required. Just choose where you want to plug in — and we'll see you on the other side.
@@ -81,9 +81,9 @@ function JoinPage() {
       <section className="px-4 pb-16">
         <div className="mx-auto grid max-w-5xl gap-4 md:grid-cols-2">
           {perks.map((p) => (
-            <div key={p.title} className="rounded-2xl border border-border bg-surface/40 p-6 backdrop-blur-sm transition-colors hover:border-primary/60">
+            <div key={p.title} className="panel p-6 backdrop-blur-sm transition-colors hover:border-primary/60">
               <div className="text-3xl">{p.emoji}</div>
-              <h3 className="mt-3 font-display text-lg font-extrabold uppercase tracking-tight">{p.title}</h3>
+              <h3 className="mt-3 font-display text-lg font-bold tracking-tight">{p.title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{p.desc}</p>
             </div>
           ))}
@@ -94,7 +94,7 @@ function JoinPage() {
         <div className="mx-auto max-w-5xl">
           <div className="mb-8 text-center">
             <span className="font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-primary">// Pick your platform</span>
-            <h2 className="mt-3 font-display text-3xl font-extrabold uppercase italic md:text-4xl">Join where you're already active.</h2>
+            <h2 className="mt-3 font-display text-3xl font-bold md:text-4xl">Join where you're already active.</h2>
             <p className="mx-auto mt-3 max-w-lg text-sm text-muted-foreground">
               Each channel has different content — you can follow all of them.
             </p>
@@ -107,14 +107,14 @@ function JoinPage() {
                 href={p.href}
                 target="_blank"
                 rel="noreferrer"
-                className="group flex items-center gap-5 rounded-2xl border border-border bg-surface/40 p-6 backdrop-blur-sm transition-all hover:border-primary"
+                className="group flex items-center gap-5 panel p-6 backdrop-blur-sm transition-all hover:border-primary"
               >
                 <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
                   {p.icon}
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center gap-2">
-                    <h3 className="font-display text-xl font-extrabold uppercase">{p.name}</h3>
+                    <h3 className="font-display text-xl font-bold">{p.name}</h3>
                     <span className="rounded-full border border-primary/30 bg-primary/10 px-2 py-0.5 font-mono text-[9px] uppercase tracking-widest text-primary">
                       {p.tag}
                     </span>
@@ -131,7 +131,7 @@ function JoinPage() {
       <section className="px-4 pb-24">
         <div className="mx-auto max-w-3xl rounded-3xl border border-border bg-gradient-to-br from-primary/10 via-surface/40 to-background p-10 text-center backdrop-blur-sm">
           <span className="font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-primary">// Or get in touch</span>
-          <h2 className="mt-3 font-display text-2xl font-extrabold uppercase italic md:text-3xl">Talk to the founder.</h2>
+          <h2 className="mt-3 font-display text-2xl font-bold md:text-3xl">Talk to the founder.</h2>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             <a
               href="https://t.me/Emomohit"
@@ -143,7 +143,7 @@ function JoinPage() {
             </a>
             <Link
               to="/contact"
-              className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-3 text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-brand transition-transform hover:scale-105"
+              className="inline-flex items-center gap-2 rounded-full px-5 py-3 text-xs font-bold uppercase tracking-widest btn-grad transition-transform hover:scale-105"
             >
               <Mail className="h-4 w-4" /> Contact Us
             </Link>

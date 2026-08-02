@@ -78,8 +78,8 @@ function TestsIndex() {
         <div className="pointer-events-none absolute inset-0 radial-glow" />
         <div className="relative mx-auto max-w-6xl">
           <span className="font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-primary">// Prove</span>
-          <h1 className="mt-4 font-display text-5xl font-extrabold uppercase leading-[0.85] tracking-tighter md:text-7xl">
-            Tests <span className="italic text-primary">under pressure.</span>
+          <h1 className="mt-4 font-display text-5xl font-bold leading-[0.85] tracking-tighter md:text-7xl">
+            Tests <span className="grad-text">under pressure.</span>
           </h1>
           <p className="mt-6 max-w-xl text-muted-foreground">
             Longer, timed, and unforgiving. Score, review every answer, and learn where you actually stand.
@@ -94,7 +94,7 @@ function TestsIndex() {
               key={t.slug}
               to="/tests/$slug"
               params={{ slug: t.slug }}
-              className="group relative overflow-hidden rounded-2xl border border-border bg-surface/40 p-7 backdrop-blur-sm transition-all hover:-translate-y-1 hover:border-primary"
+              className="group relative overflow-hidden panel p-7 backdrop-blur-sm panel-hover"
             >
               <div className="flex items-start justify-between">
                 <span className="text-4xl">{t.emoji}</span>
@@ -109,7 +109,7 @@ function TestsIndex() {
                   </span>
                 </div>
               </div>
-              <h3 className="mt-6 font-display text-2xl font-extrabold uppercase">{t.title}</h3>
+              <h3 className="mt-6 font-display text-2xl font-bold">{t.title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground line-clamp-2">{t.description}</p>
               <div className="mt-6 flex items-center justify-between border-t border-border pt-5 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
                 <span><Timer className="mr-1 inline h-3 w-3 text-primary" /> {t.count} Q · {t.minutes} min</span>

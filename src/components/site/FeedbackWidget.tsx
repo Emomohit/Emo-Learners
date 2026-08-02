@@ -70,7 +70,7 @@ export function FeedbackWidget() {
             className="w-full max-w-md rounded-2xl border border-border bg-background p-6 shadow-2xl"
           >
             <div className="flex items-center justify-between">
-              <h3 className="font-display text-lg font-extrabold uppercase">Tell us what's wrong</h3>
+              <h3 className="font-display text-lg font-bold">Tell us what's wrong</h3>
               <button
                 type="button"
                 onClick={() => setOpen(false)}
@@ -99,7 +99,7 @@ export function FeedbackWidget() {
             <button
               type="submit"
               disabled={busy || !user}
-              className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-5 py-3 text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-brand transition-all hover:scale-[1.01] disabled:opacity-50"
+              className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-xs font-bold uppercase tracking-widest btn-grad transition-all hover:scale-[1.01] disabled:opacity-50"
             >
               {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
               Send feedback

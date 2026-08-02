@@ -58,8 +58,8 @@ function DoubtPage() {
 
   return (
     <section className="mx-auto max-w-3xl px-4 py-14">
-      <h1 className="font-display text-3xl font-extrabold uppercase tracking-tighter md:text-5xl">
-        AI <span className="italic text-primary">Doubt Solver</span>
+      <h1 className="font-display text-3xl font-bold tracking-tighter md:text-5xl">
+        AI <span className="grad-text">Doubt Solver</span>
       </h1>
       <p className="mt-3 text-muted-foreground">Ask any doubt from your syllabus. Answers are concise and exam-focused.</p>
 
@@ -73,7 +73,7 @@ function DoubtPage() {
         />
       </div>
 
-      <div className="mt-8 min-h-[300px] space-y-3 rounded-2xl border border-border bg-surface/40 p-4">
+      <div className="mt-8 min-h-[300px] space-y-3 panel p-4">
         {messages.length === 0 && <p className="text-sm text-muted-foreground">Try: "Explain deadlock with an example" or "Difference between TCP and UDP for exam".</p>}
         {messages.map((m, i) => (
           <div key={i} className={`rounded-xl px-4 py-3 text-sm ${m.role === "user" ? "ml-8 bg-primary/10 text-foreground" : "mr-8 border border-border bg-surface text-foreground"}`}>
@@ -93,7 +93,7 @@ function DoubtPage() {
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => { if (e.key === "Enter" && !loading) send(); }}
         />
-        <button onClick={send} disabled={loading || !input.trim()} className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-3 font-mono text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-brand disabled:opacity-50">
+        <button onClick={send} disabled={loading || !input.trim()} className="inline-flex items-center gap-2 rounded-full px-5 py-3 font-mono text-xs font-bold uppercase tracking-widest btn-grad disabled:opacity-50">
           <Send className="h-4 w-4" /> Send
         </button>
       </div>

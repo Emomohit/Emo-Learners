@@ -64,11 +64,11 @@ export function QuizBlock({ courseSlug, chapterId, quiz, onPass }: Props) {
   const pct = state.submitted ? Math.round((state.score / quiz.length) * 100) : 0;
 
   return (
-    <div className="rounded-2xl border border-border bg-surface/40 p-5 md:p-6">
+    <div className="panel p-5 md:p-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Sparkles className="h-4 w-4 text-primary" />
-          <h4 className="font-display text-lg font-extrabold uppercase tracking-tight">
+          <h4 className="font-display text-lg font-bold tracking-tight">
             Practice quiz
           </h4>
         </div>
@@ -159,7 +159,7 @@ export function QuizBlock({ courseSlug, chapterId, quiz, onPass }: Props) {
           <button
             onClick={submit}
             disabled={!answeredAll}
-            className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-brand transition-transform hover:scale-[1.02] active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
+            className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-bold uppercase tracking-widest btn-grad transition-transform hover:scale-[1.02] active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
           >
             Submit answers
           </button>

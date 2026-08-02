@@ -51,8 +51,8 @@ function InternshipsPage() {
             <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" />
             Launching Soon
           </span>
-          <h1 className="mt-5 font-display text-5xl font-extrabold uppercase leading-[0.85] tracking-tighter md:text-7xl">
-            Intern<span className="italic text-primary">ships.</span>
+          <h1 className="mt-5 font-display text-5xl font-bold leading-[0.85] tracking-tighter md:text-7xl">
+            Intern<span className="grad-text">ships.</span>
           </h1>
           <p className="mx-auto mt-6 max-w-xl text-muted-foreground">
             We're curating real internship opportunities for students who've built real skills.
@@ -66,7 +66,7 @@ function InternshipsPage() {
               href="https://t.me/emolarners"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-brand transition-transform hover:scale-105"
+              className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-xs font-bold uppercase tracking-widest btn-grad transition-transform hover:scale-105"
             >
               <Send className="h-4 w-4" /> Join Telegram for Updates
             </a>
@@ -85,11 +85,11 @@ function InternshipsPage() {
       <section className="px-4 pb-24">
         <div className="mx-auto grid max-w-5xl gap-4 md:grid-cols-3">
           {promises.map((p) => (
-            <div key={p.title} className="relative rounded-2xl border border-border bg-surface/40 p-7 backdrop-blur-sm transition-colors hover:border-primary/60">
+            <div key={p.title} className="relative panel p-7 backdrop-blur-sm transition-colors hover:border-primary/60">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
                 {p.icon}
               </div>
-              <h3 className="mt-5 font-display text-xl font-extrabold uppercase">{p.title}</h3>
+              <h3 className="mt-5 font-display text-xl font-bold">{p.title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{p.desc}</p>
               <span className="mt-5 inline-block rounded-full border border-primary/30 bg-primary/10 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-widest text-primary">
                 {p.badge}
@@ -101,7 +101,7 @@ function InternshipsPage() {
 
       <section className="px-4 pb-24">
         <div className="mx-auto max-w-3xl rounded-3xl border border-dashed border-border bg-surface/30 p-10 text-center">
-          <h2 className="font-display text-2xl font-extrabold uppercase italic md:text-3xl">
+          <h2 className="font-display text-2xl font-bold md:text-3xl">
             In the meantime — <span className="text-primary">build skills.</span>
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-sm text-muted-foreground">

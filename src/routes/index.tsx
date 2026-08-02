@@ -167,11 +167,11 @@ function Home() {
 
       {/* HERO */}
       <section className="relative overflow-hidden px-4 pb-20 pt-14 md:pt-20">
-        <div className="pointer-events-none absolute inset-0 grid-bg opacity-60" />
-        <div className="pointer-events-none absolute inset-0 radial-glow" />
+        <div className="pointer-events-none absolute inset-0 grid-bg opacity-40" />
+        <div className="aurora-bg" aria-hidden="true" />
 
         <div className="relative mx-auto flex max-w-5xl flex-col items-center text-center">
-          <div className="animate-rise inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5 backdrop-blur-sm">
+          <div className="animate-rise inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 backdrop-blur-sm">
             <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" aria-hidden="true" />
             <span className="font-mono text-[10px] font-bold uppercase tracking-[0.25em] text-primary">
               Free · Made for Indian students
@@ -179,15 +179,16 @@ function Home() {
           </div>
 
           <h1
-            className="animate-rise mt-8 font-display text-5xl font-extrabold uppercase leading-[0.85] tracking-tighter md:text-7xl lg:text-8xl"
+            className="animate-rise mt-8 font-display text-4xl font-bold leading-[1.03] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl"
             style={{ animationDelay: "80ms" }}
           >
             <span className="block">One place to</span>
-            <span className="relative mt-2 block py-2 italic text-primary">
-              study, practice, and grow.
-              <span className="absolute -inset-4 -z-10 rounded-full bg-primary/20 blur-3xl" aria-hidden="true" />
+            <span className="relative mt-2 block py-1">
+              <span className="grad-text">study, practice, and grow.</span>
+              <span className="absolute -inset-6 -z-10 rounded-full bg-primary/20 blur-3xl" aria-hidden="true" />
             </span>
           </h1>
+
 
           <p
             className="animate-rise mt-8 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg"
@@ -216,7 +217,7 @@ function Home() {
             />
             <button
               type="submit"
-              className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-brand"
+              className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-bold uppercase tracking-widest btn-grad"
             >
               Go
             </button>
@@ -261,7 +262,7 @@ function Home() {
               <Link
                 key={c.to}
                 to={c.to}
-                className="group relative overflow-hidden rounded-2xl border border-border bg-surface/40 p-7 backdrop-blur-sm transition-all hover:-translate-y-1 hover:border-primary"
+                className="group relative overflow-hidden panel p-7 backdrop-blur-sm panel-hover"
               >
                 <div className="flex items-start justify-between">
                   <span className="font-mono text-xs font-bold tracking-widest text-muted-foreground">
@@ -274,7 +275,7 @@ function Home() {
                 <span className="mt-6 flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-background/60 text-primary transition-all group-hover:bg-primary group-hover:text-primary-foreground">
                   <c.icon className="h-5 w-5" aria-hidden="true" />
                 </span>
-                <h3 className="mt-6 font-display text-2xl font-extrabold uppercase">{c.title}</h3>
+                <h3 className="mt-6 font-display text-2xl font-bold">{c.title}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{c.desc}</p>
                 <div className="mt-6 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary">
                   Open <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
@@ -295,8 +296,8 @@ function Home() {
               { t: "AI that actually helps", d: "Doubt solver, PYQ predictor, quiz generator and mock interviews — one gateway, zero setup." },
               { t: "Placement-ready by design", d: "Coding practice, aptitude, resume analysis and interview prep baked into the same flow." },
             ].map((c) => (
-              <div key={c.t} className="rounded-2xl border border-border bg-surface/50 p-6 backdrop-blur-sm">
-                <h4 className="font-display text-lg font-extrabold uppercase tracking-tighter">{c.t}</h4>
+              <div key={c.t} className="panel p-6 backdrop-blur-sm">
+                <h4 className="font-display text-lg font-bold tracking-tighter">{c.t}</h4>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{c.d}</p>
               </div>
             ))}
@@ -317,7 +318,7 @@ function Home() {
               "Track real progress: courses, quizzes, streaks and roadmap milestones.",
               "Stay affordable at scale via a SaaS model for colleges and universities.",
             ].map((o, i) => (
-              <li key={o} className="flex items-start gap-3 rounded-xl border border-border bg-surface/40 p-4">
+              <li key={o} className="flex items-start gap-3 panel rounded-xl p-4">
                 <span className="mt-0.5 font-mono text-xs font-bold text-primary">{String(i + 1).padStart(2, "0")}</span>
                 <span className="text-sm">{o}</span>
               </li>
@@ -330,7 +331,7 @@ function Home() {
       <section className="relative px-4 py-16">
         <div className="mx-auto max-w-6xl">
           <SectionHeader tag="// Block diagram" title="How the platform flows." />
-          <div className="mt-10 rounded-3xl border border-border bg-surface/40 p-6 md:p-10">
+          <div className="mt-10 panel p-6 md:p-10">
             <div className="flex flex-col items-center gap-3">
               <BlockNode>Student</BlockNode>
               <Arrow />
@@ -363,8 +364,8 @@ function Home() {
               { k: "70%+", v: "Struggle with placement readiness" },
               { k: "SaaS", v: "Affordable college-wide deployment" },
             ].map((s) => (
-              <div key={s.k} className="rounded-2xl border border-border bg-surface/40 p-6 text-center">
-                <div className="font-display text-3xl font-extrabold text-primary md:text-4xl">{s.k}</div>
+              <div key={s.k} className="panel p-6 text-center">
+                <div className="font-display text-3xl font-bold text-primary md:text-4xl">{s.k}</div>
                 <div className="mt-2 text-sm text-muted-foreground">{s.v}</div>
               </div>
             ))}
@@ -397,7 +398,7 @@ function Home() {
             ].map((c) => (
               <div key={c.t} className="bg-surface/60 p-8 backdrop-blur-sm">
                 <c.icon className="h-5 w-5 text-primary" aria-hidden="true" />
-                <h4 className="mt-4 font-display text-xl font-extrabold uppercase">{c.t}</h4>
+                <h4 className="mt-4 font-display text-xl font-bold">{c.t}</h4>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{c.d}</p>
               </div>
             ))}
@@ -408,7 +409,7 @@ function Home() {
       {/* CTA */}
       <section className="relative px-4 py-24">
         <div className="mx-auto max-w-5xl rounded-3xl border border-border bg-gradient-to-br from-primary/15 via-surface/40 to-background p-10 text-center backdrop-blur-sm md:p-16">
-          <h2 className="font-display text-3xl font-extrabold uppercase italic leading-none tracking-tighter md:text-5xl">
+          <h2 className="font-display text-3xl font-bold leading-none tracking-tighter md:text-5xl">
             Ready to start? <br />
             <span className="text-primary">Create a free account.</span>
           </h2>
@@ -418,7 +419,7 @@ function Home() {
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <Link
               to="/auth"
-              className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-brand transition-all hover:scale-105"
+              className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-xs font-bold uppercase tracking-widest btn-grad transition-all hover:scale-105"
             >
               Sign up free <ArrowRight className="h-4 w-4" />
             </Link>
@@ -441,7 +442,7 @@ function SectionHeader({ tag, title, subtitle }: { tag: string; title: string; s
   return (
     <div className="flex flex-col items-start gap-3">
       <span className="font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-primary">{tag}</span>
-      <h2 className="font-display text-3xl font-extrabold uppercase leading-none tracking-tighter md:text-5xl">
+      <h2 className="font-display text-3xl font-bold leading-none tracking-tighter md:text-5xl">
         {title}
       </h2>
       {subtitle && <p className="mt-2 max-w-xl text-sm text-muted-foreground">{subtitle}</p>}

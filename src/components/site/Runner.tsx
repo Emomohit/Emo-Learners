@@ -83,13 +83,13 @@ export function Runner({
     const pct = Math.round((score / questions.length) * 100);
     return (
       <div className="mx-auto max-w-3xl">
-        <div className="rounded-3xl border border-border bg-surface/40 p-8 backdrop-blur-sm md:p-12">
+        <div className="panel p-8 backdrop-blur-sm md:p-12">
           <div className="flex items-center justify-center">
             <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-primary/10 text-primary">
               <Trophy className="h-9 w-9" />
             </div>
           </div>
-          <h2 className="mt-6 text-center font-display text-4xl font-extrabold uppercase md:text-5xl">
+          <h2 className="mt-6 text-center font-display text-4xl font-bold md:text-5xl">
             {pct >= 80 ? "Crushed it." : pct >= 50 ? "Solid work." : "Keep going."}
           </h2>
           <p className="mt-3 text-center text-muted-foreground">
@@ -124,7 +124,7 @@ export function Runner({
           </div>
 
           <div className="mt-10 flex flex-wrap justify-center gap-3">
-            <button onClick={reset} className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-brand transition-all hover:scale-105">
+            <button onClick={reset} className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-xs font-bold uppercase tracking-widest btn-grad transition-all hover:scale-105">
               <RotateCcw className="h-3.5 w-3.5" /> Retake
             </button>
             <Link to={backHref} className="inline-flex items-center gap-2 rounded-full border border-border bg-surface/60 px-6 py-3 text-xs font-bold uppercase tracking-widest text-foreground transition-all hover:border-primary hover:text-primary">
@@ -144,7 +144,7 @@ export function Runner({
           <span className="text-3xl">{emoji}</span>
           <div>
             <div className="font-mono text-[10px] font-bold uppercase tracking-[0.25em] text-primary">{topic}</div>
-            <h1 className="font-display text-2xl font-extrabold uppercase md:text-3xl">{title}</h1>
+            <h1 className="font-display text-2xl font-bold md:text-3xl">{title}</h1>
           </div>
         </div>
         {isTest && (
@@ -166,8 +166,8 @@ export function Runner({
       </div>
 
       {/* Question */}
-      <div className="mt-8 rounded-3xl border border-border bg-surface/40 p-7 backdrop-blur-sm md:p-10">
-        <p className="font-display text-2xl font-extrabold leading-tight md:text-3xl">{current.q}</p>
+      <div className="mt-8 panel p-7 backdrop-blur-sm md:p-10">
+        <p className="font-display text-2xl font-bold leading-tight md:text-3xl">{current.q}</p>
 
         <div className="mt-8 space-y-3">
           {current.options.map((opt, i) => {
@@ -224,7 +224,7 @@ export function Runner({
         <button
           onClick={next}
           disabled={isTest ? false : !isRevealed}
-          className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-2.5 text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-brand transition-all hover:scale-105 disabled:opacity-40"
+          className="inline-flex items-center gap-2 rounded-full px-6 py-2.5 text-xs font-bold uppercase tracking-widest btn-grad transition-all hover:scale-105 disabled:opacity-40"
         >
           {idx === questions.length - 1 ? "Finish" : "Next"} <ArrowRight className="h-3.5 w-3.5" />
         </button>

@@ -34,7 +34,7 @@ function AdminPage() {
         <Navbar />
         <div className="mx-auto max-w-md px-4 py-24 text-center">
           <ShieldCheck className="mx-auto h-10 w-10 text-primary" />
-          <h1 className="mt-4 font-display text-3xl font-extrabold uppercase italic">Admins only</h1>
+          <h1 className="mt-4 font-display text-3xl font-bold">Admins only</h1>
           <p className="mt-2 text-sm text-muted-foreground">
             This area is for verified EMO Learners admins. Sign in with the founder account to access it.
           </p>
@@ -61,7 +61,7 @@ function AdminPage() {
         <div className="pointer-events-none absolute inset-0 radial-glow" />
         <div className="relative mx-auto max-w-6xl">
           <span className="font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-primary">// Admin</span>
-          <h1 className="mt-3 font-display text-4xl font-extrabold uppercase italic tracking-tighter md:text-6xl">
+          <h1 className="mt-3 font-display text-4xl font-bold tracking-tighter md:text-6xl">
             Control <span className="text-primary">Panel</span>
           </h1>
 
@@ -175,8 +175,8 @@ function UploadPanel() {
 
   return (
     <div className="grid gap-6 lg:grid-cols-[1.1fr_1fr]">
-      <form onSubmit={submit} className="space-y-4 rounded-2xl border border-border bg-surface/40 p-6">
-        <h3 className="font-display text-xl font-extrabold uppercase">Upload PDF</h3>
+      <form onSubmit={submit} className="space-y-4 panel p-6">
+        <h3 className="font-display text-xl font-bold">Upload PDF</h3>
         <div className="grid gap-3 sm:grid-cols-2">
           <Field label="Branch">
             <select value={branch} onChange={(e) => setBranch(e.target.value)} className="select">
@@ -220,15 +220,15 @@ function UploadPanel() {
         <button
           type="submit"
           disabled={busy}
-          className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 text-sm font-bold uppercase tracking-widest text-primary-foreground shadow-brand disabled:opacity-50"
+          className="inline-flex w-full items-center justify-center gap-2 rounded-xl py-3 text-sm font-bold uppercase tracking-widest btn-grad disabled:opacity-50"
         >
           <Upload className="h-4 w-4" /> {busy ? "Uploading…" : "Upload"}
         </button>
         <style>{`.input{width:100%;border:1px solid var(--border, hsl(var(--border)));background:hsl(var(--background));border-radius:.75rem;padding:.6rem .8rem;font-size:.875rem;color:hsl(var(--foreground))}.select{width:100%;border:1px solid hsl(var(--border));background:hsl(var(--background));border-radius:.75rem;padding:.6rem .8rem;font-size:.875rem;color:hsl(var(--foreground))}.input:focus,.select:focus{outline:none;border-color:hsl(var(--primary))}`}</style>
       </form>
 
-      <div className="rounded-2xl border border-border bg-surface/40 p-6">
-        <h3 className="font-display text-xl font-extrabold uppercase">Files in this subject</h3>
+      <div className="panel p-6">
+        <h3 className="font-display text-xl font-bold">Files in this subject</h3>
         {!subjectId && <p className="mt-3 text-sm text-muted-foreground">Pick a subject to see uploads.</p>}
         <div className="mt-3 space-y-2">
           {resources.map((r) => (
@@ -263,7 +263,7 @@ function FeedbackPanel() {
     <div className="space-y-3">
       {items.length === 0 && <p className="text-sm text-muted-foreground">No feedback yet.</p>}
       {items.map((f) => (
-        <div key={f.id} className="rounded-2xl border border-border bg-surface/40 p-5">
+        <div key={f.id} className="panel p-5">
           <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
             <div><b className="text-foreground">{f.name}</b> · <a href={`mailto:${f.email}`} className="text-primary hover:underline">{f.email}</a></div>
             <span className="font-mono text-muted-foreground">{new Date(f.created_at).toLocaleString()}</span>
@@ -395,8 +395,8 @@ function TestsPanel() {
 
   return (
     <div className="grid gap-6 lg:grid-cols-[1.1fr_1fr]">
-      <form onSubmit={submit} className="space-y-4 rounded-2xl border border-border bg-surface/40 p-6">
-        <h3 className="font-display text-xl font-extrabold uppercase">New Test</h3>
+      <form onSubmit={submit} className="space-y-4 panel p-6">
+        <h3 className="font-display text-xl font-bold">New Test</h3>
         <div className="grid gap-3 sm:grid-cols-[1fr_120px]">
           <Field label="Title">
             <input value={title} onChange={(e) => setTitle(e.target.value)} required placeholder="e.g. OS Mid-Sem Mock" className="input" />
@@ -460,13 +460,13 @@ function TestsPanel() {
           </div>
         </div>
 
-        <button type="submit" disabled={busy} className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 text-sm font-bold uppercase tracking-widest text-primary-foreground shadow-brand disabled:opacity-50">
+        <button type="submit" disabled={busy} className="inline-flex w-full items-center justify-center gap-2 rounded-xl py-3 text-sm font-bold uppercase tracking-widest btn-grad disabled:opacity-50">
           {busy ? "Saving…" : "Publish Test"}
         </button>
       </form>
 
-      <div className="rounded-2xl border border-border bg-surface/40 p-6">
-        <h3 className="font-display text-xl font-extrabold uppercase">Your tests</h3>
+      <div className="panel p-6">
+        <h3 className="font-display text-xl font-bold">Your tests</h3>
         {items.length === 0 && <p className="mt-3 text-sm text-muted-foreground">Nothing yet — create your first test.</p>}
         <div className="mt-3 space-y-2">
           {items.map((t) => (

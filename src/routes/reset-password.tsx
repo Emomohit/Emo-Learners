@@ -55,13 +55,13 @@ function ResetPasswordPage() {
         <div className="pointer-events-none absolute inset-0 grid-bg opacity-40" />
         <div className="pointer-events-none absolute inset-0 radial-glow" />
         <div className="relative mx-auto max-w-md">
-          <div className="rounded-3xl border border-border bg-surface/60 p-8 backdrop-blur-xl shadow-brand">
+          <div className="panel p-8 backdrop-blur-xl btn-grad">
             <div className="flex items-center justify-center gap-2">
-              <div className="flex h-10 w-10 rotate-12 items-center justify-center rounded-lg bg-primary shadow-brand">
+              <div className="flex h-10 w-10 rotate-12 items-center justify-center rounded-lg btn-grad">
                 <Zap className="h-5 w-5 text-primary-foreground" strokeWidth={2.5} />
               </div>
             </div>
-            <h1 className="mt-6 text-center font-display text-3xl font-extrabold uppercase italic tracking-tighter">
+            <h1 className="mt-6 text-center font-display text-3xl font-bold tracking-tighter">
               Set a new password
             </h1>
             <p className="mt-2 text-center text-sm text-muted-foreground">
@@ -106,7 +106,7 @@ function ResetPasswordPage() {
               <button
                 type="submit"
                 disabled={busy || !ready}
-                className="w-full rounded-xl bg-primary py-3 text-sm font-bold uppercase tracking-widest text-primary-foreground shadow-brand transition-transform hover:scale-[1.01] disabled:opacity-50"
+                className="w-full rounded-xl py-3 text-sm font-bold uppercase tracking-widest btn-grad transition-transform hover:scale-[1.01] disabled:opacity-50"
               >
                 {busy ? "Updating..." : "Update password"}
               </button>

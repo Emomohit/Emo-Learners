@@ -45,8 +45,8 @@ function AboutPage() {
         <div className="relative mx-auto grid max-w-6xl items-center gap-12 md:grid-cols-[1.2fr_1fr]">
           <div>
             <span className="font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-primary">// The Founder</span>
-            <h1 className="mt-4 font-display text-4xl font-extrabold uppercase leading-[0.9] tracking-tighter md:text-6xl">
-              Meet <span className="italic text-primary">Mohit Ahirwar.</span>
+            <h1 className="mt-4 font-display text-4xl font-bold leading-[0.9] tracking-tighter md:text-6xl">
+              Meet <span className="grad-text">Mohit Ahirwar.</span>
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
               A student who got tired of outdated syllabi, tutorial hell, and watching peers struggle to break into tech.
@@ -63,7 +63,7 @@ function AboutPage() {
               <a href="https://www.linkedin.com/in/mohit-ahirwar-12bb58386/" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-foreground transition-all hover:border-primary hover:text-primary">
                 <Linkedin className="h-4 w-4" /> LinkedIn
               </a>
-              <a href="https://mohitahirwarportfolio.vercel.app/" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-brand transition-transform hover:scale-105">
+              <a href="https://mohitahirwarportfolio.vercel.app/" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-bold uppercase tracking-widest btn-grad transition-transform hover:scale-105">
                 <ExternalLink className="h-4 w-4" /> View Portfolio
               </a>
             </div>
@@ -78,7 +78,7 @@ function AboutPage() {
                 </span>
                 <div>
                   <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">🧑‍💻 Founder</div>
-                  <div className="mt-2 font-display text-3xl font-extrabold uppercase leading-none tracking-tight md:text-4xl">
+                  <div className="mt-2 font-display text-3xl font-bold leading-none tracking-tight md:text-4xl">
                     Mohit<br />Ahirwar
                   </div>
                   <div className="mt-3 font-mono text-[11px] uppercase tracking-widest text-primary">EMO Learners</div>
@@ -93,7 +93,7 @@ function AboutPage() {
       <section className="px-4 pb-24">
         <div className="mx-auto max-w-6xl">
           <span className="font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-primary">// The Story</span>
-          <h2 className="mt-3 font-display text-3xl font-extrabold uppercase italic tracking-tighter md:text-5xl">
+          <h2 className="mt-3 font-display text-3xl font-bold tracking-tighter md:text-5xl">
             Why EMO Learners exists.
           </h2>
           <p className="mt-5 max-w-2xl text-muted-foreground">
@@ -103,9 +103,9 @@ function AboutPage() {
 
           <div className="mt-10 grid gap-4 md:grid-cols-2">
             {story.map((s) => (
-              <div key={s.title} className="rounded-2xl border border-border bg-surface/40 p-6 backdrop-blur-sm">
+              <div key={s.title} className="panel p-6 backdrop-blur-sm">
                 <div className="text-3xl">{s.emoji}</div>
-                <h3 className="mt-3 font-display text-xl font-extrabold uppercase">{s.title}</h3>
+                <h3 className="mt-3 font-display text-xl font-bold">{s.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{s.desc}</p>
               </div>
             ))}
@@ -117,7 +117,7 @@ function AboutPage() {
       <section className="px-4 pb-24">
         <div className="mx-auto max-w-4xl rounded-3xl border border-border bg-gradient-to-br from-primary/15 via-surface/40 to-background p-10 text-center backdrop-blur-sm md:p-16">
           <span className="font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-primary">// Our Mission</span>
-          <h2 className="mt-3 font-display text-3xl font-extrabold uppercase italic tracking-tighter md:text-5xl">
+          <h2 className="mt-3 font-display text-3xl font-bold tracking-tighter md:text-5xl">
             Make tech education actually work for Indian students.
           </h2>
           <p className="mx-auto mt-5 max-w-xl text-muted-foreground">
@@ -131,14 +131,14 @@ function AboutPage() {
       <section className="px-4 pb-24">
         <div className="mx-auto max-w-6xl">
           <span className="font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-primary">// What We Stand For</span>
-          <h2 className="mt-3 font-display text-3xl font-extrabold uppercase italic tracking-tighter md:text-5xl">
+          <h2 className="mt-3 font-display text-3xl font-bold tracking-tighter md:text-5xl">
             Our values.
           </h2>
           <div className="mt-10 grid gap-px overflow-hidden rounded-2xl border border-border bg-border md:grid-cols-2 lg:grid-cols-3">
             {values.map((v) => (
               <div key={v.title} className="bg-surface/60 p-8 backdrop-blur-sm">
                 <div className="text-3xl">{v.emoji}</div>
-                <h3 className="mt-4 font-display text-xl font-extrabold uppercase">{v.title}</h3>
+                <h3 className="mt-4 font-display text-xl font-bold">{v.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{v.desc}</p>
               </div>
             ))}

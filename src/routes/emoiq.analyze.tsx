@@ -62,15 +62,15 @@ function AnalyzePage() {
 
   return (
     <section className="mx-auto max-w-6xl px-4 py-14">
-      <h1 className="font-display text-3xl font-extrabold uppercase tracking-tighter md:text-5xl">
-        Analyze <span className="italic text-primary">PYQs</span>
+      <h1 className="font-display text-3xl font-bold tracking-tighter md:text-5xl">
+        Analyze <span className="grad-text">PYQs</span>
       </h1>
       <p className="mt-3 max-w-2xl text-muted-foreground">
         Paste the text of your past-year papers. EMoIQ finds units, weightage, and yearly trends.
       </p>
 
       {!user && (
-        <div className="mt-6 rounded-xl border border-border bg-surface/60 p-4 text-sm">
+        <div className="mt-6 panel rounded-xl p-4 text-sm">
           <Link to="/auth" className="font-bold text-primary underline">Sign in</Link> to save analyses to your account.
         </div>
       )}
@@ -109,7 +109,7 @@ function AnalyzePage() {
       <button
         onClick={analyze}
         disabled={loading}
-        className="mt-4 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-brand transition-transform hover:scale-[1.02] disabled:opacity-50"
+        className="mt-4 inline-flex items-center gap-2 rounded-full px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest btn-grad transition-transform hover:scale-[1.02] disabled:opacity-50"
       >
         {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
         {loading ? "Analyzing…" : "Run analysis"}
@@ -117,7 +117,7 @@ function AnalyzePage() {
 
       {result && (
         <div className="mt-10 space-y-8">
-          <div className="rounded-2xl border border-border bg-surface/60 p-6">
+          <div className="panel p-6">
             <div className="font-mono text-[11px] uppercase tracking-widest text-primary">// Summary</div>
             <p className="mt-2 text-sm leading-relaxed text-foreground">{result.summary}</p>
             <div className="mt-4 flex flex-wrap gap-2">
@@ -136,7 +136,7 @@ function AnalyzePage() {
             <div className="font-mono text-[11px] uppercase tracking-widest text-primary">// Unit Weightage</div>
             <div className="mt-3 space-y-2">
               {result.weightage?.map((w, i) => (
-                <div key={i} className="rounded-xl border border-border bg-surface/40 p-3">
+                <div key={i} className="panel rounded-xl p-3">
                   <div className="flex items-center justify-between gap-3">
                     <div className="font-bold">{w.unit}</div>
                     <span className={`rounded-full border px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest ${priorityColor[w.priority] ?? ""}`}>

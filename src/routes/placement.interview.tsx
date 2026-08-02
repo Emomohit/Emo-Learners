@@ -80,14 +80,14 @@ function MockInterviewPage() {
     <section className="mx-auto max-w-3xl px-4 py-14">
       <div className="flex items-center gap-3">
         <MessagesSquare className="h-6 w-6 text-primary" />
-        <h1 className="font-display text-3xl font-extrabold uppercase tracking-tighter md:text-5xl">
-          Mock <span className="italic text-primary">Interview</span>
+        <h1 className="font-display text-3xl font-bold tracking-tighter md:text-5xl">
+          Mock <span className="grad-text">Interview</span>
         </h1>
       </div>
       <p className="mt-3 text-muted-foreground">Live AI interviewer. Answer like you would in a real interview — get feedback after every response.</p>
 
       {!started ? (
-        <div className="mt-8 rounded-2xl border border-border bg-surface/40 p-6">
+        <div className="mt-8 panel p-6">
           <label className="font-mono text-[11px] uppercase tracking-widest text-primary">Interview type</label>
           <div className="mt-2 flex flex-wrap gap-2">
             {modes.map((m) => (
@@ -107,7 +107,7 @@ function MockInterviewPage() {
             onChange={(e) => setRole(e.target.value)}
             placeholder="e.g. Software Engineer, Data Analyst, SDE Intern"
           />
-          <button onClick={start} disabled={loading} className="mt-6 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-brand disabled:opacity-50">
+          <button onClick={start} disabled={loading} className="mt-6 inline-flex items-center gap-2 rounded-full px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest btn-grad disabled:opacity-50">
             {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <MessagesSquare className="h-4 w-4" />}
             {loading ? "Starting…" : "Start interview"}
           </button>
@@ -123,7 +123,7 @@ function MockInterviewPage() {
             </button>
           </div>
 
-          <div className="mt-4 min-h-[300px] space-y-3 rounded-2xl border border-border bg-surface/40 p-4">
+          <div className="mt-4 min-h-[300px] space-y-3 panel p-4">
             {messages.filter((m) => m.role !== "system").map((m, i) => (
               <div key={i} className={`rounded-xl px-4 py-3 text-sm ${m.role === "user" ? "ml-8 bg-primary/10 text-foreground" : "mr-8 border border-border bg-surface text-foreground"}`}>
                 <div className="mb-1 font-mono text-[10px] uppercase tracking-widest text-primary">{m.role === "user" ? "You" : "Interviewer"}</div>
@@ -142,7 +142,7 @@ function MockInterviewPage() {
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => { if (e.key === "Enter" && !loading) reply(); }}
             />
-            <button onClick={reply} disabled={loading || !input.trim()} className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-3 font-mono text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-brand disabled:opacity-50">
+            <button onClick={reply} disabled={loading || !input.trim()} className="inline-flex items-center gap-2 rounded-full px-5 py-3 font-mono text-xs font-bold uppercase tracking-widest btn-grad disabled:opacity-50">
               <Send className="h-4 w-4" /> Send
             </button>
           </div>
