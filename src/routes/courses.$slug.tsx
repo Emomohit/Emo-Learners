@@ -1,3 +1,4 @@
+import { TeacherCredit } from "@/components/site/TeacherCredit";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { Navbar } from "@/components/site/Navbar";
@@ -130,6 +131,13 @@ function CourseDetail() {
                 <Pill icon={<BookOpen className="h-3 w-3" />}>{course.chapters.length} chapters</Pill>
                 <Pill icon={<ListChecks className="h-3 w-3" />}>Notes · Quizzes · Exercises</Pill>
               </div>
+              <TeacherCredit
+                className="mt-5 max-w-xl"
+                teacher={course.teacher}
+                channel={course.channel}
+                channelUrl={course.channelUrl}
+                sourceUrl={course.videoId ? `https://youtu.be/${course.videoId}` : undefined}
+              />
             </div>
           </div>
 
