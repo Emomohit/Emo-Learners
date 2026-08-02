@@ -220,7 +220,7 @@ function UploadPanel() {
         <button
           type="submit"
           disabled={busy}
-          className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 text-sm font-bold uppercase tracking-widest text-primary-foreground shadow-brand disabled:opacity-50"
+          className="inline-flex w-full items-center justify-center gap-2 rounded-xl py-3 text-sm font-bold uppercase tracking-widest btn-grad disabled:opacity-50"
         >
           <Upload className="h-4 w-4" /> {busy ? "Uploading…" : "Upload"}
         </button>
@@ -460,7 +460,7 @@ function TestsPanel() {
           </div>
         </div>
 
-        <button type="submit" disabled={busy} className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 text-sm font-bold uppercase tracking-widest text-primary-foreground shadow-brand disabled:opacity-50">
+        <button type="submit" disabled={busy} className="inline-flex w-full items-center justify-center gap-2 rounded-xl py-3 text-sm font-bold uppercase tracking-widest btn-grad disabled:opacity-50">
           {busy ? "Saving…" : "Publish Test"}
         </button>
       </form>

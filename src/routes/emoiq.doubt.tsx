@@ -93,7 +93,7 @@ function DoubtPage() {
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => { if (e.key === "Enter" && !loading) send(); }}
         />
-        <button onClick={send} disabled={loading || !input.trim()} className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-3 font-mono text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-brand disabled:opacity-50">
+        <button onClick={send} disabled={loading || !input.trim()} className="inline-flex items-center gap-2 rounded-full px-5 py-3 font-mono text-xs font-bold uppercase tracking-widest btn-grad disabled:opacity-50">
           <Send className="h-4 w-4" /> Send
         </button>
       </div>

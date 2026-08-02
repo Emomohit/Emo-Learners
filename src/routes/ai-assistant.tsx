@@ -152,7 +152,7 @@ function AiPage() {
             <button
               type="submit"
               disabled={busy || !input.trim()}
-              className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-brand disabled:opacity-50"
+              className="inline-flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-bold uppercase tracking-widest btn-grad disabled:opacity-50"
             >
               <Send className="h-3.5 w-3.5" /> Send
             </button>

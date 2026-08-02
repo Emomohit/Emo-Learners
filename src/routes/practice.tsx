@@ -173,7 +173,7 @@ function PracticePage() {
               </ul>
               <Link
                 to="/challenge"
-                className="mt-8 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-brand"
+                className="mt-8 inline-flex items-center gap-2 rounded-full px-6 py-3 text-xs font-bold uppercase tracking-widest btn-grad"
               >
                 Open the challenge <ArrowRight className="h-4 w-4" />
               </Link>

@@ -94,7 +94,7 @@ function PredictPage() {
               onText={(t) => setPdfContext(t)}
             />
           </div>
-          <button onClick={predict} disabled={loading || !selected} className="mt-4 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-brand disabled:opacity-50">
+          <button onClick={predict} disabled={loading || !selected} className="mt-4 inline-flex items-center gap-2 rounded-full px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest btn-grad disabled:opacity-50">
             {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
             {loading ? "Predicting…" : "Predict top 10"}
           </button>

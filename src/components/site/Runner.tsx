@@ -124,7 +124,7 @@ export function Runner({
           </div>
 
           <div className="mt-10 flex flex-wrap justify-center gap-3">
-            <button onClick={reset} className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-brand transition-all hover:scale-105">
+            <button onClick={reset} className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-xs font-bold uppercase tracking-widest btn-grad transition-all hover:scale-105">
               <RotateCcw className="h-3.5 w-3.5" /> Retake
             </button>
             <Link to={backHref} className="inline-flex items-center gap-2 rounded-full border border-border bg-surface/60 px-6 py-3 text-xs font-bold uppercase tracking-widest text-foreground transition-all hover:border-primary hover:text-primary">
@@ -224,7 +224,7 @@ export function Runner({
         <button
           onClick={next}
           disabled={isTest ? false : !isRevealed}
-          className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-2.5 text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-brand transition-all hover:scale-105 disabled:opacity-40"
+          className="inline-flex items-center gap-2 rounded-full px-6 py-2.5 text-xs font-bold uppercase tracking-widest btn-grad transition-all hover:scale-105 disabled:opacity-40"
         >
           {idx === questions.length - 1 ? "Finish" : "Next"} <ArrowRight className="h-3.5 w-3.5" />
         </button>

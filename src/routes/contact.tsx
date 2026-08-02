@@ -86,7 +86,7 @@ function ContactPage() {
               <label className="font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Message</label>
               <textarea required rows={6} minLength={5} value={message} onChange={(e) => setMessage(e.target.value)} className="mt-1 w-full resize-none rounded-xl border border-border bg-background px-3 py-2.5 text-sm focus:border-primary focus:outline-none" />
             </div>
-            <button type="submit" disabled={busy || !user} className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 text-sm font-bold uppercase tracking-widest text-primary-foreground shadow-brand disabled:opacity-50">
+            <button type="submit" disabled={busy || !user} className="inline-flex w-full items-center justify-center gap-2 rounded-xl py-3 text-sm font-bold uppercase tracking-widest btn-grad disabled:opacity-50">
               <Send className="h-4 w-4" /> {busy ? "Sending…" : "Send"}
             </button>
           </form>

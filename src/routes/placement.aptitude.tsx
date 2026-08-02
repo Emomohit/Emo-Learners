@@ -69,7 +69,7 @@ function AptitudePage() {
               </button>
             ))}
           </div>
-          <button onClick={generate} disabled={loading} className="mt-6 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-brand disabled:opacity-50">
+          <button onClick={generate} disabled={loading} className="mt-6 inline-flex items-center gap-2 rounded-full px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest btn-grad disabled:opacity-50">
             {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
             {loading ? "Generating…" : "Generate quiz"}
           </button>
@@ -114,7 +114,7 @@ function AptitudePage() {
             );
           })}
           {!submitted ? (
-            <button onClick={submit} className="rounded-full bg-primary px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-brand">Submit</button>
+            <button onClick={submit} className="rounded-full px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest btn-grad">Submit</button>
           ) : (
             <button onClick={() => setQs(null)} className="rounded-full border border-border bg-surface px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest">Try another</button>
           )}

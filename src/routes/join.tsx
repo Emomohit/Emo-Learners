@@ -143,7 +143,7 @@ function JoinPage() {
             </a>
             <Link
               to="/contact"
-              className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-3 text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-brand transition-transform hover:scale-105"
+              className="inline-flex items-center gap-2 rounded-full px-5 py-3 text-xs font-bold uppercase tracking-widest btn-grad transition-transform hover:scale-105"
             >
               <Mail className="h-4 w-4" /> Contact Us
             </Link>

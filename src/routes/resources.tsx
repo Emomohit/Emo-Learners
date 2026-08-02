@@ -90,7 +90,7 @@ function ResourcesPage() {
             <button
               onClick={() => setTab("academics")}
               className={`flex items-center gap-2 rounded-full px-5 py-2 text-xs font-bold uppercase tracking-widest transition-all ${
-                tab === "academics" ? "bg-primary text-primary-foreground shadow-brand" : "text-muted-foreground hover:text-foreground"
+                tab === "academics" ? "btn-grad" : "text-muted-foreground hover:text-foreground"
               }`}
             >
               <GraduationCap className="h-3.5 w-3.5" /> Academics
@@ -98,7 +98,7 @@ function ResourcesPage() {
             <button
               onClick={() => setTab("ai")}
               className={`flex items-center gap-2 rounded-full px-5 py-2 text-xs font-bold uppercase tracking-widest transition-all ${
-                tab === "ai" ? "bg-primary text-primary-foreground shadow-brand" : "text-muted-foreground hover:text-foreground"
+                tab === "ai" ? "btn-grad" : "text-muted-foreground hover:text-foreground"
               }`}
             >
               <Sparkles className="h-3.5 w-3.5" /> AI Tools
@@ -309,7 +309,7 @@ function Academics() {
                     </div>
                     <button
                       onClick={() => download(r.file_path)}
-                      className="inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-primary-foreground shadow-brand"
+                      className="inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-[10px] font-bold uppercase tracking-widest btn-grad"
                     >
                       {user ? <Download className="h-3.5 w-3.5" /> : <Lock className="h-3.5 w-3.5" />}
                       {user ? "Download" : "Login"}

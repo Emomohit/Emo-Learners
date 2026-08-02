@@ -182,7 +182,7 @@ function CourseDetail() {
                       onClick={() => setSelectedId(ch.id)}
                       className={`group flex w-full items-start gap-3 rounded-lg border px-3 py-2.5 text-left transition-all ${
                         isActive
-                          ? "border-primary/60 bg-primary/10 shadow-brand"
+                          ? "border-primary/60 bg-primary/10 btn-grad"
                           : "border-transparent hover:border-border hover:bg-surface/40"
                       }`}
                     >

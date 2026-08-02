@@ -22,7 +22,7 @@ export function EmptyState({ icon: Icon, title, description, actionLabel, action
       {actionLabel && actionHref && (
         <Link
           to={actionHref}
-          className="mt-6 inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-brand"
+          className="mt-6 inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-bold uppercase tracking-widest btn-grad"
         >
           {actionLabel}
         </Link>

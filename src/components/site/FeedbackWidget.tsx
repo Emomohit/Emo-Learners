@@ -99,7 +99,7 @@ export function FeedbackWidget() {
             <button
               type="submit"
               disabled={busy || !user}
-              className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-5 py-3 text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-brand transition-all hover:scale-[1.01] disabled:opacity-50"
+              className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-xs font-bold uppercase tracking-widest btn-grad transition-all hover:scale-[1.01] disabled:opacity-50"
             >
               {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
               Send feedback

@@ -107,7 +107,7 @@ function MockInterviewPage() {
             onChange={(e) => setRole(e.target.value)}
             placeholder="e.g. Software Engineer, Data Analyst, SDE Intern"
           />
-          <button onClick={start} disabled={loading} className="mt-6 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-brand disabled:opacity-50">
+          <button onClick={start} disabled={loading} className="mt-6 inline-flex items-center gap-2 rounded-full px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest btn-grad disabled:opacity-50">
             {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <MessagesSquare className="h-4 w-4" />}
             {loading ? "Starting…" : "Start interview"}
           </button>
@@ -142,7 +142,7 @@ function MockInterviewPage() {
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => { if (e.key === "Enter" && !loading) reply(); }}
             />
-            <button onClick={reply} disabled={loading || !input.trim()} className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-3 font-mono text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-brand disabled:opacity-50">
+            <button onClick={reply} disabled={loading || !input.trim()} className="inline-flex items-center gap-2 rounded-full px-5 py-3 font-mono text-xs font-bold uppercase tracking-widest btn-grad disabled:opacity-50">
               <Send className="h-4 w-4" /> Send
             </button>
           </div>

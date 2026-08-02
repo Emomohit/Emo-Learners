@@ -66,7 +66,7 @@ function InternshipsPage() {
               href="https://t.me/emolarners"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-brand transition-transform hover:scale-105"
+              className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-xs font-bold uppercase tracking-widest btn-grad transition-transform hover:scale-105"
             >
               <Send className="h-4 w-4" /> Join Telegram for Updates
             </a>

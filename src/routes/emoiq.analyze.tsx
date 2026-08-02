@@ -109,7 +109,7 @@ function AnalyzePage() {
       <button
         onClick={analyze}
         disabled={loading}
-        className="mt-4 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-brand transition-transform hover:scale-[1.02] disabled:opacity-50"
+        className="mt-4 inline-flex items-center gap-2 rounded-full px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest btn-grad transition-transform hover:scale-[1.02] disabled:opacity-50"
       >
         {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
         {loading ? "Analyzing…" : "Run analysis"}

@@ -210,7 +210,7 @@ function RoadmapPage() {
           </Field>
           <div className="md:col-span-2 flex flex-wrap items-center gap-3">
             <button onClick={generate} disabled={loading}
-              className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-brand disabled:opacity-50">
+              className="inline-flex items-center gap-2 rounded-full px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest btn-grad disabled:opacity-50">
               {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
               {loading ? "Generating…" : result ? "Regenerate" : "Generate roadmap"}
             </button>

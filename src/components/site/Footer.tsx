@@ -8,7 +8,7 @@ export function Footer() {
       <div className="mx-auto grid w-full max-w-7xl gap-12 px-6 py-16 md:grid-cols-4">
         <div className="md:col-span-2">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 rotate-12 items-center justify-center rounded-lg bg-primary shadow-brand">
+            <div className="flex h-10 w-10 rotate-12 items-center justify-center rounded-lg btn-grad">
               <Zap className="h-5 w-5 text-primary-foreground" strokeWidth={2.5} />
             </div>
             <span className="font-display text-xl font-bold tracking-tighter">

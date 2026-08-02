@@ -121,7 +121,7 @@ function Dashboard() {
                   </div>
                   <button
                     onClick={() => download(r.file_path)}
-                    className="inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-primary-foreground shadow-brand"
+                    className="inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-[10px] font-bold uppercase tracking-widest btn-grad"
                   >
                     <Download className="h-3.5 w-3.5" /> Open
                   </button>
