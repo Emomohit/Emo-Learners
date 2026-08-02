@@ -100,6 +100,24 @@ function Hero() {
           </a>
         </div>
 
+        <p className="mx-auto mt-6 flex flex-wrap items-center justify-center gap-2 text-xs text-white/60">
+          <span className="font-mono uppercase tracking-[0.2em]">Taught by</span>
+          <span className="font-semibold text-white">Haris Ali Khan</span>
+          <span>·</span>
+          <a
+            href="https://www.youtube.com/@CodeWithHarry"
+            target="_blank"
+            rel="noreferrer"
+            className="font-semibold text-white underline-offset-4 hover:underline"
+          >
+            CodeWithHarry
+          </a>
+          <span>·</span>
+          <a href={COURSE_URL} target="_blank" rel="noreferrer" className="hover:text-white">
+            Watch source →
+          </a>
+        </p>
+
         <div className="mx-auto mt-16 grid max-w-3xl grid-cols-2 gap-4 md:grid-cols-4">
           {[
             { k: "30", v: "Days" },
