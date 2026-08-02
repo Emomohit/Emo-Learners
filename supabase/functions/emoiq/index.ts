@@ -17,8 +17,13 @@ const GATEWAY = "https://ai.gateway.lovable.dev/v1/chat/completions";
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: cors });
   try {
+    // Reject anonymous callers before spending any AI credits.
+    const auth = await requireUser(req);
+    if (auth instanceof Response) return auth;
+
     const apiKey = Deno.env.get("LOVABLE_API_KEY");
     if (!apiKey) return json({ error: "AI key missing" }, 500);
+
 
     const { action, payload } = await req.json();
     if (!action) return json({ error: "action required" }, 400);
