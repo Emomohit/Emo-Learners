@@ -94,7 +94,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     loading,
     isAdmin: role === "admin",
     signOut: async () => {
+      // Stop in-flight protected queries before the session disappears,
+      // then drop every cached row so Back can't restore signed-in data.
+      await queryClient.cancelQueries();
+      queryClient.clear();
       await supabase.auth.signOut();
+      setSession(null);
+      setRole(null);
+      if (typeof window !== "undefined") {
+        try {
+          sessionStorage.removeItem("postAuthRedirect");
+        } catch {
+          /* ignore */
+        }
+        window.location.replace("/auth");
+      }
     },
   };
 
