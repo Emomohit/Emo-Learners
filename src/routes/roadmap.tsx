@@ -182,7 +182,7 @@ function RoadmapPage() {
       </section>
 
       <section className="px-4 pb-14">
-        <div className="mx-auto grid max-w-5xl gap-4 rounded-2xl border border-border bg-surface/40 p-6 md:grid-cols-2">
+        <div className="mx-auto grid max-w-5xl gap-4 panel p-6 md:grid-cols-2">
           <Field label="Branch">
             <select value={branch} onChange={(e) => setBranch(e.target.value)} className="w-full rounded-xl border border-border bg-surface px-4 py-3 text-sm outline-none focus:border-primary">
               {BRANCHES.map((b) => <option key={b}>{b}</option>)}
@@ -288,7 +288,7 @@ function RoadmapPage() {
             </div>
 
             {summary && (
-              <div className="rounded-2xl border border-border bg-surface/40 p-6">
+              <div className="panel p-6">
                 <div className="flex items-center gap-2">
                   <ClipboardList className="h-5 w-5 text-primary" />
                   <h3 className="font-display text-xl font-bold tracking-tighter">Summary</h3>
@@ -317,7 +317,7 @@ function RoadmapPage() {
               <SectionTitle icon={Milestone} title="Weekly milestones" />
               <ol className="mt-4 space-y-3">
                 {result.milestones?.map((m) => (
-                  <li key={m.week} className="rounded-2xl border border-border bg-surface/50 p-5">
+                  <li key={m.week} className="panel p-5">
                     <div className="flex items-center justify-between">
                       <div className="font-mono text-[11px] uppercase tracking-widest text-primary">Week {m.week}</div>
                       <div className="text-xs text-muted-foreground">{m.subjects?.join(" · ")}</div>
@@ -338,7 +338,7 @@ function RoadmapPage() {
                 <SectionTitle icon={Wrench} title="Key skills" />
                 <ul className="mt-4 space-y-2">
                   {result.skills?.map((s, i) => (
-                    <li key={i} className="rounded-xl border border-border bg-surface/50 p-4">
+                    <li key={i} className="panel rounded-xl p-4">
                       <div className="font-semibold">{s.name}</div>
                       <div className="mt-1 text-xs text-muted-foreground">{s.why}</div>
                     </li>
@@ -349,7 +349,7 @@ function RoadmapPage() {
                 <SectionTitle icon={FolderGit2} title="Projects to build" />
                 <ul className="mt-4 space-y-2">
                   {result.projects?.map((p, i) => (
-                    <li key={i} className="rounded-xl border border-border bg-surface/50 p-4">
+                    <li key={i} className="panel rounded-xl p-4">
                       <div className="font-semibold">{p.name}</div>
                       <div className="mt-1 text-xs text-muted-foreground">{p.brief}</div>
                       <div className="mt-2 flex flex-wrap gap-1">
@@ -365,7 +365,7 @@ function RoadmapPage() {
               <SectionTitle icon={Briefcase} title="Placement prep" />
               <ul className="mt-4 grid gap-2 md:grid-cols-2">
                 {result.placement_prep?.map((p, i) => (
-                  <li key={i} className="rounded-xl border border-border bg-surface/50 px-4 py-3 text-sm">{p}</li>
+                  <li key={i} className="panel rounded-xl px-4 py-3 text-sm">{p}</li>
                 ))}
               </ul>
             </div>
@@ -410,7 +410,7 @@ function MiniList({ label, items }: { label: string; items?: string[] }) {
 
 function SummaryStat({ label, value }: { label: string; value: number }) {
   return (
-    <div className="rounded-xl border border-border bg-surface/60 p-4">
+    <div className="panel rounded-xl p-4">
       <div className="font-display text-2xl font-bold">{value}</div>
       <div className="mt-1 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">{label}</div>
     </div>
@@ -418,5 +418,5 @@ function SummaryStat({ label, value }: { label: string; value: number }) {
 }
 
 function SkeletonBlock({ className = "" }: { className?: string }) {
-  return <div className={`animate-pulse rounded-2xl border border-border bg-surface/40 ${className}`} />;
+  return <div className={`animate-pulse panel ${className}`} />;
 }

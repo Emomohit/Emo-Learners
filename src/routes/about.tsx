@@ -103,7 +103,7 @@ function AboutPage() {
 
           <div className="mt-10 grid gap-4 md:grid-cols-2">
             {story.map((s) => (
-              <div key={s.title} className="rounded-2xl border border-border bg-surface/40 p-6 backdrop-blur-sm">
+              <div key={s.title} className="panel p-6 backdrop-blur-sm">
                 <div className="text-3xl">{s.emoji}</div>
                 <h3 className="mt-3 font-display text-xl font-bold">{s.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{s.desc}</p>

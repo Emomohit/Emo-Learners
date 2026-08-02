@@ -113,7 +113,7 @@ function ResumeAnalyzer() {
           <ResultList title="Weaknesses" items={result.weaknesses} tone="red" />
           <ResultList title="Suggested rewrites" items={result.suggestions} tone="primary" />
 
-          <div className="rounded-2xl border border-border bg-surface/50 p-5">
+          <div className="panel p-5">
             <div className="font-mono text-[11px] uppercase tracking-widest text-primary">ATS notes</div>
             <p className="mt-2 text-sm text-muted-foreground">{result.ats}</p>
           </div>
@@ -127,7 +127,7 @@ function ResultList({ title, items, tone }: { title: string; items: string[]; to
   if (!items?.length) return null;
   const toneClass = tone === "emerald" ? "text-emerald-400" : tone === "red" ? "text-red-400" : "text-primary";
   return (
-    <div className="rounded-2xl border border-border bg-surface/50 p-5">
+    <div className="panel p-5">
       <div className={`font-mono text-[11px] uppercase tracking-widest ${toneClass}`}>{title}</div>
       <ul className="mt-3 space-y-2 text-sm">
         {items.map((it, i) => <li key={i} className="flex gap-2"><span className={`mt-1 h-1.5 w-1.5 shrink-0 rounded-full ${tone === "emerald" ? "bg-emerald-400" : tone === "red" ? "bg-red-400" : "bg-primary"}`} />{it}</li>)}

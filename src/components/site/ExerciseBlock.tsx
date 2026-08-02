@@ -8,7 +8,7 @@ export function ExerciseBlock({ exercise }: Props) {
   const [revealed, setRevealed] = useState(false);
 
   return (
-    <div className="rounded-2xl border border-border bg-surface/40 p-5 md:p-6">
+    <div className="panel p-5 md:p-6">
       <div className="flex items-center gap-2">
         <Terminal className="h-4 w-4 text-primary" />
         <h4 className="font-display text-lg font-bold tracking-tight">

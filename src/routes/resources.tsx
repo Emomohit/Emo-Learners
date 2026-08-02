@@ -265,7 +265,7 @@ function Academics() {
             </div>
           )}
           {activeSubject && (
-            <div className="rounded-2xl border border-border bg-surface/40 p-6">
+            <div className="panel p-6">
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <div className="font-mono text-[10px] font-bold uppercase tracking-widest text-primary">{activeSubject.code}</div>
@@ -374,7 +374,7 @@ function AiToolsDirectory() {
             href={r.url}
             target="_blank"
             rel="noreferrer"
-            className="group relative rounded-2xl border border-border bg-surface/40 p-6 backdrop-blur-sm transition-all hover:-translate-y-1 hover:border-primary"
+            className="group relative panel p-6 backdrop-blur-sm transition-all hover:-translate-y-1 hover:border-primary"
           >
             <div className="flex items-start justify-between">
               <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-primary">{r.cat}</span>

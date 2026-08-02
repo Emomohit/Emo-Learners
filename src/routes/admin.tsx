@@ -175,7 +175,7 @@ function UploadPanel() {
 
   return (
     <div className="grid gap-6 lg:grid-cols-[1.1fr_1fr]">
-      <form onSubmit={submit} className="space-y-4 rounded-2xl border border-border bg-surface/40 p-6">
+      <form onSubmit={submit} className="space-y-4 panel p-6">
         <h3 className="font-display text-xl font-bold">Upload PDF</h3>
         <div className="grid gap-3 sm:grid-cols-2">
           <Field label="Branch">
@@ -227,7 +227,7 @@ function UploadPanel() {
         <style>{`.input{width:100%;border:1px solid var(--border, hsl(var(--border)));background:hsl(var(--background));border-radius:.75rem;padding:.6rem .8rem;font-size:.875rem;color:hsl(var(--foreground))}.select{width:100%;border:1px solid hsl(var(--border));background:hsl(var(--background));border-radius:.75rem;padding:.6rem .8rem;font-size:.875rem;color:hsl(var(--foreground))}.input:focus,.select:focus{outline:none;border-color:hsl(var(--primary))}`}</style>
       </form>
 
-      <div className="rounded-2xl border border-border bg-surface/40 p-6">
+      <div className="panel p-6">
         <h3 className="font-display text-xl font-bold">Files in this subject</h3>
         {!subjectId && <p className="mt-3 text-sm text-muted-foreground">Pick a subject to see uploads.</p>}
         <div className="mt-3 space-y-2">
@@ -263,7 +263,7 @@ function FeedbackPanel() {
     <div className="space-y-3">
       {items.length === 0 && <p className="text-sm text-muted-foreground">No feedback yet.</p>}
       {items.map((f) => (
-        <div key={f.id} className="rounded-2xl border border-border bg-surface/40 p-5">
+        <div key={f.id} className="panel p-5">
           <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
             <div><b className="text-foreground">{f.name}</b> · <a href={`mailto:${f.email}`} className="text-primary hover:underline">{f.email}</a></div>
             <span className="font-mono text-muted-foreground">{new Date(f.created_at).toLocaleString()}</span>
@@ -395,7 +395,7 @@ function TestsPanel() {
 
   return (
     <div className="grid gap-6 lg:grid-cols-[1.1fr_1fr]">
-      <form onSubmit={submit} className="space-y-4 rounded-2xl border border-border bg-surface/40 p-6">
+      <form onSubmit={submit} className="space-y-4 panel p-6">
         <h3 className="font-display text-xl font-bold">New Test</h3>
         <div className="grid gap-3 sm:grid-cols-[1fr_120px]">
           <Field label="Title">
@@ -465,7 +465,7 @@ function TestsPanel() {
         </button>
       </form>
 
-      <div className="rounded-2xl border border-border bg-surface/40 p-6">
+      <div className="panel p-6">
         <h3 className="font-display text-xl font-bold">Your tests</h3>
         {items.length === 0 && <p className="mt-3 text-sm text-muted-foreground">Nothing yet — create your first test.</p>}
         <div className="mt-3 space-y-2">

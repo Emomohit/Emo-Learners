@@ -70,7 +70,7 @@ function AnalyzePage() {
       </p>
 
       {!user && (
-        <div className="mt-6 rounded-xl border border-border bg-surface/60 p-4 text-sm">
+        <div className="mt-6 panel rounded-xl p-4 text-sm">
           <Link to="/auth" className="font-bold text-primary underline">Sign in</Link> to save analyses to your account.
         </div>
       )}
@@ -117,7 +117,7 @@ function AnalyzePage() {
 
       {result && (
         <div className="mt-10 space-y-8">
-          <div className="rounded-2xl border border-border bg-surface/60 p-6">
+          <div className="panel p-6">
             <div className="font-mono text-[11px] uppercase tracking-widest text-primary">// Summary</div>
             <p className="mt-2 text-sm leading-relaxed text-foreground">{result.summary}</p>
             <div className="mt-4 flex flex-wrap gap-2">
@@ -136,7 +136,7 @@ function AnalyzePage() {
             <div className="font-mono text-[11px] uppercase tracking-widest text-primary">// Unit Weightage</div>
             <div className="mt-3 space-y-2">
               {result.weightage?.map((w, i) => (
-                <div key={i} className="rounded-xl border border-border bg-surface/40 p-3">
+                <div key={i} className="panel rounded-xl p-3">
                   <div className="flex items-center justify-between gap-3">
                     <div className="font-bold">{w.unit}</div>
                     <span className={`rounded-full border px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest ${priorityColor[w.priority] ?? ""}`}>

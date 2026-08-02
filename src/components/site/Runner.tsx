@@ -83,7 +83,7 @@ export function Runner({
     const pct = Math.round((score / questions.length) * 100);
     return (
       <div className="mx-auto max-w-3xl">
-        <div className="rounded-3xl border border-border bg-surface/40 p-8 backdrop-blur-sm md:p-12">
+        <div className="panel p-8 backdrop-blur-sm md:p-12">
           <div className="flex items-center justify-center">
             <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-primary/10 text-primary">
               <Trophy className="h-9 w-9" />
@@ -166,7 +166,7 @@ export function Runner({
       </div>
 
       {/* Question */}
-      <div className="mt-8 rounded-3xl border border-border bg-surface/40 p-7 backdrop-blur-sm md:p-10">
+      <div className="mt-8 panel p-7 backdrop-blur-sm md:p-10">
         <p className="font-display text-2xl font-bold leading-tight md:text-3xl">{current.q}</p>
 
         <div className="mt-8 space-y-3">

@@ -87,7 +87,7 @@ function MockInterviewPage() {
       <p className="mt-3 text-muted-foreground">Live AI interviewer. Answer like you would in a real interview — get feedback after every response.</p>
 
       {!started ? (
-        <div className="mt-8 rounded-2xl border border-border bg-surface/40 p-6">
+        <div className="mt-8 panel p-6">
           <label className="font-mono text-[11px] uppercase tracking-widest text-primary">Interview type</label>
           <div className="mt-2 flex flex-wrap gap-2">
             {modes.map((m) => (
@@ -123,7 +123,7 @@ function MockInterviewPage() {
             </button>
           </div>
 
-          <div className="mt-4 min-h-[300px] space-y-3 rounded-2xl border border-border bg-surface/40 p-4">
+          <div className="mt-4 min-h-[300px] space-y-3 panel p-4">
             {messages.filter((m) => m.role !== "system").map((m, i) => (
               <div key={i} className={`rounded-xl px-4 py-3 text-sm ${m.role === "user" ? "ml-8 bg-primary/10 text-foreground" : "mr-8 border border-border bg-surface text-foreground"}`}>
                 <div className="mb-1 font-mono text-[10px] uppercase tracking-widest text-primary">{m.role === "user" ? "You" : "Interviewer"}</div>

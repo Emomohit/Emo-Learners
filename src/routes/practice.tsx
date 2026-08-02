@@ -91,7 +91,7 @@ function PracticePage() {
                   key={q.slug}
                   to="/quizzes/$slug"
                   params={{ slug: q.slug }}
-                  className="group relative overflow-hidden rounded-2xl border border-border bg-surface/40 p-6 transition-all hover:-translate-y-1 hover:border-primary"
+                  className="group relative overflow-hidden panel p-6 transition-all hover:-translate-y-1 hover:border-primary"
                 >
                   <div className="flex items-start justify-between">
                     <span className="text-3xl" aria-hidden="true">{q.emoji}</span>
@@ -127,7 +127,7 @@ function PracticePage() {
                   key={t.slug}
                   to="/tests/$slug"
                   params={{ slug: t.slug }}
-                  className="group relative overflow-hidden rounded-2xl border border-border bg-surface/40 p-6 transition-all hover:-translate-y-1 hover:border-primary"
+                  className="group relative overflow-hidden panel p-6 transition-all hover:-translate-y-1 hover:border-primary"
                 >
                   <div className="flex items-start justify-between">
                     <span className="text-3xl" aria-hidden="true">{t.emoji}</span>
@@ -154,7 +154,7 @@ function PracticePage() {
 
         {tab === "challenge" && (
           <div className="grid gap-8 lg:grid-cols-2">
-            <div className="rounded-3xl border border-border bg-surface/40 p-8">
+            <div className="panel p-8">
               <span className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.25em] text-primary">
                 <Flame className="h-3 w-3" /> 30 days · Free
               </span>

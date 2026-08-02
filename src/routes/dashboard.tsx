@@ -109,7 +109,7 @@ function Dashboard() {
                 </div>
               )}
               {recent.map((r) => (
-                <div key={r.id} className="flex items-center justify-between gap-3 rounded-xl border border-border bg-surface/40 p-4">
+                <div key={r.id} className="flex items-center justify-between gap-3 panel rounded-xl p-4">
                   <div className="flex items-start gap-3">
                     <div className="rounded-lg bg-primary/10 p-2 text-primary"><FileText className="h-4 w-4" /></div>
                     <div>
@@ -138,7 +138,7 @@ function Dashboard() {
 
 function Stat({ label, value }: { label: string; value: number }) {
   return (
-    <div className="rounded-2xl border border-border bg-surface/40 p-5 backdrop-blur">
+    <div className="panel p-5 backdrop-blur">
       <div className="font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{label}</div>
       <div className="mt-1 font-display text-4xl font-bold text-primary">{value}</div>
     </div>

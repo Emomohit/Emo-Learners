@@ -81,7 +81,7 @@ function AptitudePage() {
           {qs.map((q, i) => {
             const picked = picks[i];
             return (
-              <div key={i} className="rounded-xl border border-border bg-surface/60 p-5">
+              <div key={i} className="panel rounded-xl p-5">
                 <div className="font-bold">{i + 1}. {q.q}</div>
                 <div className="mt-3 grid gap-2">
                   {q.options.map((opt, oi) => {

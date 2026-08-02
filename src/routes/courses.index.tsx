@@ -59,7 +59,7 @@ function CoursesIndex() {
               <Link
                 key={c.slug}
                 to={href}
-                className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-surface/40 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-primary/60 hover:bg-surface hover:shadow-brand animate-rise"
+                className="group relative flex flex-col overflow-hidden panel p-6 transition-all duration-300 hover:-translate-y-1 hover:border-primary/60 hover:bg-surface hover:shadow-brand animate-rise"
                 style={{ animationDelay: `${i * 80}ms` }}
               >
                 <div className={`absolute -right-12 -top-12 h-40 w-40 rounded-full bg-gradient-to-br ${c.accent} opacity-20 blur-3xl transition-opacity group-hover:opacity-40`} />

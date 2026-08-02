@@ -55,7 +55,7 @@ function ResetPasswordPage() {
         <div className="pointer-events-none absolute inset-0 grid-bg opacity-40" />
         <div className="pointer-events-none absolute inset-0 radial-glow" />
         <div className="relative mx-auto max-w-md">
-          <div className="rounded-3xl border border-border bg-surface/60 p-8 backdrop-blur-xl shadow-brand">
+          <div className="panel p-8 backdrop-blur-xl shadow-brand">
             <div className="flex items-center justify-center gap-2">
               <div className="flex h-10 w-10 rotate-12 items-center justify-center rounded-lg bg-primary shadow-brand">
                 <Zap className="h-5 w-5 text-primary-foreground" strokeWidth={2.5} />

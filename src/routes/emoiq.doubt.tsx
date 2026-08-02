@@ -73,7 +73,7 @@ function DoubtPage() {
         />
       </div>
 
-      <div className="mt-8 min-h-[300px] space-y-3 rounded-2xl border border-border bg-surface/40 p-4">
+      <div className="mt-8 min-h-[300px] space-y-3 panel p-4">
         {messages.length === 0 && <p className="text-sm text-muted-foreground">Try: "Explain deadlock with an example" or "Difference between TCP and UDP for exam".</p>}
         {messages.map((m, i) => (
           <div key={i} className={`rounded-xl px-4 py-3 text-sm ${m.role === "user" ? "ml-8 bg-primary/10 text-foreground" : "mr-8 border border-border bg-surface text-foreground"}`}>

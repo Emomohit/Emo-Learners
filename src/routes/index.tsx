@@ -262,7 +262,7 @@ function Home() {
               <Link
                 key={c.to}
                 to={c.to}
-                className="group relative overflow-hidden rounded-2xl border border-border bg-surface/40 p-7 backdrop-blur-sm transition-all hover:-translate-y-1 hover:border-primary"
+                className="group relative overflow-hidden panel p-7 backdrop-blur-sm transition-all hover:-translate-y-1 hover:border-primary"
               >
                 <div className="flex items-start justify-between">
                   <span className="font-mono text-xs font-bold tracking-widest text-muted-foreground">
@@ -296,7 +296,7 @@ function Home() {
               { t: "AI that actually helps", d: "Doubt solver, PYQ predictor, quiz generator and mock interviews — one gateway, zero setup." },
               { t: "Placement-ready by design", d: "Coding practice, aptitude, resume analysis and interview prep baked into the same flow." },
             ].map((c) => (
-              <div key={c.t} className="rounded-2xl border border-border bg-surface/50 p-6 backdrop-blur-sm">
+              <div key={c.t} className="panel p-6 backdrop-blur-sm">
                 <h4 className="font-display text-lg font-bold tracking-tighter">{c.t}</h4>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{c.d}</p>
               </div>
@@ -318,7 +318,7 @@ function Home() {
               "Track real progress: courses, quizzes, streaks and roadmap milestones.",
               "Stay affordable at scale via a SaaS model for colleges and universities.",
             ].map((o, i) => (
-              <li key={o} className="flex items-start gap-3 rounded-xl border border-border bg-surface/40 p-4">
+              <li key={o} className="flex items-start gap-3 panel rounded-xl p-4">
                 <span className="mt-0.5 font-mono text-xs font-bold text-primary">{String(i + 1).padStart(2, "0")}</span>
                 <span className="text-sm">{o}</span>
               </li>
@@ -331,7 +331,7 @@ function Home() {
       <section className="relative px-4 py-16">
         <div className="mx-auto max-w-6xl">
           <SectionHeader tag="// Block diagram" title="How the platform flows." />
-          <div className="mt-10 rounded-3xl border border-border bg-surface/40 p-6 md:p-10">
+          <div className="mt-10 panel p-6 md:p-10">
             <div className="flex flex-col items-center gap-3">
               <BlockNode>Student</BlockNode>
               <Arrow />
@@ -364,7 +364,7 @@ function Home() {
               { k: "70%+", v: "Struggle with placement readiness" },
               { k: "SaaS", v: "Affordable college-wide deployment" },
             ].map((s) => (
-              <div key={s.k} className="rounded-2xl border border-border bg-surface/40 p-6 text-center">
+              <div key={s.k} className="panel p-6 text-center">
                 <div className="font-display text-3xl font-bold text-primary md:text-4xl">{s.k}</div>
                 <div className="mt-2 text-sm text-muted-foreground">{s.v}</div>
               </div>

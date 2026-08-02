@@ -67,7 +67,7 @@ function ContactPage() {
               </p>
             )}
           </div>
-          <form onSubmit={submit} className="space-y-4 rounded-3xl border border-border bg-surface/40 p-6 backdrop-blur">
+          <form onSubmit={submit} className="space-y-4 panel p-6 backdrop-blur">
             <div>
               <label className="font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Name</label>
               <input required value={name} onChange={(e) => setName(e.target.value)} className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-2.5 text-sm focus:border-primary focus:outline-none" />

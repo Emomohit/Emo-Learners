@@ -134,7 +134,7 @@ function CourseDetail() {
           </div>
 
           {/* Progress */}
-          <div className="mt-8 rounded-2xl border border-border bg-surface/40 p-5">
+          <div className="mt-8 panel p-5">
             <div className="flex items-center justify-between text-xs font-bold uppercase tracking-widest">
               <span className="text-muted-foreground">Your progress</span>
               <span className="text-primary">{done.size}/{course.chapters.length} · {progress}%</span>
@@ -255,7 +255,7 @@ function CourseDetail() {
             </div>
 
             {/* Notes */}
-            <div className="mt-8 rounded-2xl border border-border bg-surface/40 p-5 md:p-6">
+            <div className="mt-8 panel p-5 md:p-6">
               <h4 className="font-mono text-[10px] font-bold uppercase tracking-[0.3em] text-primary">
                 Key notes
               </h4>
@@ -318,7 +318,7 @@ function CourseDetail() {
               {prevChapter ? (
                 <button
                   onClick={() => setSelectedId(prevChapter.id)}
-                  className="group inline-flex flex-1 items-center gap-3 rounded-xl border border-border bg-surface/40 p-4 text-left transition-all hover:border-primary/60"
+                  className="group inline-flex flex-1 items-center gap-3 panel rounded-xl p-4 text-left transition-all hover:border-primary/60"
                 >
                   <ArrowLeft className="h-4 w-4 text-primary transition-transform group-hover:-translate-x-1" />
                   <div className="min-w-0">
@@ -332,7 +332,7 @@ function CourseDetail() {
               {nextChapter ? (
                 <button
                   onClick={() => setSelectedId(nextChapter.id)}
-                  className="group inline-flex flex-1 items-center gap-3 rounded-xl border border-border bg-surface/40 p-4 text-right transition-all hover:border-primary/60"
+                  className="group inline-flex flex-1 items-center gap-3 panel rounded-xl p-4 text-right transition-all hover:border-primary/60"
                 >
                   <div className="ml-auto min-w-0">
                     <div className="font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
@@ -359,7 +359,7 @@ function CourseDetail() {
                 <Link
                   key={c.slug}
                   to={href}
-                  className="group flex items-center gap-4 rounded-xl border border-border bg-surface/40 p-5 transition-all hover:-translate-y-0.5 hover:border-primary/60"
+                  className="group flex items-center gap-4 panel rounded-xl p-5 transition-all hover:-translate-y-0.5 hover:border-primary/60"
                 >
                   <div className="text-4xl">{c.emoji}</div>
                   <div className="min-w-0 flex-1">

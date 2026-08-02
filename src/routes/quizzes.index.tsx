@@ -44,7 +44,7 @@ function QuizzesIndex() {
               key={q.slug}
               to="/quizzes/$slug"
               params={{ slug: q.slug }}
-              className="group relative overflow-hidden rounded-2xl border border-border bg-surface/40 p-7 backdrop-blur-sm transition-all hover:-translate-y-1 hover:border-primary"
+              className="group relative overflow-hidden panel p-7 backdrop-blur-sm transition-all hover:-translate-y-1 hover:border-primary"
             >
               <div className="flex items-start justify-between">
                 <span className="text-4xl">{q.emoji}</span>

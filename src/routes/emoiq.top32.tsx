@@ -271,7 +271,7 @@ function Top32Page() {
       {loading && !questions && (
         <div className="mt-10 grid gap-3 md:grid-cols-2">
           {Array.from({ length: 10 }).map((_, i) => (
-            <div key={i} className="h-24 animate-pulse rounded-2xl border border-border bg-surface/40" />
+            <div key={i} className="h-24 animate-pulse panel" />
           ))}
         </div>
       )}
@@ -345,7 +345,7 @@ function Top32Page() {
 
           <ol className="mt-5 grid gap-3 md:grid-cols-2">
             {filtered.map((q, i) => (
-              <li key={i} className="rounded-2xl border border-border bg-surface/60 p-4 transition-colors hover:border-primary">
+              <li key={i} className="panel p-4 transition-colors hover:border-primary">
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-start gap-3">
                     <span className="mt-0.5 shrink-0 rounded-md bg-primary/10 px-2 py-1 font-mono text-[10px] font-bold text-primary">

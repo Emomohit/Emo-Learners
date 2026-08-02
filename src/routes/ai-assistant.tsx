@@ -96,7 +96,7 @@ function AiPage() {
             <Link to="/resources" className="hidden text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-primary md:inline-block">← Resources</Link>
           </div>
 
-          <div ref={scrollRef} className="mt-6 flex-1 overflow-y-auto rounded-3xl border border-border bg-surface/30 p-4 backdrop-blur md:p-6">
+          <div ref={scrollRef} className="mt-6 flex-1 overflow-y-auto panel p-4 backdrop-blur md:p-6">
             {messages.length === 0 && (
               <div className="flex h-full flex-col items-center justify-center text-center">
                 <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary">
@@ -141,7 +141,7 @@ function AiPage() {
 
           <form
             onSubmit={(e) => { e.preventDefault(); send(); }}
-            className="mt-4 flex gap-2 rounded-2xl border border-border bg-surface/60 p-2 backdrop-blur"
+            className="mt-4 flex gap-2 panel p-2 backdrop-blur"
           >
             <input
               value={input}

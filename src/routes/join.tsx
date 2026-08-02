@@ -81,7 +81,7 @@ function JoinPage() {
       <section className="px-4 pb-16">
         <div className="mx-auto grid max-w-5xl gap-4 md:grid-cols-2">
           {perks.map((p) => (
-            <div key={p.title} className="rounded-2xl border border-border bg-surface/40 p-6 backdrop-blur-sm transition-colors hover:border-primary/60">
+            <div key={p.title} className="panel p-6 backdrop-blur-sm transition-colors hover:border-primary/60">
               <div className="text-3xl">{p.emoji}</div>
               <h3 className="mt-3 font-display text-lg font-bold tracking-tight">{p.title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{p.desc}</p>
@@ -107,7 +107,7 @@ function JoinPage() {
                 href={p.href}
                 target="_blank"
                 rel="noreferrer"
-                className="group flex items-center gap-5 rounded-2xl border border-border bg-surface/40 p-6 backdrop-blur-sm transition-all hover:border-primary"
+                className="group flex items-center gap-5 panel p-6 backdrop-blur-sm transition-all hover:border-primary"
               >
                 <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
                   {p.icon}

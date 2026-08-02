@@ -104,7 +104,7 @@ function PredictPage() {
       {qs && (
         <ol className="mt-8 space-y-3">
           {qs.map((q, i) => (
-            <li key={i} className="rounded-xl border border-border bg-surface/50 p-4">
+            <li key={i} className="panel rounded-xl p-4">
               <div className="flex items-start justify-between gap-3">
                 <div className="font-bold">{i + 1}. {q.question}</div>
                 <span className="shrink-0 rounded-full border border-primary/40 bg-primary/10 px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest text-primary">

@@ -85,7 +85,7 @@ function InternshipsPage() {
       <section className="px-4 pb-24">
         <div className="mx-auto grid max-w-5xl gap-4 md:grid-cols-3">
           {promises.map((p) => (
-            <div key={p.title} className="relative rounded-2xl border border-border bg-surface/40 p-7 backdrop-blur-sm transition-colors hover:border-primary/60">
+            <div key={p.title} className="relative panel p-7 backdrop-blur-sm transition-colors hover:border-primary/60">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
                 {p.icon}
               </div>

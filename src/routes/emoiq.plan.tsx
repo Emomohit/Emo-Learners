@@ -97,7 +97,7 @@ function PlanPage() {
           </div>
           <div className="grid gap-3 md:grid-cols-2">
             {plan.days?.map((d) => (
-              <div key={d.day} className="rounded-xl border border-border bg-surface/60 p-4">
+              <div key={d.day} className="panel rounded-xl p-4">
                 <div className="flex items-center justify-between">
                   <div className="font-mono text-[11px] uppercase tracking-widest text-primary">
                     {mode === "crash" ? `Block ${d.day}` : `Day ${d.day}`}
@@ -113,7 +113,7 @@ function PlanPage() {
             ))}
           </div>
           {plan.skip?.length ? (
-            <div className="rounded-xl border border-border bg-surface/40 p-4">
+            <div className="panel rounded-xl p-4">
               <div className="font-mono text-[11px] uppercase tracking-widest text-red-400">// Skip for now</div>
               <div className="mt-2 text-sm">{plan.skip.join(" · ")}</div>
             </div>
