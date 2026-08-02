@@ -374,7 +374,7 @@ function AiToolsDirectory() {
             href={r.url}
             target="_blank"
             rel="noreferrer"
-            className="group relative panel p-6 backdrop-blur-sm panel-hover"
+            className="group relative panel p-6 backdrop-blur-sm tilt-3d shine"
           >
             <div className="flex items-start justify-between">
               <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-primary">{r.cat}</span>

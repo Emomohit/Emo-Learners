@@ -91,7 +91,7 @@ function PracticePage() {
                   key={q.slug}
                   to="/quizzes/$slug"
                   params={{ slug: q.slug }}
-                  className="group relative overflow-hidden panel p-6 panel-hover"
+                  className="group relative overflow-hidden panel p-6 tilt-3d shine"
                 >
                   <div className="flex items-start justify-between">
                     <span className="text-3xl" aria-hidden="true">{q.emoji}</span>
@@ -127,7 +127,7 @@ function PracticePage() {
                   key={t.slug}
                   to="/tests/$slug"
                   params={{ slug: t.slug }}
-                  className="group relative overflow-hidden panel p-6 panel-hover"
+                  className="group relative overflow-hidden panel p-6 tilt-3d shine"
                 >
                   <div className="flex items-start justify-between">
                     <span className="text-3xl" aria-hidden="true">{t.emoji}</span>

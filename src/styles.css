@@ -336,7 +336,7 @@
     0 18px 40px -28px oklch(0 0 0 / 60%);
 }
 
-@utility panel-hover {
+@utility tilt-3d shine {
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
     border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
     box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);

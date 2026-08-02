@@ -184,7 +184,7 @@ function Home() {
           >
             <span className="block">One place to</span>
             <span className="relative mt-2 block py-1">
-              <span className="grad-text">study, practice, and grow.</span>
+              <span className="grad-text-anim">study, practice, and grow.</span>
               <span className="absolute -inset-6 -z-10 rounded-full bg-primary/20 blur-3xl" aria-hidden="true" />
             </span>
           </h1>
@@ -262,7 +262,7 @@ function Home() {
               <Link
                 key={c.to}
                 to={c.to}
-                className="group relative overflow-hidden panel p-7 backdrop-blur-sm panel-hover"
+                className="group relative overflow-hidden panel tilt-3d shine p-7 backdrop-blur-sm"
               >
                 <div className="flex items-start justify-between">
                   <span className="font-mono text-xs font-bold tracking-widest text-muted-foreground">
