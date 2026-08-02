@@ -26,6 +26,12 @@ export type Course = {
   level: string;
   hours: string;
   instructor: string;
+  /** Real name of the teacher behind the videos (credit). */
+  teacher?: string;
+  /** YouTube channel name */
+  channel?: string;
+  /** Link to the channel */
+  channelUrl?: string;
   videoId: string;
   accent: string; // tailwind color name for theming hints
   chapters: CourseChapter[];
@@ -597,6 +603,9 @@ export const courses: Course[] = [
     level: "Beginner → Intermediate",
     hours: "~12 hrs of video",
     instructor: "CodeWithHarry",
+    teacher: "Haris Ali Khan",
+    channel: "CodeWithHarry",
+    channelUrl: "https://www.youtube.com/@CodeWithHarry",
     videoId: "UrsmFxEIp5k",
     accent: "from-yellow-400 to-orange-500",
     chapters: [], // Python uses the /challenge page, not the generic course view.
@@ -612,6 +621,9 @@ export const courses: Course[] = [
     level: "Beginner → Advanced",
     hours: "~10 hrs of video",
     instructor: "CodeWithHarry",
+    teacher: "Haris Ali Khan",
+    channel: "CodeWithHarry",
+    channelUrl: "https://www.youtube.com/@CodeWithHarry",
     videoId: "q6z_UCBM5Ek",
     accent: "from-amber-500 to-red-600",
     chapters: javaChapters,
@@ -627,6 +639,9 @@ export const courses: Course[] = [
     level: "Beginner → Advanced",
     hours: "~6.5 hrs of video",
     instructor: "CodeWithHarry",
+    teacher: "Haris Ali Khan",
+    channel: "CodeWithHarry",
+    channelUrl: "https://www.youtube.com/@CodeWithHarry",
     videoId: "irqbmMNs2Bo",
     accent: "from-sky-400 to-blue-700",
     chapters: cChapters,

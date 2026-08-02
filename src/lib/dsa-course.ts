@@ -414,6 +414,9 @@ export const dsaCourse: Course = {
   level: "Beginner → Advanced",
   hours: "Self-paced",
   instructor: "EMO Learners",
+  teacher: "Mohit Ahirwar",
+  channel: "EMO Learners",
+  channelUrl: "https://www.youtube.com/@emolearners",
   videoId: "", // No single video — this is a curated track
   accent: "from-emerald-400 to-teal-600",
   chapters: dsaChapters,
