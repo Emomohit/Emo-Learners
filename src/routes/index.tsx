@@ -262,7 +262,7 @@ function Home() {
               <Link
                 key={c.to}
                 to={c.to}
-                className="group relative overflow-hidden panel p-7 backdrop-blur-sm transition-all hover:-translate-y-1 hover:border-primary"
+                className="group relative overflow-hidden panel p-7 backdrop-blur-sm panel-hover"
               >
                 <div className="flex items-start justify-between">
                   <span className="font-mono text-xs font-bold tracking-widest text-muted-foreground">

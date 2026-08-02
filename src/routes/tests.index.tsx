@@ -94,7 +94,7 @@ function TestsIndex() {
               key={t.slug}
               to="/tests/$slug"
               params={{ slug: t.slug }}
-              className="group relative overflow-hidden panel p-7 backdrop-blur-sm transition-all hover:-translate-y-1 hover:border-primary"
+              className="group relative overflow-hidden panel p-7 backdrop-blur-sm panel-hover"
             >
               <div className="flex items-start justify-between">
                 <span className="text-4xl">{t.emoji}</span>
