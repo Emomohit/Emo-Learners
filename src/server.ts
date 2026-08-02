@@ -99,6 +99,14 @@ function withSecurityHeaders(response: Response, request: Request): Response {
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
+      // Reject cross-site state-changing requests (CSRF defense-in-depth).
+      const csrf = rejectCrossSiteWrite(request);
+      if (csrf) return csrf;
+
+      // Best-effort per-IP rate limiting on API + server-function traffic.
+      const limited = rateLimit(request);
+      if (limited) return limited;
+
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
       const normalized = await normalizeCatastrophicSsrResponse(response);
