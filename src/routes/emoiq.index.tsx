@@ -37,7 +37,7 @@ function EmoIqHome() {
       <section className="px-4 pb-24">
         <div className="mx-auto grid max-w-6xl gap-5 md:grid-cols-2 lg:grid-cols-3">
           {tools.map(({ to, icon: Icon, title, desc }) => (
-            <Link key={to} to={to} className="group panel p-6 backdrop-blur-sm panel-hover hover:btn-grad">
+            <Link key={to} to={to} className="group panel panel-hover p-6">
               <Icon className="h-8 w-8 text-primary" strokeWidth={2} />
               <h3 className="mt-4 font-display text-xl font-bold">{title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{desc}</p>
