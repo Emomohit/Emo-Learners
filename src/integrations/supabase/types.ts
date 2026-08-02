@@ -1,687 +1,695 @@
-export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
+export type Json =
+  | string
+  | number
+  | boolean
+  | null
+  | { [key: string]: Json | undefined }
+  | Json[]
 
 export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "14.5";
-  };
+    PostgrestVersion: "14.5"
+  }
   public: {
     Tables: {
       ai_conversations: {
         Row: {
-          created_at: string;
-          id: string;
-          title: string;
-          updated_at: string;
-          user_id: string;
-        };
+          created_at: string
+          id: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
         Insert: {
-          created_at?: string;
-          id?: string;
-          title?: string;
-          updated_at?: string;
-          user_id: string;
-        };
+          created_at?: string
+          id?: string
+          title?: string
+          updated_at?: string
+          user_id: string
+        }
         Update: {
-          created_at?: string;
-          id?: string;
-          title?: string;
-          updated_at?: string;
-          user_id?: string;
-        };
-        Relationships: [];
-      };
+          created_at?: string
+          id?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       ai_messages: {
         Row: {
-          content: string;
-          conversation_id: string;
-          created_at: string;
-          id: string;
-          parts: Json | null;
-          role: string;
-          user_id: string;
-        };
+          content: string
+          conversation_id: string
+          created_at: string
+          id: string
+          parts: Json | null
+          role: string
+          user_id: string
+        }
         Insert: {
-          content: string;
-          conversation_id: string;
-          created_at?: string;
-          id?: string;
-          parts?: Json | null;
-          role: string;
-          user_id: string;
-        };
+          content: string
+          conversation_id: string
+          created_at?: string
+          id?: string
+          parts?: Json | null
+          role: string
+          user_id: string
+        }
         Update: {
-          content?: string;
-          conversation_id?: string;
-          created_at?: string;
-          id?: string;
-          parts?: Json | null;
-          role?: string;
-          user_id?: string;
-        };
+          content?: string
+          conversation_id?: string
+          created_at?: string
+          id?: string
+          parts?: Json | null
+          role?: string
+          user_id?: string
+        }
         Relationships: [
           {
-            foreignKeyName: "ai_messages_conversation_id_fkey";
-            columns: ["conversation_id"];
-            isOneToOne: false;
-            referencedRelation: "ai_conversations";
-            referencedColumns: ["id"];
+            foreignKeyName: "ai_messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "ai_conversations"
+            referencedColumns: ["id"]
           },
-        ];
-      };
+        ]
+      }
       custom_tests: {
         Row: {
-          created_at: string;
-          created_by: string | null;
-          description: string | null;
-          difficulty: string;
-          emoji: string;
-          id: string;
-          minutes: number;
-          published: boolean;
-          questions: Json;
-          slug: string;
-          title: string;
-          topic: string;
-          updated_at: string;
-        };
+          created_at: string
+          created_by: string | null
+          description: string | null
+          difficulty: string
+          emoji: string
+          id: string
+          minutes: number
+          published: boolean
+          questions: Json
+          slug: string
+          title: string
+          topic: string
+          updated_at: string
+        }
         Insert: {
-          created_at?: string;
-          created_by?: string | null;
-          description?: string | null;
-          difficulty?: string;
-          emoji?: string;
-          id?: string;
-          minutes?: number;
-          published?: boolean;
-          questions?: Json;
-          slug: string;
-          title: string;
-          topic: string;
-          updated_at?: string;
-        };
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          difficulty?: string
+          emoji?: string
+          id?: string
+          minutes?: number
+          published?: boolean
+          questions?: Json
+          slug: string
+          title: string
+          topic: string
+          updated_at?: string
+        }
         Update: {
-          created_at?: string;
-          created_by?: string | null;
-          description?: string | null;
-          difficulty?: string;
-          emoji?: string;
-          id?: string;
-          minutes?: number;
-          published?: boolean;
-          questions?: Json;
-          slug?: string;
-          title?: string;
-          topic?: string;
-          updated_at?: string;
-        };
-        Relationships: [];
-      };
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          difficulty?: string
+          emoji?: string
+          id?: string
+          minutes?: number
+          published?: boolean
+          questions?: Json
+          slug?: string
+          title?: string
+          topic?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       emoiq_doubt_messages: {
         Row: {
-          content: string;
-          created_at: string;
-          id: string;
-          role: string;
-          thread_id: string;
-          user_id: string;
-        };
+          content: string
+          created_at: string
+          id: string
+          role: string
+          thread_id: string
+          user_id: string
+        }
         Insert: {
-          content: string;
-          created_at?: string;
-          id?: string;
-          role: string;
-          thread_id: string;
-          user_id: string;
-        };
+          content: string
+          created_at?: string
+          id?: string
+          role: string
+          thread_id: string
+          user_id: string
+        }
         Update: {
-          content?: string;
-          created_at?: string;
-          id?: string;
-          role?: string;
-          thread_id?: string;
-          user_id?: string;
-        };
+          content?: string
+          created_at?: string
+          id?: string
+          role?: string
+          thread_id?: string
+          user_id?: string
+        }
         Relationships: [
           {
-            foreignKeyName: "emoiq_doubt_messages_thread_id_fkey";
-            columns: ["thread_id"];
-            isOneToOne: false;
-            referencedRelation: "emoiq_doubt_threads";
-            referencedColumns: ["id"];
+            foreignKeyName: "emoiq_doubt_messages_thread_id_fkey"
+            columns: ["thread_id"]
+            isOneToOne: false
+            referencedRelation: "emoiq_doubt_threads"
+            referencedColumns: ["id"]
           },
-        ];
-      };
+        ]
+      }
       emoiq_doubt_threads: {
         Row: {
-          created_at: string;
-          id: string;
-          subject: string | null;
-          title: string;
-          updated_at: string;
-          user_id: string;
-        };
+          created_at: string
+          id: string
+          subject: string | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
         Insert: {
-          created_at?: string;
-          id?: string;
-          subject?: string | null;
-          title?: string;
-          updated_at?: string;
-          user_id: string;
-        };
+          created_at?: string
+          id?: string
+          subject?: string | null
+          title?: string
+          updated_at?: string
+          user_id: string
+        }
         Update: {
-          created_at?: string;
-          id?: string;
-          subject?: string | null;
-          title?: string;
-          updated_at?: string;
-          user_id?: string;
-        };
-        Relationships: [];
-      };
+          created_at?: string
+          id?: string
+          subject?: string | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       emoiq_quiz_attempts: {
         Row: {
-          created_at: string;
-          details: Json;
-          id: string;
-          score: number;
-          subject: string;
-          topics: string[];
-          total: number;
-          user_id: string;
-        };
+          created_at: string
+          details: Json
+          id: string
+          score: number
+          subject: string
+          topics: string[]
+          total: number
+          user_id: string
+        }
         Insert: {
-          created_at?: string;
-          details?: Json;
-          id?: string;
-          score?: number;
-          subject: string;
-          topics?: string[];
-          total?: number;
-          user_id: string;
-        };
+          created_at?: string
+          details?: Json
+          id?: string
+          score?: number
+          subject: string
+          topics?: string[]
+          total?: number
+          user_id: string
+        }
         Update: {
-          created_at?: string;
-          details?: Json;
-          id?: string;
-          score?: number;
-          subject?: string;
-          topics?: string[];
-          total?: number;
-          user_id?: string;
-        };
-        Relationships: [];
-      };
+          created_at?: string
+          details?: Json
+          id?: string
+          score?: number
+          subject?: string
+          topics?: string[]
+          total?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
       emoiq_weak_topics: {
         Row: {
-          id: string;
-          score: number;
-          subject: string;
-          topic: string;
-          updated_at: string;
-          user_id: string;
-        };
+          id: string
+          score: number
+          subject: string
+          topic: string
+          updated_at: string
+          user_id: string
+        }
         Insert: {
-          id?: string;
-          score?: number;
-          subject: string;
-          topic: string;
-          updated_at?: string;
-          user_id: string;
-        };
+          id?: string
+          score?: number
+          subject: string
+          topic: string
+          updated_at?: string
+          user_id: string
+        }
         Update: {
-          id?: string;
-          score?: number;
-          subject?: string;
-          topic?: string;
-          updated_at?: string;
-          user_id?: string;
-        };
-        Relationships: [];
-      };
+          id?: string
+          score?: number
+          subject?: string
+          topic?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       feedback: {
         Row: {
-          created_at: string;
-          email: string;
-          id: string;
-          message: string;
-          name: string;
-          user_id: string | null;
-        };
+          created_at: string
+          email: string
+          id: string
+          message: string
+          name: string
+          user_id: string | null
+        }
         Insert: {
-          created_at?: string;
-          email: string;
-          id?: string;
-          message: string;
-          name: string;
-          user_id?: string | null;
-        };
+          created_at?: string
+          email: string
+          id?: string
+          message: string
+          name: string
+          user_id?: string | null
+        }
         Update: {
-          created_at?: string;
-          email?: string;
-          id?: string;
-          message?: string;
-          name?: string;
-          user_id?: string | null;
-        };
-        Relationships: [];
-      };
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string
+          name?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       predicted_questions: {
         Row: {
-          analysis_id: string;
-          created_at: string;
-          id: string;
-          marks: number | null;
-          probability: number;
-          question: string;
-          unit: string | null;
-          user_id: string;
-        };
+          analysis_id: string
+          created_at: string
+          id: string
+          marks: number | null
+          probability: number
+          question: string
+          unit: string | null
+          user_id: string
+        }
         Insert: {
-          analysis_id: string;
-          created_at?: string;
-          id?: string;
-          marks?: number | null;
-          probability?: number;
-          question: string;
-          unit?: string | null;
-          user_id: string;
-        };
+          analysis_id: string
+          created_at?: string
+          id?: string
+          marks?: number | null
+          probability?: number
+          question: string
+          unit?: string | null
+          user_id: string
+        }
         Update: {
-          analysis_id?: string;
-          created_at?: string;
-          id?: string;
-          marks?: number | null;
-          probability?: number;
-          question?: string;
-          unit?: string | null;
-          user_id?: string;
-        };
+          analysis_id?: string
+          created_at?: string
+          id?: string
+          marks?: number | null
+          probability?: number
+          question?: string
+          unit?: string | null
+          user_id?: string
+        }
         Relationships: [
           {
-            foreignKeyName: "predicted_questions_analysis_id_fkey";
-            columns: ["analysis_id"];
-            isOneToOne: false;
-            referencedRelation: "pyq_analyses";
-            referencedColumns: ["id"];
+            foreignKeyName: "predicted_questions_analysis_id_fkey"
+            columns: ["analysis_id"]
+            isOneToOne: false
+            referencedRelation: "pyq_analyses"
+            referencedColumns: ["id"]
           },
-        ];
-      };
+        ]
+      }
       profiles: {
         Row: {
-          avatar_url: string | null;
-          branch: Database["public"]["Enums"]["branch_code"] | null;
-          created_at: string;
-          current_semester: number | null;
-          email: string | null;
-          full_name: string | null;
-          id: string;
-          updated_at: string;
-        };
+          avatar_url: string | null
+          branch: Database["public"]["Enums"]["branch_code"] | null
+          created_at: string
+          current_semester: number | null
+          email: string | null
+          full_name: string | null
+          id: string
+          updated_at: string
+        }
         Insert: {
-          avatar_url?: string | null;
-          branch?: Database["public"]["Enums"]["branch_code"] | null;
-          created_at?: string;
-          current_semester?: number | null;
-          email?: string | null;
-          full_name?: string | null;
-          id: string;
-          updated_at?: string;
-        };
+          avatar_url?: string | null
+          branch?: Database["public"]["Enums"]["branch_code"] | null
+          created_at?: string
+          current_semester?: number | null
+          email?: string | null
+          full_name?: string | null
+          id: string
+          updated_at?: string
+        }
         Update: {
-          avatar_url?: string | null;
-          branch?: Database["public"]["Enums"]["branch_code"] | null;
-          created_at?: string;
-          current_semester?: number | null;
-          email?: string | null;
-          full_name?: string | null;
-          id?: string;
-          updated_at?: string;
-        };
-        Relationships: [];
-      };
+          avatar_url?: string | null
+          branch?: Database["public"]["Enums"]["branch_code"] | null
+          created_at?: string
+          current_semester?: number | null
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       pyq_analyses: {
         Row: {
-          created_at: string;
-          id: string;
-          paper_ids: string[];
-          subject: string;
-          summary: string | null;
-          topic_freq: Json;
-          user_id: string;
-          weightage: Json;
-          year_trend: Json;
-        };
+          created_at: string
+          id: string
+          paper_ids: string[]
+          subject: string
+          summary: string | null
+          topic_freq: Json
+          user_id: string
+          weightage: Json
+          year_trend: Json
+        }
         Insert: {
-          created_at?: string;
-          id?: string;
-          paper_ids?: string[];
-          subject: string;
-          summary?: string | null;
-          topic_freq?: Json;
-          user_id: string;
-          weightage?: Json;
-          year_trend?: Json;
-        };
+          created_at?: string
+          id?: string
+          paper_ids?: string[]
+          subject: string
+          summary?: string | null
+          topic_freq?: Json
+          user_id: string
+          weightage?: Json
+          year_trend?: Json
+        }
         Update: {
-          created_at?: string;
-          id?: string;
-          paper_ids?: string[];
-          subject?: string;
-          summary?: string | null;
-          topic_freq?: Json;
-          user_id?: string;
-          weightage?: Json;
-          year_trend?: Json;
-        };
-        Relationships: [];
-      };
+          created_at?: string
+          id?: string
+          paper_ids?: string[]
+          subject?: string
+          summary?: string | null
+          topic_freq?: Json
+          user_id?: string
+          weightage?: Json
+          year_trend?: Json
+        }
+        Relationships: []
+      }
       pyq_papers: {
         Row: {
-          created_at: string;
-          id: string;
-          page_count: number | null;
-          status: string;
-          storage_path: string;
-          subject: string;
-          user_id: string;
-          year: number | null;
-        };
+          created_at: string
+          id: string
+          page_count: number | null
+          status: string
+          storage_path: string
+          subject: string
+          user_id: string
+          year: number | null
+        }
         Insert: {
-          created_at?: string;
-          id?: string;
-          page_count?: number | null;
-          status?: string;
-          storage_path: string;
-          subject: string;
-          user_id: string;
-          year?: number | null;
-        };
+          created_at?: string
+          id?: string
+          page_count?: number | null
+          status?: string
+          storage_path: string
+          subject: string
+          user_id: string
+          year?: number | null
+        }
         Update: {
-          created_at?: string;
-          id?: string;
-          page_count?: number | null;
-          status?: string;
-          storage_path?: string;
-          subject?: string;
-          user_id?: string;
-          year?: number | null;
-        };
-        Relationships: [];
-      };
+          created_at?: string
+          id?: string
+          page_count?: number | null
+          status?: string
+          storage_path?: string
+          subject?: string
+          user_id?: string
+          year?: number | null
+        }
+        Relationships: []
+      }
       resources: {
         Row: {
-          created_at: string;
-          description: string | null;
-          file_path: string;
-          file_size: number | null;
-          id: string;
-          kind: Database["public"]["Enums"]["resource_kind"];
-          subject_id: string;
-          title: string;
-          uploaded_by: string | null;
-          year: number | null;
-        };
+          created_at: string
+          description: string | null
+          file_path: string
+          file_size: number | null
+          id: string
+          kind: Database["public"]["Enums"]["resource_kind"]
+          subject_id: string
+          title: string
+          uploaded_by: string | null
+          year: number | null
+        }
         Insert: {
-          created_at?: string;
-          description?: string | null;
-          file_path: string;
-          file_size?: number | null;
-          id?: string;
-          kind: Database["public"]["Enums"]["resource_kind"];
-          subject_id: string;
-          title: string;
-          uploaded_by?: string | null;
-          year?: number | null;
-        };
+          created_at?: string
+          description?: string | null
+          file_path: string
+          file_size?: number | null
+          id?: string
+          kind: Database["public"]["Enums"]["resource_kind"]
+          subject_id: string
+          title: string
+          uploaded_by?: string | null
+          year?: number | null
+        }
         Update: {
-          created_at?: string;
-          description?: string | null;
-          file_path?: string;
-          file_size?: number | null;
-          id?: string;
-          kind?: Database["public"]["Enums"]["resource_kind"];
-          subject_id?: string;
-          title?: string;
-          uploaded_by?: string | null;
-          year?: number | null;
-        };
+          created_at?: string
+          description?: string | null
+          file_path?: string
+          file_size?: number | null
+          id?: string
+          kind?: Database["public"]["Enums"]["resource_kind"]
+          subject_id?: string
+          title?: string
+          uploaded_by?: string | null
+          year?: number | null
+        }
         Relationships: [
           {
-            foreignKeyName: "resources_subject_id_fkey";
-            columns: ["subject_id"];
-            isOneToOne: false;
-            referencedRelation: "subjects";
-            referencedColumns: ["id"];
+            foreignKeyName: "resources_subject_id_fkey"
+            columns: ["subject_id"]
+            isOneToOne: false
+            referencedRelation: "subjects"
+            referencedColumns: ["id"]
           },
-        ];
-      };
+        ]
+      }
       study_plans: {
         Row: {
-          active: boolean;
-          created_at: string;
-          days_left: number;
-          id: string;
-          mode: string;
-          plan: Json;
-          subject: string;
-          updated_at: string;
-          user_id: string;
-        };
+          active: boolean
+          created_at: string
+          days_left: number
+          id: string
+          mode: string
+          plan: Json
+          subject: string
+          updated_at: string
+          user_id: string
+        }
         Insert: {
-          active?: boolean;
-          created_at?: string;
-          days_left?: number;
-          id?: string;
-          mode?: string;
-          plan?: Json;
-          subject: string;
-          updated_at?: string;
-          user_id: string;
-        };
+          active?: boolean
+          created_at?: string
+          days_left?: number
+          id?: string
+          mode?: string
+          plan?: Json
+          subject: string
+          updated_at?: string
+          user_id: string
+        }
         Update: {
-          active?: boolean;
-          created_at?: string;
-          days_left?: number;
-          id?: string;
-          mode?: string;
-          plan?: Json;
-          subject?: string;
-          updated_at?: string;
-          user_id?: string;
-        };
-        Relationships: [];
-      };
+          active?: boolean
+          created_at?: string
+          days_left?: number
+          id?: string
+          mode?: string
+          plan?: Json
+          subject?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       subjects: {
         Row: {
-          branch: Database["public"]["Enums"]["branch_code"];
-          code: string;
-          created_at: string;
-          description: string | null;
-          id: string;
-          name: string;
-          semester: number;
-        };
+          branch: Database["public"]["Enums"]["branch_code"]
+          code: string
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+          semester: number
+        }
         Insert: {
-          branch: Database["public"]["Enums"]["branch_code"];
-          code: string;
-          created_at?: string;
-          description?: string | null;
-          id?: string;
-          name: string;
-          semester: number;
-        };
+          branch: Database["public"]["Enums"]["branch_code"]
+          code: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+          semester: number
+        }
         Update: {
-          branch?: Database["public"]["Enums"]["branch_code"];
-          code?: string;
-          created_at?: string;
-          description?: string | null;
-          id?: string;
-          name?: string;
-          semester?: number;
-        };
-        Relationships: [];
-      };
+          branch?: Database["public"]["Enums"]["branch_code"]
+          code?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+          semester?: number
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
-          created_at: string;
-          id: string;
-          role: Database["public"]["Enums"]["app_role"];
-          user_id: string;
-        };
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
         Insert: {
-          created_at?: string;
-          id?: string;
-          role: Database["public"]["Enums"]["app_role"];
-          user_id: string;
-        };
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
         Update: {
-          created_at?: string;
-          id?: string;
-          role?: Database["public"]["Enums"]["app_role"];
-          user_id?: string;
-        };
-        Relationships: [];
-      };
-    };
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+    }
     Views: {
-      [_ in never]: never;
-    };
+      [_ in never]: never
+    }
     Functions: {
       has_role: {
         Args: {
-          _role: Database["public"]["Enums"]["app_role"];
-          _user_id: string;
-        };
-        Returns: boolean;
-      };
-    };
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+    }
     Enums: {
-      app_role: "admin" | "student";
-      branch_code: "CSE" | "CSE-IT" | "CSE-CY" | "AIML";
-      resource_kind: "notes" | "pyq" | "syllabus" | "important_qs";
-    };
+      app_role: "admin" | "student"
+      branch_code: "CSE" | "CSE-IT" | "CSE-CY" | "AIML"
+      resource_kind: "notes" | "pyq" | "syllabus" | "important_qs"
+    }
     CompositeTypes: {
-      [_ in never]: never;
-    };
-  };
-};
+      [_ in never]: never
+    }
+  }
+}
 
-type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">;
+type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">
 
-type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, "public">];
+type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, "public">]
 
 export type Tables<
   DefaultSchemaTableNameOrOptions extends
     | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
     | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals;
+    schema: keyof DatabaseWithoutInternals
   }
     ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
         DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
     : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals;
+  schema: keyof DatabaseWithoutInternals
 }
   ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
       DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
-      Row: infer R;
+      Row: infer R
     }
     ? R
     : never
-  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
-    ? (DefaultSchema["Tables"] & DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
-        Row: infer R;
+  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] &
+        DefaultSchema["Views"])
+    ? (DefaultSchema["Tables"] &
+        DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
+        Row: infer R
       }
       ? R
       : never
-    : never;
+    : never
 
 export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals;
+    schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
     : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals;
+  schema: keyof DatabaseWithoutInternals
 }
   ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-      Insert: infer I;
+      Insert: infer I
     }
     ? I
     : never
   : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
     ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
-        Insert: infer I;
+        Insert: infer I
       }
       ? I
       : never
-    : never;
+    : never
 
 export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals;
+    schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
     : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals;
+  schema: keyof DatabaseWithoutInternals
 }
   ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-      Update: infer U;
+      Update: infer U
     }
     ? U
     : never
   : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
     ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
-        Update: infer U;
+        Update: infer U
       }
       ? U
       : never
-    : never;
+    : never
 
 export type Enums<
   DefaultSchemaEnumNameOrOptions extends
     | keyof DefaultSchema["Enums"]
     | { schema: keyof DatabaseWithoutInternals },
   EnumName extends DefaultSchemaEnumNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals;
+    schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
     : never = never,
 > = DefaultSchemaEnumNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals;
+  schema: keyof DatabaseWithoutInternals
 }
   ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
   : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
     ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
-    : never;
+    : never
 
 export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
     | keyof DefaultSchema["CompositeTypes"]
     | { schema: keyof DatabaseWithoutInternals },
   CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals;
+    schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
     : never = never,
 > = PublicCompositeTypeNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals;
+  schema: keyof DatabaseWithoutInternals
 }
   ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
   : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
     ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
-    : never;
+    : never
 
 export const Constants = {
   public: {
@@ -691,4 +699,4 @@ export const Constants = {
       resource_kind: ["notes", "pyq", "syllabus", "important_qs"],
     },
   },
-} as const;
+} as const
