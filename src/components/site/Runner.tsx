@@ -93,7 +93,11 @@ export function Runner({
             {pct >= 80 ? "Crushed it." : pct >= 50 ? "Solid work." : "Keep going."}
           </h2>
           <p className="mt-3 text-center text-muted-foreground">
-            You scored <span className="font-bold text-foreground">{score} / {questions.length}</span> ({pct}%).
+            You scored{" "}
+            <span className="font-bold text-foreground">
+              {score} / {questions.length}
+            </span>{" "}
+            ({pct}%).
           </p>
 
           <div className="mt-10 space-y-3">
@@ -102,20 +106,29 @@ export function Runner({
               return (
                 <div key={i} className="rounded-xl border border-border bg-background/50 p-5">
                   <div className="flex items-start gap-3">
-                    <span className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full ${correct ? "bg-success/20 text-success" : "bg-destructive/20 text-destructive"}`}>
+                    <span
+                      className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full ${correct ? "bg-success/20 text-success" : "bg-destructive/20 text-destructive"}`}
+                    >
                       {correct ? <Check className="h-3.5 w-3.5" /> : <X className="h-3.5 w-3.5" />}
                     </span>
                     <div className="flex-1">
-                      <p className="font-semibold">{i + 1}. {q.q}</p>
+                      <p className="font-semibold">
+                        {i + 1}. {q.q}
+                      </p>
                       <p className="mt-2 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
-                        Your answer: <span className={correct ? "text-success" : "text-destructive"}>{picks[i] === null ? "—" : q.options[picks[i]!]}</span>
+                        Your answer:{" "}
+                        <span className={correct ? "text-success" : "text-destructive"}>
+                          {picks[i] === null ? "—" : q.options[picks[i]!]}
+                        </span>
                       </p>
                       {!correct && (
                         <p className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
                           Correct: <span className="text-primary">{q.options[q.answer]}</span>
                         </p>
                       )}
-                      {q.explain && <p className="mt-2 text-sm text-muted-foreground">{q.explain}</p>}
+                      {q.explain && (
+                        <p className="mt-2 text-sm text-muted-foreground">{q.explain}</p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -124,10 +137,16 @@ export function Runner({
           </div>
 
           <div className="mt-10 flex flex-wrap justify-center gap-3">
-            <button onClick={reset} className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-xs font-bold uppercase tracking-widest btn-grad transition-all hover:scale-105">
+            <button
+              onClick={reset}
+              className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-xs font-bold uppercase tracking-widest btn-grad transition-all hover:scale-105"
+            >
               <RotateCcw className="h-3.5 w-3.5" /> Retake
             </button>
-            <Link to={backHref} className="inline-flex items-center gap-2 rounded-full border border-border bg-surface/60 px-6 py-3 text-xs font-bold uppercase tracking-widest text-foreground transition-all hover:border-primary hover:text-primary">
+            <Link
+              to={backHref}
+              className="inline-flex items-center gap-2 rounded-full border border-border bg-surface/60 px-6 py-3 text-xs font-bold uppercase tracking-widest text-foreground transition-all hover:border-primary hover:text-primary"
+            >
               Back to {mode === "quiz" ? "quizzes" : "tests"}
             </Link>
           </div>
@@ -143,7 +162,9 @@ export function Runner({
         <div className="flex items-center gap-3">
           <span className="text-3xl">{emoji}</span>
           <div>
-            <div className="font-mono text-[10px] font-bold uppercase tracking-[0.25em] text-primary">{topic}</div>
+            <div className="font-mono text-[10px] font-bold uppercase tracking-[0.25em] text-primary">
+              {topic}
+            </div>
             <h1 className="font-display text-2xl font-bold md:text-3xl">{title}</h1>
           </div>
         </div>
@@ -157,7 +178,9 @@ export function Runner({
       {/* Progress */}
       <div className="mt-6">
         <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-          <span>Q {idx + 1} / {questions.length}</span>
+          <span>
+            Q {idx + 1} / {questions.length}
+          </span>
           <span>{Math.round(progress)}%</span>
         </div>
         <div className="mt-2 h-1 overflow-hidden rounded-full bg-border">
@@ -183,16 +206,20 @@ export function Runner({
                   showCorrect
                     ? "border-success bg-success/10 text-foreground"
                     : showWrong
-                    ? "border-destructive bg-destructive/10 text-foreground"
-                    : selected
-                    ? "border-primary bg-primary/10 text-foreground"
-                    : "border-border bg-background/50 text-muted-foreground hover:border-primary hover:text-foreground"
+                      ? "border-destructive bg-destructive/10 text-foreground"
+                      : selected
+                        ? "border-primary bg-primary/10 text-foreground"
+                        : "border-border bg-background/50 text-muted-foreground hover:border-primary hover:text-foreground"
                 }`}
               >
                 <div className="flex items-center gap-4">
-                  <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border font-mono text-[11px] font-bold ${
-                    selected || showCorrect ? "border-primary bg-primary text-primary-foreground" : "border-border"
-                  }`}>
+                  <span
+                    className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border font-mono text-[11px] font-bold ${
+                      selected || showCorrect
+                        ? "border-primary bg-primary text-primary-foreground"
+                        : "border-border"
+                    }`}
+                  >
                     {String.fromCharCode(65 + i)}
                   </span>
                   <span className="text-sm md:text-base">{opt}</span>
@@ -206,7 +233,9 @@ export function Runner({
 
         {!isTest && isRevealed && current.explain && (
           <div className="mt-6 rounded-xl border border-border bg-background/50 p-4 text-sm text-muted-foreground">
-            <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-primary">// Why</span>
+            <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-primary">
+              // Why
+            </span>
             <p className="mt-1">{current.explain}</p>
           </div>
         )}

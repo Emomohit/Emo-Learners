@@ -146,13 +146,12 @@ function Top32Page() {
     }
   }
 
-  const units = questions
-    ? ["All", ...Array.from(new Set(questions.map((q) => q.unit)))]
-    : [];
+  const units = questions ? ["All", ...Array.from(new Set(questions.map((q) => q.unit)))] : [];
   const filtered = (() => {
     if (!questions) return [];
     const q = query.trim().toLowerCase();
-    let list = unitFilter === "All" ? questions.slice() : questions.filter((x) => x.unit === unitFilter);
+    let list =
+      unitFilter === "All" ? questions.slice() : questions.filter((x) => x.unit === unitFilter);
     if (q) {
       list = list.filter(
         (x) =>
@@ -179,7 +178,8 @@ function Top32Page() {
         Top 32 <span className="grad-text">Important</span> Questions
       </h1>
       <p className="mt-3 max-w-2xl text-muted-foreground">
-        Upload your past-year papers (or pick a saved analysis). EMoIQ analyses them and returns the 32 most important questions ranked by probability.
+        Upload your past-year papers (or pick a saved analysis). EMoIQ analyses them and returns the
+        32 most important questions ranked by probability.
       </p>
 
       <div className="mt-8 inline-flex rounded-full border border-border bg-surface p-1 font-mono text-[11px] uppercase tracking-widest">
@@ -234,12 +234,17 @@ function Top32Page() {
         <div className="mt-6">
           {!user ? (
             <p className="text-sm">
-              <Link to="/auth" className="text-primary underline">Sign in</Link> to see saved analyses.
+              <Link to="/auth" className="text-primary underline">
+                Sign in
+              </Link>{" "}
+              to see saved analyses.
             </p>
           ) : analyses.length === 0 ? (
             <p className="text-sm">
               No saved analyses yet. Run one from{" "}
-              <Link to="/emoiq/analyze" className="text-primary underline">Analyze PYQs</Link>{" "}
+              <Link to="/emoiq/analyze" className="text-primary underline">
+                Analyze PYQs
+              </Link>{" "}
               or switch to Upload PYQs.
             </p>
           ) : (
@@ -280,7 +285,8 @@ function Top32Page() {
         <div className="mt-10">
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <div className="font-mono text-[11px] uppercase tracking-widest text-primary">
-              // {filtered.length}/{questions.length} shown · sorted by {sortBy} {sortDir === "desc" ? "↓" : "↑"}
+              // {filtered.length}/{questions.length} shown · sorted by {sortBy}{" "}
+              {sortDir === "desc" ? "↓" : "↑"}
             </div>
             <button
               onClick={run}
@@ -358,8 +364,12 @@ function Top32Page() {
                   </span>
                 </div>
                 <div className="mt-3 flex flex-wrap gap-2 text-[11px] text-muted-foreground">
-                  <span className="rounded-full border border-border px-2 py-0.5 font-mono uppercase tracking-widest">{q.unit}</span>
-                  <span className="rounded-full border border-border px-2 py-0.5 font-mono uppercase tracking-widest">{q.marks} marks</span>
+                  <span className="rounded-full border border-border px-2 py-0.5 font-mono uppercase tracking-widest">
+                    {q.unit}
+                  </span>
+                  <span className="rounded-full border border-border px-2 py-0.5 font-mono uppercase tracking-widest">
+                    {q.marks} marks
+                  </span>
                 </div>
                 {q.reason && <p className="mt-2 text-xs text-muted-foreground">Why: {q.reason}</p>}
               </li>

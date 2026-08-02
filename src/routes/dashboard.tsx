@@ -11,7 +11,11 @@ export const Route = createFileRoute("/dashboard")({
   head: () => ({
     meta: [
       { title: "Dashboard — EMO Learners" },
-      { name: "description", content: "Your EMO Learners dashboard. View saved bookmarks, recent activity, and manage your account." },
+      {
+        name: "description",
+        content:
+          "Your EMO Learners dashboard. View saved bookmarks, recent activity, and manage your account.",
+      },
     ],
   }),
   component: Dashboard,
@@ -78,9 +82,14 @@ function Dashboard() {
         <div className="pointer-events-none absolute inset-0 grid-bg opacity-40" />
         <div className="pointer-events-none absolute inset-0 radial-glow" />
         <div className="relative mx-auto max-w-6xl">
-          <span className="font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-primary">// Dashboard</span>
+          <span className="font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-primary">
+            // Dashboard
+          </span>
           <h1 className="mt-3 font-display text-4xl font-bold tracking-tighter md:text-6xl">
-            Hey, <span className="text-primary">{user.user_metadata?.full_name || user.email?.split("@")[0]}</span>
+            Hey,{" "}
+            <span className="text-primary">
+              {user.user_metadata?.full_name || user.email?.split("@")[0]}
+            </span>
           </h1>
           <p className="mt-3 text-muted-foreground">Your study hub at a glance.</p>
 
@@ -92,16 +101,39 @@ function Dashboard() {
           </div>
 
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            <QuickCard to="/resources" icon={<BookOpen className="h-5 w-5" />} title="Browse Resources" desc="Notes, PYQs & syllabus by branch & sem." />
-            <QuickCard to="/ai-assistant" icon={<Sparkles className="h-5 w-5" />} title="AI Study Assistant" desc="Ask doubts. Get clean answers." />
-            <QuickCard to="/contact" icon={<MessagesSquare className="h-5 w-5" />} title="Feedback" desc="Tell us what to build next." />
+            <QuickCard
+              to="/resources"
+              icon={<BookOpen className="h-5 w-5" />}
+              title="Browse Resources"
+              desc="Notes, PYQs & syllabus by branch & sem."
+            />
+            <QuickCard
+              to="/ai-assistant"
+              icon={<Sparkles className="h-5 w-5" />}
+              title="AI Study Assistant"
+              desc="Ask doubts. Get clean answers."
+            />
+            <QuickCard
+              to="/contact"
+              icon={<MessagesSquare className="h-5 w-5" />}
+              title="Feedback"
+              desc="Tell us what to build next."
+            />
             {isAdmin && (
-              <QuickCard to="/admin" icon={<ShieldCheck className="h-5 w-5" />} title="Admin Panel" desc="Upload PDFs · view feedback." accent />
+              <QuickCard
+                to="/admin"
+                icon={<ShieldCheck className="h-5 w-5" />}
+                title="Admin Panel"
+                desc="Upload PDFs · view feedback."
+                accent
+              />
             )}
           </div>
 
           <div className="mt-12">
-            <h2 className="font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground">// Recent uploads</h2>
+            <h2 className="font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+              // Recent uploads
+            </h2>
             <div className="mt-3 space-y-2">
               {recent.length === 0 && (
                 <div className="rounded-xl border border-dashed border-border bg-surface/30 p-8 text-center text-sm text-muted-foreground">
@@ -109,13 +141,19 @@ function Dashboard() {
                 </div>
               )}
               {recent.map((r) => (
-                <div key={r.id} className="flex items-center justify-between gap-3 panel rounded-xl p-4">
+                <div
+                  key={r.id}
+                  className="flex items-center justify-between gap-3 panel rounded-xl p-4"
+                >
                   <div className="flex items-start gap-3">
-                    <div className="rounded-lg bg-primary/10 p-2 text-primary"><FileText className="h-4 w-4" /></div>
+                    <div className="rounded-lg bg-primary/10 p-2 text-primary">
+                      <FileText className="h-4 w-4" />
+                    </div>
                     <div>
                       <div className="font-semibold">{r.title}</div>
                       <div className="text-xs text-muted-foreground">
-                        {r.subject?.code} · {r.subject?.name} · {r.subject?.branch} · Sem {r.subject?.semester}
+                        {r.subject?.code} · {r.subject?.name} · {r.subject?.branch} · Sem{" "}
+                        {r.subject?.semester}
                       </div>
                     </div>
                   </div>
@@ -139,7 +177,9 @@ function Dashboard() {
 function Stat({ label, value }: { label: string; value: number }) {
   return (
     <div className="panel p-5 backdrop-blur">
-      <div className="font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{label}</div>
+      <div className="font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+        {label}
+      </div>
       <div className="mt-1 font-display text-4xl font-bold text-primary">{value}</div>
     </div>
   );

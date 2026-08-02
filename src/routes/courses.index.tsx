@@ -37,7 +37,6 @@ function CoursesIndex() {
         <div className="mx-auto max-w-6xl text-center animate-rise">
           <span className="inline-flex items-center gap-2 rounded-full border border-border bg-surface/60 px-4 py-1.5 font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-primary">
             <Sparkles className="h-3 w-3" /> Free · Notes · Quizzes · Exercises
-
           </span>
           <h1 className="mt-6 font-display text-5xl font-bold leading-[0.95] tracking-tighter md:text-7xl">
             Learn a language.
@@ -45,9 +44,10 @@ function CoursesIndex() {
             <span className="text-primary">From zero to ship.</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-base text-muted-foreground md:text-lg">
-            Pick a language or the DSA track. Each course ships a structured chapter map, expanded notes, deep-linked videos, auto-graded quizzes, and hands-on exercises. No fluff, no paywall.
+            Pick a language or the DSA track. Each course ships a structured chapter map, expanded
+            notes, deep-linked videos, auto-graded quizzes, and hands-on exercises. No fluff, no
+            paywall.
           </p>
-
         </div>
       </section>
 
@@ -62,7 +62,9 @@ function CoursesIndex() {
                 className="group relative flex flex-col overflow-hidden panel tilt-3d shine p-6 animate-rise"
                 style={{ animationDelay: `${i * 80}ms` }}
               >
-                <div className={`absolute -right-12 -top-12 h-40 w-40 rounded-full bg-gradient-to-br ${c.accent} opacity-20 blur-3xl transition-opacity group-hover:opacity-40`} />
+                <div
+                  className={`absolute -right-12 -top-12 h-40 w-40 rounded-full bg-gradient-to-br ${c.accent} opacity-20 blur-3xl transition-opacity group-hover:opacity-40`}
+                />
                 <div className="relative">
                   <div className="text-5xl">{c.emoji}</div>
                   <h3 className="mt-4 font-display text-2xl font-bold tracking-tight">{c.title}</h3>
@@ -79,7 +81,8 @@ function CoursesIndex() {
                     </span>
                   </div>
                   <div className="mt-6 inline-flex items-center gap-1 text-sm font-bold uppercase tracking-widest text-primary transition-transform group-hover:translate-x-1">
-                    {c.slug === "python" ? "Start the challenge" : "Open course"} <ArrowRight className="h-4 w-4" />
+                    {c.slug === "python" ? "Start the challenge" : "Open course"}{" "}
+                    <ArrowRight className="h-4 w-4" />
                   </div>
                 </div>
               </Link>

@@ -37,7 +37,10 @@ function ResumeAnalyzer() {
   const [result, setResult] = useState<Analysis | null>(null);
 
   async function analyze() {
-    if (!pdfText.trim()) { toast.error("Upload your resume PDF first"); return; }
+    if (!pdfText.trim()) {
+      toast.error("Upload your resume PDF first");
+      return;
+    }
     setLoading(true);
     setResult(null);
     try {
@@ -51,11 +54,18 @@ function ResumeAnalyzer() {
           apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
           ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
-        body: JSON.stringify({ messages: [{ role: "system", content: SYSTEM }, { role: "user", content: user }] }),
+        body: JSON.stringify({
+          messages: [
+            { role: "system", content: SYSTEM },
+            { role: "user", content: user },
+          ],
+        }),
       });
       const body = await res.json();
       if (!res.ok) throw new Error(body?.error ?? "AI error");
-      const raw = String(body.reply ?? "").trim().replace(/^```json\s*|\s*```$/g, "");
+      const raw = String(body.reply ?? "")
+        .trim()
+        .replace(/^```json\s*|\s*```$/g, "");
       const parsed = JSON.parse(raw) as Analysis;
       setResult(parsed);
     } catch (e) {
@@ -74,10 +84,14 @@ function ResumeAnalyzer() {
           Resume <span className="grad-text">Analyzer</span>
         </h1>
       </div>
-      <p className="mt-3 text-muted-foreground">Upload your resume PDF. AI scores it and gives specific rewrite suggestions.</p>
+      <p className="mt-3 text-muted-foreground">
+        Upload your resume PDF. AI scores it and gives specific rewrite suggestions.
+      </p>
 
       <div className="mt-6">
-        <label className="block font-mono text-[11px] uppercase tracking-widest text-primary">Target role</label>
+        <label className="block font-mono text-[11px] uppercase tracking-widest text-primary">
+          Target role
+        </label>
         <input
           className="mt-2 w-full rounded-xl border border-border bg-surface px-4 py-3 text-sm outline-none focus:border-primary"
           value={target}
@@ -94,7 +108,11 @@ function ResumeAnalyzer() {
         />
       </div>
 
-      <button onClick={analyze} disabled={loading || !pdfText.trim()} className="mt-6 inline-flex items-center gap-2 rounded-full px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest btn-grad disabled:opacity-50">
+      <button
+        onClick={analyze}
+        disabled={loading || !pdfText.trim()}
+        className="mt-6 inline-flex items-center gap-2 rounded-full px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest btn-grad disabled:opacity-50"
+      >
         {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
         {loading ? "Analyzing…" : "Analyze resume"}
       </button>
@@ -103,8 +121,13 @@ function ResumeAnalyzer() {
         <div className="mt-8 space-y-4">
           <div className="rounded-2xl border border-primary/40 bg-primary/5 p-5">
             <div className="flex items-baseline justify-between">
-              <div className="font-mono text-[11px] uppercase tracking-widest text-primary">Overall</div>
-              <div className="font-display text-4xl font-bold text-primary">{Math.round(result.score)}<span className="text-lg text-muted-foreground">/100</span></div>
+              <div className="font-mono text-[11px] uppercase tracking-widest text-primary">
+                Overall
+              </div>
+              <div className="font-display text-4xl font-bold text-primary">
+                {Math.round(result.score)}
+                <span className="text-lg text-muted-foreground">/100</span>
+              </div>
             </div>
             <p className="mt-2 text-sm">{result.overall}</p>
           </div>
@@ -114,7 +137,9 @@ function ResumeAnalyzer() {
           <ResultList title="Suggested rewrites" items={result.suggestions} tone="primary" />
 
           <div className="panel p-5">
-            <div className="font-mono text-[11px] uppercase tracking-widest text-primary">ATS notes</div>
+            <div className="font-mono text-[11px] uppercase tracking-widest text-primary">
+              ATS notes
+            </div>
             <p className="mt-2 text-sm text-muted-foreground">{result.ats}</p>
           </div>
         </div>
@@ -123,14 +148,30 @@ function ResumeAnalyzer() {
   );
 }
 
-function ResultList({ title, items, tone }: { title: string; items: string[]; tone: "emerald" | "red" | "primary" }) {
+function ResultList({
+  title,
+  items,
+  tone,
+}: {
+  title: string;
+  items: string[];
+  tone: "emerald" | "red" | "primary";
+}) {
   if (!items?.length) return null;
-  const toneClass = tone === "emerald" ? "text-emerald-400" : tone === "red" ? "text-red-400" : "text-primary";
+  const toneClass =
+    tone === "emerald" ? "text-emerald-400" : tone === "red" ? "text-red-400" : "text-primary";
   return (
     <div className="panel p-5">
       <div className={`font-mono text-[11px] uppercase tracking-widest ${toneClass}`}>{title}</div>
       <ul className="mt-3 space-y-2 text-sm">
-        {items.map((it, i) => <li key={i} className="flex gap-2"><span className={`mt-1 h-1.5 w-1.5 shrink-0 rounded-full ${tone === "emerald" ? "bg-emerald-400" : tone === "red" ? "bg-red-400" : "bg-primary"}`} />{it}</li>)}
+        {items.map((it, i) => (
+          <li key={i} className="flex gap-2">
+            <span
+              className={`mt-1 h-1.5 w-1.5 shrink-0 rounded-full ${tone === "emerald" ? "bg-emerald-400" : tone === "red" ? "bg-red-400" : "bg-primary"}`}
+            />
+            {it}
+          </li>
+        ))}
       </ul>
     </div>
   );

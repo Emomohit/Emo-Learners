@@ -6,10 +6,30 @@ export const Route = createFileRoute("/placement/")({
 });
 
 const tools = [
-  { to: "/placement/coding", icon: Code2, title: "Coding Practice", desc: "Curated DSA + company patterns. Ranked by frequency in Indian tech placements." },
-  { to: "/placement/aptitude", icon: Brain, title: "Aptitude Quiz", desc: "Quant, logical reasoning & verbal. 10-question sets, AI-generated, exam-style." },
-  { to: "/placement/interview", icon: MessagesSquare, title: "Mock Interview", desc: "Realistic HR + technical interview simulator. Get feedback after every answer." },
-  { to: "/placement/resume", icon: FileText, title: "Resume Analyzer", desc: "Upload your resume PDF. AI scores it and gives line-by-line improvements." },
+  {
+    to: "/placement/coding",
+    icon: Code2,
+    title: "Coding Practice",
+    desc: "Curated DSA + company patterns. Ranked by frequency in Indian tech placements.",
+  },
+  {
+    to: "/placement/aptitude",
+    icon: Brain,
+    title: "Aptitude Quiz",
+    desc: "Quant, logical reasoning & verbal. 10-question sets, AI-generated, exam-style.",
+  },
+  {
+    to: "/placement/interview",
+    icon: MessagesSquare,
+    title: "Mock Interview",
+    desc: "Realistic HR + technical interview simulator. Get feedback after every answer.",
+  },
+  {
+    to: "/placement/resume",
+    icon: FileText,
+    title: "Resume Analyzer",
+    desc: "Upload your resume PDF. AI scores it and gives line-by-line improvements.",
+  },
 ] as const;
 
 function PlacementHome() {
@@ -26,7 +46,8 @@ function PlacementHome() {
             Land the <span className="grad-text">offer</span>
           </h1>
           <p className="mt-5 max-w-2xl text-lg text-muted-foreground">
-            Coding practice, aptitude, mock interviews, and resume analysis — one AI-powered workflow that prepares you for placement season without juggling ten tools.
+            Coding practice, aptitude, mock interviews, and resume analysis — one AI-powered
+            workflow that prepares you for placement season without juggling ten tools.
           </p>
         </div>
       </section>
@@ -38,7 +59,9 @@ function PlacementHome() {
               <Icon className="h-8 w-8 text-primary" strokeWidth={2} />
               <h3 className="mt-4 font-display text-xl font-bold">{title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{desc}</p>
-              <div className="mt-4 font-mono text-[11px] uppercase tracking-widest text-primary group-hover:underline">Open →</div>
+              <div className="mt-4 font-mono text-[11px] uppercase tracking-widest text-primary group-hover:underline">
+                Open →
+              </div>
             </Link>
           ))}
         </div>

@@ -13,9 +13,15 @@ export const Route = createFileRoute("/quizzes/$slug")({
     return {
       meta: [
         { title },
-        { name: "description", content: q?.description ?? "Take an interactive quiz on EMO Learners." },
+        {
+          name: "description",
+          content: q?.description ?? "Take an interactive quiz on EMO Learners.",
+        },
         { property: "og:title", content: title },
-        { property: "og:description", content: q?.description ?? "Take an interactive quiz on EMO Learners." },
+        {
+          property: "og:description",
+          content: q?.description ?? "Take an interactive quiz on EMO Learners.",
+        },
       ],
     };
   },
@@ -31,7 +37,10 @@ export const Route = createFileRoute("/quizzes/$slug")({
       <Navbar />
       <div className="mx-auto max-w-3xl px-4 py-32 text-center">
         <h1 className="font-display text-5xl font-bold">Quiz not found</h1>
-        <Link to="/quizzes" className="mt-6 inline-flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-primary">
+        <Link
+          to="/quizzes"
+          className="mt-6 inline-flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-primary"
+        >
           <ArrowLeft className="h-4 w-4" /> Back to quizzes
         </Link>
       </div>
@@ -41,7 +50,12 @@ export const Route = createFileRoute("/quizzes/$slug")({
   errorComponent: ({ reset }) => (
     <div className="min-h-screen px-4 py-32 text-center">
       <h1 className="font-display text-3xl font-bold">Something broke</h1>
-      <button onClick={reset} className="mt-6 rounded-full bg-primary px-6 py-2.5 text-xs font-bold uppercase tracking-widest text-primary-foreground">Retry</button>
+      <button
+        onClick={reset}
+        className="mt-6 rounded-full bg-primary px-6 py-2.5 text-xs font-bold uppercase tracking-widest text-primary-foreground"
+      >
+        Retry
+      </button>
     </div>
   ),
 });
@@ -58,7 +72,10 @@ function QuizPage() {
         <div className="pointer-events-none absolute inset-0 grid-bg opacity-30" />
         <div className="relative">
           <div className="mx-auto mb-8 max-w-3xl">
-            <Link to="/quizzes" className="inline-flex items-center gap-2 font-mono text-[11px] font-bold uppercase tracking-widest text-muted-foreground transition-colors hover:text-primary">
+            <Link
+              to="/quizzes"
+              className="inline-flex items-center gap-2 font-mono text-[11px] font-bold uppercase tracking-widest text-muted-foreground transition-colors hover:text-primary"
+            >
               <ArrowLeft className="h-3.5 w-3.5" /> All quizzes
             </Link>
           </div>

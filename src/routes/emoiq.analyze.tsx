@@ -71,7 +71,10 @@ function AnalyzePage() {
 
       {!user && (
         <div className="mt-6 panel rounded-xl p-4 text-sm">
-          <Link to="/auth" className="font-bold text-primary underline">Sign in</Link> to save analyses to your account.
+          <Link to="/auth" className="font-bold text-primary underline">
+            Sign in
+          </Link>{" "}
+          to save analyses to your account.
         </div>
       )}
 
@@ -93,11 +96,13 @@ function AnalyzePage() {
         <PdfDropzone
           label="Upload PYQ PDFs (optional)"
           hint="Drop one or more past-year paper PDFs. Text is extracted and added below."
-          onText={(t) => setText((prev) => {
-            const marker = "\n\n--- ";
-            const base = prev.split(marker)[0];
-            return t ? `${base}${base ? "\n\n" : ""}${t}` : base;
-          })}
+          onText={(t) =>
+            setText((prev) => {
+              const marker = "\n\n--- ";
+              const base = prev.split(marker)[0];
+              return t ? `${base}${base ? "\n\n" : ""}${t}` : base;
+            })
+          }
         />
       </div>
       <textarea
@@ -118,33 +123,50 @@ function AnalyzePage() {
       {result && (
         <div className="mt-10 space-y-8">
           <div className="panel p-6">
-            <div className="font-mono text-[11px] uppercase tracking-widest text-primary">// Summary</div>
+            <div className="font-mono text-[11px] uppercase tracking-widest text-primary">
+              // Summary
+            </div>
             <p className="mt-2 text-sm leading-relaxed text-foreground">{result.summary}</p>
             <div className="mt-4 flex flex-wrap gap-2">
               {savedId && (
-                <Link to="/emoiq/predict" search={{ id: savedId } as never} className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-4 py-2 font-mono text-[11px] uppercase tracking-widest text-primary hover:bg-primary hover:text-primary-foreground">
+                <Link
+                  to="/emoiq/predict"
+                  search={{ id: savedId } as never}
+                  className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-4 py-2 font-mono text-[11px] uppercase tracking-widest text-primary hover:bg-primary hover:text-primary-foreground"
+                >
                   Predict questions →
                 </Link>
               )}
-              <Link to="/emoiq/top32" search={savedId ? ({ id: savedId } as never) : (undefined as never)} className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-4 py-2 font-mono text-[11px] uppercase tracking-widest text-primary hover:bg-primary hover:text-primary-foreground">
+              <Link
+                to="/emoiq/top32"
+                search={savedId ? ({ id: savedId } as never) : (undefined as never)}
+                className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-4 py-2 font-mono text-[11px] uppercase tracking-widest text-primary hover:bg-primary hover:text-primary-foreground"
+              >
                 Top 32 important questions →
               </Link>
             </div>
           </div>
 
           <div>
-            <div className="font-mono text-[11px] uppercase tracking-widest text-primary">// Unit Weightage</div>
+            <div className="font-mono text-[11px] uppercase tracking-widest text-primary">
+              // Unit Weightage
+            </div>
             <div className="mt-3 space-y-2">
               {result.weightage?.map((w, i) => (
                 <div key={i} className="panel rounded-xl p-3">
                   <div className="flex items-center justify-between gap-3">
                     <div className="font-bold">{w.unit}</div>
-                    <span className={`rounded-full border px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest ${priorityColor[w.priority] ?? ""}`}>
+                    <span
+                      className={`rounded-full border px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest ${priorityColor[w.priority] ?? ""}`}
+                    >
                       {w.priority} · {w.percent}%
                     </span>
                   </div>
                   <div className="mt-2 h-2 overflow-hidden rounded-full bg-border">
-                    <div className="h-full bg-primary" style={{ width: `${Math.min(100, w.percent)}%` }} />
+                    <div
+                      className="h-full bg-primary"
+                      style={{ width: `${Math.min(100, w.percent)}%` }}
+                    />
                   </div>
                 </div>
               ))}
@@ -153,18 +175,27 @@ function AnalyzePage() {
 
           <div className="grid gap-6 md:grid-cols-2">
             <div>
-              <div className="font-mono text-[11px] uppercase tracking-widest text-primary">// Top Topics</div>
+              <div className="font-mono text-[11px] uppercase tracking-widest text-primary">
+                // Top Topics
+              </div>
               <ul className="mt-3 space-y-2 text-sm">
                 {result.topic_freq?.map((t, i) => (
-                  <li key={i} className="flex items-center justify-between rounded-lg border border-border bg-surface/40 px-3 py-2">
-                    <span>{t.topic} <span className="text-xs text-muted-foreground">({t.unit})</span></span>
+                  <li
+                    key={i}
+                    className="flex items-center justify-between rounded-lg border border-border bg-surface/40 px-3 py-2"
+                  >
+                    <span>
+                      {t.topic} <span className="text-xs text-muted-foreground">({t.unit})</span>
+                    </span>
                     <span className="font-mono text-xs text-primary">×{t.count}</span>
                   </li>
                 ))}
               </ul>
             </div>
             <div>
-              <div className="font-mono text-[11px] uppercase tracking-widest text-primary">// Year Trends</div>
+              <div className="font-mono text-[11px] uppercase tracking-widest text-primary">
+                // Year Trends
+              </div>
               <ul className="mt-3 space-y-2 text-sm">
                 {result.year_trend?.map((y, i) => (
                   <li key={i} className="rounded-lg border border-border bg-surface/40 px-3 py-2">

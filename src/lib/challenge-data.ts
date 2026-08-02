@@ -106,9 +106,9 @@ const seeds: Seed[] = [
     whatYouLearn: "Writing comments, using `print()`, and escape characters inside strings.",
     notes: [
       "Single-line comment: `# this is ignored by Python`.",
-      "Multi-line: triple-quoted string `\"\"\"..\"\"\"` (technically a string, used as a comment).",
+      'Multi-line: triple-quoted string `""".."""` (technically a string, used as a comment).',
       "`print()` writes to stdout and adds a newline at the end by default.",
-      "Escape sequences: `\\n` newline, `\\t` tab, `\\\\` backslash, `\\\"` quote.",
+      'Escape sequences: `\\n` newline, `\\t` tab, `\\\\` backslash, `\\"` quote.',
       "Customize with `print(a, b, sep='-', end='!')` — sep between items, end at the end.",
     ],
     snippet: `# My first program\nprint("Hello,\\nEMO Learners!")\nprint("A", "B", "C", sep=" -> ", end=" 🚀\\n")`,
@@ -183,7 +183,7 @@ const seeds: Seed[] = [
       "`upper()`, `lower()`, `title()`, `strip()`, `replace(a,b)`, `split(sep)`, `join(list)`.",
       "Searching: `find` (returns -1 if missing), `index` (raises), `count`, `in` operator.",
       "Check shape with `startswith`, `endswith`, `isdigit`, `isalpha`.",
-      "f-strings: `f\"hello {name}, total = {price:.2f}\"` — cleaner than `+` or `%`.",
+      'f-strings: `f"hello {name}, total = {price:.2f}"` — cleaner than `+` or `%`.',
       "All methods return *new* strings — the original is unchanged.",
     ],
     snippet: `s = "  emo learners  "\nclean = s.strip().title()\nprint(f"[{clean}] len={len(clean)}")\nprint("-".join(clean.split()))`,
@@ -330,7 +330,7 @@ const seeds: Seed[] = [
     topic: "Key → value mappings",
     whatYouLearn: "Storing structured data with named fields.",
     notes: [
-      "Create with `{\"name\": \"Mohit\", \"age\": 19}` or `dict(name=...)`.",
+      'Create with `{"name": "Mohit", "age": 19}` or `dict(name=...)`.',
       "Keys must be hashable (str, int, tuple) — values can be anything.",
       "Read with `d[key]` (KeyError if missing) or `d.get(key, default)` (safe).",
       "Iterate: `for k, v in d.items():` — also `d.keys()`, `d.values()`.",
@@ -515,9 +515,21 @@ export const BADGES = [
 
 export const FAQ = [
   { q: "Is the challenge free?", a: "Yes — 100% free. EMO Learners is a student-built community." },
-  { q: "Which course do I follow?", a: "One video — CodeWithHarry's complete Python tutorial (youtu.be/UrsmFxEIp5k). Each day links to the matching chapter timestamp." },
-  { q: "How much time per day?", a: "About 45 minutes to 1 hour: watch the chapter, code along, finish the day's task." },
+  {
+    q: "Which course do I follow?",
+    a: "One video — CodeWithHarry's complete Python tutorial (youtu.be/UrsmFxEIp5k). Each day links to the matching chapter timestamp.",
+  },
+  {
+    q: "How much time per day?",
+    a: "About 45 minutes to 1 hour: watch the chapter, code along, finish the day's task.",
+  },
   { q: "What if I miss a day?", a: "Pick up the next day. Streaks reset, progress doesn't." },
-  { q: "Do I get a certificate?", a: "Yes — finish all 30 days to unlock your completion certificate." },
-  { q: "Where do I ask doubts?", a: "Join our Telegram and Instagram community — links in the navbar." },
+  {
+    q: "Do I get a certificate?",
+    a: "Yes — finish all 30 days to unlock your completion certificate.",
+  },
+  {
+    q: "Where do I ask doubts?",
+    a: "Join our Telegram and Instagram community — links in the navbar.",
+  },
 ];

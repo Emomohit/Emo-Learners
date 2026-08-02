@@ -76,8 +76,7 @@ export const Route = createFileRoute("/")({
           url: "https://emolearners.vercel.app/",
           potentialAction: {
             "@type": "SearchAction",
-            target:
-              "https://emolearners.vercel.app/resources?q={search_term_string}",
+            target: "https://emolearners.vercel.app/resources?q={search_term_string}",
             "query-input": "required name=search_term_string",
           },
         }),
@@ -148,7 +147,15 @@ function Home() {
     const term = q.trim().toLowerCase();
     if (!term) return;
     // Simple router: coding keywords → courses, everything else → resources.
-    const codingWords = ["python", "java", "c ", "c language", "c programming", "dsa", "data structure"];
+    const codingWords = [
+      "python",
+      "java",
+      "c ",
+      "c language",
+      "c programming",
+      "dsa",
+      "data structure",
+    ];
     if (codingWords.some((k) => term.includes(k))) {
       navigate({ to: "/courses" });
     } else if (["quiz", "quizzes"].some((k) => term.includes(k))) {
@@ -172,7 +179,10 @@ function Home() {
 
         <div className="relative mx-auto flex max-w-5xl flex-col items-center text-center">
           <div className="animate-rise inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 backdrop-blur-sm">
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" aria-hidden="true" />
+            <span
+              className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary"
+              aria-hidden="true"
+            />
             <span className="font-mono text-[10px] font-bold uppercase tracking-[0.25em] text-primary">
               Free · Made for Indian students
             </span>
@@ -185,17 +195,19 @@ function Home() {
             <span className="block">One place to</span>
             <span className="relative mt-2 block py-1">
               <span className="grad-text-anim">study, practice, and grow.</span>
-              <span className="absolute -inset-6 -z-10 rounded-full bg-primary/20 blur-3xl" aria-hidden="true" />
+              <span
+                className="absolute -inset-6 -z-10 rounded-full bg-primary/20 blur-3xl"
+                aria-hidden="true"
+              />
             </span>
           </h1>
-
 
           <p
             className="animate-rise mt-8 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg"
             style={{ animationDelay: "160ms" }}
           >
-            Free notes, previous year questions, coding courses, quizzes, timed tests and an
-            AI helper — all in simple English, on your phone.
+            Free notes, previous year questions, coding courses, quizzes, timed tests and an AI
+            helper — all in simple English, on your phone.
           </p>
 
           {/* Search */}
@@ -278,7 +290,8 @@ function Home() {
                 <h3 className="mt-6 font-display text-2xl font-bold">{c.title}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{c.desc}</p>
                 <div className="mt-6 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary">
-                  Open <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
+                  Open{" "}
+                  <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
                 </div>
               </Link>
             ))}
@@ -289,12 +302,25 @@ function Home() {
       {/* CONCEPT PITCH */}
       <section className="relative px-4 py-20">
         <div className="mx-auto max-w-6xl">
-          <SectionHeader tag="// The concept" title="Learning + career, unified." subtitle="Engineering students juggle YouTube, PDFs, coaching apps and placement portals. EMO Learners folds it all into one AI-driven workspace." />
+          <SectionHeader
+            tag="// The concept"
+            title="Learning + career, unified."
+            subtitle="Engineering students juggle YouTube, PDFs, coaching apps and placement portals. EMO Learners folds it all into one AI-driven workspace."
+          />
           <div className="mt-10 grid gap-4 md:grid-cols-3">
             {[
-              { t: "Syllabus-aware learning", d: "Notes, PYQs and roadmaps mapped to RGPV Bhopal AICTE flexible curriculum, branch by branch." },
-              { t: "AI that actually helps", d: "Doubt solver, PYQ predictor, quiz generator and mock interviews — one gateway, zero setup." },
-              { t: "Placement-ready by design", d: "Coding practice, aptitude, resume analysis and interview prep baked into the same flow." },
+              {
+                t: "Syllabus-aware learning",
+                d: "Notes, PYQs and roadmaps mapped to RGPV Bhopal AICTE flexible curriculum, branch by branch.",
+              },
+              {
+                t: "AI that actually helps",
+                d: "Doubt solver, PYQ predictor, quiz generator and mock interviews — one gateway, zero setup.",
+              },
+              {
+                t: "Placement-ready by design",
+                d: "Coding practice, aptitude, resume analysis and interview prep baked into the same flow.",
+              },
             ].map((c) => (
               <div key={c.t} className="panel p-6 backdrop-blur-sm">
                 <h4 className="font-display text-lg font-bold tracking-tighter">{c.t}</h4>
@@ -319,7 +345,9 @@ function Home() {
               "Stay affordable at scale via a SaaS model for colleges and universities.",
             ].map((o, i) => (
               <li key={o} className="flex items-start gap-3 panel rounded-xl p-4">
-                <span className="mt-0.5 font-mono text-xs font-bold text-primary">{String(i + 1).padStart(2, "0")}</span>
+                <span className="mt-0.5 font-mono text-xs font-bold text-primary">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
                 <span className="text-sm">{o}</span>
               </li>
             ))}
@@ -340,7 +368,13 @@ function Home() {
               <BlockNode primary>AI Assessment Engine</BlockNode>
               <Arrow />
               <div className="grid w-full gap-3 md:grid-cols-5">
-                {["Learning Roadmap", "Doubt Solver", "PYQ Analysis", "Coding Practice", "Placement Module"].map((n) => (
+                {[
+                  "Learning Roadmap",
+                  "Doubt Solver",
+                  "PYQ Analysis",
+                  "Coding Practice",
+                  "Placement Module",
+                ].map((n) => (
                   <BlockNode key={n}>{n}</BlockNode>
                 ))}
               </div>
@@ -365,7 +399,9 @@ function Home() {
               { k: "SaaS", v: "Affordable college-wide deployment" },
             ].map((s) => (
               <div key={s.k} className="panel p-6 text-center">
-                <div className="font-display text-3xl font-bold text-primary md:text-4xl">{s.k}</div>
+                <div className="font-display text-3xl font-bold text-primary md:text-4xl">
+                  {s.k}
+                </div>
                 <div className="mt-2 text-sm text-muted-foreground">{s.v}</div>
               </div>
             ))}
@@ -376,7 +412,6 @@ function Home() {
       {/* WHY EMO */}
       <section className="relative px-4 py-20">
         <div className="mx-auto max-w-6xl">
-
           <SectionHeader tag="// Why EMO Learners" title="Built for real students." />
           <div className="mt-12 grid gap-px overflow-hidden rounded-2xl border border-border bg-border md:grid-cols-3">
             {[
@@ -438,10 +473,20 @@ function Home() {
   );
 }
 
-function SectionHeader({ tag, title, subtitle }: { tag: string; title: string; subtitle?: string }) {
+function SectionHeader({
+  tag,
+  title,
+  subtitle,
+}: {
+  tag: string;
+  title: string;
+  subtitle?: string;
+}) {
   return (
     <div className="flex flex-col items-start gap-3">
-      <span className="font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-primary">{tag}</span>
+      <span className="font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-primary">
+        {tag}
+      </span>
       <h2 className="font-display text-3xl font-bold leading-none tracking-tighter md:text-5xl">
         {title}
       </h2>
@@ -452,7 +497,9 @@ function SectionHeader({ tag, title, subtitle }: { tag: string; title: string; s
 
 function BlockNode({ children, primary }: { children: React.ReactNode; primary?: boolean }) {
   return (
-    <div className={`w-full rounded-xl border px-4 py-3 text-center text-sm font-semibold uppercase tracking-widest ${primary ? "border-primary bg-primary/10 text-primary" : "border-border bg-surface/60 text-foreground"}`}>
+    <div
+      className={`w-full rounded-xl border px-4 py-3 text-center text-sm font-semibold uppercase tracking-widest ${primary ? "border-primary bg-primary/10 text-primary" : "border-border bg-surface/60 text-foreground"}`}
+    >
       {children}
     </div>
   );

@@ -48,7 +48,9 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
-        <h1 className="text-xl font-semibold tracking-tight text-foreground">This page didn't load</h1>
+        <h1 className="text-xl font-semibold tracking-tight text-foreground">
+          This page didn't load
+        </h1>
         <p className="mt-2 text-sm text-muted-foreground">
           Something went wrong on our end. You can try refreshing or head back home.
         </p>
@@ -80,10 +82,21 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "EMO Learners — Next-Gen AI Learning Platform for Engineers" },
-      { name: "description", content: "Accelerate your engineering journey with EMO Learners. Discover elite coding courses, advanced AI study assistants, interactive skill assessments, and premium tech resources designed for the innovators of tomorrow." },
+      {
+        name: "description",
+        content:
+          "Accelerate your engineering journey with EMO Learners. Discover elite coding courses, advanced AI study assistants, interactive skill assessments, and premium tech resources designed for the innovators of tomorrow.",
+      },
       { name: "author", content: "EMO Learners" },
-      { property: "og:title", content: "EMO Learners — Next-Gen AI Learning Platform for Engineers" },
-      { property: "og:description", content: "Accelerate your engineering journey with EMO Learners. Discover elite coding courses, advanced AI study assistants, interactive skill assessments, and premium tech resources designed for the innovators of tomorrow." },
+      {
+        property: "og:title",
+        content: "EMO Learners — Next-Gen AI Learning Platform for Engineers",
+      },
+      {
+        property: "og:description",
+        content:
+          "Accelerate your engineering journey with EMO Learners. Discover elite coding courses, advanced AI study assistants, interactive skill assessments, and premium tech resources designed for the innovators of tomorrow.",
+      },
       { property: "og:type", content: "website" },
       { property: "og:image", content: "https://emolearners.vercel.app/favicon.png" },
       { name: "twitter:card", content: "summary_large_image" },

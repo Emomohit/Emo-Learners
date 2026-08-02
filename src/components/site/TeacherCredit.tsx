@@ -16,13 +16,7 @@ type Props = {
  * Small credit strip that names the real teacher behind the videos,
  * their channel, and a link to the original source.
  */
-export function TeacherCredit({
-  teacher,
-  channel,
-  channelUrl,
-  sourceUrl,
-  className = "",
-}: Props) {
+export function TeacherCredit({ teacher, channel, channelUrl, sourceUrl, className = "" }: Props) {
   if (!teacher && !channel) return null;
 
   return (

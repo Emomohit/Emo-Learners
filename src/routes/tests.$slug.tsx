@@ -15,7 +15,10 @@ export const Route = createFileRoute("/tests/$slug")({
     return {
       meta: [
         { title },
-        { name: "description", content: t?.description ?? "Take a timed mock test on EMO Learners." },
+        {
+          name: "description",
+          content: t?.description ?? "Take a timed mock test on EMO Learners.",
+        },
         { property: "og:title", content: title },
       ],
     };
@@ -25,9 +28,11 @@ export const Route = createFileRoute("/tests/$slug")({
 
 function TestPage() {
   const { slug } = Route.useParams();
-  const [test, setTest] = useState<Quiz | null>(() => staticTests.find((t) => t.slug === slug) ?? null);
+  const [test, setTest] = useState<Quiz | null>(
+    () => staticTests.find((t) => t.slug === slug) ?? null,
+  );
   const [status, setStatus] = useState<"loading" | "ready" | "missing">(
-    staticTests.find((t) => t.slug === slug) ? "ready" : "loading"
+    staticTests.find((t) => t.slug === slug) ? "ready" : "loading",
   );
 
   useEffect(() => {
@@ -76,7 +81,10 @@ function TestPage() {
         <Navbar />
         <div className="mx-auto max-w-3xl px-4 py-32 text-center">
           <h1 className="font-display text-5xl font-bold">Test not found</h1>
-          <Link to="/tests" className="mt-6 inline-flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-primary">
+          <Link
+            to="/tests"
+            className="mt-6 inline-flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-primary"
+          >
             <ArrowLeft className="h-4 w-4" /> Back to tests
           </Link>
         </div>
@@ -93,7 +101,10 @@ function TestPage() {
         <div className="pointer-events-none absolute inset-0 grid-bg opacity-30" />
         <div className="relative">
           <div className="mx-auto mb-8 max-w-3xl">
-            <Link to="/tests" className="inline-flex items-center gap-2 font-mono text-[11px] font-bold uppercase tracking-widest text-muted-foreground transition-colors hover:text-primary">
+            <Link
+              to="/tests"
+              className="inline-flex items-center gap-2 font-mono text-[11px] font-bold uppercase tracking-widest text-muted-foreground transition-colors hover:text-primary"
+            >
               <ArrowLeft className="h-3.5 w-3.5" /> All tests
             </Link>
           </div>

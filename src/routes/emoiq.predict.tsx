@@ -8,11 +8,21 @@ import { callEmoIq, type PredictedQuestion } from "@/lib/emoiq/api";
 import { PdfDropzone } from "@/components/site/PdfDropzone";
 
 export const Route = createFileRoute("/emoiq/predict")({
-  validateSearch: (s: Record<string, unknown>) => ({ id: typeof s.id === "string" ? s.id : undefined }),
+  validateSearch: (s: Record<string, unknown>) => ({
+    id: typeof s.id === "string" ? s.id : undefined,
+  }),
   component: PredictPage,
 });
 
-type Analysis = { id: string; subject: string; weightage: unknown; topic_freq: unknown; year_trend: unknown; summary: string | null; created_at: string };
+type Analysis = {
+  id: string;
+  subject: string;
+  weightage: unknown;
+  topic_freq: unknown;
+  year_trend: unknown;
+  summary: string | null;
+  created_at: string;
+};
 
 function PredictPage() {
   const { user } = useAuth();
@@ -25,9 +35,13 @@ function PredictPage() {
 
   useEffect(() => {
     if (!user) return;
-    supabase.from("pyq_analyses").select("*").order("created_at", { ascending: false }).then(({ data }) => {
-      if (data) setAnalyses(data as Analysis[]);
-    });
+    supabase
+      .from("pyq_analyses")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .then(({ data }) => {
+        if (data) setAnalyses(data as Analysis[]);
+      });
   }, [user]);
 
   async function predict() {
@@ -54,7 +68,7 @@ function PredictPage() {
             probability: q.probability,
             unit: q.unit,
             marks: q.marks,
-          }))
+          })),
         );
       }
     } catch (e) {
@@ -69,12 +83,20 @@ function PredictPage() {
       <h1 className="font-display text-3xl font-bold tracking-tighter md:text-5xl">
         Predict <span className="grad-text">Questions</span>
       </h1>
-      <p className="mt-3 text-muted-foreground">Pick a saved analysis. EMoIQ ranks 10 likely questions with a probability score.</p>
+      <p className="mt-3 text-muted-foreground">
+        Pick a saved analysis. EMoIQ ranks 10 likely questions with a probability score.
+      </p>
 
       {!user ? (
         <p className="mt-6 text-sm">Sign in and run an analysis first.</p>
       ) : analyses.length === 0 ? (
-        <p className="mt-6 text-sm">No analyses yet. Run one from <a className="text-primary underline" href="/emoiq/analyze">Analyze PYQs</a>.</p>
+        <p className="mt-6 text-sm">
+          No analyses yet. Run one from{" "}
+          <a className="text-primary underline" href="/emoiq/analyze">
+            Analyze PYQs
+          </a>
+          .
+        </p>
       ) : (
         <>
           <select
@@ -84,7 +106,9 @@ function PredictPage() {
           >
             <option value="">Select analysis…</option>
             {analyses.map((a) => (
-              <option key={a.id} value={a.id}>{a.subject} — {new Date(a.created_at).toLocaleDateString()}</option>
+              <option key={a.id} value={a.id}>
+                {a.subject} — {new Date(a.created_at).toLocaleDateString()}
+              </option>
             ))}
           </select>
           <div className="mt-4">
@@ -94,8 +118,16 @@ function PredictPage() {
               onText={(t) => setPdfContext(t)}
             />
           </div>
-          <button onClick={predict} disabled={loading || !selected} className="mt-4 inline-flex items-center gap-2 rounded-full px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest btn-grad disabled:opacity-50">
-            {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
+          <button
+            onClick={predict}
+            disabled={loading || !selected}
+            className="mt-4 inline-flex items-center gap-2 rounded-full px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest btn-grad disabled:opacity-50"
+          >
+            {loading ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <Sparkles className="h-4 w-4" />
+            )}
             {loading ? "Predicting…" : "Predict top 10"}
           </button>
         </>
@@ -106,7 +138,9 @@ function PredictPage() {
           {qs.map((q, i) => (
             <li key={i} className="panel rounded-xl p-4">
               <div className="flex items-start justify-between gap-3">
-                <div className="font-bold">{i + 1}. {q.question}</div>
+                <div className="font-bold">
+                  {i + 1}. {q.question}
+                </div>
                 <span className="shrink-0 rounded-full border border-primary/40 bg-primary/10 px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest text-primary">
                   {Math.round(q.probability)}%
                 </span>

@@ -11,7 +11,11 @@ export const Route = createFileRoute("/ai-assistant")({
   head: () => ({
     meta: [
       { title: "AI Study Assistant — EMO Learners" },
-      { name: "description", content: "Ask EMO Learners AI anything. Get simple, exam-focused explanations for coding, DSA, and engineering topics." },
+      {
+        name: "description",
+        content:
+          "Ask EMO Learners AI anything. Get simple, exam-focused explanations for coding, DSA, and engineering topics.",
+      },
     ],
   }),
   component: AiPage,
@@ -71,7 +75,10 @@ function AiPage() {
       setMessages([...next, { role: "assistant", content: reply }]);
     } catch (err: any) {
       toast.error(err.message ?? "Assistant unavailable");
-      setMessages([...next, { role: "assistant", content: "I'm having trouble right now. Try again in a moment." }]);
+      setMessages([
+        ...next,
+        { role: "assistant", content: "I'm having trouble right now. Try again in a moment." },
+      ]);
     } finally {
       setBusy(false);
     }
@@ -88,15 +95,25 @@ function AiPage() {
         <div className="relative mx-auto flex h-[calc(100vh-180px)] max-w-4xl flex-col">
           <div className="flex items-center justify-between">
             <div>
-              <span className="font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-primary">// Study Buddy</span>
+              <span className="font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-primary">
+                // Study Buddy
+              </span>
               <h1 className="mt-2 font-display text-3xl font-bold tracking-tighter md:text-5xl">
                 AI Study <span className="text-primary">Assistant</span>
               </h1>
             </div>
-            <Link to="/resources" className="hidden text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-primary md:inline-block">← Resources</Link>
+            <Link
+              to="/resources"
+              className="hidden text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-primary md:inline-block"
+            >
+              ← Resources
+            </Link>
           </div>
 
-          <div ref={scrollRef} className="mt-6 flex-1 overflow-y-auto panel p-4 backdrop-blur md:p-6">
+          <div
+            ref={scrollRef}
+            className="mt-6 flex-1 overflow-y-auto panel p-4 backdrop-blur md:p-6"
+          >
             {messages.length === 0 && (
               <div className="flex h-full flex-col items-center justify-center text-center">
                 <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary">
@@ -104,11 +121,16 @@ function AiPage() {
                 </div>
                 <h3 className="mt-4 font-display text-xl font-bold">Ask me anything</h3>
                 <p className="mt-1 max-w-md text-sm text-muted-foreground">
-                  Doubt clearing, concept summaries, problem-solving help — built for B.Tech students.
+                  Doubt clearing, concept summaries, problem-solving help — built for B.Tech
+                  students.
                 </p>
                 <div className="mt-6 flex max-w-2xl flex-wrap justify-center gap-2">
                   {SUGGESTIONS.map((s) => (
-                    <button key={s} onClick={() => send(s)} className="rounded-full border border-border bg-background/60 px-4 py-2 text-xs text-muted-foreground hover:border-primary hover:text-primary">
+                    <button
+                      key={s}
+                      onClick={() => send(s)}
+                      className="rounded-full border border-border bg-background/60 px-4 py-2 text-xs text-muted-foreground hover:border-primary hover:text-primary"
+                    >
                       {s}
                     </button>
                   ))}
@@ -117,11 +139,22 @@ function AiPage() {
             )}
             <div className="space-y-4">
               {messages.map((m, i) => (
-                <div key={i} className={`flex gap-3 ${m.role === "user" ? "flex-row-reverse" : ""}`}>
-                  <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${m.role === "user" ? "bg-primary text-primary-foreground" : "bg-surface text-primary border border-border"}`}>
-                    {m.role === "user" ? <UserIcon className="h-4 w-4" /> : <Bot className="h-4 w-4" />}
+                <div
+                  key={i}
+                  className={`flex gap-3 ${m.role === "user" ? "flex-row-reverse" : ""}`}
+                >
+                  <div
+                    className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${m.role === "user" ? "bg-primary text-primary-foreground" : "bg-surface text-primary border border-border"}`}
+                  >
+                    {m.role === "user" ? (
+                      <UserIcon className="h-4 w-4" />
+                    ) : (
+                      <Bot className="h-4 w-4" />
+                    )}
                   </div>
-                  <div className={`max-w-[80%] whitespace-pre-wrap rounded-2xl px-4 py-3 text-sm leading-relaxed ${m.role === "user" ? "bg-primary text-primary-foreground" : "border border-border bg-background/70"}`}>
+                  <div
+                    className={`max-w-[80%] whitespace-pre-wrap rounded-2xl px-4 py-3 text-sm leading-relaxed ${m.role === "user" ? "bg-primary text-primary-foreground" : "border border-border bg-background/70"}`}
+                  >
                     {m.content}
                   </div>
                 </div>
@@ -140,7 +173,10 @@ function AiPage() {
           </div>
 
           <form
-            onSubmit={(e) => { e.preventDefault(); send(); }}
+            onSubmit={(e) => {
+              e.preventDefault();
+              send();
+            }}
             className="mt-4 flex gap-2 panel p-2 backdrop-blur"
           >
             <input

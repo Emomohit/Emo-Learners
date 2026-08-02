@@ -4,7 +4,16 @@ import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
-import { Upload, Trash2, ShieldCheck, MessagesSquare, FileText, ClipboardList, Plus, X as XIcon } from "lucide-react";
+import {
+  Upload,
+  Trash2,
+  ShieldCheck,
+  MessagesSquare,
+  FileText,
+  ClipboardList,
+  Plus,
+  X as XIcon,
+} from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin")({
@@ -13,10 +22,29 @@ export const Route = createFileRoute("/admin")({
 });
 
 type Subject = { id: string; branch: string; semester: number; code: string; name: string };
-type Resource = { id: string; subject_id: string; kind: string; title: string; file_path: string; created_at: string };
+type Resource = {
+  id: string;
+  subject_id: string;
+  kind: string;
+  title: string;
+  file_path: string;
+  created_at: string;
+};
 type Feedback = { id: string; name: string; email: string; message: string; created_at: string };
 type TestQuestion = { q: string; options: string[]; answer: number; explain?: string };
-type CustomTest = { id: string; slug: string; title: string; topic: string; emoji: string; description: string | null; minutes: number; difficulty: string; questions: TestQuestion[]; published: boolean; created_at: string };
+type CustomTest = {
+  id: string;
+  slug: string;
+  title: string;
+  topic: string;
+  emoji: string;
+  description: string | null;
+  minutes: number;
+  difficulty: string;
+  questions: TestQuestion[];
+  published: boolean;
+  created_at: string;
+};
 
 function AdminPage() {
   const { user, isAdmin, loading } = useAuth();
@@ -36,7 +64,8 @@ function AdminPage() {
           <ShieldCheck className="mx-auto h-10 w-10 text-primary" />
           <h1 className="mt-4 font-display text-3xl font-bold">Admins only</h1>
           <p className="mt-2 text-sm text-muted-foreground">
-            This area is for verified EMO Learners admins. Sign in with the founder account to access it.
+            This area is for verified EMO Learners admins. Sign in with the founder account to
+            access it.
           </p>
         </div>
         <Footer />
@@ -60,7 +89,9 @@ function AdminPage() {
         <div className="pointer-events-none absolute inset-0 grid-bg opacity-40" />
         <div className="pointer-events-none absolute inset-0 radial-glow" />
         <div className="relative mx-auto max-w-6xl">
-          <span className="font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-primary">// Admin</span>
+          <span className="font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-primary">
+            // Admin
+          </span>
           <h1 className="mt-3 font-display text-4xl font-bold tracking-tighter md:text-6xl">
             Control <span className="text-primary">Panel</span>
           </h1>
@@ -184,7 +215,8 @@ function UploadPanel() {
       setDescription("");
       setYear("");
       setFile(null);
-      (document.getElementById("file-input") as HTMLInputElement | null)?.value && ((document.getElementById("file-input") as HTMLInputElement).value = "");
+      (document.getElementById("file-input") as HTMLInputElement | null)?.value &&
+        ((document.getElementById("file-input") as HTMLInputElement).value = "");
       refresh();
     } catch (err: any) {
       toast.error(err.message ?? "Upload failed");
@@ -208,24 +240,47 @@ function UploadPanel() {
         <div className="grid gap-3 sm:grid-cols-2">
           <Field label="Branch">
             <select value={branch} onChange={(e) => setBranch(e.target.value)} className="select">
-              {["CSE", "CSE-IT", "CSE-CY", "AIML"].map((b) => <option key={b}>{b}</option>)}
+              {["CSE", "CSE-IT", "CSE-CY", "AIML"].map((b) => (
+                <option key={b}>{b}</option>
+              ))}
             </select>
           </Field>
           <Field label="Semester">
-            <select value={semester} onChange={(e) => setSemester(Number(e.target.value))} className="select">
-              {Array.from({ length: 8 }, (_, i) => i + 1).map((s) => <option key={s} value={s}>Sem {s}</option>)}
+            <select
+              value={semester}
+              onChange={(e) => setSemester(Number(e.target.value))}
+              className="select"
+            >
+              {Array.from({ length: 8 }, (_, i) => i + 1).map((s) => (
+                <option key={s} value={s}>
+                  Sem {s}
+                </option>
+              ))}
             </select>
           </Field>
         </div>
         <Field label="Subject">
-          <select value={subjectId} onChange={(e) => setSubjectId(e.target.value)} required className="select">
+          <select
+            value={subjectId}
+            onChange={(e) => setSubjectId(e.target.value)}
+            required
+            className="select"
+          >
             <option value="">Choose subject…</option>
-            {subjects.map((s) => <option key={s.id} value={s.id}>{s.code} — {s.name}</option>)}
+            {subjects.map((s) => (
+              <option key={s.id} value={s.id}>
+                {s.code} — {s.name}
+              </option>
+            ))}
           </select>
         </Field>
         <div className="grid gap-3 sm:grid-cols-2">
           <Field label="Kind">
-            <select value={kind} onChange={(e) => setKind(e.target.value as any)} className="select">
+            <select
+              value={kind}
+              onChange={(e) => setKind(e.target.value as any)}
+              className="select"
+            >
               <option value="notes">Notes</option>
               <option value="pyq">PYQ</option>
               <option value="syllabus">Syllabus</option>
@@ -233,17 +288,41 @@ function UploadPanel() {
             </select>
           </Field>
           <Field label="Year (optional)">
-            <input value={year} onChange={(e) => setYear(e.target.value)} inputMode="numeric" placeholder="2024" className="input" />
+            <input
+              value={year}
+              onChange={(e) => setYear(e.target.value)}
+              inputMode="numeric"
+              placeholder="2024"
+              className="input"
+            />
           </Field>
         </div>
         <Field label="Title">
-          <input value={title} onChange={(e) => setTitle(e.target.value)} required placeholder="e.g. Unit 1 — Arrays & Linked Lists" className="input" />
+          <input
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+            placeholder="e.g. Unit 1 — Arrays & Linked Lists"
+            className="input"
+          />
         </Field>
         <Field label="Description (optional)">
-          <textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={2} className="input resize-none" />
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            rows={2}
+            className="input resize-none"
+          />
         </Field>
         <Field label="PDF / File">
-          <input id="file-input" type="file" required onChange={(e) => setFile(e.target.files?.[0] ?? null)} accept="application/pdf,image/*,.doc,.docx,.ppt,.pptx" className="input" />
+          <input
+            id="file-input"
+            type="file"
+            required
+            onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+            accept="application/pdf,image/*,.doc,.docx,.ppt,.pptx"
+            className="input"
+          />
         </Field>
         <button
           type="submit"
@@ -257,18 +336,30 @@ function UploadPanel() {
 
       <div className="panel p-6">
         <h3 className="font-display text-xl font-bold">Files in this subject</h3>
-        {!subjectId && <p className="mt-3 text-sm text-muted-foreground">Pick a subject to see uploads.</p>}
+        {!subjectId && (
+          <p className="mt-3 text-sm text-muted-foreground">Pick a subject to see uploads.</p>
+        )}
         <div className="mt-3 space-y-2">
           {resources.map((r) => (
-            <div key={r.id} className="flex items-center justify-between gap-3 rounded-xl border border-border bg-background/50 p-3">
+            <div
+              key={r.id}
+              className="flex items-center justify-between gap-3 rounded-xl border border-border bg-background/50 p-3"
+            >
               <div className="flex items-start gap-3">
-                <div className="rounded-lg bg-primary/10 p-2 text-primary"><FileText className="h-4 w-4" /></div>
+                <div className="rounded-lg bg-primary/10 p-2 text-primary">
+                  <FileText className="h-4 w-4" />
+                </div>
                 <div>
                   <div className="text-sm font-semibold">{r.title}</div>
-                  <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">{r.kind}</div>
+                  <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+                    {r.kind}
+                  </div>
                 </div>
               </div>
-              <button onClick={() => remove(r)} className="rounded-lg border border-border p-2 text-muted-foreground hover:border-destructive hover:text-destructive">
+              <button
+                onClick={() => remove(r)}
+                className="rounded-lg border border-border p-2 text-muted-foreground hover:border-destructive hover:text-destructive"
+              >
                 <Trash2 className="h-3.5 w-3.5" />
               </button>
             </div>
@@ -283,7 +374,11 @@ function FeedbackPanel() {
   const [items, setItems] = useState<Feedback[]>([]);
   useEffect(() => {
     (async () => {
-      const { data } = await supabase.from("feedback").select("*").order("created_at", { ascending: false }).limit(200);
+      const { data } = await supabase
+        .from("feedback")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(200);
       setItems((data ?? []) as Feedback[]);
     })();
   }, []);
@@ -293,8 +388,15 @@ function FeedbackPanel() {
       {items.map((f) => (
         <div key={f.id} className="panel p-5">
           <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
-            <div><b className="text-foreground">{f.name}</b> · <a href={`mailto:${f.email}`} className="text-primary hover:underline">{f.email}</a></div>
-            <span className="font-mono text-muted-foreground">{new Date(f.created_at).toLocaleString()}</span>
+            <div>
+              <b className="text-foreground">{f.name}</b> ·{" "}
+              <a href={`mailto:${f.email}`} className="text-primary hover:underline">
+                {f.email}
+              </a>
+            </div>
+            <span className="font-mono text-muted-foreground">
+              {new Date(f.created_at).toLocaleString()}
+            </span>
           </div>
           <p className="mt-2 whitespace-pre-wrap text-sm text-muted-foreground">{f.message}</p>
         </div>
@@ -306,7 +408,9 @@ function FeedbackPanel() {
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="block">
-      <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{label}</span>
+      <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+        {label}
+      </span>
       <div className="mt-1">{children}</div>
     </label>
   );
@@ -343,7 +447,7 @@ function TestsPanel() {
       .from("custom_tests" as any)
       .select("*")
       .order("created_at", { ascending: false });
-    setItems(((data ?? []) as unknown) as CustomTest[]);
+    setItems((data ?? []) as unknown as CustomTest[]);
   };
 
   useEffect(() => {
@@ -402,13 +506,19 @@ function TestsPanel() {
 
   const remove = async (t: CustomTest) => {
     if (!confirm(`Delete "${t.title}"?`)) return;
-    await supabase.from("custom_tests" as any).delete().eq("id", t.id);
+    await supabase
+      .from("custom_tests" as any)
+      .delete()
+      .eq("id", t.id);
     toast.success("Deleted");
     refresh();
   };
 
   const togglePublish = async (t: CustomTest) => {
-    await supabase.from("custom_tests" as any).update({ published: !t.published }).eq("id", t.id);
+    await supabase
+      .from("custom_tests" as any)
+      .update({ published: !t.published })
+      .eq("id", t.id);
     refresh();
   };
 
@@ -417,8 +527,8 @@ function TestsPanel() {
   const setOpt = (i: number, oi: number, value: string) =>
     setQuestions((qs) =>
       qs.map((q, idx) =>
-        idx === i ? { ...q, options: q.options.map((o, k) => (k === oi ? value : o)) } : q
-      )
+        idx === i ? { ...q, options: q.options.map((o, k) => (k === oi ? value : o)) } : q,
+      ),
     );
 
   return (
@@ -427,21 +537,47 @@ function TestsPanel() {
         <h3 className="font-display text-xl font-bold">New Test</h3>
         <div className="grid gap-3 sm:grid-cols-[1fr_120px]">
           <Field label="Title">
-            <input value={title} onChange={(e) => setTitle(e.target.value)} required placeholder="e.g. OS Mid-Sem Mock" className="input" />
+            <input
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              required
+              placeholder="e.g. OS Mid-Sem Mock"
+              className="input"
+            />
           </Field>
           <Field label="Emoji">
-            <input value={emoji} onChange={(e) => setEmoji(e.target.value)} className="input text-center" />
+            <input
+              value={emoji}
+              onChange={(e) => setEmoji(e.target.value)}
+              className="input text-center"
+            />
           </Field>
         </div>
         <div className="grid gap-3 sm:grid-cols-3">
           <Field label="Topic">
-            <input value={topic} onChange={(e) => setTopic(e.target.value)} required placeholder="OS / DBMS / AI…" className="input" />
+            <input
+              value={topic}
+              onChange={(e) => setTopic(e.target.value)}
+              required
+              placeholder="OS / DBMS / AI…"
+              className="input"
+            />
           </Field>
           <Field label="Minutes">
-            <input type="number" min={1} value={minutes} onChange={(e) => setMinutes(Number(e.target.value) || 1)} className="input" />
+            <input
+              type="number"
+              min={1}
+              value={minutes}
+              onChange={(e) => setMinutes(Number(e.target.value) || 1)}
+              className="input"
+            />
           </Field>
           <Field label="Difficulty">
-            <select value={difficulty} onChange={(e) => setDifficulty(e.target.value as any)} className="select">
+            <select
+              value={difficulty}
+              onChange={(e) => setDifficulty(e.target.value as any)}
+              className="select"
+            >
               <option value="easy">Easy</option>
               <option value="medium">Medium</option>
               <option value="hard">Hard</option>
@@ -449,16 +585,32 @@ function TestsPanel() {
           </Field>
         </div>
         <Field label="Description">
-          <textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={2} className="input resize-none" />
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            rows={2}
+            className="input resize-none"
+          />
         </Field>
         <label className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-muted-foreground">
-          <input type="checkbox" checked={published} onChange={(e) => setPublished(e.target.checked)} /> Publish immediately
+          <input
+            type="checkbox"
+            checked={published}
+            onChange={(e) => setPublished(e.target.checked)}
+          />{" "}
+          Publish immediately
         </label>
 
         <div className="border-t border-border pt-4">
           <div className="flex items-center justify-between">
-            <h4 className="font-display text-sm font-extrabold uppercase tracking-widest">Questions ({questions.length})</h4>
-            <button type="button" onClick={() => setQuestions((qs) => [...qs, emptyQ()])} className="inline-flex items-center gap-1 rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-primary">
+            <h4 className="font-display text-sm font-extrabold uppercase tracking-widest">
+              Questions ({questions.length})
+            </h4>
+            <button
+              type="button"
+              onClick={() => setQuestions((qs) => [...qs, emptyQ()])}
+              className="inline-flex items-center gap-1 rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-primary"
+            >
               <Plus className="h-3 w-3" /> Add
             </button>
           </div>
@@ -466,51 +618,95 @@ function TestsPanel() {
             {questions.map((q, i) => (
               <div key={i} className="rounded-xl border border-border bg-background/50 p-4">
                 <div className="flex items-center justify-between">
-                  <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-primary">Q{i + 1}</span>
+                  <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-primary">
+                    Q{i + 1}
+                  </span>
                   {questions.length > 1 && (
-                    <button type="button" onClick={() => setQuestions((qs) => qs.filter((_, k) => k !== i))} className="text-muted-foreground hover:text-destructive">
+                    <button
+                      type="button"
+                      onClick={() => setQuestions((qs) => qs.filter((_, k) => k !== i))}
+                      className="text-muted-foreground hover:text-destructive"
+                    >
                       <XIcon className="h-3.5 w-3.5" />
                     </button>
                   )}
                 </div>
-                <textarea value={q.q} onChange={(e) => setQ(i, { q: e.target.value })} rows={2} placeholder="Question text…" className="input mt-2 resize-none" />
+                <textarea
+                  value={q.q}
+                  onChange={(e) => setQ(i, { q: e.target.value })}
+                  rows={2}
+                  placeholder="Question text…"
+                  className="input mt-2 resize-none"
+                />
                 <div className="mt-3 space-y-2">
                   {q.options.map((opt, oi) => (
                     <div key={oi} className="flex items-center gap-2">
-                      <input type="radio" name={`ans-${i}`} checked={q.answer === oi} onChange={() => setQ(i, { answer: oi })} className="h-3.5 w-3.5" />
-                      <input value={opt} onChange={(e) => setOpt(i, oi, e.target.value)} placeholder={`Option ${oi + 1}`} className="input flex-1" />
+                      <input
+                        type="radio"
+                        name={`ans-${i}`}
+                        checked={q.answer === oi}
+                        onChange={() => setQ(i, { answer: oi })}
+                        className="h-3.5 w-3.5"
+                      />
+                      <input
+                        value={opt}
+                        onChange={(e) => setOpt(i, oi, e.target.value)}
+                        placeholder={`Option ${oi + 1}`}
+                        className="input flex-1"
+                      />
                     </div>
                   ))}
                 </div>
-                <input value={q.explain ?? ""} onChange={(e) => setQ(i, { explain: e.target.value })} placeholder="Explanation (optional)" className="input mt-3" />
+                <input
+                  value={q.explain ?? ""}
+                  onChange={(e) => setQ(i, { explain: e.target.value })}
+                  placeholder="Explanation (optional)"
+                  className="input mt-3"
+                />
               </div>
             ))}
           </div>
         </div>
 
-        <button type="submit" disabled={busy} className="inline-flex w-full items-center justify-center gap-2 rounded-xl py-3 text-sm font-bold uppercase tracking-widest btn-grad disabled:opacity-50">
+        <button
+          type="submit"
+          disabled={busy}
+          className="inline-flex w-full items-center justify-center gap-2 rounded-xl py-3 text-sm font-bold uppercase tracking-widest btn-grad disabled:opacity-50"
+        >
           {busy ? "Saving…" : "Publish Test"}
         </button>
       </form>
 
       <div className="panel p-6">
         <h3 className="font-display text-xl font-bold">Your tests</h3>
-        {items.length === 0 && <p className="mt-3 text-sm text-muted-foreground">Nothing yet — create your first test.</p>}
+        {items.length === 0 && (
+          <p className="mt-3 text-sm text-muted-foreground">
+            Nothing yet — create your first test.
+          </p>
+        )}
         <div className="mt-3 space-y-2">
           {items.map((t) => (
             <div key={t.id} className="rounded-xl border border-border bg-background/50 p-3">
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <div className="text-sm font-semibold">{t.emoji} {t.title}</div>
+                  <div className="text-sm font-semibold">
+                    {t.emoji} {t.title}
+                  </div>
                   <div className="mt-0.5 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
                     {t.topic} · {t.questions?.length ?? 0} Q · {t.minutes} min · {t.difficulty}
                   </div>
                 </div>
                 <div className="flex items-center gap-1">
-                  <button onClick={() => togglePublish(t)} className={`rounded-md px-2 py-1 text-[10px] font-bold uppercase tracking-widest ${t.published ? "bg-primary/15 text-primary" : "bg-muted text-muted-foreground"}`}>
+                  <button
+                    onClick={() => togglePublish(t)}
+                    className={`rounded-md px-2 py-1 text-[10px] font-bold uppercase tracking-widest ${t.published ? "bg-primary/15 text-primary" : "bg-muted text-muted-foreground"}`}
+                  >
                     {t.published ? "Live" : "Draft"}
                   </button>
-                  <button onClick={() => remove(t)} className="rounded-lg border border-border p-1.5 text-muted-foreground hover:border-destructive hover:text-destructive">
+                  <button
+                    onClick={() => remove(t)}
+                    className="rounded-lg border border-border p-1.5 text-muted-foreground hover:border-destructive hover:text-destructive"
+                  >
                     <Trash2 className="h-3.5 w-3.5" />
                   </button>
                 </div>

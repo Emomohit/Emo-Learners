@@ -1,17 +1,55 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Brain, FileSearch, Sparkles, CalendarClock, MessageCircleQuestion, TrendingUp, Flame } from "lucide-react";
+import {
+  Brain,
+  FileSearch,
+  Sparkles,
+  CalendarClock,
+  MessageCircleQuestion,
+  TrendingUp,
+  Flame,
+} from "lucide-react";
 
 export const Route = createFileRoute("/emoiq/")({
   component: EmoIqHome,
 });
 
 const tools = [
-  { to: "/emoiq/analyze", icon: FileSearch, title: "Analyze PYQs", desc: "Upload past-year papers. AI detects units, topic weightage, and yearly trends." },
-  { to: "/emoiq/top32", icon: Flame, title: "Top 32 Important Questions", desc: "Upload PYQs and get the 32 most important questions ranked by probability." },
-  { to: "/emoiq/predict", icon: Sparkles, title: "Predict Questions", desc: "Get probability-ranked questions from your PYQ analysis." },
-  { to: "/emoiq/plan", icon: CalendarClock, title: "Study Plan", desc: "Day-by-day plan based on weak topics and days left. Includes Last-24h crash mode." },
-  { to: "/emoiq/quiz", icon: TrendingUp, title: "Diagnostic Quiz", desc: "10-question quiz that finds your weak areas and updates your plan." },
-  { to: "/emoiq/doubt", icon: MessageCircleQuestion, title: "AI Doubt Solver", desc: "Ask any syllabus doubt. Get concise, exam-focused answers." },
+  {
+    to: "/emoiq/analyze",
+    icon: FileSearch,
+    title: "Analyze PYQs",
+    desc: "Upload past-year papers. AI detects units, topic weightage, and yearly trends.",
+  },
+  {
+    to: "/emoiq/top32",
+    icon: Flame,
+    title: "Top 32 Important Questions",
+    desc: "Upload PYQs and get the 32 most important questions ranked by probability.",
+  },
+  {
+    to: "/emoiq/predict",
+    icon: Sparkles,
+    title: "Predict Questions",
+    desc: "Get probability-ranked questions from your PYQ analysis.",
+  },
+  {
+    to: "/emoiq/plan",
+    icon: CalendarClock,
+    title: "Study Plan",
+    desc: "Day-by-day plan based on weak topics and days left. Includes Last-24h crash mode.",
+  },
+  {
+    to: "/emoiq/quiz",
+    icon: TrendingUp,
+    title: "Diagnostic Quiz",
+    desc: "10-question quiz that finds your weak areas and updates your plan.",
+  },
+  {
+    to: "/emoiq/doubt",
+    icon: MessageCircleQuestion,
+    title: "AI Doubt Solver",
+    desc: "Ask any syllabus doubt. Get concise, exam-focused answers.",
+  },
 ] as const;
 
 function EmoIqHome() {
@@ -26,10 +64,13 @@ function EmoIqHome() {
           </div>
           <h1 className="mt-4 font-display text-4xl font-bold leading-[0.9] tracking-tighter md:text-6xl">
             EM<span className="grad-text">o</span>IQ
-            <span className="ml-3 align-middle font-mono text-xs font-bold uppercase tracking-widest text-muted-foreground">smart exam strategy</span>
+            <span className="ml-3 align-middle font-mono text-xs font-bold uppercase tracking-widest text-muted-foreground">
+              smart exam strategy
+            </span>
           </h1>
           <p className="mt-5 max-w-2xl text-lg text-muted-foreground">
-            Beat the exam, not the syllabus. EMoIQ reads your past-year papers, predicts what's likely to come, and builds a plan you can actually finish.
+            Beat the exam, not the syllabus. EMoIQ reads your past-year papers, predicts what's
+            likely to come, and builds a plan you can actually finish.
           </p>
         </div>
       </section>
@@ -41,7 +82,9 @@ function EmoIqHome() {
               <Icon className="h-8 w-8 text-primary" strokeWidth={2} />
               <h3 className="mt-4 font-display text-xl font-bold">{title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{desc}</p>
-              <div className="mt-4 font-mono text-[11px] uppercase tracking-widest text-primary group-hover:underline">Open →</div>
+              <div className="mt-4 font-mono text-[11px] uppercase tracking-widest text-primary group-hover:underline">
+                Open →
+              </div>
             </Link>
           ))}
         </div>

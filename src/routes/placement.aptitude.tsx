@@ -9,14 +9,23 @@ export const Route = createFileRoute("/placement/aptitude")({
 });
 
 const categories = [
-  { label: "Quantitative", topics: ["percentages", "ratios", "time and work", "profit and loss", "averages"] },
-  { label: "Logical Reasoning", topics: ["series", "coding-decoding", "blood relations", "syllogisms", "puzzles"] },
-  { label: "Verbal", topics: ["synonyms", "antonyms", "reading comprehension", "sentence correction"] },
+  {
+    label: "Quantitative",
+    topics: ["percentages", "ratios", "time and work", "profit and loss", "averages"],
+  },
+  {
+    label: "Logical Reasoning",
+    topics: ["series", "coding-decoding", "blood relations", "syllogisms", "puzzles"],
+  },
+  {
+    label: "Verbal",
+    topics: ["synonyms", "antonyms", "reading comprehension", "sentence correction"],
+  },
   { label: "Data Interpretation", topics: ["tables", "bar charts", "pie charts", "line graphs"] },
 ] as const;
 
 function AptitudePage() {
-  const [cat, setCat] = useState<typeof categories[number]["label"]>("Quantitative");
+  const [cat, setCat] = useState<(typeof categories)[number]["label"]>("Quantitative");
   const [loading, setLoading] = useState(false);
   const [qs, setQs] = useState<QuizQuestion[] | null>(null);
   const [picks, setPicks] = useState<Record<number, number>>({});
@@ -24,7 +33,9 @@ function AptitudePage() {
 
   async function generate() {
     setLoading(true);
-    setQs(null); setPicks({}); setSubmitted(false);
+    setQs(null);
+    setPicks({});
+    setSubmitted(false);
     try {
       const topics = categories.find((c) => c.label === cat)?.topics ?? [];
       const r = await callEmoIq<{ questions: QuizQuestion[] }>("quiz", {
@@ -54,7 +65,9 @@ function AptitudePage() {
           Aptitude <span className="grad-text">Quiz</span>
         </h1>
       </div>
-      <p className="mt-3 text-muted-foreground">Pick a category. AI generates a fresh 10-question set every time.</p>
+      <p className="mt-3 text-muted-foreground">
+        Pick a category. AI generates a fresh 10-question set every time.
+      </p>
 
       {!qs && (
         <>
@@ -69,8 +82,16 @@ function AptitudePage() {
               </button>
             ))}
           </div>
-          <button onClick={generate} disabled={loading} className="mt-6 inline-flex items-center gap-2 rounded-full px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest btn-grad disabled:opacity-50">
-            {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
+          <button
+            onClick={generate}
+            disabled={loading}
+            className="mt-6 inline-flex items-center gap-2 rounded-full px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest btn-grad disabled:opacity-50"
+          >
+            {loading ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <Sparkles className="h-4 w-4" />
+            )}
             {loading ? "Generating…" : "Generate quiz"}
           </button>
         </>
@@ -82,7 +103,9 @@ function AptitudePage() {
             const picked = picks[i];
             return (
               <div key={i} className="panel rounded-xl p-5">
-                <div className="font-bold">{i + 1}. {q.q}</div>
+                <div className="font-bold">
+                  {i + 1}. {q.q}
+                </div>
                 <div className="mt-3 grid gap-2">
                   {q.options.map((opt, oi) => {
                     const isPicked = picked === oi;
@@ -94,10 +117,13 @@ function AptitudePage() {
                         disabled={submitted}
                         onClick={() => setPicks((p) => ({ ...p, [i]: oi }))}
                         className={`flex items-center justify-between rounded-lg border px-3 py-2 text-left text-sm transition-colors ${
-                          isCorrect ? "border-emerald-400/60 bg-emerald-400/10"
-                          : isWrong ? "border-red-400/60 bg-red-400/10"
-                          : isPicked ? "border-primary bg-primary/10"
-                          : "border-border bg-surface hover:border-primary/40"
+                          isCorrect
+                            ? "border-emerald-400/60 bg-emerald-400/10"
+                            : isWrong
+                              ? "border-red-400/60 bg-red-400/10"
+                              : isPicked
+                                ? "border-primary bg-primary/10"
+                                : "border-border bg-surface hover:border-primary/40"
                         }`}
                       >
                         <span>{opt}</span>
@@ -108,15 +134,28 @@ function AptitudePage() {
                   })}
                 </div>
                 {submitted && q.explain && (
-                  <p className="mt-3 text-xs text-muted-foreground"><span className="font-mono uppercase tracking-widest text-primary">Why:</span> {q.explain}</p>
+                  <p className="mt-3 text-xs text-muted-foreground">
+                    <span className="font-mono uppercase tracking-widest text-primary">Why:</span>{" "}
+                    {q.explain}
+                  </p>
                 )}
               </div>
             );
           })}
           {!submitted ? (
-            <button onClick={submit} className="rounded-full px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest btn-grad">Submit</button>
+            <button
+              onClick={submit}
+              className="rounded-full px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest btn-grad"
+            >
+              Submit
+            </button>
           ) : (
-            <button onClick={() => setQs(null)} className="rounded-full border border-border bg-surface px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest">Try another</button>
+            <button
+              onClick={() => setQs(null)}
+              className="rounded-full border border-border bg-surface px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest"
+            >
+              Try another
+            </button>
           )}
         </div>
       )}
