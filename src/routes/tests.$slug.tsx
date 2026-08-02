@@ -75,7 +75,7 @@ function TestPage() {
         <Marquee />
         <Navbar />
         <div className="mx-auto max-w-3xl px-4 py-32 text-center">
-          <h1 className="font-display text-5xl font-extrabold uppercase">Test not found</h1>
+          <h1 className="font-display text-5xl font-bold">Test not found</h1>
           <Link to="/tests" className="mt-6 inline-flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-primary">
             <ArrowLeft className="h-4 w-4" /> Back to tests
           </Link>

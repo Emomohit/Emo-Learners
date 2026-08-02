@@ -30,7 +30,7 @@ export const Route = createFileRoute("/quizzes/$slug")({
       <Marquee />
       <Navbar />
       <div className="mx-auto max-w-3xl px-4 py-32 text-center">
-        <h1 className="font-display text-5xl font-extrabold uppercase">Quiz not found</h1>
+        <h1 className="font-display text-5xl font-bold">Quiz not found</h1>
         <Link to="/quizzes" className="mt-6 inline-flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-primary">
           <ArrowLeft className="h-4 w-4" /> Back to quizzes
         </Link>
@@ -40,7 +40,7 @@ export const Route = createFileRoute("/quizzes/$slug")({
   ),
   errorComponent: ({ reset }) => (
     <div className="min-h-screen px-4 py-32 text-center">
-      <h1 className="font-display text-3xl font-extrabold uppercase">Something broke</h1>
+      <h1 className="font-display text-3xl font-bold">Something broke</h1>
       <button onClick={reset} className="mt-6 rounded-full bg-primary px-6 py-2.5 text-xs font-bold uppercase tracking-widest text-primary-foreground">Retry</button>
     </div>
   ),

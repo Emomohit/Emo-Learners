@@ -56,7 +56,7 @@ export function Navbar() {
           <div className="flex h-9 w-9 rotate-12 items-center justify-center rounded-lg bg-primary shadow-brand transition-transform group-hover:rotate-[24deg] md:h-10 md:w-10">
             <Zap className="h-4 w-4 text-primary-foreground md:h-5 md:w-5" strokeWidth={2.5} />
           </div>
-          <span className="font-display text-lg font-extrabold italic uppercase tracking-tighter md:text-xl">
+          <span className="font-display text-lg font-bold tracking-tighter md:text-xl">
             EMO <span className="text-primary">Learners</span>
           </span>
         </Link>

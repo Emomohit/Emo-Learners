@@ -37,7 +37,7 @@ function PracticePage() {
           <span className="font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-primary">
             // Practice
           </span>
-          <h1 className="mt-4 font-display text-5xl font-extrabold uppercase leading-[0.85] tracking-tighter md:text-7xl">
+          <h1 className="mt-4 font-display text-5xl font-bold leading-[0.85] tracking-tighter md:text-7xl">
             Learn by <span className="italic text-primary">doing.</span>
           </h1>
           <p className="mt-6 max-w-xl text-muted-foreground">
@@ -99,7 +99,7 @@ function PracticePage() {
                       {q.topic}
                     </span>
                   </div>
-                  <h3 className="mt-5 font-display text-xl font-extrabold uppercase">{q.title}</h3>
+                  <h3 className="mt-5 font-display text-xl font-bold">{q.title}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{q.description}</p>
                   <div className="mt-5 flex items-center justify-between border-t border-border pt-4 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
                     <span>
@@ -135,7 +135,7 @@ function PracticePage() {
                       {t.topic}
                     </span>
                   </div>
-                  <h3 className="mt-5 font-display text-xl font-extrabold uppercase">{t.title}</h3>
+                  <h3 className="mt-5 font-display text-xl font-bold">{t.title}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{t.description}</p>
                   <div className="mt-5 flex items-center justify-between border-t border-border pt-4 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
                     <span>
@@ -158,7 +158,7 @@ function PracticePage() {
               <span className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.25em] text-primary">
                 <Flame className="h-3 w-3" /> 30 days · Free
               </span>
-              <h2 className="mt-5 font-display text-4xl font-extrabold uppercase italic leading-none tracking-tighter md:text-5xl">
+              <h2 className="mt-5 font-display text-4xl font-bold leading-none tracking-tighter md:text-5xl">
                 30-Day <span className="text-primary">Python</span> Challenge
               </h2>
               <p className="mt-6 text-muted-foreground">
@@ -179,7 +179,7 @@ function PracticePage() {
               </Link>
             </div>
             <div className="rounded-3xl border border-border bg-gradient-to-br from-primary/15 via-surface/40 to-background p-8">
-              <h3 className="font-display text-2xl font-extrabold uppercase">Why 30 days?</h3>
+              <h3 className="font-display text-2xl font-bold">Why 30 days?</h3>
               <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
                 Most students give up in the first week because they try to learn too much
                 at once. This challenge is built the other way — small daily steps, one topic
@@ -192,7 +192,7 @@ function PracticePage() {
                   { k: "1", v: "Real project" },
                 ].map((s) => (
                   <div key={s.v} className="rounded-xl border border-border bg-background/60 p-4 text-center">
-                    <div className="font-display text-2xl font-extrabold text-primary">{s.k}</div>
+                    <div className="font-display text-2xl font-bold text-primary">{s.k}</div>
                     <div className="mt-1 font-mono text-[9px] uppercase tracking-widest text-muted-foreground">
                       {s.v}
                     </div>

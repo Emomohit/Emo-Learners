@@ -61,7 +61,7 @@ function ResetPasswordPage() {
                 <Zap className="h-5 w-5 text-primary-foreground" strokeWidth={2.5} />
               </div>
             </div>
-            <h1 className="mt-6 text-center font-display text-3xl font-extrabold uppercase italic tracking-tighter">
+            <h1 className="mt-6 text-center font-display text-3xl font-bold tracking-tighter">
               Set a new password
             </h1>
             <p className="mt-2 text-center text-sm text-muted-foreground">

@@ -68,7 +68,7 @@ export function QuizBlock({ courseSlug, chapterId, quiz, onPass }: Props) {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Sparkles className="h-4 w-4 text-primary" />
-          <h4 className="font-display text-lg font-extrabold uppercase tracking-tight">
+          <h4 className="font-display text-lg font-bold tracking-tight">
             Practice quiz
           </h4>
         </div>

@@ -70,7 +70,7 @@ export function FeedbackWidget() {
             className="w-full max-w-md rounded-2xl border border-border bg-background p-6 shadow-2xl"
           >
             <div className="flex items-center justify-between">
-              <h3 className="font-display text-lg font-extrabold uppercase">Tell us what's wrong</h3>
+              <h3 className="font-display text-lg font-bold">Tell us what's wrong</h3>
               <button
                 type="button"
                 onClick={() => setOpen(false)}

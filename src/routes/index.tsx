@@ -275,7 +275,7 @@ function Home() {
                 <span className="mt-6 flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-background/60 text-primary transition-all group-hover:bg-primary group-hover:text-primary-foreground">
                   <c.icon className="h-5 w-5" aria-hidden="true" />
                 </span>
-                <h3 className="mt-6 font-display text-2xl font-extrabold uppercase">{c.title}</h3>
+                <h3 className="mt-6 font-display text-2xl font-bold">{c.title}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{c.desc}</p>
                 <div className="mt-6 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary">
                   Open <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
@@ -297,7 +297,7 @@ function Home() {
               { t: "Placement-ready by design", d: "Coding practice, aptitude, resume analysis and interview prep baked into the same flow." },
             ].map((c) => (
               <div key={c.t} className="rounded-2xl border border-border bg-surface/50 p-6 backdrop-blur-sm">
-                <h4 className="font-display text-lg font-extrabold uppercase tracking-tighter">{c.t}</h4>
+                <h4 className="font-display text-lg font-bold tracking-tighter">{c.t}</h4>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{c.d}</p>
               </div>
             ))}
@@ -365,7 +365,7 @@ function Home() {
               { k: "SaaS", v: "Affordable college-wide deployment" },
             ].map((s) => (
               <div key={s.k} className="rounded-2xl border border-border bg-surface/40 p-6 text-center">
-                <div className="font-display text-3xl font-extrabold text-primary md:text-4xl">{s.k}</div>
+                <div className="font-display text-3xl font-bold text-primary md:text-4xl">{s.k}</div>
                 <div className="mt-2 text-sm text-muted-foreground">{s.v}</div>
               </div>
             ))}
@@ -398,7 +398,7 @@ function Home() {
             ].map((c) => (
               <div key={c.t} className="bg-surface/60 p-8 backdrop-blur-sm">
                 <c.icon className="h-5 w-5 text-primary" aria-hidden="true" />
-                <h4 className="mt-4 font-display text-xl font-extrabold uppercase">{c.t}</h4>
+                <h4 className="mt-4 font-display text-xl font-bold">{c.t}</h4>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{c.d}</p>
               </div>
             ))}
@@ -409,7 +409,7 @@ function Home() {
       {/* CTA */}
       <section className="relative px-4 py-24">
         <div className="mx-auto max-w-5xl rounded-3xl border border-border bg-gradient-to-br from-primary/15 via-surface/40 to-background p-10 text-center backdrop-blur-sm md:p-16">
-          <h2 className="font-display text-3xl font-extrabold uppercase italic leading-none tracking-tighter md:text-5xl">
+          <h2 className="font-display text-3xl font-bold leading-none tracking-tighter md:text-5xl">
             Ready to start? <br />
             <span className="text-primary">Create a free account.</span>
           </h2>
@@ -442,7 +442,7 @@ function SectionHeader({ tag, title, subtitle }: { tag: string; title: string; s
   return (
     <div className="flex flex-col items-start gap-3">
       <span className="font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-primary">{tag}</span>
-      <h2 className="font-display text-3xl font-extrabold uppercase leading-none tracking-tighter md:text-5xl">
+      <h2 className="font-display text-3xl font-bold leading-none tracking-tighter md:text-5xl">
         {title}
       </h2>
       {subtitle && <p className="mt-2 max-w-xl text-sm text-muted-foreground">{subtitle}</p>}

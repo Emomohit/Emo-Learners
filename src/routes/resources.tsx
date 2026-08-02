@@ -79,7 +79,7 @@ function ResourcesPage() {
         <div className="pointer-events-none absolute inset-0 radial-glow" />
         <div className="relative mx-auto max-w-6xl">
           <span className="font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-primary">// Study Hub</span>
-          <h1 className="mt-4 font-display text-5xl font-extrabold uppercase leading-[0.85] tracking-tighter md:text-7xl">
+          <h1 className="mt-4 font-display text-5xl font-bold leading-[0.85] tracking-tighter md:text-7xl">
             Everything you need <span className="italic text-primary">to top your sems.</span>
           </h1>
           <p className="mt-6 max-w-xl text-muted-foreground">
@@ -269,7 +269,7 @@ function Academics() {
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <div className="font-mono text-[10px] font-bold uppercase tracking-widest text-primary">{activeSubject.code}</div>
-                  <h3 className="mt-1 font-display text-2xl font-extrabold uppercase">{activeSubject.name}</h3>
+                  <h3 className="mt-1 font-display text-2xl font-bold">{activeSubject.name}</h3>
                 </div>
               </div>
 
@@ -380,7 +380,7 @@ function AiToolsDirectory() {
               <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-primary">{r.cat}</span>
               <ExternalLink className="h-4 w-4 text-muted-foreground transition-colors group-hover:text-primary" />
             </div>
-            <h3 className="mt-4 font-display text-xl font-extrabold uppercase">{r.name}</h3>
+            <h3 className="mt-4 font-display text-xl font-bold">{r.name}</h3>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{r.desc}</p>
             {r.tag && (
               <span className="mt-4 inline-block rounded-full border border-primary/30 bg-primary/10 px-3 py-0.5 font-mono text-[9px] font-bold uppercase tracking-widest text-primary">

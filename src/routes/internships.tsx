@@ -51,7 +51,7 @@ function InternshipsPage() {
             <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" />
             Launching Soon
           </span>
-          <h1 className="mt-5 font-display text-5xl font-extrabold uppercase leading-[0.85] tracking-tighter md:text-7xl">
+          <h1 className="mt-5 font-display text-5xl font-bold leading-[0.85] tracking-tighter md:text-7xl">
             Intern<span className="italic text-primary">ships.</span>
           </h1>
           <p className="mx-auto mt-6 max-w-xl text-muted-foreground">
@@ -89,7 +89,7 @@ function InternshipsPage() {
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
                 {p.icon}
               </div>
-              <h3 className="mt-5 font-display text-xl font-extrabold uppercase">{p.title}</h3>
+              <h3 className="mt-5 font-display text-xl font-bold">{p.title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{p.desc}</p>
               <span className="mt-5 inline-block rounded-full border border-primary/30 bg-primary/10 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-widest text-primary">
                 {p.badge}
@@ -101,7 +101,7 @@ function InternshipsPage() {
 
       <section className="px-4 pb-24">
         <div className="mx-auto max-w-3xl rounded-3xl border border-dashed border-border bg-surface/30 p-10 text-center">
-          <h2 className="font-display text-2xl font-extrabold uppercase italic md:text-3xl">
+          <h2 className="font-display text-2xl font-bold md:text-3xl">
             In the meantime — <span className="text-primary">build skills.</span>
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-sm text-muted-foreground">

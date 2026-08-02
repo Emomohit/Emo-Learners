@@ -54,7 +54,7 @@ function PlanPage() {
 
   return (
     <section className="mx-auto max-w-5xl px-4 py-14">
-      <h1 className="font-display text-3xl font-extrabold uppercase tracking-tighter md:text-5xl">
+      <h1 className="font-display text-3xl font-bold tracking-tighter md:text-5xl">
         Study <span className="italic text-primary">Plan</span>
       </h1>
       <p className="mt-3 text-muted-foreground">A day-by-day plan tuned to your weak topics and time left. Try Last-24h mode if the exam is tomorrow.</p>
@@ -92,7 +92,7 @@ function PlanPage() {
       {plan && (
         <div className="mt-10 space-y-6">
           <div className="rounded-2xl border border-primary/40 bg-primary/5 p-6">
-            <div className="font-display text-xl font-extrabold uppercase">{plan.headline}</div>
+            <div className="font-display text-xl font-bold">{plan.headline}</div>
             <p className="mt-2 text-sm text-muted-foreground">{plan.strategy}</p>
           </div>
           <div className="grid gap-3 md:grid-cols-2">

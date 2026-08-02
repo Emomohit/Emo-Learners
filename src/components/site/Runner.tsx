@@ -89,7 +89,7 @@ export function Runner({
               <Trophy className="h-9 w-9" />
             </div>
           </div>
-          <h2 className="mt-6 text-center font-display text-4xl font-extrabold uppercase md:text-5xl">
+          <h2 className="mt-6 text-center font-display text-4xl font-bold md:text-5xl">
             {pct >= 80 ? "Crushed it." : pct >= 50 ? "Solid work." : "Keep going."}
           </h2>
           <p className="mt-3 text-center text-muted-foreground">
@@ -144,7 +144,7 @@ export function Runner({
           <span className="text-3xl">{emoji}</span>
           <div>
             <div className="font-mono text-[10px] font-bold uppercase tracking-[0.25em] text-primary">{topic}</div>
-            <h1 className="font-display text-2xl font-extrabold uppercase md:text-3xl">{title}</h1>
+            <h1 className="font-display text-2xl font-bold md:text-3xl">{title}</h1>
           </div>
         </div>
         {isTest && (
@@ -167,7 +167,7 @@ export function Runner({
 
       {/* Question */}
       <div className="mt-8 rounded-3xl border border-border bg-surface/40 p-7 backdrop-blur-sm md:p-10">
-        <p className="font-display text-2xl font-extrabold leading-tight md:text-3xl">{current.q}</p>
+        <p className="font-display text-2xl font-bold leading-tight md:text-3xl">{current.q}</p>
 
         <div className="mt-8 space-y-3">
           {current.options.map((opt, i) => {

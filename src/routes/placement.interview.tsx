@@ -80,7 +80,7 @@ function MockInterviewPage() {
     <section className="mx-auto max-w-3xl px-4 py-14">
       <div className="flex items-center gap-3">
         <MessagesSquare className="h-6 w-6 text-primary" />
-        <h1 className="font-display text-3xl font-extrabold uppercase tracking-tighter md:text-5xl">
+        <h1 className="font-display text-3xl font-bold tracking-tighter md:text-5xl">
           Mock <span className="italic text-primary">Interview</span>
         </h1>
       </div>

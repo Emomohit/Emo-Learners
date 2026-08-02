@@ -23,7 +23,7 @@ function PrivacyPage() {
         <div className="pointer-events-none absolute inset-0 grid-bg opacity-30" />
         <div className="relative mx-auto max-w-3xl">
           <span className="font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-primary">// Legal</span>
-          <h1 className="mt-4 font-display text-4xl font-extrabold uppercase leading-[0.9] tracking-tighter md:text-6xl">
+          <h1 className="mt-4 font-display text-4xl font-bold leading-[0.9] tracking-tighter md:text-6xl">
             Privacy <span className="italic text-primary">Policy</span>
           </h1>
           <p className="mt-3 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
@@ -38,7 +38,7 @@ function PrivacyPage() {
             </p>
 
             <div>
-              <h2 className="font-display text-xl font-extrabold uppercase text-foreground">1. Information We Collect</h2>
+              <h2 className="font-display text-xl font-bold text-foreground">1. Information We Collect</h2>
               <p className="mt-3">
                 We may collect, use, store and transfer different kinds of personal data about you which we have grouped together as follows:
               </p>
@@ -50,7 +50,7 @@ function PrivacyPage() {
             </div>
 
             <div>
-              <h2 className="font-display text-xl font-extrabold uppercase text-foreground">2. How We Use Your Information</h2>
+              <h2 className="font-display text-xl font-bold text-foreground">2. How We Use Your Information</h2>
               <p className="mt-3">
                 We will only use your personal data when the law allows us to. Most commonly:
               </p>
@@ -63,7 +63,7 @@ function PrivacyPage() {
             </div>
 
             <div>
-              <h2 className="font-display text-xl font-extrabold uppercase text-foreground">3. Third-Party Links</h2>
+              <h2 className="font-display text-xl font-bold text-foreground">3. Third-Party Links</h2>
               <p className="mt-3">
                 This website may include links to third-party websites, plug-ins and applications. Clicking on those
                 links or enabling those connections may allow third parties to collect or share data about you. We do
@@ -72,7 +72,7 @@ function PrivacyPage() {
             </div>
 
             <div>
-              <h2 className="font-display text-xl font-extrabold uppercase text-foreground">4. Contact Us</h2>
+              <h2 className="font-display text-xl font-bold text-foreground">4. Contact Us</h2>
               <p className="mt-3">
                 If you have any questions about this privacy policy or our privacy practices, please contact us:
               </p>

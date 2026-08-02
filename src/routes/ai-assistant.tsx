@@ -89,7 +89,7 @@ function AiPage() {
           <div className="flex items-center justify-between">
             <div>
               <span className="font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-primary">// Study Buddy</span>
-              <h1 className="mt-2 font-display text-3xl font-extrabold uppercase italic tracking-tighter md:text-5xl">
+              <h1 className="mt-2 font-display text-3xl font-bold tracking-tighter md:text-5xl">
                 AI Study <span className="text-primary">Assistant</span>
               </h1>
             </div>
@@ -102,7 +102,7 @@ function AiPage() {
                 <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                   <Sparkles className="h-7 w-7" />
                 </div>
-                <h3 className="mt-4 font-display text-xl font-extrabold uppercase">Ask me anything</h3>
+                <h3 className="mt-4 font-display text-xl font-bold">Ask me anything</h3>
                 <p className="mt-1 max-w-md text-sm text-muted-foreground">
                   Doubt clearing, concept summaries, problem-solving help — built for B.Tech students.
                 </p>

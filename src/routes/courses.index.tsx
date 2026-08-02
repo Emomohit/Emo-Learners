@@ -39,7 +39,7 @@ function CoursesIndex() {
             <Sparkles className="h-3 w-3" /> Free · Notes · Quizzes · Exercises
 
           </span>
-          <h1 className="mt-6 font-display text-5xl font-extrabold leading-[0.95] tracking-tighter md:text-7xl">
+          <h1 className="mt-6 font-display text-5xl font-bold leading-[0.95] tracking-tighter md:text-7xl">
             Learn a language.
             <br />
             <span className="text-primary">From zero to ship.</span>
@@ -65,7 +65,7 @@ function CoursesIndex() {
                 <div className={`absolute -right-12 -top-12 h-40 w-40 rounded-full bg-gradient-to-br ${c.accent} opacity-20 blur-3xl transition-opacity group-hover:opacity-40`} />
                 <div className="relative">
                   <div className="text-5xl">{c.emoji}</div>
-                  <h3 className="mt-4 font-display text-2xl font-extrabold tracking-tight">{c.title}</h3>
+                  <h3 className="mt-4 font-display text-2xl font-bold tracking-tight">{c.title}</h3>
                   <p className="mt-2 text-sm text-muted-foreground">{c.tagline}</p>
                   <div className="mt-5 flex flex-wrap gap-2 text-[11px] font-bold uppercase tracking-widest text-muted-foreground">
                     <span className="inline-flex items-center gap-1 rounded-full border border-border bg-background/60 px-2.5 py-1">

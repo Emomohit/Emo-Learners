@@ -37,7 +37,7 @@ function CodingPractice() {
     <section className="mx-auto max-w-5xl px-4 py-14">
       <div className="flex items-center gap-3">
         <Code2 className="h-6 w-6 text-primary" />
-        <h1 className="font-display text-3xl font-extrabold uppercase tracking-tighter md:text-5xl">
+        <h1 className="font-display text-3xl font-bold tracking-tighter md:text-5xl">
           Coding <span className="italic text-primary">Practice</span>
         </h1>
       </div>

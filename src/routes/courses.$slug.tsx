@@ -37,7 +37,7 @@ export const Route = createFileRoute("/courses/$slug")({
     <div className="min-h-screen">
       <Navbar />
       <div className="mx-auto max-w-3xl px-6 py-32 text-center">
-        <h1 className="font-display text-4xl font-extrabold">Course not found</h1>
+        <h1 className="font-display text-4xl font-bold">Course not found</h1>
         <p className="mt-3 text-muted-foreground">That course doesn't exist yet.</p>
         <Link to="/courses" className="mt-6 inline-block rounded-full bg-primary px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-primary-foreground">
           See all courses
@@ -50,7 +50,7 @@ export const Route = createFileRoute("/courses/$slug")({
     <div className="min-h-screen">
       <Navbar />
       <div className="mx-auto max-w-3xl px-6 py-32 text-center">
-        <h1 className="font-display text-4xl font-extrabold">Something broke</h1>
+        <h1 className="font-display text-4xl font-bold">Something broke</h1>
         <p className="mt-3 text-sm text-muted-foreground">{error.message}</p>
         <button onClick={reset} className="mt-6 rounded-full bg-primary px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-primary-foreground">Try again</button>
       </div>
@@ -119,7 +119,7 @@ function CourseDetail() {
               <span className="inline-flex items-center gap-2 rounded-full border border-border bg-surface/60 px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.3em] text-primary">
                 <Sparkles className="h-3 w-3" /> Free · Self-paced
               </span>
-              <h1 className="mt-3 font-display text-4xl font-extrabold tracking-tighter md:text-6xl">
+              <h1 className="mt-3 font-display text-4xl font-bold tracking-tighter md:text-6xl">
                 {course.title}
               </h1>
               <p className="mt-3 max-w-2xl text-base text-muted-foreground md:text-lg">{course.description}</p>
@@ -219,7 +219,7 @@ function CourseDetail() {
               <span className="opacity-40">·</span>
               <span>{selectedChapter.topic}</span>
             </div>
-            <h2 className="mt-3 font-display text-3xl font-extrabold tracking-tight md:text-4xl">
+            <h2 className="mt-3 font-display text-3xl font-bold tracking-tight md:text-4xl">
               {selectedChapter.title}
             </h2>
 
@@ -351,7 +351,7 @@ function CourseDetail() {
       {/* Other courses */}
       <section className="border-t border-border bg-surface/20 px-6 py-16">
         <div className="mx-auto max-w-6xl">
-          <h2 className="font-display text-2xl font-extrabold tracking-tight md:text-3xl">Keep learning</h2>
+          <h2 className="font-display text-2xl font-bold tracking-tight md:text-3xl">Keep learning</h2>
           <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {otherCourses.map((c) => {
               const href = c.slug === "python" ? "/challenge" : `/courses/${c.slug}`;
@@ -363,7 +363,7 @@ function CourseDetail() {
                 >
                   <div className="text-4xl">{c.emoji}</div>
                   <div className="min-w-0 flex-1">
-                    <div className="truncate font-display text-lg font-extrabold">{c.title.split(" — ")[0]}</div>
+                    <div className="truncate font-display text-lg font-bold">{c.title.split(" — ")[0]}</div>
                     <div className="truncate text-xs text-muted-foreground">{c.tagline}</div>
                   </div>
                   <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-1 group-hover:text-primary" />

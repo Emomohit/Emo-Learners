@@ -71,7 +71,7 @@ function QuizPage() {
 
   return (
     <section className="mx-auto max-w-3xl px-4 py-14">
-      <h1 className="font-display text-3xl font-extrabold uppercase tracking-tighter md:text-5xl">
+      <h1 className="font-display text-3xl font-bold tracking-tighter md:text-5xl">
         Diagnostic <span className="italic text-primary">Quiz</span>
       </h1>
       <p className="mt-3 text-muted-foreground">10 MCQs. Results update your weak-topic profile and next study plan.</p>

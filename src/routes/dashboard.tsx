@@ -79,7 +79,7 @@ function Dashboard() {
         <div className="pointer-events-none absolute inset-0 radial-glow" />
         <div className="relative mx-auto max-w-6xl">
           <span className="font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-primary">// Dashboard</span>
-          <h1 className="mt-3 font-display text-4xl font-extrabold uppercase italic tracking-tighter md:text-6xl">
+          <h1 className="mt-3 font-display text-4xl font-bold tracking-tighter md:text-6xl">
             Hey, <span className="text-primary">{user.user_metadata?.full_name || user.email?.split("@")[0]}</span>
           </h1>
           <p className="mt-3 text-muted-foreground">Your study hub at a glance.</p>
@@ -140,7 +140,7 @@ function Stat({ label, value }: { label: string; value: number }) {
   return (
     <div className="rounded-2xl border border-border bg-surface/40 p-5 backdrop-blur">
       <div className="font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{label}</div>
-      <div className="mt-1 font-display text-4xl font-extrabold text-primary">{value}</div>
+      <div className="mt-1 font-display text-4xl font-bold text-primary">{value}</div>
     </div>
   );
 }
@@ -167,7 +167,7 @@ function QuickCard({
     >
       <div className="flex items-center gap-3">
         <div className="rounded-lg bg-primary/10 p-2 text-primary">{icon}</div>
-        <div className="font-display text-lg font-extrabold uppercase">{title}</div>
+        <div className="font-display text-lg font-bold">{title}</div>
       </div>
       <p className="mt-3 text-sm text-muted-foreground">{desc}</p>
     </Link>

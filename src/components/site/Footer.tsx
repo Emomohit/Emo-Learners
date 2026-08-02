@@ -11,7 +11,7 @@ export function Footer() {
             <div className="flex h-10 w-10 rotate-12 items-center justify-center rounded-lg bg-primary shadow-brand">
               <Zap className="h-5 w-5 text-primary-foreground" strokeWidth={2.5} />
             </div>
-            <span className="font-display text-xl font-extrabold italic uppercase tracking-tighter">
+            <span className="font-display text-xl font-bold tracking-tighter">
               EMO <span className="text-primary">Learners</span>
             </span>
           </div>

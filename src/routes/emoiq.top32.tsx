@@ -175,7 +175,7 @@ function Top32Page() {
       <div className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-primary">
         <Flame className="h-3 w-3" /> AI · from your PYQs
       </div>
-      <h1 className="mt-3 font-display text-3xl font-extrabold uppercase tracking-tighter md:text-5xl">
+      <h1 className="mt-3 font-display text-3xl font-bold tracking-tighter md:text-5xl">
         Top 32 <span className="italic text-primary">Important</span> Questions
       </h1>
       <p className="mt-3 max-w-2xl text-muted-foreground">

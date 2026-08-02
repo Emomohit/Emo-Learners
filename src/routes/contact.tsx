@@ -52,7 +52,7 @@ function ContactPage() {
         <div className="relative mx-auto grid max-w-5xl gap-10 lg:grid-cols-2">
           <div>
             <span className="font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-primary">// Talk to us</span>
-            <h1 className="mt-3 font-display text-5xl font-extrabold uppercase leading-[0.9] tracking-tighter md:text-6xl">
+            <h1 className="mt-3 font-display text-5xl font-bold leading-[0.9] tracking-tighter md:text-6xl">
               Feedback <span className="italic text-primary">moves us.</span>
             </h1>
             <p className="mt-5 text-muted-foreground">

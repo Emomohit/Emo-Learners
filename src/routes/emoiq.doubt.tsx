@@ -58,7 +58,7 @@ function DoubtPage() {
 
   return (
     <section className="mx-auto max-w-3xl px-4 py-14">
-      <h1 className="font-display text-3xl font-extrabold uppercase tracking-tighter md:text-5xl">
+      <h1 className="font-display text-3xl font-bold tracking-tighter md:text-5xl">
         AI <span className="italic text-primary">Doubt Solver</span>
       </h1>
       <p className="mt-3 text-muted-foreground">Ask any doubt from your syllabus. Answers are concise and exam-focused.</p>

@@ -74,7 +74,7 @@ function Hero() {
         <span className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 text-xs font-mono uppercase tracking-[0.2em] text-white/80">
           <Sparkles className="h-3.5 w-3.5" /> EMO Learners · Cohort 01
         </span>
-        <h1 className="mt-6 font-display text-5xl font-extrabold leading-[0.95] tracking-tighter md:text-7xl lg:text-8xl">
+        <h1 className="mt-6 font-display text-5xl font-bold leading-[0.95] tracking-tighter md:text-7xl lg:text-8xl">
           <span className="grad-text">30 Days</span>
           <br />
           <span className="text-white">Python Challenge</span>
@@ -108,7 +108,7 @@ function Hero() {
             { k: "1", v: "Certificate" },
           ].map((s) => (
             <div key={s.v} className="glass glass-hover p-5">
-              <div className="grad-text font-display text-3xl font-extrabold">{s.k}</div>
+              <div className="grad-text font-display text-3xl font-bold">{s.k}</div>
               <div className="mt-1 text-xs font-mono uppercase tracking-widest text-white/60">{s.v}</div>
             </div>
           ))}
@@ -153,7 +153,7 @@ function Countdown() {
             <div className="mt-6 grid w-full grid-cols-4 gap-3 md:gap-6">
               {cells.map((c) => (
                 <div key={c.l} className="glass p-4 md:p-6">
-                  <div className="grad-text font-display text-3xl font-extrabold md:text-5xl">
+                  <div className="grad-text font-display text-3xl font-bold md:text-5xl">
                     {String(c.v).padStart(2, "0")}
                   </div>
                   <div className="mt-1 text-[10px] font-mono uppercase tracking-widest text-white/60 md:text-xs">
@@ -289,7 +289,7 @@ function DayNotesDialog({ day, onClose }: { day: typeof CHALLENGE_DAYS[number]; 
             <div className="font-mono text-[10px] uppercase tracking-widest text-white/50">
               Day {String(day.id).padStart(2, "0")} · CodeWithHarry notes
             </div>
-            <h3 className="mt-1 font-display text-2xl font-extrabold">{day.title}</h3>
+            <h3 className="mt-1 font-display text-2xl font-bold">{day.title}</h3>
             <p className="mt-1 text-sm text-white/60">{day.topic}</p>
           </div>
           <button onClick={onClose} className="rounded-full p-2 text-white/60 hover:bg-white/10 hover:text-white" aria-label="Close dialog">
@@ -403,7 +403,7 @@ function Stat({ icon: Icon, label, value }: { icon: any; label: string; value: s
   return (
     <div className="glass glass-hover p-6">
       <Icon className="h-5 w-5 text-white/70" />
-      <div className="mt-4 font-display text-3xl font-extrabold">{value}</div>
+      <div className="mt-4 font-display text-3xl font-bold">{value}</div>
       <div className="mt-1 text-xs font-mono uppercase tracking-widest text-white/60">{label}</div>
     </div>
   );
@@ -452,9 +452,9 @@ function Certificate() {
           }}>
             <div className="font-mono text-[10px] uppercase tracking-[0.4em] text-white/70">EMO Learners · Certificate of Completion</div>
             <Zap className="mx-auto mt-6 h-10 w-10 text-white" />
-            <h3 className="mt-6 font-display text-3xl font-extrabold md:text-5xl">{name}</h3>
+            <h3 className="mt-6 font-display text-3xl font-bold md:text-5xl">{name}</h3>
             <p className="mt-3 text-sm text-white/70">has successfully completed the</p>
-            <p className="mt-2 grad-text font-display text-2xl font-extrabold md:text-3xl">30 Days Python Challenge</p>
+            <p className="mt-2 grad-text font-display text-2xl font-bold md:text-3xl">30 Days Python Challenge</p>
             <div className="mt-8 flex items-center justify-center gap-6 text-[10px] font-mono uppercase tracking-widest text-white/50">
               <span>Issued by EMO Learners</span>
               <span>·</span>
@@ -534,7 +534,7 @@ function FinalCTA() {
           <div className="aurora" />
           <div className="relative">
             <Trophy className="mx-auto h-10 w-10 text-white" />
-            <h2 className="mt-6 font-display text-4xl font-extrabold md:text-6xl">
+            <h2 className="mt-6 font-display text-4xl font-bold md:text-6xl">
               Your <span className="grad-text">30 days</span> start now.
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-white/70">
@@ -560,7 +560,7 @@ function SectionHeader({ eyebrow, title, subtitle }: { eyebrow: string; title: R
   return (
     <div className="text-center">
       <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-white/60">{eyebrow}</span>
-      <h2 className="mt-3 font-display text-4xl font-extrabold tracking-tighter md:text-6xl">{title}</h2>
+      <h2 className="mt-3 font-display text-4xl font-bold tracking-tighter md:text-6xl">{title}</h2>
       {subtitle && <p className="mx-auto mt-4 max-w-2xl text-sm text-white/70 md:text-base">{subtitle}</p>}
     </div>
   );

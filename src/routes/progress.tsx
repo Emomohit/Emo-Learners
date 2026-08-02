@@ -126,7 +126,7 @@ function ProgressPage() {
               <RefreshCw className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`} /> Refresh
             </button>
           </div>
-          <h1 className="mt-4 font-display text-4xl font-extrabold uppercase leading-[0.9] tracking-tighter md:text-6xl">
+          <h1 className="mt-4 font-display text-4xl font-bold leading-[0.9] tracking-tighter md:text-6xl">
             Your <span className="italic text-primary">learning graph</span>
           </h1>
           <p className="mt-4 max-w-2xl text-muted-foreground">
@@ -143,7 +143,7 @@ function ProgressPage() {
               <div className="flex items-start gap-3">
                 <AlertTriangle className="mt-0.5 h-5 w-5 text-destructive" />
                 <div>
-                  <div className="font-display text-lg font-extrabold uppercase">Couldn't load progress</div>
+                  <div className="font-display text-lg font-bold">Couldn't load progress</div>
                   <div className="mt-1 text-sm text-muted-foreground">{error}</div>
                 </div>
               </div>
@@ -176,7 +176,7 @@ function ProgressPage() {
           <div className="mx-auto max-w-6xl rounded-2xl border border-primary/40 bg-primary/5 p-6">
             <div className="flex items-center gap-2">
               <ClipboardList className="h-5 w-5 text-primary" />
-              <h3 className="font-display text-xl font-extrabold uppercase tracking-tighter">Summary</h3>
+              <h3 className="font-display text-xl font-bold tracking-tighter">Summary</h3>
             </div>
             <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               <SummaryStat label="Level" value={summary.level} />
@@ -235,7 +235,7 @@ function ProgressPage() {
 
               <Panel icon={Flame} title="30-Day Python streak">
                 <div className="rounded-xl border border-border bg-surface/50 p-5">
-                  <div className="font-display text-4xl font-extrabold text-primary">{snap?.streakDays ?? 0}<span className="ml-2 text-base text-muted-foreground">days</span></div>
+                  <div className="font-display text-4xl font-bold text-primary">{snap?.streakDays ?? 0}<span className="ml-2 text-base text-muted-foreground">days</span></div>
                   <Link to="/challenge" className="mt-4 inline-flex text-xs font-bold uppercase tracking-widest text-primary hover:underline">Continue challenge →</Link>
                 </div>
               </Panel>
@@ -254,7 +254,7 @@ function Stat({ icon: Icon, label, value }: { icon: React.ComponentType<{ classN
   return (
     <div className="rounded-2xl border border-border bg-surface/40 p-5">
       <Icon className="h-5 w-5 text-primary" />
-      <div className="mt-3 font-display text-3xl font-extrabold">{value}</div>
+      <div className="mt-3 font-display text-3xl font-bold">{value}</div>
       <div className="mt-1 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">{label}</div>
     </div>
   );
@@ -265,7 +265,7 @@ function Panel({ icon: Icon, title, children }: { icon: React.ComponentType<{ cl
     <div className="rounded-2xl border border-border bg-surface/40 p-6">
       <div className="flex items-center gap-2">
         <Icon className="h-5 w-5 text-primary" />
-        <h3 className="font-display text-xl font-extrabold uppercase tracking-tighter">{title}</h3>
+        <h3 className="font-display text-xl font-bold tracking-tighter">{title}</h3>
       </div>
       <div className="mt-4">{children}</div>
     </div>
@@ -284,7 +284,7 @@ function Empty({ text, to, cta }: { text: string; to: string; cta: string }) {
 function SummaryStat({ label, value }: { label: string; value: number | string }) {
   return (
     <div className="rounded-xl border border-border bg-surface/60 p-4">
-      <div className="font-display text-2xl font-extrabold">{value}</div>
+      <div className="font-display text-2xl font-bold">{value}</div>
       <div className="mt-1 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">{label}</div>
     </div>
   );

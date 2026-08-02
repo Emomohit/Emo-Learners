@@ -70,7 +70,7 @@ function ResumeAnalyzer() {
     <section className="mx-auto max-w-3xl px-4 py-14">
       <div className="flex items-center gap-3">
         <FileText className="h-6 w-6 text-primary" />
-        <h1 className="font-display text-3xl font-extrabold uppercase tracking-tighter md:text-5xl">
+        <h1 className="font-display text-3xl font-bold tracking-tighter md:text-5xl">
           Resume <span className="italic text-primary">Analyzer</span>
         </h1>
       </div>
@@ -104,7 +104,7 @@ function ResumeAnalyzer() {
           <div className="rounded-2xl border border-primary/40 bg-primary/5 p-5">
             <div className="flex items-baseline justify-between">
               <div className="font-mono text-[11px] uppercase tracking-widest text-primary">Overall</div>
-              <div className="font-display text-4xl font-extrabold text-primary">{Math.round(result.score)}<span className="text-lg text-muted-foreground">/100</span></div>
+              <div className="font-display text-4xl font-bold text-primary">{Math.round(result.score)}<span className="text-lg text-muted-foreground">/100</span></div>
             </div>
             <p className="mt-2 text-sm">{result.overall}</p>
           </div>
