@@ -93,7 +93,7 @@ export const resetPasswordDirect = createServerFn({ method: "POST" })
       .from("user_roles")
       .select("role")
       .eq("user_id", userId)
-      .in("role", ["admin", "moderator"]);
+      .eq("role", "admin");
     if (rErr) {
       await logAttempt(false);
       throw new Error("Lookup failed");
