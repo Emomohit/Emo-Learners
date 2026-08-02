@@ -13,7 +13,7 @@ export const Route = createFileRoute("/courses/")({
       {
         name: "description",
         content:
-          "Free programming courses: Python 30-day challenge, complete Java, and C — all built around CodeWithHarry's tutorials.",
+          "Free programming courses: Python by CodeWithHarry, Java by Telusko, and C by Apna College — chaptered with notes and quizzes.",
       },
       { property: "og:title", content: "Free Programming Courses — EMO Learners" },
       {
