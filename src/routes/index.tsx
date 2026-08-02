@@ -167,11 +167,11 @@ function Home() {
 
       {/* HERO */}
       <section className="relative overflow-hidden px-4 pb-20 pt-14 md:pt-20">
-        <div className="pointer-events-none absolute inset-0 grid-bg opacity-60" />
-        <div className="pointer-events-none absolute inset-0 radial-glow" />
+        <div className="pointer-events-none absolute inset-0 grid-bg opacity-40" />
+        <div className="aurora-bg" aria-hidden="true" />
 
         <div className="relative mx-auto flex max-w-5xl flex-col items-center text-center">
-          <div className="animate-rise inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5 backdrop-blur-sm">
+          <div className="animate-rise inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 backdrop-blur-sm">
             <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" aria-hidden="true" />
             <span className="font-mono text-[10px] font-bold uppercase tracking-[0.25em] text-primary">
               Free · Made for Indian students
@@ -179,15 +179,16 @@ function Home() {
           </div>
 
           <h1
-            className="animate-rise mt-8 font-display text-5xl font-extrabold uppercase leading-[0.85] tracking-tighter md:text-7xl lg:text-8xl"
+            className="animate-rise mt-8 font-display text-4xl font-bold leading-[1.03] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl"
             style={{ animationDelay: "80ms" }}
           >
             <span className="block">One place to</span>
-            <span className="relative mt-2 block py-2 italic text-primary">
-              study, practice, and grow.
-              <span className="absolute -inset-4 -z-10 rounded-full bg-primary/20 blur-3xl" aria-hidden="true" />
+            <span className="relative mt-2 block py-1">
+              <span className="grad-text">study, practice, and grow.</span>
+              <span className="absolute -inset-6 -z-10 rounded-full bg-primary/20 blur-3xl" aria-hidden="true" />
             </span>
           </h1>
+
 
           <p
             className="animate-rise mt-8 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg"
