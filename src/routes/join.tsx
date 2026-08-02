@@ -70,7 +70,7 @@ function JoinPage() {
         <div className="relative mx-auto max-w-3xl text-center">
           <span className="font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-primary">// 100% Free · Always</span>
           <h1 className="mt-4 font-display text-5xl font-bold leading-[0.85] tracking-tighter md:text-7xl">
-            Start your journey. <span className="italic text-primary">today.</span>
+            Start your journey. <span className="grad-text">today.</span>
           </h1>
           <p className="mx-auto mt-6 max-w-xl text-muted-foreground">
             No signup form. No email required. Just choose where you want to plug in — and we'll see you on the other side.

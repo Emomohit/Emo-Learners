@@ -23,7 +23,7 @@ function PlacementHome() {
             <Briefcase className="h-3 w-3" /> Placement · AI Prep
           </div>
           <h1 className="mt-4 font-display text-4xl font-bold leading-[0.9] tracking-tighter md:text-6xl">
-            Land the <span className="italic text-primary">offer</span>
+            Land the <span className="grad-text">offer</span>
           </h1>
           <p className="mt-5 max-w-2xl text-lg text-muted-foreground">
             Coding practice, aptitude, mock interviews, and resume analysis — one AI-powered workflow that prepares you for placement season without juggling ten tools.

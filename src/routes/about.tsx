@@ -46,7 +46,7 @@ function AboutPage() {
           <div>
             <span className="font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-primary">// The Founder</span>
             <h1 className="mt-4 font-display text-4xl font-bold leading-[0.9] tracking-tighter md:text-6xl">
-              Meet <span className="italic text-primary">Mohit Ahirwar.</span>
+              Meet <span className="grad-text">Mohit Ahirwar.</span>
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
               A student who got tired of outdated syllabi, tutorial hell, and watching peers struggle to break into tech.

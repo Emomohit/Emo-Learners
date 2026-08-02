@@ -173,7 +173,7 @@ function RoadmapPage() {
             <RouteIcon className="h-3 w-3" /> AI Roadmap · Personalized
           </div>
           <h1 className="mt-4 font-display text-4xl font-bold leading-[0.9] tracking-tighter md:text-6xl">
-            Your <span className="italic text-primary">week-by-week</span> plan
+            Your <span className="grad-text">week-by-week</span> plan
           </h1>
           <p className="mt-4 max-w-2xl text-muted-foreground">
             Tell us your branch, semester, and goal. Get a week-wise roadmap with topics, projects, skills, and placement prep milestones.

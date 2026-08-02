@@ -38,7 +38,7 @@ function CodingPractice() {
       <div className="flex items-center gap-3">
         <Code2 className="h-6 w-6 text-primary" />
         <h1 className="font-display text-3xl font-bold tracking-tighter md:text-5xl">
-          Coding <span className="italic text-primary">Practice</span>
+          Coding <span className="grad-text">Practice</span>
         </h1>
       </div>
       <p className="mt-3 max-w-2xl text-muted-foreground">

@@ -127,7 +127,7 @@ function ProgressPage() {
             </button>
           </div>
           <h1 className="mt-4 font-display text-4xl font-bold leading-[0.9] tracking-tighter md:text-6xl">
-            Your <span className="italic text-primary">learning graph</span>
+            Your <span className="grad-text">learning graph</span>
           </h1>
           <p className="mt-4 max-w-2xl text-muted-foreground">
             A quick view of what you've completed so far — courses, quizzes, streak days, bookmarks, and your active AI roadmap.

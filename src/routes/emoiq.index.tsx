@@ -25,7 +25,7 @@ function EmoIqHome() {
             <Brain className="h-3 w-3" /> New · AI Exam Engine
           </div>
           <h1 className="mt-4 font-display text-4xl font-bold leading-[0.9] tracking-tighter md:text-6xl">
-            EM<span className="italic text-primary">o</span>IQ
+            EM<span className="grad-text">o</span>IQ
             <span className="ml-3 align-middle font-mono text-xs font-bold uppercase tracking-widest text-muted-foreground">smart exam strategy</span>
           </h1>
           <p className="mt-5 max-w-2xl text-lg text-muted-foreground">

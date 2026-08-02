@@ -24,7 +24,7 @@ function PrivacyPage() {
         <div className="relative mx-auto max-w-3xl">
           <span className="font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-primary">// Legal</span>
           <h1 className="mt-4 font-display text-4xl font-bold leading-[0.9] tracking-tighter md:text-6xl">
-            Privacy <span className="italic text-primary">Policy</span>
+            Privacy <span className="grad-text">Policy</span>
           </h1>
           <p className="mt-3 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
             Last updated: June 20, 2026

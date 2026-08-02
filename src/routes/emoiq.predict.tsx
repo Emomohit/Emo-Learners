@@ -67,7 +67,7 @@ function PredictPage() {
   return (
     <section className="mx-auto max-w-4xl px-4 py-14">
       <h1 className="font-display text-3xl font-bold tracking-tighter md:text-5xl">
-        Predict <span className="italic text-primary">Questions</span>
+        Predict <span className="grad-text">Questions</span>
       </h1>
       <p className="mt-3 text-muted-foreground">Pick a saved analysis. EMoIQ ranks 10 likely questions with a probability score.</p>
 

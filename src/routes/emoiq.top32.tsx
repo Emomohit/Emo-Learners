@@ -176,7 +176,7 @@ function Top32Page() {
         <Flame className="h-3 w-3" /> AI · from your PYQs
       </div>
       <h1 className="mt-3 font-display text-3xl font-bold tracking-tighter md:text-5xl">
-        Top 32 <span className="italic text-primary">Important</span> Questions
+        Top 32 <span className="grad-text">Important</span> Questions
       </h1>
       <p className="mt-3 max-w-2xl text-muted-foreground">
         Upload your past-year papers (or pick a saved analysis). EMoIQ analyses them and returns the 32 most important questions ranked by probability.

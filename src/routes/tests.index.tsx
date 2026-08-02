@@ -79,7 +79,7 @@ function TestsIndex() {
         <div className="relative mx-auto max-w-6xl">
           <span className="font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-primary">// Prove</span>
           <h1 className="mt-4 font-display text-5xl font-bold leading-[0.85] tracking-tighter md:text-7xl">
-            Tests <span className="italic text-primary">under pressure.</span>
+            Tests <span className="grad-text">under pressure.</span>
           </h1>
           <p className="mt-6 max-w-xl text-muted-foreground">
             Longer, timed, and unforgiving. Score, review every answer, and learn where you actually stand.

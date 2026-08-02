@@ -80,7 +80,7 @@ function ResourcesPage() {
         <div className="relative mx-auto max-w-6xl">
           <span className="font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-primary">// Study Hub</span>
           <h1 className="mt-4 font-display text-5xl font-bold leading-[0.85] tracking-tighter md:text-7xl">
-            Everything you need <span className="italic text-primary">to top your sems.</span>
+            Everything you need <span className="grad-text">to top your sems.</span>
           </h1>
           <p className="mt-6 max-w-xl text-muted-foreground">
             Branch-wise notes, PYQs, and syllabus for CSE, CSE-IT, CSE-CY, and AIML — plus a curated AI tools directory.

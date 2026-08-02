@@ -63,7 +63,7 @@ function AnalyzePage() {
   return (
     <section className="mx-auto max-w-6xl px-4 py-14">
       <h1 className="font-display text-3xl font-bold tracking-tighter md:text-5xl">
-        Analyze <span className="italic text-primary">PYQs</span>
+        Analyze <span className="grad-text">PYQs</span>
       </h1>
       <p className="mt-3 max-w-2xl text-muted-foreground">
         Paste the text of your past-year papers. EMoIQ finds units, weightage, and yearly trends.

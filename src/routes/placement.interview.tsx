@@ -81,7 +81,7 @@ function MockInterviewPage() {
       <div className="flex items-center gap-3">
         <MessagesSquare className="h-6 w-6 text-primary" />
         <h1 className="font-display text-3xl font-bold tracking-tighter md:text-5xl">
-          Mock <span className="italic text-primary">Interview</span>
+          Mock <span className="grad-text">Interview</span>
         </h1>
       </div>
       <p className="mt-3 text-muted-foreground">Live AI interviewer. Answer like you would in a real interview — get feedback after every response.</p>

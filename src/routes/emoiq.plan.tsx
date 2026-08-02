@@ -55,7 +55,7 @@ function PlanPage() {
   return (
     <section className="mx-auto max-w-5xl px-4 py-14">
       <h1 className="font-display text-3xl font-bold tracking-tighter md:text-5xl">
-        Study <span className="italic text-primary">Plan</span>
+        Study <span className="grad-text">Plan</span>
       </h1>
       <p className="mt-3 text-muted-foreground">A day-by-day plan tuned to your weak topics and time left. Try Last-24h mode if the exam is tomorrow.</p>
 

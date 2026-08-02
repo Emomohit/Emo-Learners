@@ -52,7 +52,7 @@ function InternshipsPage() {
             Launching Soon
           </span>
           <h1 className="mt-5 font-display text-5xl font-bold leading-[0.85] tracking-tighter md:text-7xl">
-            Intern<span className="italic text-primary">ships.</span>
+            Intern<span className="grad-text">ships.</span>
           </h1>
           <p className="mx-auto mt-6 max-w-xl text-muted-foreground">
             We're curating real internship opportunities for students who've built real skills.

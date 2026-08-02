@@ -71,7 +71,7 @@ function ResumeAnalyzer() {
       <div className="flex items-center gap-3">
         <FileText className="h-6 w-6 text-primary" />
         <h1 className="font-display text-3xl font-bold tracking-tighter md:text-5xl">
-          Resume <span className="italic text-primary">Analyzer</span>
+          Resume <span className="grad-text">Analyzer</span>
         </h1>
       </div>
       <p className="mt-3 text-muted-foreground">Upload your resume PDF. AI scores it and gives specific rewrite suggestions.</p>

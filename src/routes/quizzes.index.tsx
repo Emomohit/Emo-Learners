@@ -29,7 +29,7 @@ function QuizzesIndex() {
         <div className="relative mx-auto max-w-6xl">
           <span className="font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-primary">// Practice</span>
           <h1 className="mt-4 font-display text-5xl font-bold leading-[0.85] tracking-tighter md:text-7xl">
-            Quizzes <span className="italic text-primary">that teach.</span>
+            Quizzes <span className="grad-text">that teach.</span>
           </h1>
           <p className="mt-6 max-w-xl text-muted-foreground">
             Short, focused rounds. Instant feedback after every answer with the why. Built for the bus, the break, the boring class.

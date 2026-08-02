@@ -38,7 +38,7 @@ function PracticePage() {
             // Practice
           </span>
           <h1 className="mt-4 font-display text-5xl font-bold leading-[0.85] tracking-tighter md:text-7xl">
-            Learn by <span className="italic text-primary">doing.</span>
+            Learn by <span className="grad-text">doing.</span>
           </h1>
           <p className="mt-6 max-w-xl text-muted-foreground">
             Short quizzes with instant answers, timed mock tests, and a daily habit that

@@ -53,7 +53,7 @@ function ContactPage() {
           <div>
             <span className="font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-primary">// Talk to us</span>
             <h1 className="mt-3 font-display text-5xl font-bold leading-[0.9] tracking-tighter md:text-6xl">
-              Feedback <span className="italic text-primary">moves us.</span>
+              Feedback <span className="grad-text">moves us.</span>
             </h1>
             <p className="mt-5 text-muted-foreground">
               Spot a bug? Want a new feature? Need notes for a subject we missed? Drop a line — Mohit reads every message.
