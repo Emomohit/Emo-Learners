@@ -130,9 +130,37 @@ function UploadPanel() {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!file || !subjectId || !title) return;
+
+    // ---- Upload validation (type + size + safe extension) ----
+    const ALLOWED = new Map<string, string>([
+      ["application/pdf", "pdf"],
+      ["image/png", "png"],
+      ["image/jpeg", "jpg"],
+      ["image/webp", "webp"],
+      ["application/msword", "doc"],
+      ["application/vnd.openxmlformats-officedocument.wordprocessingml.document", "docx"],
+      ["application/vnd.ms-powerpoint", "ppt"],
+      ["application/vnd.openxmlformats-officedocument.presentationml.presentation", "pptx"],
+    ]);
+    const MAX_BYTES = 25 * 1024 * 1024;
+    const safeExt = ALLOWED.get(file.type);
+    if (!safeExt) {
+      toast.error("Unsupported file type. Upload a PDF, image, Word, or PowerPoint file.");
+      return;
+    }
+    if (file.size === 0 || file.size > MAX_BYTES) {
+      toast.error("File must be between 1 byte and 25 MB.");
+      return;
+    }
+    if (title.trim().length > 200 || description.length > 1000) {
+      toast.error("Title must be under 200 characters and description under 1000.");
+      return;
+    }
+
     setBusy(true);
     try {
-      const ext = file.name.split(".").pop() || "pdf";
+      // Extension comes from the validated MIME allowlist, never from user input.
+      const ext = safeExt;
       const path = `${branch}/${semester}/${subjectId}/${kind}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
       const { error: upErr } = await supabase.storage
         .from("study-materials")
