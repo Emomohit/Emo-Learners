@@ -1,6 +1,9 @@
 // EMoIQ AI backend — actions: analyze, predict, plan, quiz
 // Uses Lovable AI Gateway (google/gemini-2.5-flash) via LOVABLE_API_KEY.
+//
+// AUTH: signed-in users only — every action spends AI credits.
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
+import { requireUser } from "../_shared/require-user.ts";
 
 const cors = {
   "Access-Control-Allow-Origin": "*",
@@ -14,8 +17,13 @@ const GATEWAY = "https://ai.gateway.lovable.dev/v1/chat/completions";
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: cors });
   try {
+    // Reject anonymous callers before spending any AI credits.
+    const auth = await requireUser(req);
+    if (auth instanceof Response) return auth;
+
     const apiKey = Deno.env.get("LOVABLE_API_KEY");
     if (!apiKey) return json({ error: "AI key missing" }, 500);
+
 
     const { action, payload } = await req.json();
     if (!action) return json({ error: "action required" }, 400);
