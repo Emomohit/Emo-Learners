@@ -652,4 +652,22 @@ export const tests: TestItem[] = [
       { q: "The difference between a process and a thread is...", options: ["No difference", "Threads share the same memory space within a process", "Processes are faster", "Threads cannot communicate"], answer: 1 },
     ],
   },
+  {
+    slug: "compiler-design-basics",
+    title: "Compiler Design Basics",
+    topic: "Compiler",
+    emoji: "⚙️",
+    description: "Lexical analysis, parsing, syntax trees, code generation — how code becomes machine instructions.",
+    minutes: 8,
+    questions: [
+      { q: "The first phase of a compiler is...", options: ["Parsing", "Lexical Analysis", "Code Generation", "Optimization"], answer: 1, explain: "Lexical analysis (scanning) breaks source code into tokens." },
+      { q: "What does a parser produce?", options: ["Machine code", "Parse tree / AST", "Tokens", "Object file"], answer: 1 },
+      { q: "Which grammar type do most programming languages use?", options: ["Regular grammar", "Context-free grammar", "Context-sensitive grammar", "Unrestricted grammar"], answer: 1, explain: "CFGs can express nested structures like balanced parentheses." },
+      { q: "What is the role of the symbol table?", options: ["Stores machine code", "Stores information about identifiers (variables, functions)", "Stores syntax rules", "Stores error messages"], answer: 1 },
+      { q: "LL and LR are types of...", options: ["Lexers", "Parsers", "Optimizers", "Linkers"], answer: 1, explain: "LL (top-down) and LR (bottom-up) are parsing strategies." },
+      { q: "Dead code elimination is part of which phase?", options: ["Lexical Analysis", "Parsing", "Code Optimization", "Semantic Analysis"], answer: 2 },
+      { q: "What is an Abstract Syntax Tree (AST)?", options: ["A binary search tree", "A simplified parse tree without syntax details", "A file system structure", "A network topology"], answer: 1 },
+      { q: "A linker's job is to...", options: ["Check syntax", "Combine object files into an executable", "Tokenize source code", "Optimize loops"], answer: 1 },
+    ],
+  },
 ];
