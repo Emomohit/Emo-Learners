@@ -670,4 +670,22 @@ export const tests: TestItem[] = [
       { q: "A linker's job is to...", options: ["Check syntax", "Combine object files into an executable", "Tokenize source code", "Optimize loops"], answer: 1 },
     ],
   },
+  {
+    slug: "dbms-fundamentals",
+    title: "DBMS Fundamentals",
+    topic: "DBMS",
+    emoji: "💾",
+    description: "Normalization, ER diagrams, transactions, ACID properties — database concepts for exams.",
+    minutes: 8,
+    questions: [
+      { q: "ACID in database transactions stands for...", options: ["Add, Create, Insert, Delete", "Atomicity, Consistency, Isolation, Durability", "Access, Control, Identity, Data", "Automatic, Concurrent, Independent, Distributed"], answer: 1 },
+      { q: "Which normal form eliminates partial dependencies?", options: ["1NF", "2NF", "3NF", "BCNF"], answer: 1, explain: "2NF removes partial dependencies on the primary key." },
+      { q: "A foreign key is...", options: ["A primary key in the same table", "A key that references a primary key in another table", "An encrypted key", "A unique constraint"], answer: 1 },
+      { q: "What does the 'D' in CRUD stand for?", options: ["Data", "Delete", "Deploy", "Define"], answer: 1 },
+      { q: "An ER diagram represents...", options: ["Network topology", "Entities, attributes, and relationships in a database", "File system structure", "CPU architecture"], answer: 1 },
+      { q: "A transaction that completes all operations or none is called...", options: ["Consistent", "Atomic", "Isolated", "Durable"], answer: 1, explain: "Atomicity ensures all-or-nothing execution." },
+      { q: "Which type of key uniquely identifies each record?", options: ["Foreign Key", "Candidate Key", "Primary Key", "Alternate Key"], answer: 2 },
+      { q: "Denormalization is done to...", options: ["Remove redundancy", "Improve read performance at the cost of some redundancy", "Encrypt data", "Delete unused tables"], answer: 1 },
+    ],
+  },
 ];
