@@ -688,4 +688,22 @@ export const tests: TestItem[] = [
       { q: "Denormalization is done to...", options: ["Remove redundancy", "Improve read performance at the cost of some redundancy", "Encrypt data", "Delete unused tables"], answer: 1 },
     ],
   },
+  {
+    slug: "java-oops-concepts",
+    title: "Java OOPs Concepts",
+    topic: "Java",
+    emoji: "☕",
+    description: "Inheritance, polymorphism, abstraction, encapsulation — Java OOP for placements.",
+    minutes: 8,
+    questions: [
+      { q: "Which OOP principle hides internal details and shows only functionality?", options: ["Inheritance", "Polymorphism", "Abstraction", "Encapsulation"], answer: 2, explain: "Abstraction hides complexity. Encapsulation bundles data + methods and restricts access." },
+      { q: "Java supports which type of inheritance?", options: ["Multiple (via classes)", "Single and multilevel", "Diamond inheritance", "All types via classes"], answer: 1, explain: "Java doesn't support multiple inheritance via classes (uses interfaces instead)." },
+      { q: "Method overloading is an example of...", options: ["Runtime polymorphism", "Compile-time polymorphism", "Abstraction", "Encapsulation"], answer: 1, explain: "Overloading is resolved at compile time. Overriding is resolved at runtime." },
+      { q: "Which keyword prevents a class from being inherited?", options: ["static", "abstract", "final", "private"], answer: 2 },
+      { q: "An abstract class in Java...", options: ["Can be instantiated directly", "Cannot have constructors", "Can have both abstract and concrete methods", "Must have all abstract methods"], answer: 2 },
+      { q: "What is the 'super' keyword used for?", options: ["To create objects", "To call the parent class constructor or methods", "To define static methods", "To handle exceptions"], answer: 1 },
+      { q: "Interface vs Abstract class: interfaces can have...", options: ["Instance variables", "Constructors", "Only abstract methods (before Java 8)", "Private methods only"], answer: 2 },
+      { q: "Encapsulation is achieved in Java by...", options: ["Using public variables", "Making variables private and providing getters/setters", "Using static methods", "Extending classes"], answer: 1 },
+    ],
+  },
 ];
