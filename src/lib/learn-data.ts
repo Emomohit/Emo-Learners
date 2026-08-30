@@ -706,4 +706,22 @@ export const tests: TestItem[] = [
       { q: "Encapsulation is achieved in Java by...", options: ["Using public variables", "Making variables private and providing getters/setters", "Using static methods", "Extending classes"], answer: 1 },
     ],
   },
+  {
+    slug: "c-programming-essentials",
+    title: "C Programming Essentials",
+    topic: "C Language",
+    emoji: "🇨",
+    description: "Pointers, memory management, structures, file I/O — master C for competitive programming.",
+    minutes: 8,
+    questions: [
+      { q: "What is a pointer in C?", options: ["A data type", "A variable that stores the memory address of another variable", "A function", "An array"], answer: 1 },
+      { q: "What does malloc() return?", options: ["An integer", "A void pointer to allocated memory", "A string", "The size of memory"], answer: 1, explain: "malloc returns a void* pointer. You must cast it to the desired type." },
+      { q: "What is the size of an int on most 64-bit systems?", options: ["2 bytes", "4 bytes", "8 bytes", "Depends on compiler"], answer: 1 },
+      { q: "What does the & operator do?", options: ["Bitwise AND", "Returns the address of a variable", "Both A and B depending on context", "Logical AND"], answer: 2, explain: "Unary & gives address; binary & does bitwise AND." },
+      { q: "What happens if you free() the same memory twice?", options: ["Nothing", "Undefined behavior (double free bug)", "Memory is cleaned twice", "Compiler error"], answer: 1 },
+      { q: "A struct in C is used to...", options: ["Define functions", "Group different data types under one name", "Create loops", "Handle exceptions"], answer: 1 },
+      { q: "What is a segmentation fault?", options: ["A syntax error", "Accessing memory that the program doesn't have permission to access", "A logical error", "A compilation warning"], answer: 1 },
+      { q: "Which function is used to read formatted input in C?", options: ["printf()", "scanf()", "gets()", "read()"], answer: 1 },
+    ],
+  },
 ];
