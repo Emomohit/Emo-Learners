@@ -724,4 +724,22 @@ export const tests: TestItem[] = [
       { q: "Which function is used to read formatted input in C?", options: ["printf()", "scanf()", "gets()", "read()"], answer: 1 },
     ],
   },
+  {
+    slug: "algorithms-greedy-dp",
+    title: "Greedy & DP Algorithms",
+    topic: "Algorithms",
+    emoji: "🧩",
+    description: "Greedy approach, dynamic programming, memoization, tabulation — crack DSA interviews.",
+    minutes: 9,
+    questions: [
+      { q: "Greedy algorithms make decisions based on...", options: ["Future optimal solutions", "The best choice at each step without reconsidering", "Random selection", "Brute force"], answer: 1, explain: "Greedy picks the locally optimal choice hoping it leads to a global optimum." },
+      { q: "Which problem is best solved by dynamic programming?", options: ["Finding max in array", "Fibonacci sequence", "Linear search", "Printing elements"], answer: 1, explain: "Fibonacci has overlapping subproblems — DP avoids redundant calculations." },
+      { q: "Memoization is a...", options: ["Bottom-up DP approach", "Top-down DP approach using recursion + cache", "Sorting technique", "Graph traversal"], answer: 1 },
+      { q: "The 0/1 Knapsack problem is solved using...", options: ["Greedy algorithm", "Dynamic programming", "Linear search", "BFS"], answer: 1, explain: "0/1 Knapsack needs DP because items can't be fractionally taken. Fractional Knapsack uses Greedy." },
+      { q: "What is the time complexity of the naive recursive Fibonacci?", options: ["O(n)", "O(n²)", "O(2^n)", "O(log n)"], answer: 2, explain: "Each call branches into 2 sub-calls, creating exponential growth." },
+      { q: "Activity Selection is an example of which algorithm type?", options: ["Dynamic Programming", "Greedy", "Divide and Conquer", "Backtracking"], answer: 1 },
+      { q: "Tabulation in DP means...", options: ["Using recursion", "Building the solution bottom-up using a table", "Sorting the input first", "Using hash tables"], answer: 1 },
+      { q: "Longest Common Subsequence (LCS) has a DP time complexity of...", options: ["O(n)", "O(n log n)", "O(m * n)", "O(2^n)"], answer: 2, explain: "LCS uses a 2D table of size m x n where m and n are string lengths." },
+    ],
+  },
 ];
