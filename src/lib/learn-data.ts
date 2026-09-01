@@ -742,4 +742,22 @@ export const tests: TestItem[] = [
       { q: "Longest Common Subsequence (LCS) has a DP time complexity of...", options: ["O(n)", "O(n log n)", "O(m * n)", "O(2^n)"], answer: 2, explain: "LCS uses a 2D table of size m x n where m and n are string lengths." },
     ],
   },
+  {
+    slug: "computer-architecture",
+    title: "Computer Architecture",
+    topic: "Architecture",
+    emoji: "💻",
+    description: "CPU pipeline, cache memory, RISC vs CISC, instruction sets — hardware fundamentals.",
+    minutes: 8,
+    questions: [
+      { q: "What does the ALU do in a CPU?", options: ["Stores data", "Performs arithmetic and logical operations", "Fetches instructions", "Manages I/O"], answer: 1 },
+      { q: "RISC stands for...", options: ["Random Instruction Set Computer", "Reduced Instruction Set Computer", "Real-time Instruction Set Controller", "Repeated Instruction Set Code"], answer: 1, explain: "RISC uses simple instructions that execute in one cycle. CISC uses complex multi-cycle instructions." },
+      { q: "What is pipelining in CPU design?", options: ["Connecting multiple CPUs", "Overlapping execution stages of multiple instructions", "A cooling mechanism", "Memory management"], answer: 1, explain: "Pipelining divides instruction execution into stages (Fetch, Decode, Execute, etc.) for parallelism." },
+      { q: "L1 cache is...", options: ["Largest and slowest", "Smallest and fastest, closest to CPU", "External to the CPU", "Same as RAM"], answer: 1 },
+      { q: "How many bits are in 1 byte?", options: ["4", "8", "16", "32"], answer: 1 },
+      { q: "Von Neumann architecture stores...", options: ["Data and instructions in separate memory", "Data and instructions in the same memory", "Only data in memory", "Only instructions in memory"], answer: 1, explain: "Von Neumann uses shared memory. Harvard architecture separates them." },
+      { q: "What is a cache hit?", options: ["Cache memory failure", "Requested data is found in cache", "Cache is full", "Data written to cache"], answer: 1 },
+      { q: "The clock speed of a CPU is measured in...", options: ["Bytes", "GHz (Gigahertz)", "Watts", "FLOPS"], answer: 1 },
+    ],
+  },
 ];
