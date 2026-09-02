@@ -760,4 +760,22 @@ export const tests: TestItem[] = [
       { q: "The clock speed of a CPU is measured in...", options: ["Bytes", "GHz (Gigahertz)", "Watts", "FLOPS"], answer: 1 },
     ],
   },
+  {
+    slug: "networking-protocols",
+    title: "Networking Protocols Deep Dive",
+    topic: "Networks",
+    emoji: "📡",
+    description: "TCP vs UDP, HTTP methods, WebSockets, REST APIs — networking for web developers.",
+    minutes: 8,
+    questions: [
+      { q: "Which HTTP method is idempotent?", options: ["POST", "GET", "PATCH", "None of these"], answer: 1, explain: "GET, PUT, DELETE are idempotent. POST is not — repeated calls may create multiple resources." },
+      { q: "WebSocket provides...", options: ["One-way communication", "Full-duplex bidirectional communication", "Only server-to-client", "Same as HTTP polling"], answer: 1 },
+      { q: "HTTPS uses which default port?", options: ["80", "443", "8080", "3000"], answer: 1 },
+      { q: "REST API follows which architectural style?", options: ["Stateful", "Stateless client-server", "Peer-to-peer", "Monolithic"], answer: 1, explain: "REST is stateless — each request contains all info needed; server doesn't store session." },
+      { q: "What does CORS stand for?", options: ["Cross-Origin Resource Sharing", "Client-Origin Request Security", "Cross-Object Remote Service", "Central Origin Response System"], answer: 0 },
+      { q: "TCP 3-way handshake uses which flags?", options: ["ACK, FIN, RST", "SYN, SYN-ACK, ACK", "PSH, URG, FIN", "SYN, RST, ACK"], answer: 1 },
+      { q: "GraphQL differs from REST because it...", options: ["Uses XML only", "Lets clients request exactly the data they need", "Only works with MongoDB", "Doesn't use HTTP"], answer: 1 },
+      { q: "DNS uses which transport protocol primarily?", options: ["TCP", "UDP", "Both but UDP primarily", "Neither"], answer: 2, explain: "DNS uses UDP port 53 for queries (faster). Falls back to TCP for large responses." },
+    ],
+  },
 ];
