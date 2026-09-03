@@ -778,4 +778,22 @@ export const tests: TestItem[] = [
       { q: "DNS uses which transport protocol primarily?", options: ["TCP", "UDP", "Both but UDP primarily", "Neither"], answer: 2, explain: "DNS uses UDP port 53 for queries (faster). Falls back to TCP for large responses." },
     ],
   },
+  {
+    slug: "docker-containers",
+    title: "Docker & Containers",
+    topic: "DevOps",
+    emoji: "🐳",
+    description: "Docker images, containers, Dockerfile, volumes, networking — containerization for developers.",
+    minutes: 8,
+    questions: [
+      { q: "What is a Docker container?", options: ["A virtual machine", "A lightweight isolated environment running from an image", "A database", "A web server"], answer: 1, explain: "Containers share the host OS kernel unlike VMs which need their own OS." },
+      { q: "A Dockerfile is used to...", options: ["Run containers", "Build Docker images with step-by-step instructions", "Monitor containers", "Delete images"], answer: 1 },
+      { q: "What command runs a Docker container?", options: ["docker build", "docker run", "docker pull", "docker push"], answer: 1 },
+      { q: "Docker volumes are used to...", options: ["Increase CPU speed", "Persist data even after container is removed", "Connect containers to internet", "Compress images"], answer: 1, explain: "Without volumes, data inside a container is lost when the container stops." },
+      { q: "What is Docker Hub?", options: ["A code editor", "A public registry for Docker images", "A container orchestrator", "A CI/CD tool"], answer: 1 },
+      { q: "docker-compose is used to...", options: ["Build single images", "Define and run multi-container applications", "Monitor CPU usage", "Create Dockerfiles"], answer: 1 },
+      { q: "Which command shows all running containers?", options: ["docker images", "docker ps", "docker list", "docker show"], answer: 1 },
+      { q: "The difference between an image and a container is...", options: ["No difference", "Image is a template; container is a running instance of it", "Container is bigger", "Image runs on cloud only"], answer: 1 },
+    ],
+  },
 ];
