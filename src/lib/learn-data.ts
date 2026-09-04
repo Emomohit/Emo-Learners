@@ -796,4 +796,22 @@ export const tests: TestItem[] = [
       { q: "The difference between an image and a container is...", options: ["No difference", "Image is a template; container is a running instance of it", "Container is bigger", "Image runs on cloud only"], answer: 1 },
     ],
   },
+  {
+    slug: "version-control-git-advanced",
+    title: "Git Advanced Concepts",
+    topic: "Git",
+    emoji: "🔀",
+    description: "Rebasing, cherry-pick, stash, bisect, hooks, reflog — advanced Git for real-world workflows.",
+    minutes: 9,
+    questions: [
+      { q: "What does 'git rebase' do?", options: ["Deletes a branch", "Moves commits to a new base, rewriting history", "Merges two branches", "Creates a tag"], answer: 1, explain: "Rebase replays your commits on top of another branch for a linear history." },
+      { q: "git stash is used to...", options: ["Delete uncommitted changes", "Temporarily save uncommitted changes and restore a clean working directory", "Push to remote", "Create a branch"], answer: 1 },
+      { q: "git cherry-pick does what?", options: ["Deletes a specific commit", "Applies a specific commit from one branch onto another", "Resets to a commit", "Squashes commits"], answer: 1 },
+      { q: "git reflog shows...", options: ["Remote branches", "A log of all reference updates (including deleted commits)", "File changes only", "Merge conflicts"], answer: 1, explain: "Reflog is a safety net — it records where HEAD has been, even after reset." },
+      { q: "git bisect helps you...", options: ["Split a repository", "Find the exact commit that introduced a bug using binary search", "Merge branches", "Create patches"], answer: 1 },
+      { q: "What is a Git hook?", options: ["A branching strategy", "A script that runs automatically at certain Git events (pre-commit, post-push)", "A merge tool", "A remote URL"], answer: 1 },
+      { q: "The difference between merge and rebase is...", options: ["No difference", "Merge creates a merge commit; rebase rewrites history linearly", "Rebase is slower", "Merge deletes branches"], answer: 1 },
+      { q: "git reset --hard HEAD~1 does what?", options: ["Creates a new commit", "Removes the last commit AND discards all changes", "Stages all files", "Shows diff"], answer: 1, explain: "WARNING: --hard discards changes permanently. Use --soft to keep them staged." },
+    ],
+  },
 ];
