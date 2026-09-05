@@ -814,4 +814,22 @@ export const tests: TestItem[] = [
       { q: "git reset --hard HEAD~1 does what?", options: ["Creates a new commit", "Removes the last commit AND discards all changes", "Stages all files", "Shows diff"], answer: 1, explain: "WARNING: --hard discards changes permanently. Use --soft to keep them staged." },
     ],
   },
+  {
+    slug: "web-security-essentials",
+    title: "Web Security Essentials",
+    topic: "Security",
+    emoji: "🛡️",
+    description: "XSS, CSRF, SQL injection, HTTPS, OWASP — secure your web apps like a pro.",
+    minutes: 8,
+    questions: [
+      { q: "XSS (Cross-Site Scripting) allows attackers to...", options: ["Access the server filesystem", "Inject malicious scripts into web pages viewed by other users", "Break encryption", "Crash the database"], answer: 1, explain: "XSS injects JS into pages. Prevent with output encoding and Content Security Policy." },
+      { q: "SQL Injection exploits...", options: ["CSS stylesheets", "Unvalidated user input in database queries", "Image uploads", "WebSocket connections"], answer: 1 },
+      { q: "CSRF (Cross-Site Request Forgery) tricks users into...", options: ["Downloading malware", "Making authenticated requests to another site without their knowledge", "Clicking ads", "Sharing passwords"], answer: 1, explain: "CSRF tokens (unique per session) prevent this by verifying request origin." },
+      { q: "HTTPS encrypts data using...", options: ["MD5", "TLS/SSL certificates", "Base64 encoding", "Cookies"], answer: 1 },
+      { q: "What does OWASP stand for?", options: ["Open Web Application Security Project", "Online Web Attack Security Protocol", "Open Wireless Access Security Platform", "Organized Web App Safety Program"], answer: 0 },
+      { q: "Bcrypt is used for...", options: ["Compressing files", "Securely hashing passwords with salt", "Encrypting emails", "Validating tokens"], answer: 1, explain: "Bcrypt adds salt and is intentionally slow to resist brute-force attacks." },
+      { q: "A JWT (JSON Web Token) is commonly used for...", options: ["Database queries", "Stateless authentication between client and server", "CSS styling", "File uploads"], answer: 1 },
+      { q: "Content Security Policy (CSP) helps prevent...", options: ["Slow loading", "XSS attacks by restricting which scripts can execute", "Database leaks", "Server crashes"], answer: 1 },
+    ],
+  },
 ];
