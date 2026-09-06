@@ -832,4 +832,22 @@ export const tests: TestItem[] = [
       { q: "Content Security Policy (CSP) helps prevent...", options: ["Slow loading", "XSS attacks by restricting which scripts can execute", "Database leaks", "Server crashes"], answer: 1 },
     ],
   },
+  {
+    slug: "design-patterns",
+    title: "Design Patterns",
+    topic: "Software Design",
+    emoji: "🏗️",
+    description: "Singleton, Factory, Observer, MVC — classic design patterns every developer should know.",
+    minutes: 9,
+    questions: [
+      { q: "Singleton pattern ensures...", options: ["Multiple instances", "Only one instance of a class exists globally", "Classes are abstract", "Methods are static"], answer: 1, explain: "Singleton restricts instantiation. Used for DB connections, loggers, config managers." },
+      { q: "Factory pattern is used to...", options: ["Delete objects", "Create objects without specifying the exact class", "Sort collections", "Handle events"], answer: 1 },
+      { q: "Observer pattern implements...", options: ["One-to-one mapping", "One-to-many dependency where dependents are notified of state changes", "Direct database access", "Static typing"], answer: 1, explain: "Think of YouTube subscriptions — subscribers get notified when a new video is uploaded." },
+      { q: "MVC stands for...", options: ["Model-View-Controller", "Multiple Virtual Containers", "Module-Variable-Class", "Main-View-Component"], answer: 0 },
+      { q: "Strategy pattern allows...", options: ["Hardcoded algorithms", "Selecting an algorithm at runtime by encapsulating each in a class", "Only one algorithm", "Direct inheritance"], answer: 1 },
+      { q: "Decorator pattern is used to...", options: ["Create new classes", "Add behavior to objects dynamically without modifying their class", "Delete methods", "Flatten inheritance"], answer: 1 },
+      { q: "Which pattern provides a simplified interface to a complex subsystem?", options: ["Adapter", "Facade", "Proxy", "Bridge"], answer: 1, explain: "Facade hides complexity. Like a hotel receptionist handling all your requests." },
+      { q: "Dependency Injection is a form of...", options: ["Tight coupling", "Inversion of Control (IoC)", "Inheritance", "Recursion"], answer: 1 },
+    ],
+  },
 ];
