@@ -49,6 +49,7 @@ export const Route = createFileRoute("/challenge")({
       },
       { property: "og:url", content: `${SITE}/challenge` },
       { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [{ rel: "canonical", href: `${SITE}/challenge` }],
     scripts: [

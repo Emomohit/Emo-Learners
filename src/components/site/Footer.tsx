@@ -3,12 +3,11 @@ import { Zap, Instagram, Send, Linkedin, Youtube, Mail } from "lucide-react";
 
 export function Footer() {
   return (
-    <footer className="relative mt-32 border-t border-border bg-surface/30">
-      <div className="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
+    <footer className="relative mt-24 border-t-2 border-foreground bg-background">
       <div className="mx-auto grid w-full max-w-7xl gap-12 px-6 py-16 md:grid-cols-4">
         <div className="md:col-span-2">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 rotate-12 items-center justify-center rounded-lg btn-grad">
+            <div className="flex h-10 w-10 items-center justify-center rounded-md btn-grad">
               <Zap className="h-5 w-5 text-primary-foreground" strokeWidth={2.5} />
             </div>
             <span className="font-display text-xl font-bold tracking-tighter">
@@ -25,7 +24,7 @@ export function Footer() {
               target="_blank"
               rel="noreferrer"
               aria-label="Instagram"
-              className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-surface text-muted-foreground transition-all hover:border-primary hover:text-primary"
+               className="flex h-10 w-10 items-center justify-center rounded-md border border-border bg-background text-muted-foreground transition-all hover:border-pink hover:text-pink"
             >
               <Instagram className="h-4 w-4" />
             </a>
@@ -34,7 +33,7 @@ export function Footer() {
               target="_blank"
               rel="noreferrer"
               aria-label="Telegram"
-              className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-surface text-muted-foreground transition-all hover:border-primary hover:text-primary"
+               className="flex h-10 w-10 items-center justify-center rounded-md border border-border bg-background text-muted-foreground transition-all hover:border-cyan hover:text-cyan"
             >
               <Send className="h-4 w-4" />
             </a>
@@ -43,7 +42,7 @@ export function Footer() {
               target="_blank"
               rel="noreferrer"
               aria-label="YouTube"
-              className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-surface text-muted-foreground transition-all hover:border-primary hover:text-primary"
+               className="flex h-10 w-10 items-center justify-center rounded-md border border-border bg-background text-muted-foreground transition-all hover:border-destructive hover:text-destructive"
             >
               <Youtube className="h-4 w-4" />
             </a>
@@ -52,14 +51,14 @@ export function Footer() {
               target="_blank"
               rel="noreferrer"
               aria-label="LinkedIn"
-              className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-surface text-muted-foreground transition-all hover:border-primary hover:text-primary"
+               className="flex h-10 w-10 items-center justify-center rounded-md border border-border bg-background text-muted-foreground transition-all hover:border-primary hover:text-primary"
             >
               <Linkedin className="h-4 w-4" />
             </a>
             <Link
               to="/contact"
               aria-label="Contact"
-              className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-surface text-muted-foreground transition-all hover:border-primary hover:text-primary"
+               className="flex h-10 w-10 items-center justify-center rounded-md border border-border bg-background text-muted-foreground transition-all hover:border-orange hover:text-orange"
             >
               <Mail className="h-4 w-4" />
             </Link>

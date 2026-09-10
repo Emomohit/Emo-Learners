@@ -452,7 +452,7 @@ export const tests: TestItem[] = [
       { q: "Which command is used to search for a specific pattern in a file?", options: ["find", "grep", "search", "locate"], answer: 1, explain: "grep (Global Regular Expression Print) searches text using patterns." },
       { q: "How do you forcefully kill a process with PID 1234?", options: ["kill 1234", "kill -9 1234", "stop 1234", "end 1234"], answer: 1, explain: "-9 sends the SIGKILL signal for immediate termination." },
       { q: "Which command shows the current working directory?", options: ["cwd", "cd", "pwd", "dir"], answer: 2, explain: "pwd stands for Print Working Directory." },
-      { q: "What is the root directory in Linux denoted by?", options: ["C:\", "/root", "~", "/"], answer: 3 },
+      { q: "What is the root directory in Linux denoted by?", options: ["C:\\", "/root", "~", "/"], answer: 3 },
       { q: "Which command displays the manual/help page for a command?", options: ["help", "info", "man", "show"], answer: 2 },
     ],
   },

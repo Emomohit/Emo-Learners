@@ -18,6 +18,8 @@ export const Route = createFileRoute("/emoiq")({
         content:
           "PYQ intelligence, question prediction, personalized study plans, and AI doubt solver.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: EmoIqLayout,

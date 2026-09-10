@@ -12,12 +12,12 @@ const items = [
 export function Marquee() {
   const doubled = [...items, ...items];
   return (
-    <div className="w-full overflow-hidden border-b border-border bg-primary/5 py-3">
+    <div className="w-full overflow-hidden border-b border-border bg-background py-2.5">
       <div className="flex animate-marquee whitespace-nowrap">
         {doubled.map((t, i) => (
           <span
             key={i}
-            className="mx-8 flex items-center gap-3 font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-primary/90"
+            className="mx-8 flex items-center gap-3 font-mono text-[10px] font-bold uppercase tracking-widest text-primary"
           >
             <span className="h-1 w-1 rounded-full bg-primary" aria-hidden="true" />
             {t}

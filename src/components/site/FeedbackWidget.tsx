@@ -49,7 +49,7 @@ export function FeedbackWidget() {
         type="button"
         onClick={() => setOpen(true)}
         aria-label="Report a mistake or send feedback"
-        className="fixed bottom-20 right-4 z-40 inline-flex items-center gap-2 rounded-full border border-border bg-surface/90 px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-muted-foreground shadow-lg backdrop-blur-xl transition-all hover:border-primary hover:text-primary lg:bottom-6"
+        className="fixed bottom-20 right-4 z-40 inline-flex items-center gap-2 rounded-md border border-foreground bg-background px-3 py-2 text-[10px] font-bold text-foreground shadow-lg transition-all hover:border-primary hover:text-primary lg:bottom-6"
       >
         <MessageSquareWarning className="h-3.5 w-3.5" />
         <span className="hidden sm:inline">Report / Feedback</span>
@@ -60,14 +60,14 @@ export function FeedbackWidget() {
           role="dialog"
           aria-modal="true"
           aria-label="Send feedback"
-          className="fixed inset-0 z-50 flex items-end justify-center bg-background/70 p-4 backdrop-blur-sm sm:items-center"
+          className="fixed inset-0 z-50 flex items-end justify-center bg-background p-4 sm:items-center"
           onClick={(e) => {
             if (e.target === e.currentTarget) setOpen(false);
           }}
         >
           <form
             onSubmit={submit}
-            className="w-full max-w-md rounded-2xl border border-border bg-background p-6 shadow-2xl"
+            className="w-full max-w-md rounded-md border-2 border-foreground bg-background p-6 shadow-2xl"
           >
             <div className="flex items-center justify-between">
               <h3 className="font-display text-lg font-bold">Tell us what's wrong</h3>
@@ -89,7 +89,7 @@ export function FeedbackWidget() {
               rows={5}
               maxLength={1000}
               placeholder="What went wrong, on which page?"
-              className="mt-4 w-full rounded-lg border border-border bg-surface/60 p-3 text-sm text-foreground focus:border-primary focus:outline-none"
+              className="mt-4 w-full rounded-md border border-input bg-background p-3 text-sm text-foreground focus:border-primary focus:outline-none"
               required
             />
             <div className="mt-4 flex items-center justify-between text-[10px] text-muted-foreground">
@@ -99,7 +99,7 @@ export function FeedbackWidget() {
             <button
               type="submit"
               disabled={busy || !user}
-              className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-xs font-bold uppercase tracking-widest btn-grad transition-all hover:scale-[1.01] disabled:opacity-50"
+              className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-md px-5 py-3 text-xs font-bold btn-grad disabled:opacity-50"
             >
               {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
               Send feedback

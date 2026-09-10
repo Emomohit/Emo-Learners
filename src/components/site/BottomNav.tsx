@@ -13,7 +13,7 @@ export function BottomNav() {
   return (
     <nav
       aria-label="Bottom navigation"
-      className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 backdrop-blur-xl lg:hidden"
+      className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background lg:hidden"
     >
       <ul className="mx-auto flex max-w-md items-stretch justify-between px-2 py-1">
         {items.map(({ to, label, icon: Icon, exact }) => (
@@ -22,7 +22,7 @@ export function BottomNav() {
               to={to}
               activeProps={{ className: "text-primary" }}
               activeOptions={{ exact }}
-              className="flex flex-col items-center gap-1 rounded-md px-2 py-2 text-[10px] font-bold uppercase tracking-widest text-muted-foreground transition-colors"
+              className="flex min-h-14 flex-col items-center justify-center gap-1 rounded-md border-t-2 border-transparent px-2 py-2 text-[10px] font-bold text-muted-foreground transition-colors"
             >
               <Icon className="h-5 w-5" aria-hidden="true" />
               {label}
