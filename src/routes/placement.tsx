@@ -17,6 +17,8 @@ export const Route = createFileRoute("/placement")({
         property: "og:description",
         content: "Coding practice, aptitude, mock interviews, and resume analysis powered by AI.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: PlacementLayout,
