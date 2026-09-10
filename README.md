@@ -61,8 +61,8 @@ Every feature maps back to a real student pain point.
 
 - **TanStack Start (React 19 + Vite 7)** — full-stack framework with SSR, file-based routing, and server functions. Fast, type-safe, and good for SEO.
 - **Tailwind CSS v4** — design tokens live in `src/styles.css` (`@theme`). No hard-coded colors in components.
-- **Lovable Cloud (Supabase)** — Postgres, Auth, and private file storage. Row Level Security (RLS) on every table.
-- **Gemini via Lovable AI Gateway** — the AI Helper runs server-side; the model key never touches the browser.
+- **Supabase Cloud** — Postgres, Auth, and private file storage. Row Level Security (RLS) on every table.
+- **Gemini AI Gateway** — the AI Helper runs server-side; the model key never touches the browser.
 - **Framer Motion** — page transitions and micro-interactions with `prefers-reduced-motion` respected.
 
 ### Security decisions
@@ -101,7 +101,7 @@ Every feature maps back to a real student pain point.
     └───────────┬───────────┘
                 │
         ┌───────▼────────────┐
-        │  Lovable AI Gateway │
+        │   AI Gateway        │
         │  Gemini (server-side)│
         └────────────────────┘
 ```
@@ -178,7 +178,7 @@ One landing page that unifies three practice modes:
 
 ### 6.7 EMoIQ — AI-Powered Smart Exam Strategy Engine (`/emoiq`)
 
-The exam-strategy layer. Five tools, all backed by a single edge function (`supabase/functions/emoiq`) that routes actions through Gemini via the Lovable AI Gateway.
+The exam-strategy layer. Five tools, all backed by a single edge function (`supabase/functions/emoiq`) that routes actions through Gemini via the AI Gateway.
 
 - **`/emoiq` — Hub** with all five tools.
 - **`/emoiq/analyze` — PYQ Intelligence Engine.**
@@ -322,11 +322,11 @@ Qualitative impact:
 | Framework | TanStack Start (React 19 + Vite 7) |
 | Styling | Tailwind CSS v4 (`@theme` tokens) |
 | Motion | Framer Motion |
-| Backend | Lovable Cloud (Supabase Postgres + Storage + Auth) |
+| Backend | Supabase (Postgres + Storage + Auth) |
 | Auth | Email + password (HIBP leaked-password check) |
-| AI | Google Gemini via Lovable AI Gateway |
+| AI | Google Gemini via AI Gateway |
 | Fonts | Syne (display), Inter (body), JetBrains Mono (code) |
-| Hosting | Lovable / Vercel |
+| Hosting | Vercel |
 
 ## 11. Local development
 
@@ -351,12 +351,12 @@ VITE_SUPABASE_PUBLISHABLE_KEY
 VITE_SUPABASE_PROJECT_ID
 ```
 
-Server-only (set via Lovable Cloud secrets — never commit):
+Server-only (set via cloud secrets — never commit):
 
 ```
 SUPABASE_SECRET_KEY        # service role for verified admin work only
 FOUNDER_ADMIN_EMAIL        # server-side admin identity check
-LOVABLE_API_KEY            # Gemini access through Lovable AI Gateway
+AI_API_KEY                 # Gemini access through AI Gateway
 ```
 
 ## 13. Security model (short version)

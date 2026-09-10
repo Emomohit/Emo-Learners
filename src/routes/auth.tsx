@@ -105,61 +105,7 @@ function AuthPage() {
             </p>
 
             <div className="mt-6">
-              <button
-                type="button"
-                disabled={busy}
-                onClick={async () => {
-                  setBusy(true);
-                  try {
-                    if (typeof window !== "undefined") {
-                      sessionStorage.setItem("postAuthRedirect", nextPath);
-                    }
-                    // Direct Google OAuth via the backend — no third-party branding in the flow.
-                    // Requires Google Client ID/Secret configured in Auth Settings → Google.
-                    const { error } = await supabase.auth.signInWithOAuth({
-                      provider: "google",
-                      options: {
-                        redirectTo: `${window.location.origin}/auth`,
-                        queryParams: { prompt: "select_account" },
-                      },
-                    });
-                    if (error) throw error;
-                    // Browser is navigating to Google; nothing else to do.
-                  } catch (err: any) {
-                    toast.error(err?.message ?? "Google sign-in failed");
-                  } finally {
-                    setBusy(false);
-                  }
-                }}
-                className="flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-background px-4 py-3 text-sm font-bold transition-colors hover:border-primary disabled:opacity-50"
-              >
-                <svg className="h-4 w-4" viewBox="0 0 24 24" aria-hidden="true">
-                  <path
-                    fill="#4285F4"
-                    d="M23.5 12.3c0-.9-.1-1.5-.2-2.2H12v4.2h6.6c-.1 1.1-.9 2.8-2.5 3.9l-.1.1 3.6 2.8.2.1c2.3-2.1 3.7-5.3 3.7-8.9z"
-                  />
-                  <path
-                    fill="#34A853"
-                    d="M12 24c3.2 0 5.9-1.1 7.8-2.9l-3.7-2.9c-1 .7-2.3 1.2-4.1 1.2-3.1 0-5.8-2.1-6.7-5l-.1.1-3.7 2.9-.1.1C3.3 21.3 7.3 24 12 24z"
-                  />
-                  <path
-                    fill="#FBBC05"
-                    d="M5.3 14.4c-.3-.7-.4-1.5-.4-2.4s.2-1.7.4-2.4l-3.9-3C.5 8.2 0 10 0 12s.5 3.8 1.4 5.4l3.9-3z"
-                  />
-                  <path
-                    fill="#EA4335"
-                    d="M12 4.7c2.2 0 3.7.9 4.6 1.7l3.3-3.2C17.9 1.2 15.2 0 12 0 7.3 0 3.3 2.7 1.4 6.6l3.9 3c.9-2.9 3.6-4.9 6.7-4.9z"
-                  />
-                </svg>
-                Continue with Google
-              </button>
-              <div className="mt-4 flex items-center gap-3">
-                <div className="h-px flex-1 bg-border" />
-                <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
-                  or
-                </span>
-                <div className="h-px flex-1 bg-border" />
-              </div>
+
             </div>
 
             <form onSubmit={submit} className="space-y-3">
