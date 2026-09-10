@@ -5,7 +5,7 @@ import { Zap, Mail, Lock, User as UserIcon, Eye, EyeOff } from "lucide-react";
 import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
 import { supabase } from "@/integrations/supabase/client";
-import { lovable } from "@/integrations/lovable";
+
 
 import { useAuth } from "@/lib/auth";
 
