@@ -113,6 +113,14 @@
 [class*="bg-pink-"], [class*="bg-cyan-"], [class*="bg-orange-"], [class*="bg-slate-"],
 [class*="bg-gray-"], [class*="bg-zinc-"], [class*="bg-neutral-"], [class*="bg-stone-"],
 [class*="bg-black"] { background-color: var(--background) !important; }
+
+/* Hide Lovable badge */
+[id*="lovable"], [class*="lovable-badge"], lovable-badge {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
 [class*="bg-gradient-to-"] { background-image: none !important; background-color: var(--background) !important; }
 [class*="backdrop-blur"] { backdrop-filter: none !important; }
 
