@@ -5,7 +5,7 @@ import { Zap, Mail, Lock, User as UserIcon, Eye, EyeOff } from "lucide-react";
 import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
 import { supabase } from "@/integrations/supabase/client";
-import { lovable } from "@/integrations/lovable";
+
 
 import { useAuth } from "@/lib/auth";
 
@@ -114,28 +114,17 @@ function AuthPage() {
                     if (typeof window !== "undefined") {
                       sessionStorage.setItem("postAuthRedirect", nextPath);
                     }
-                    const host = window.location.hostname;
-                    if (host.endsWith("lovable.app") || host === "localhost") {
-                      // Managed broker flow — only valid on Lovable-hosted domains.
-                      const result = await lovable.auth.signInWithOAuth("google", {
-                        redirect_uri: window.location.origin,
-                      });
-                      if (result.error) throw result.error;
-                      if (result.redirected) return;
-                      nav({ to: nextPath });
-                    } else {
-                      // Any other hosting (Vercel, custom domain): raw Supabase OAuth.
-                      // Requires Google Client ID/Secret in Cloud → Users → Auth Settings → Google.
-                      const { error } = await supabase.auth.signInWithOAuth({
-                        provider: "google",
-                        options: {
-                          redirectTo: `${window.location.origin}/auth`,
-                          queryParams: { prompt: "select_account" },
-                        },
-                      });
-                      if (error) throw error;
-                      // Browser is navigating to Google; nothing else to do.
-                    }
+                    // Direct Google OAuth via the backend — no third-party branding in the flow.
+                    // Requires Google Client ID/Secret configured in Auth Settings → Google.
+                    const { error } = await supabase.auth.signInWithOAuth({
+                      provider: "google",
+                      options: {
+                        redirectTo: `${window.location.origin}/auth`,
+                        queryParams: { prompt: "select_account" },
+                      },
+                    });
+                    if (error) throw error;
+                    // Browser is navigating to Google; nothing else to do.
                   } catch (err: any) {
                     toast.error(err?.message ?? "Google sign-in failed");
                   } finally {
