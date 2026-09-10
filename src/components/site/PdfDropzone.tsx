@@ -31,6 +31,7 @@ export type PdfDropzoneProps = {
 };
 
 async function extractPdfText(file: File): Promise<string> {
+  const pdfjsLib = await loadPdfLib();
   const buf = await file.arrayBuffer();
   const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
   let out = "";
