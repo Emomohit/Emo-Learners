@@ -32,6 +32,8 @@ export const Route = createFileRoute("/progress")({
         property: "og:description",
         content: "Track your learning progress across courses, quizzes and streaks.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: ProgressPage,
@@ -149,12 +151,10 @@ function ProgressPage() {
       <Marquee />
       <Navbar />
 
-      <section className="relative overflow-hidden px-4 pb-8 pt-16">
-        <div className="pointer-events-none absolute inset-0 grid-bg opacity-40" />
-        <div className="pointer-events-none absolute inset-0 radial-glow" />
+      <section className="border-b border-border px-4 pb-10 pt-16">
         <div className="relative mx-auto max-w-6xl">
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <div className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-primary">
+            <div className="inline-flex items-center gap-2 border-l-4 border-cyan pl-3 font-mono text-[10px] font-bold uppercase tracking-widest text-primary">
               <TrendingUp className="h-3 w-3" /> Progress Analytics
             </div>
             <button
@@ -166,7 +166,7 @@ function ProgressPage() {
             </button>
           </div>
           <h1 className="mt-4 font-display text-4xl font-bold leading-[0.9] tracking-tighter md:text-6xl">
-            Your <span className="grad-text">learning graph</span>
+             Your <span className="text-cyan">learning graph</span>
           </h1>
           <p className="mt-4 max-w-2xl text-muted-foreground">
             A quick view of what you've completed so far — courses, quizzes, streak days, bookmarks,

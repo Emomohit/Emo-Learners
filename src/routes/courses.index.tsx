@@ -21,6 +21,8 @@ export const Route = createFileRoute("/courses/")({
         content: "Python, Java, and C — chaptered, free, and built for serious students.",
       },
       { property: "og:url", content: `${SITE}/courses` },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [{ rel: "canonical", href: `${SITE}/courses` }],
   }),
@@ -31,14 +33,12 @@ function CoursesIndex() {
   return (
     <div className="min-h-screen">
       <Navbar />
-      <section className="relative overflow-hidden px-6 pt-20 pb-16 md:pt-28">
-        <div className="absolute inset-0 -z-10 grid-bg opacity-40" />
-        <div className="absolute inset-0 -z-10 radial-glow" />
+      <section className="border-b border-border px-6 pb-16 pt-16 md:pt-24">
         <div className="mx-auto max-w-6xl text-center animate-rise">
-          <span className="inline-flex items-center gap-2 rounded-full border border-border bg-surface/60 px-4 py-1.5 font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-primary">
+          <span className="inline-flex items-center gap-2 border-l-4 border-yellow pl-3 font-mono text-[11px] font-bold uppercase tracking-widest text-primary">
             <Sparkles className="h-3 w-3" /> Free · Notes · Quizzes · Exercises
           </span>
-          <h1 className="mt-6 font-display text-5xl font-bold leading-[0.95] tracking-tighter md:text-7xl">
+          <h1 className="mt-6 font-display text-5xl font-bold leading-[0.98] md:text-7xl">
             Learn a language.
             <br />
             <span className="text-primary">From zero to ship.</span>
@@ -59,12 +59,9 @@ function CoursesIndex() {
               <Link
                 key={c.slug}
                 to={href}
-                className="group relative flex flex-col overflow-hidden panel tilt-3d shine p-6 animate-rise"
+                className="group relative flex flex-col overflow-hidden panel panel-hover p-6 animate-rise"
                 style={{ animationDelay: `${i * 80}ms` }}
               >
-                <div
-                  className={`absolute -right-12 -top-12 h-40 w-40 rounded-full bg-gradient-to-br ${c.accent} opacity-20 blur-3xl transition-opacity group-hover:opacity-40`}
-                />
                 <div className="relative">
                   <div className="text-5xl">{c.emoji}</div>
                   <h3 className="mt-4 font-display text-2xl font-bold tracking-tight">{c.title}</h3>

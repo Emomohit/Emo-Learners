@@ -1,510 +1,175 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useState, type FormEvent } from "react";
+import {
+  ArrowRight,
+  BookOpen,
+  Brain,
+  BriefcaseBusiness,
+  CheckCircle2,
+  FileText,
+  Flame,
+  GraduationCap,
+  ListChecks,
+  Search,
+  Sparkles,
+  TrendingUp,
+  Users,
+} from "lucide-react";
 import { Navbar } from "@/components/site/Navbar";
 import { Marquee } from "@/components/site/Marquee";
 import { Footer } from "@/components/site/Footer";
-import {
-  ArrowRight,
-  FileText,
-  ListChecks,
-  GraduationCap,
-  Sparkles,
-  Users,
-  Flame,
-  Search,
-  ShieldCheck,
-  Clock,
-  Heart,
-  Brain,
-} from "lucide-react";
-import { useState } from "react";
-import { useNavigate } from "@tanstack/react-router";
+import { Button } from "@/components/ui/button";
+
+const SITE = "https://emolearners.vercel.app";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "EMO Learners — Free Notes, PYQs, Courses & AI Study Help" },
-      {
-        name: "description",
-        content:
-          "Free study platform for Indian engineering students: notes, PYQs, coding courses, quizzes, tests & AI tools.",
-      },
-      {
-        name: "keywords",
-        content:
-          "EMO Learners, EmoLearners, EMO Learners app, EMoIQ, RGPV notes, engineering PYQs, free coding courses, Python course India, DSA course, AI study helper, student learning platform India",
-      },
-      { name: "application-name", content: "EMO Learners" },
-      { name: "apple-mobile-web-app-title", content: "EMO Learners" },
-      { property: "og:site_name", content: "EMO Learners" },
-      { property: "og:title", content: "EMO Learners — Free Notes, PYQs, Courses & AI Study Help" },
-      {
-        property: "og:description",
-        content:
-          "Free notes, PYQs, coding courses, quizzes, tests and AI helpers built for Indian students.",
-      },
+      { title: "EMO Learners — Notes, Courses & AI Exam Prep" },
+      { name: "description", content: "Free notes, PYQs, coding courses, practice tests and AI exam tools for Indian engineering students." },
+      { name: "keywords", content: "EMO Learners, RGPV notes, engineering PYQs, coding courses, EMoIQ, placement preparation" },
+      { property: "og:title", content: "EMO Learners — Your engineering study workspace" },
+      { property: "og:description", content: "Study, practise and prepare for placements in one free student workspace." },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://emolearners.vercel.app/" },
+      { property: "og:url", content: `${SITE}/` },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "EMO Learners — Free study platform" },
-      {
-        name: "twitter:description",
-        content: "Notes, PYQs, coding courses, quizzes, tests and AI helpers. Free for students.",
-      },
     ],
-    links: [{ rel: "canonical", href: "https://emolearners.vercel.app/" }],
-    scripts: [
-      {
-        type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Organization",
-          name: "EMO Learners",
-          alternateName: ["EmoLearners", "EMO Learners App", "Emo Learners"],
-          url: "https://emolearners.vercel.app/",
-          logo: "https://emolearners.vercel.app/favicon.ico",
-          description:
-            "Free study platform for Indian engineering students — notes, PYQs, coding courses, quizzes, tests and AI study tools.",
-        }),
-      },
-      {
-        type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "WebSite",
-          name: "EMO Learners",
-          alternateName: "EmoLearners",
-          url: "https://emolearners.vercel.app/",
-          potentialAction: {
-            "@type": "SearchAction",
-            target: "https://emolearners.vercel.app/resources?q={search_term_string}",
-            "query-input": "required name=search_term_string",
-          },
-        }),
-      },
-    ],
+    links: [{ rel: "canonical", href: `${SITE}/` }],
+    scripts: [{
+      type: "application/ld+json",
+      children: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        name: "EMO Learners",
+        url: `${SITE}/`,
+        potentialAction: { "@type": "SearchAction", target: `${SITE}/resources?q={search_term_string}`, "query-input": "required name=search_term_string" },
+      }),
+    }],
   }),
   component: Home,
 });
 
-const quickCards = [
-  {
-    to: "/resources",
-    icon: FileText,
-    title: "Notes & PYQs",
-    desc: "Subject-wise notes and previous year papers. Filter by branch and semester.",
-    tag: "Study",
-  },
-  {
-    to: "/courses",
-    icon: GraduationCap,
-    title: "Learn coding",
-    desc: "Full Python, Java, C, and DSA — with notes, code, quizzes and exercises.",
-    tag: "Courses",
-  },
-  {
-    to: "/emoiq",
-    icon: Brain,
-    title: "EMoIQ — Exam AI",
-    desc: "Analyze PYQs, predict likely questions, and get a personalized study plan.",
-    tag: "New · AI",
-  },
-  {
-    to: "/practice",
-    icon: ListChecks,
-    title: "Practice",
-    desc: "Short quizzes with instant answers and timed mock tests.",
-    tag: "Do",
-  },
-  {
-    to: "/ai-assistant",
-    icon: Sparkles,
-    title: "AI Helper",
-    desc: "Stuck on a topic? Ask the AI helper for a simple explanation.",
-    tag: "Ask",
-  },
-  {
-    to: "/challenge",
-    icon: Flame,
-    title: "30-Day Python",
-    desc: "One small step every day. Build a real project in a month.",
-    tag: "Habit",
-  },
-  {
-    to: "/join",
-    icon: Users,
-    title: "Community",
-    desc: "Join Telegram, Instagram and YouTube. Learn with other students.",
-    tag: "Together",
-  },
+const quickActions = [
+  { to: "/resources", icon: FileText, title: "Notes & PYQs", desc: "Find material by branch, semester, and subject.", label: "Study", color: "text-primary", border: "hover:border-primary" },
+  { to: "/courses", icon: GraduationCap, title: "Coding courses", desc: "Learn Python, Java, C, and DSA step by step.", label: "Learn", color: "text-purple", border: "hover:border-purple" },
+  { to: "/emoiq", icon: Brain, title: "EMoIQ exam AI", desc: "Analyze papers and focus on likely questions.", label: "Analyze", color: "text-pink", border: "hover:border-pink" },
+  { to: "/practice", icon: ListChecks, title: "Practice", desc: "Attempt focused quizzes and timed mock tests.", label: "Improve", color: "text-orange", border: "hover:border-orange" },
+  { to: "/placement", icon: BriefcaseBusiness, title: "Placement prep", desc: "Coding, aptitude, interviews, and resume review.", label: "Prepare", color: "text-success", border: "hover:border-success" },
+  { to: "/roadmap", icon: TrendingUp, title: "AI roadmap", desc: "Turn your goal into a practical weekly plan.", label: "Plan", color: "text-cyan", border: "hover:border-cyan" },
 ] as const;
 
+const steps = [
+  { number: "01", title: "Choose a goal", text: "Pick a subject, coding skill, exam, or placement target." },
+  { number: "02", title: "Follow a clear path", text: "Use focused notes, lessons, practice, and AI guidance." },
+  { number: "03", title: "See real progress", text: "Track completed work, streaks, bookmarks, and weak areas." },
+];
+
 function Home() {
-  const [q, setQ] = useState("");
+  const [query, setQuery] = useState("");
   const navigate = useNavigate();
 
-  const onSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    const term = q.trim().toLowerCase();
+  function search(event: FormEvent) {
+    event.preventDefault();
+    const term = query.trim().toLowerCase();
     if (!term) return;
-    // Simple router: coding keywords → courses, everything else → resources.
-    const codingWords = [
-      "python",
-      "java",
-      "c ",
-      "c language",
-      "c programming",
-      "dsa",
-      "data structure",
-    ];
-    if (codingWords.some((k) => term.includes(k))) {
-      navigate({ to: "/courses" });
-    } else if (["quiz", "quizzes"].some((k) => term.includes(k))) {
-      navigate({ to: "/practice" });
-    } else if (["test", "mock"].some((k) => term.includes(k))) {
-      navigate({ to: "/practice" });
-    } else {
-      navigate({ to: "/resources" });
-    }
-  };
+    if (/python|java|c language|programming|dsa|data structure/.test(term)) navigate({ to: "/courses" });
+    else if (/quiz|test|mock|practice/.test(term)) navigate({ to: "/practice" });
+    else if (/placement|resume|interview|aptitude/.test(term)) navigate({ to: "/placement" });
+    else if (/ai|pyq analysis|predict|study plan/.test(term)) navigate({ to: "/emoiq" });
+    else navigate({ to: "/resources" });
+  }
 
   return (
-    <div className="relative min-h-screen pb-24 lg:pb-0">
+    <div className="min-h-screen bg-background pb-20 lg:pb-0">
       <Marquee />
       <Navbar />
-
-      {/* HERO */}
-      <section className="relative overflow-hidden px-4 pb-20 pt-14 md:pt-20">
-        <div className="pointer-events-none absolute inset-0 grid-bg opacity-40" />
-        <div className="aurora-bg" aria-hidden="true" />
-
-        <div className="relative mx-auto flex max-w-5xl flex-col items-center text-center">
-          <div className="animate-rise inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 backdrop-blur-sm">
-            <span
-              className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary"
-              aria-hidden="true"
-            />
-            <span className="font-mono text-[10px] font-bold uppercase tracking-[0.25em] text-primary">
-              Free · Made for Indian students
-            </span>
-          </div>
-
-          <h1
-            className="animate-rise mt-8 font-display text-4xl font-bold leading-[1.03] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl"
-            style={{ animationDelay: "80ms" }}
-          >
-            <span className="block">One place to</span>
-            <span className="relative mt-2 block py-1">
-              <span className="grad-text-anim">study, practice, and grow.</span>
-              <span
-                className="absolute -inset-6 -z-10 rounded-full bg-primary/20 blur-3xl"
-                aria-hidden="true"
-              />
-            </span>
-          </h1>
-
-          <p
-            className="animate-rise mt-8 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg"
-            style={{ animationDelay: "160ms" }}
-          >
-            Free notes, previous year questions, coding courses, quizzes, timed tests and an AI
-            helper — all in simple English, on your phone.
-          </p>
-
-          {/* Search */}
-          <form
-            onSubmit={onSearch}
-            role="search"
-            aria-label="Search the site"
-            className="animate-rise mt-10 flex w-full max-w-xl items-center gap-2 rounded-full border border-border bg-surface/60 p-2 backdrop-blur-sm"
-            style={{ animationDelay: "200ms" }}
-          >
-            <Search className="ml-3 h-4 w-4 text-muted-foreground" aria-hidden="true" />
-            <input
-              type="search"
-              value={q}
-              onChange={(e) => setQ(e.target.value)}
-              placeholder="Search notes, courses, quizzes..."
-              className="flex-1 bg-transparent px-2 py-2 text-sm text-foreground focus:outline-none"
-              aria-label="Search"
-            />
-            <button
-              type="submit"
-              className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-bold uppercase tracking-widest btn-grad"
-            >
-              Go
-            </button>
-          </form>
-
-          <div
-            className="animate-rise mt-8 flex flex-wrap items-center justify-center gap-3"
-            style={{ animationDelay: "240ms" }}
-          >
-            <Link
-              to="/resources"
-              className="inline-flex items-center gap-2 rounded-full border border-border bg-surface/60 px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-foreground transition-all hover:border-primary hover:text-primary"
-            >
-              Open notes <ArrowRight className="h-4 w-4" />
-            </Link>
-            <Link
-              to="/courses"
-              className="inline-flex items-center gap-2 rounded-full border border-border bg-surface/60 px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-foreground transition-all hover:border-primary hover:text-primary"
-            >
-              Start a course
-            </Link>
-            <Link
-              to="/practice"
-              className="inline-flex items-center gap-2 rounded-full border border-border bg-surface/60 px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-foreground transition-all hover:border-primary hover:text-primary"
-            >
-              Try a quiz
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* WHAT DO YOU WANT TO DO TODAY */}
-      <section className="relative px-4 pb-24">
-        <div className="mx-auto max-w-6xl">
-          <SectionHeader
-            tag="// Quick start"
-            title="What do you want to do today?"
-            subtitle="Pick one. You can always come back for the rest."
-          />
-          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {quickCards.map((c, i) => (
-              <Link
-                key={c.to}
-                to={c.to}
-                className="group relative overflow-hidden panel tilt-3d shine p-7 backdrop-blur-sm"
-              >
-                <div className="flex items-start justify-between">
-                  <span className="font-mono text-xs font-bold tracking-widest text-muted-foreground">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span className="rounded-full border border-primary/30 bg-primary/10 px-3 py-0.5 font-mono text-[9px] font-bold uppercase tracking-widest text-primary">
-                    {c.tag}
-                  </span>
-                </div>
-                <span className="mt-6 flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-background/60 text-primary transition-all group-hover:bg-primary group-hover:text-primary-foreground">
-                  <c.icon className="h-5 w-5" aria-hidden="true" />
-                </span>
-                <h3 className="mt-6 font-display text-2xl font-bold">{c.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{c.desc}</p>
-                <div className="mt-6 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary">
-                  Open{" "}
-                  <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CONCEPT PITCH */}
-      <section className="relative px-4 py-20">
-        <div className="mx-auto max-w-6xl">
-          <SectionHeader
-            tag="// The concept"
-            title="Learning + career, unified."
-            subtitle="Engineering students juggle YouTube, PDFs, coaching apps and placement portals. EMO Learners folds it all into one AI-driven workspace."
-          />
-          <div className="mt-10 grid gap-4 md:grid-cols-3">
-            {[
-              {
-                t: "Syllabus-aware learning",
-                d: "Notes, PYQs and roadmaps mapped to RGPV Bhopal AICTE flexible curriculum, branch by branch.",
-              },
-              {
-                t: "AI that actually helps",
-                d: "Doubt solver, PYQ predictor, quiz generator and mock interviews — one gateway, zero setup.",
-              },
-              {
-                t: "Placement-ready by design",
-                d: "Coding practice, aptitude, resume analysis and interview prep baked into the same flow.",
-              },
-            ].map((c) => (
-              <div key={c.t} className="panel p-6 backdrop-blur-sm">
-                <h4 className="font-display text-lg font-bold tracking-tighter">{c.t}</h4>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{c.d}</p>
+      <main>
+        <section className="border-b border-border px-4 py-14 md:py-20">
+          <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.25fr_.75fr]">
+            <div className="animate-rise">
+              <div className="inline-flex items-center gap-2 border-l-4 border-yellow pl-3 font-mono text-xs font-bold uppercase tracking-widest text-foreground">
+                <Sparkles className="h-4 w-4 text-orange" /> Free for every student
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
+              <h1 className="mt-7 max-w-4xl font-display text-5xl font-bold leading-[.98] sm:text-6xl md:text-7xl">
+                Learn smarter. <span className="text-primary">Score better.</span>{" "}
+                <span className="text-pink">Build your future.</span>
+              </h1>
+              <p className="mt-7 max-w-2xl text-base leading-7 text-muted-foreground md:text-lg">
+                Your focused workspace for engineering notes, PYQs, coding, exam strategy, and placement preparation.
+              </p>
+              <form onSubmit={search} role="search" className="mt-9 flex max-w-2xl items-center gap-2 rounded-md border-2 border-foreground bg-background p-2 shadow-[5px_5px_0_var(--border)]">
+                <Search className="ml-2 h-5 w-5 text-primary" aria-hidden="true" />
+                <input value={query} onChange={(event) => setQuery(event.target.value)} type="search" placeholder="What do you want to learn?" className="min-w-0 flex-1 bg-transparent px-2 py-2.5 text-sm outline-none" aria-label="Search EMO Learners" />
+                <Button type="submit" className="h-11 rounded-md px-5 font-bold">Search</Button>
+              </form>
+              <div className="mt-7 flex flex-wrap gap-3">
+                <Button asChild className="h-11 rounded-md px-5 font-bold"><Link to="/dashboard">Open my dashboard <ArrowRight /></Link></Button>
+                <Button asChild variant="outline" className="h-11 rounded-md border-foreground px-5 font-bold"><Link to="/resources">Browse free notes</Link></Button>
+              </div>
+            </div>
 
-      {/* OBJECTIVES */}
-      <section className="relative px-4 py-16">
-        <div className="mx-auto max-w-6xl">
-          <SectionHeader tag="// Objectives" title="What we're building." />
-          <ol className="mt-10 grid gap-3 md:grid-cols-2">
-            {[
-              "Give every Indian engineering student a free, syllabus-aware study hub.",
-              "Replace scattered notes/videos/PDFs with one AI-powered workspace.",
-              "Turn past-year papers into predictions, plans and quizzes automatically.",
-              "Prepare students for placement — DSA, aptitude, HR, resume — end-to-end.",
-              "Track real progress: courses, quizzes, streaks and roadmap milestones.",
-              "Stay affordable at scale via a SaaS model for colleges and universities.",
-            ].map((o, i) => (
-              <li key={o} className="flex items-start gap-3 panel rounded-xl p-4">
-                <span className="mt-0.5 font-mono text-xs font-bold text-primary">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <span className="text-sm">{o}</span>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
-
-      {/* BLOCK DIAGRAM */}
-      <section className="relative px-4 py-16">
-        <div className="mx-auto max-w-6xl">
-          <SectionHeader tag="// Block diagram" title="How the platform flows." />
-          <div className="mt-10 panel p-6 md:p-10">
-            <div className="flex flex-col items-center gap-3">
-              <BlockNode>Student</BlockNode>
-              <Arrow />
-              <BlockNode>Login & Profile</BlockNode>
-              <Arrow />
-              <BlockNode primary>AI Assessment Engine</BlockNode>
-              <Arrow />
-              <div className="grid w-full gap-3 md:grid-cols-5">
+            <aside className="animate-rise border-t-4 border-primary bg-background pt-6 lg:border-l-4 lg:border-t-0 lg:pl-8 lg:pt-0" aria-label="Popular learning paths">
+              <p className="font-mono text-xs font-bold uppercase tracking-widest text-primary">Start here</p>
+              <div className="mt-5 space-y-3">
                 {[
-                  "Learning Roadmap",
-                  "Doubt Solver",
-                  "PYQ Analysis",
-                  "Coding Practice",
-                  "Placement Module",
-                ].map((n) => (
-                  <BlockNode key={n}>{n}</BlockNode>
+                  { to: "/challenge", icon: Flame, title: "30-Day Python", meta: "Daily guided lessons", color: "text-orange" },
+                  { to: "/emoiq/top32", icon: Brain, title: "Top 32 Questions", meta: "Analyze your PYQs", color: "text-pink" },
+                  { to: "/placement", icon: BriefcaseBusiness, title: "Placement Sprint", meta: "Prepare end to end", color: "text-success" },
+                ].map(({ to, icon: Icon, title, meta, color }) => (
+                  <Link key={to} to={to} className="group flex items-center gap-4 rounded-md border border-border bg-background p-4 transition-all hover:-translate-y-0.5 hover:border-foreground hover:shadow-md">
+                    <Icon className={`h-6 w-6 ${color}`} />
+                    <span className="min-w-0 flex-1"><span className="block font-display font-bold">{title}</span><span className="block text-sm text-muted-foreground">{meta}</span></span>
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </Link>
                 ))}
               </div>
-              <Arrow />
-              <BlockNode>Progress Analytics</BlockNode>
-              <Arrow />
-              <BlockNode primary>Personalized Recommendations</BlockNode>
+            </aside>
+          </div>
+        </section>
+
+        <section className="px-4 py-16 md:py-20">
+          <div className="mx-auto max-w-7xl">
+            <SectionHeading eyebrow="Choose your next move" title="Everything you need, without the clutter." />
+            <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {quickActions.map(({ to, icon: Icon, title, desc, label, color, border }, index) => (
+                <Link key={to} to={to} className={`group panel panel-hover flex min-h-56 flex-col p-6 ${border}`}>
+                  <div className="flex items-start justify-between"><Icon className={`h-7 w-7 ${color}`} /><span className="font-mono text-xs text-muted-foreground">0{index + 1}</span></div>
+                  <h2 className="mt-8 font-display text-2xl font-bold">{title}</h2>
+                  <p className="mt-2 flex-1 text-sm leading-6 text-muted-foreground">{desc}</p>
+                  <span className={`mt-6 inline-flex items-center gap-2 text-sm font-bold ${color}`}>{label} <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" /></span>
+                </Link>
+              ))}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* MARKET */}
-      <section className="relative px-4 py-16">
-        <div className="mx-auto max-w-6xl">
-          <SectionHeader tag="// Market" title="Why now." />
-          <div className="mt-10 grid gap-4 md:grid-cols-4">
-            {[
-              { k: "40M+", v: "Higher-ed students in India" },
-              { k: "1.5M+", v: "Engineering graduates every year" },
-              { k: "70%+", v: "Struggle with placement readiness" },
-              { k: "SaaS", v: "Affordable college-wide deployment" },
-            ].map((s) => (
-              <div key={s.k} className="panel p-6 text-center">
-                <div className="font-display text-3xl font-bold text-primary md:text-4xl">
-                  {s.k}
+        <section className="border-y border-border px-4 py-16 md:py-20">
+          <div className="mx-auto max-w-7xl">
+            <SectionHeading eyebrow="A simple system" title="From confused to consistent." />
+            <div className="mt-10 grid gap-8 md:grid-cols-3">
+              {steps.map((step) => (
+                <div key={step.number} className="border-l-2 border-border pl-5 first:border-primary nth-[2]:border-orange nth-[3]:border-success">
+                  <span className="font-mono text-xs font-bold text-muted-foreground">{step.number}</span>
+                  <h2 className="mt-3 text-xl font-bold">{step.title}</h2>
+                  <p className="mt-2 text-sm leading-6 text-muted-foreground">{step.text}</p>
                 </div>
-                <div className="mt-2 text-sm text-muted-foreground">{s.v}</div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* WHY EMO */}
-      <section className="relative px-4 py-20">
-        <div className="mx-auto max-w-6xl">
-          <SectionHeader tag="// Why EMO Learners" title="Built for real students." />
-          <div className="mt-12 grid gap-px overflow-hidden rounded-2xl border border-border bg-border md:grid-cols-3">
-            {[
-              {
-                icon: Heart,
-                t: "100% free",
-                d: "Every note, every quiz, every course — free forever. No paywalls, no ads.",
-              },
-              {
-                icon: Clock,
-                t: "Made for your syllabus",
-                d: "Notes and PYQs match the RGPV Bhopal curriculum, by branch and semester.",
-              },
-              {
-                icon: ShieldCheck,
-                t: "Safe & simple",
-                d: "Secure login. Private file storage. Simple English on every page.",
-              },
-            ].map((c) => (
-              <div key={c.t} className="bg-surface/60 p-8 backdrop-blur-sm">
-                <c.icon className="h-5 w-5 text-primary" aria-hidden="true" />
-                <h4 className="mt-4 font-display text-xl font-bold">{c.t}</h4>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{c.d}</p>
-              </div>
-            ))}
+        <section className="px-4 py-16 md:py-20">
+          <div className="mx-auto flex max-w-7xl flex-col justify-between gap-8 border-2 border-foreground p-7 shadow-[6px_6px_0_var(--primary)] md:flex-row md:items-center md:p-10">
+            <div><span className="font-mono text-xs font-bold uppercase tracking-widest text-success">Built for students</span><h2 className="mt-3 text-3xl font-bold md:text-4xl">Your next focused study session starts here.</h2><p className="mt-3 text-muted-foreground">Create a free account to save progress and continue from any device.</p></div>
+            <Button asChild className="h-12 shrink-0 rounded-md px-7 font-bold"><Link to="/auth">Create free account <ArrowRight /></Link></Button>
           </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="relative px-4 py-24">
-        <div className="mx-auto max-w-5xl rounded-3xl border border-border bg-gradient-to-br from-primary/15 via-surface/40 to-background p-10 text-center backdrop-blur-sm md:p-16">
-          <h2 className="font-display text-3xl font-bold leading-none tracking-tighter md:text-5xl">
-            Ready to start? <br />
-            <span className="text-primary">Create a free account.</span>
-          </h2>
-          <p className="mx-auto mt-5 max-w-md text-muted-foreground">
-            Save your progress, bookmark chapters, and pick up right where you left off.
-          </p>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <Link
-              to="/auth"
-              className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-xs font-bold uppercase tracking-widest btn-grad transition-all hover:scale-105"
-            >
-              Sign up free <ArrowRight className="h-4 w-4" />
-            </Link>
-            <Link
-              to="/join"
-              className="inline-flex items-center gap-2 rounded-full border border-border bg-surface/60 px-6 py-3 text-xs font-bold uppercase tracking-widest text-foreground backdrop-blur-sm transition-all hover:border-primary hover:text-primary"
-            >
-              Join community
-            </Link>
-          </div>
-        </div>
-      </section>
-
+        </section>
+      </main>
       <Footer />
     </div>
   );
 }
 
-function SectionHeader({
-  tag,
-  title,
-  subtitle,
-}: {
-  tag: string;
-  title: string;
-  subtitle?: string;
-}) {
-  return (
-    <div className="flex flex-col items-start gap-3">
-      <span className="font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-primary">
-        {tag}
-      </span>
-      <h2 className="font-display text-3xl font-bold leading-none tracking-tighter md:text-5xl">
-        {title}
-      </h2>
-      {subtitle && <p className="mt-2 max-w-xl text-sm text-muted-foreground">{subtitle}</p>}
-    </div>
-  );
-}
-
-function BlockNode({ children, primary }: { children: React.ReactNode; primary?: boolean }) {
-  return (
-    <div
-      className={`w-full rounded-xl border px-4 py-3 text-center text-sm font-semibold uppercase tracking-widest ${primary ? "border-primary bg-primary/10 text-primary" : "border-border bg-surface/60 text-foreground"}`}
-    >
-      {children}
-    </div>
-  );
-}
-
-function Arrow() {
-  return <div className="h-6 w-px bg-border" aria-hidden="true" />;
+function SectionHeading({ eyebrow, title }: { eyebrow: string; title: string }) {
+  return <div className="max-w-3xl"><div className="flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-widest text-primary"><BookOpen className="h-4 w-4" /> {eyebrow}</div><h2 className="mt-4 font-display text-3xl font-bold leading-tight md:text-5xl">{title}</h2></div>;
 }
