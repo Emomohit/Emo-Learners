@@ -114,12 +114,28 @@ function AuthPage() {
                     if (typeof window !== "undefined") {
                       sessionStorage.setItem("postAuthRedirect", nextPath);
                     }
-                    const result = await lovable.auth.signInWithOAuth("google", {
-                      redirect_uri: window.location.origin,
-                    });
-                    if (result.error) throw result.error;
-                    if (result.redirected) return;
-                    nav({ to: nextPath });
+                    const host = window.location.hostname;
+                    if (host.endsWith("lovable.app") || host === "localhost") {
+                      // Managed broker flow — only valid on Lovable-hosted domains.
+                      const result = await lovable.auth.signInWithOAuth("google", {
+                        redirect_uri: window.location.origin,
+                      });
+                      if (result.error) throw result.error;
+                      if (result.redirected) return;
+                      nav({ to: nextPath });
+                    } else {
+                      // Any other hosting (Vercel, custom domain): raw Supabase OAuth.
+                      // Requires Google Client ID/Secret in Cloud → Users → Auth Settings → Google.
+                      const { error } = await supabase.auth.signInWithOAuth({
+                        provider: "google",
+                        options: {
+                          redirectTo: `${window.location.origin}/auth`,
+                          queryParams: { prompt: "select_account" },
+                        },
+                      });
+                      if (error) throw error;
+                      // Browser is navigating to Google; nothing else to do.
+                    }
                   } catch (err: any) {
                     toast.error(err?.message ?? "Google sign-in failed");
                   } finally {
