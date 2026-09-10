@@ -2,10 +2,23 @@ import { useCallback, useRef, useState } from "react";
 import { FileUp, Loader2, X, FileText } from "lucide-react";
 import { toast } from "sonner";
 
-// pdfjs worker setup (uses CDN worker matching installed version)
-import * as pdfjsLib from "pdfjs-dist";
-import workerUrl from "pdfjs-dist/build/pdf.worker.min.mjs?url";
-pdfjsLib.GlobalWorkerOptions.workerSrc = workerUrl;
+// pdfjs is heavy (~1MB); load it only when a file is actually dropped so pages stay fast.
+type PdfLib = typeof import("pdfjs-dist");
+let pdfLibPromise: Promise<PdfLib> | null = null;
+
+function loadPdfLib(): Promise<PdfLib> {
+  if (!pdfLibPromise) {
+    pdfLibPromise = (async () => {
+      const [lib, worker] = await Promise.all([
+        import("pdfjs-dist"),
+        import("pdfjs-dist/build/pdf.worker.min.mjs?url"),
+      ]);
+      lib.GlobalWorkerOptions.workerSrc = (worker as { default: string }).default;
+      return lib;
+    })();
+  }
+  return pdfLibPromise;
+}
 
 type FileEntry = { name: string; chars: number };
 
@@ -18,6 +31,7 @@ export type PdfDropzoneProps = {
 };
 
 async function extractPdfText(file: File): Promise<string> {
+  const pdfjsLib = await loadPdfLib();
   const buf = await file.arrayBuffer();
   const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
   let out = "";
