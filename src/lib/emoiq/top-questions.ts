@@ -1,3 +1,5 @@
+import { deriveDifficulty, type Difficulty } from "@/lib/emoiq/difficulty";
+
 export type TopQuestion = {
   q: string;
   subject: string;
@@ -5,6 +7,7 @@ export type TopQuestion = {
   marks: number;
   probability: number; // 0-100
   tags: string[];
+  difficulty: Difficulty;
 };
 
 // Curated top 32 most-repeated questions across core B.Tech CSE/IT/AIML subjects
@@ -16,6 +19,7 @@ export const TOP_QUESTIONS: TopQuestion[] = [
     unit: "Unit 1",
     marks: 10,
     probability: 96,
+    difficulty: "medium",
     tags: ["OSI", "layers"],
   },
   {
@@ -24,6 +28,7 @@ export const TOP_QUESTIONS: TopQuestion[] = [
     unit: "Unit 3",
     marks: 7,
     probability: 94,
+    difficulty: "easy",
     tags: ["TCP", "UDP"],
   },
   {
@@ -32,6 +37,7 @@ export const TOP_QUESTIONS: TopQuestion[] = [
     unit: "Unit 2",
     marks: 7,
     probability: 88,
+    difficulty: "easy",
     tags: ["MAC"],
   },
 
@@ -41,6 +47,7 @@ export const TOP_QUESTIONS: TopQuestion[] = [
     unit: "Unit 4",
     marks: 7,
     probability: 95,
+    difficulty: "easy",
     tags: ["ACID", "transactions"],
   },
   {
@@ -49,6 +56,7 @@ export const TOP_QUESTIONS: TopQuestion[] = [
     unit: "Unit 3",
     marks: 10,
     probability: 93,
+    difficulty: "medium",
     tags: ["normalization"],
   },
   {
@@ -57,6 +65,7 @@ export const TOP_QUESTIONS: TopQuestion[] = [
     unit: "Unit 5",
     marks: 7,
     probability: 85,
+    difficulty: "easy",
     tags: ["indexing", "B+ tree"],
   },
   {
@@ -65,6 +74,7 @@ export const TOP_QUESTIONS: TopQuestion[] = [
     unit: "Unit 2",
     marks: 7,
     probability: 90,
+    difficulty: "easy",
     tags: ["SQL"],
   },
 
@@ -74,6 +84,7 @@ export const TOP_QUESTIONS: TopQuestion[] = [
     unit: "Unit 1",
     marks: 7,
     probability: 92,
+    difficulty: "easy",
     tags: ["process", "PCB"],
   },
   {
@@ -82,6 +93,7 @@ export const TOP_QUESTIONS: TopQuestion[] = [
     unit: "Unit 3",
     marks: 10,
     probability: 91,
+    difficulty: "medium",
     tags: ["deadlock", "banker"],
   },
   {
@@ -90,6 +102,7 @@ export const TOP_QUESTIONS: TopQuestion[] = [
     unit: "Unit 4",
     marks: 10,
     probability: 94,
+    difficulty: "medium",
     tags: ["paging"],
   },
   {
@@ -98,6 +111,7 @@ export const TOP_QUESTIONS: TopQuestion[] = [
     unit: "Unit 2",
     marks: 7,
     probability: 86,
+    difficulty: "easy",
     tags: ["synchronization"],
   },
 
@@ -107,6 +121,7 @@ export const TOP_QUESTIONS: TopQuestion[] = [
     unit: "Unit 2",
     marks: 7,
     probability: 93,
+    difficulty: "easy",
     tags: ["sorting", "big-O"],
   },
   {
@@ -115,6 +130,7 @@ export const TOP_QUESTIONS: TopQuestion[] = [
     unit: "Unit 4",
     marks: 10,
     probability: 90,
+    difficulty: "medium",
     tags: ["graph", "shortest path"],
   },
   {
@@ -123,6 +139,7 @@ export const TOP_QUESTIONS: TopQuestion[] = [
     unit: "Unit 3",
     marks: 7,
     probability: 84,
+    difficulty: "easy",
     tags: ["tree", "AVL"],
   },
   {
@@ -131,6 +148,7 @@ export const TOP_QUESTIONS: TopQuestion[] = [
     unit: "Unit 5",
     marks: 10,
     probability: 88,
+    difficulty: "medium",
     tags: ["DP", "knapsack"],
   },
 
@@ -140,6 +158,7 @@ export const TOP_QUESTIONS: TopQuestion[] = [
     unit: "Unit 1",
     marks: 7,
     probability: 89,
+    difficulty: "easy",
     tags: ["SDLC", "agile"],
   },
   {
@@ -148,6 +167,7 @@ export const TOP_QUESTIONS: TopQuestion[] = [
     unit: "Unit 2",
     marks: 7,
     probability: 82,
+    difficulty: "easy",
     tags: ["DFD"],
   },
   {
@@ -156,6 +176,7 @@ export const TOP_QUESTIONS: TopQuestion[] = [
     unit: "Unit 4",
     marks: 7,
     probability: 85,
+    difficulty: "easy",
     tags: ["testing"],
   },
 
@@ -165,6 +186,7 @@ export const TOP_QUESTIONS: TopQuestion[] = [
     unit: "Unit 3",
     marks: 7,
     probability: 84,
+    difficulty: "easy",
     tags: ["pipelining"],
   },
   {
@@ -173,6 +195,7 @@ export const TOP_QUESTIONS: TopQuestion[] = [
     unit: "Unit 2",
     marks: 10,
     probability: 82,
+    difficulty: "medium",
     tags: ["ALU", "Booth"],
   },
   {
@@ -181,6 +204,7 @@ export const TOP_QUESTIONS: TopQuestion[] = [
     unit: "Unit 4",
     marks: 7,
     probability: 80,
+    difficulty: "easy",
     tags: ["cache"],
   },
 
@@ -190,6 +214,7 @@ export const TOP_QUESTIONS: TopQuestion[] = [
     unit: "Unit 2",
     marks: 10,
     probability: 90,
+    difficulty: "medium",
     tags: ["automata", "NFA"],
   },
   {
@@ -198,6 +223,7 @@ export const TOP_QUESTIONS: TopQuestion[] = [
     unit: "Unit 3",
     marks: 7,
     probability: 78,
+    difficulty: "easy",
     tags: ["pumping lemma"],
   },
   {
@@ -206,6 +232,7 @@ export const TOP_QUESTIONS: TopQuestion[] = [
     unit: "Unit 5",
     marks: 10,
     probability: 76,
+    difficulty: "medium",
     tags: ["Turing"],
   },
 
@@ -215,6 +242,7 @@ export const TOP_QUESTIONS: TopQuestion[] = [
     unit: "Unit 1",
     marks: 7,
     probability: 95,
+    difficulty: "easy",
     tags: ["ML types"],
   },
   {
@@ -223,6 +251,7 @@ export const TOP_QUESTIONS: TopQuestion[] = [
     unit: "Unit 4",
     marks: 10,
     probability: 92,
+    difficulty: "medium",
     tags: ["neural net", "backprop"],
   },
   {
@@ -231,6 +260,7 @@ export const TOP_QUESTIONS: TopQuestion[] = [
     unit: "Unit 2",
     marks: 7,
     probability: 88,
+    difficulty: "easy",
     tags: ["overfitting"],
   },
   {
@@ -239,6 +269,7 @@ export const TOP_QUESTIONS: TopQuestion[] = [
     unit: "Unit 3",
     marks: 7,
     probability: 84,
+    difficulty: "easy",
     tags: ["classifiers"],
   },
 
@@ -248,6 +279,7 @@ export const TOP_QUESTIONS: TopQuestion[] = [
     unit: "Unit 1",
     marks: 7,
     probability: 87,
+    difficulty: "easy",
     tags: ["agents", "PEAS"],
   },
   {
@@ -256,6 +288,7 @@ export const TOP_QUESTIONS: TopQuestion[] = [
     unit: "Unit 2",
     marks: 10,
     probability: 90,
+    difficulty: "medium",
     tags: ["search", "A*"],
   },
 
@@ -265,6 +298,7 @@ export const TOP_QUESTIONS: TopQuestion[] = [
     unit: "Unit 1",
     marks: 7,
     probability: 93,
+    difficulty: "easy",
     tags: ["OOP"],
   },
   {
@@ -273,6 +307,7 @@ export const TOP_QUESTIONS: TopQuestion[] = [
     unit: "Unit 3",
     marks: 7,
     probability: 82,
+    difficulty: "easy",
     tags: ["exceptions"],
   },
 ];
