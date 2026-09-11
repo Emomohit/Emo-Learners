@@ -68,5 +68,69 @@ export const exchangeGoogleCode = createServerFn({ method: "POST" })
     const body = (await res.json()) as { id_token?: string };
     if (!body.id_token) throw new Error("google_exchange_failed");
 
-    return { idToken: body.id_token };
+    // The token came straight from Google's token endpoint over TLS, using our
+    // own client secret, so the payload is trustworthy. We still check the
+    // basics before trusting the email.
+    const payload = decodeJwtPayload(body.id_token);
+    const email = typeof payload.email === "string" ? payload.email.toLowerCase().trim() : "";
+    const emailVerified = payload.email_verified === true || payload.email_verified === "true";
+    const audience = typeof payload.aud === "string" ? payload.aud : "";
+    const issuer = typeof payload.iss === "string" ? payload.iss : "";
+    const expiry = typeof payload.exp === "number" ? payload.exp : 0;
+
+    if (
+      !email ||
+      !emailVerified ||
+      audience !== clientId ||
+      !["accounts.google.com", "https://accounts.google.com"].includes(issuer) ||
+      expiry * 1000 < Date.now()
+    ) {
+      throw new Error("google_token_rejected");
+    }
+
+    const fullName = typeof payload.name === "string" ? payload.name : "";
+    const picture = typeof payload.picture === "string" ? payload.picture : "";
+
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+    // Find the matching account, or create one for a first-time Google student.
+    const { data: existing } = await supabaseAdmin.auth.admin.listUsers({ page: 1, perPage: 1000 });
+    let user = existing?.users.find((u) => u.email?.toLowerCase() === email);
+
+    if (!user) {
+      const { data: created, error: createErr } = await supabaseAdmin.auth.admin.createUser({
+        email,
+        email_confirm: true,
+        user_metadata: { full_name: fullName, avatar_url: picture, signup_provider: "google" },
+      });
+      if (createErr || !created.user) {
+        console.error("Google user creation failed:", createErr?.message);
+        throw new Error("google_account_setup_failed");
+      }
+      user = created.user;
+    } else if (fullName && !user.user_metadata?.full_name) {
+      await supabaseAdmin.auth.admin.updateUserById(user.id, {
+        user_metadata: { ...user.user_metadata, full_name: fullName, avatar_url: picture },
+      });
+    }
+
+    // Mint a single-use sign-in token. Only its hash leaves the server.
+    const { data: link, error: linkErr } = await supabaseAdmin.auth.admin.generateLink({
+      type: "magiclink",
+      email,
+    });
+    if (linkErr || !link.properties?.hashed_token) {
+      console.error("Google session token failed:", linkErr?.message);
+      throw new Error("google_session_failed");
+    }
+
+    return { tokenHash: link.properties.hashed_token };
   });
+
+function decodeJwtPayload(token: string): Record<string, unknown> {
+  const part = token.split(".")[1];
+  if (!part) throw new Error("google_token_rejected");
+  const json = atob(part.replace(/-/g, "+").replace(/_/g, "/"));
+  return JSON.parse(json) as Record<string, unknown>;
+}
+
