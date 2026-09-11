@@ -17,6 +17,10 @@ The implementation will use the supplied URLs and their current verified YouTube
 - **Graph Series**: verified playlist with 17 resolved videos plus 1 unavailable entry. The unavailable entry remains represented as unavailable; no replacement is used. The playlist has 18 entries, so it will not be mislabeled as only 12 days.
 - **AI Engineer**: verified playlist with 27 videos. Week labels will be used only where supported by the source titles/order; lessons will not be forced into invented ten-week groupings.
 
+### Verified creator attribution
+
+All five playlist courses will credit **Pratyush Narain**, creator and teacher of **Padho With Pratyush**. Public professional information identifies him as a software engineer at Akamai Technologies and an IIT (ISM) Dhanbad alumnus associated with the Padho With Pratyush YouTube channel. The app will link to his official channel and public professional profile rather than inventing a biography, achievements, or teaching claims.
+
 ## Courses implementation
 
 ### 1. Replace placeholder course data
@@ -49,6 +53,8 @@ The implementation will use the supplied URLs and their current verified YouTube
 ### 4. Upgrade the Courses library and player screen
 
 - Course cards will show the actual thumbnail, verified title/source, instructor/channel, level, actual duration, module count, progress, and Start/Continue action.
+- DSA Basics, DSA Patterns, Recursion, Graph Series, and AI Engineer will consistently show **Teacher: Pratyush Narain** and **Creator: Padho With Pratyush** on their cards and learning screens.
+- Add a compact teacher section for these five courses with only verified public facts, plus **Visit YouTube Channel** and **View Professional Profile** links.
 - Add search across course titles, instructors, channels, tags, and module/chapter titles.
 - Add category, level, duration, and instructor filters using the requested category vocabulary.
 - Keep the existing restrained visual design and only restructure the course player into the requested player/content/sidebar layout.
@@ -91,6 +97,7 @@ The implementation will use the supplied URLs and their current verified YouTube
 
 - Validate that every stored source URL/ID exactly matches the user-supplied source list.
 - Compare every single-video chapter against official source timestamps and every playlist module against the retrieved order/title/duration.
+- Verify that all five Padho With Pratyush courses display Pratyush Narain consistently and that both creator links open the correct public profiles.
 - Confirm the three supplied single videos load in-app and chapter clicks seek accurately.
 - Confirm playlist module switching, unavailable-entry fallback, previous/next, completion, timestamp persistence, and cross-device resume behavior.
 - Test search and every filter on desktop and mobile with no overflow or text overlap.
