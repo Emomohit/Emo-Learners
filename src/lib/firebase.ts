@@ -33,14 +33,8 @@ export function getFirebaseAuth(): Promise<Auth> {
   if (typeof window === "undefined") return Promise.reject(new Error("Browser only"));
   if (!authPromise) {
     authPromise = (async () => {
-      let config: typeof WEB_CONFIG = WEB_CONFIG;
-      if (!config.apiKey) {
-        // Fall back to backend-provided config when no build-time key is set.
-        const remote = await getFirebaseWebConfig().catch(() => null);
-        if (!remote?.enabled) throw new Error("firebase/not-configured");
-        const { enabled: _enabled, ...rest } = remote;
-        config = rest;
-      }
+      const config = WEB_CONFIG;
+      if (!config.apiKey) throw new Error("firebase/not-configured");
       const app: FirebaseApp = getApps()[0] ?? initializeApp(config);
       return getAuth(app);
     })().catch((err) => {
