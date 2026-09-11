@@ -1,4 +1,4 @@
-import { useState, useCallback, useId } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { Youtube, AlertTriangle, ExternalLink, Play } from "lucide-react";
 
 type Props = {
@@ -6,17 +6,24 @@ type Props = {
   startTime?: number;
   title?: string;
   className?: string;
+  onProgress?: (seconds: number) => void;
+  onEnded?: () => void;
+  onError?: () => void;
 };
+
+type YTPlayer = { destroy: () => void; getCurrentTime: () => number };
+declare global { interface Window { YT?: { Player: new (node: HTMLElement, options: unknown) => YTPlayer }; onYouTubeIframeAPIReady?: () => void } }
 
 /**
  * Lazy-loaded YouTube embed player.
  * Renders a clickable thumbnail first, loads the iframe on interaction.
  * Handles error states (unavailable / embedding disabled).
  */
-export function YouTubePlayer({ videoId, startTime = 0, title = "Video", className = "" }: Props) {
+export function YouTubePlayer({ videoId, startTime = 0, title = "Video", className = "", onProgress, onEnded, onError }: Props) {
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
-  const iframeId = useId();
+  const hostRef = useRef<HTMLDivElement>(null);
+  const playerRef = useRef<YTPlayer | null>(null);
 
   const thumbnailUrl = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
   const startParam = Math.max(0, Math.floor(startTime));
@@ -29,7 +36,37 @@ export function YouTubePlayer({ videoId, startTime = 0, title = "Video", classNa
 
   const handleError = useCallback(() => {
     setError(true);
-  }, []);
+    onError?.();
+  }, [onError]);
+
+  useEffect(() => {
+    if (!loaded || !hostRef.current) return;
+    let interval: ReturnType<typeof setInterval> | undefined;
+    const createPlayer = () => {
+      if (!window.YT?.Player || !hostRef.current) return;
+      playerRef.current?.destroy();
+      playerRef.current = new window.YT.Player(hostRef.current, {
+        videoId,
+        playerVars: { start: startParam, rel: 0, modestbranding: 1 },
+        events: {
+          onReady: () => { interval = setInterval(() => onProgress?.(playerRef.current?.getCurrentTime() || 0), 5000); },
+          onStateChange: (event: { data: number }) => { if (event.data === 0) onEnded?.(); },
+          onError: handleError,
+        },
+      });
+    };
+    if (window.YT?.Player) createPlayer();
+    else {
+      const previous = window.onYouTubeIframeAPIReady;
+      window.onYouTubeIframeAPIReady = () => { previous?.(); createPlayer(); };
+      if (!document.querySelector('script[src="https://www.youtube.com/iframe_api"]')) {
+        const script = document.createElement("script");
+        script.src = "https://www.youtube.com/iframe_api";
+        document.head.appendChild(script);
+      }
+    }
+    return () => { if (interval) clearInterval(interval); playerRef.current?.destroy(); playerRef.current = null; };
+  }, [loaded, videoId, startParam, onProgress, onEnded, handleError]);
 
   if (!videoId) {
     return (
@@ -92,17 +129,7 @@ export function YouTubePlayer({ videoId, startTime = 0, title = "Video", classNa
             </div>
           </button>
         ) : (
-          <iframe
-            id={iframeId}
-            src={embedUrl}
-            title={title}
-            className="absolute inset-0 h-full w-full"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerPolicy="strict-origin-when-cross-origin"
-            allowFullScreen
-            onError={handleError}
-          />
+          <div ref={hostRef} title={title} className="absolute inset-0 h-full w-full" />
         )}
       </div>
     </div>
