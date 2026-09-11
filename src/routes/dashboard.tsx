@@ -106,6 +106,11 @@ function Dashboard() {
           </DashboardPanel>
         </section>
 
+        {progressQuery.isError ? (
+          <section className="mt-10">
+            <ErrorState title="Learning overview could not load" onRetry={() => progressQuery.refetch()} />
+          </section>
+        ) : <>
         <section className="mt-10">
           <SectionHeading title="Continue Learning" />
           {progressQuery.isLoading ? <Skeleton className="h-56" /> : current ? (
@@ -152,6 +157,7 @@ function Dashboard() {
             {recommendations.map((course) => <Link key={course.slug} to="/courses/$slug" params={{ slug: course.slug }} search={{ chapter: undefined }} className="group overflow-hidden rounded-lg border border-border bg-surface/20 transition-colors hover:border-primary"><img src={course.thumbnailUrl || `https://img.youtube.com/vi/${course.videoId}/hqdefault.jpg`} alt={`${course.title} thumbnail`} className="aspect-video w-full object-cover" loading="lazy" /><div className="p-4"><p className="font-display text-lg font-bold group-hover:text-primary">{course.title}</p><p className="mt-1 text-sm text-muted-foreground">{course.level} · {course.chapters.length} lessons</p></div></Link>)}
           </div>
         </section>
+        </>}
       </main>
       <Footer />
     </div>
