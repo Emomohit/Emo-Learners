@@ -103,7 +103,8 @@ function AuthPage() {
     try {
       sessionStorage.setItem("postAuthRedirect", nextPath);
       const result = await lovable.auth.signInWithOAuth("google", {
-        redirect_uri: window.location.origin,
+        // Return to our own callback page on this domain, which finishes the session.
+        redirect_uri: `${window.location.origin}/auth/callback`,
         extraParams: { prompt: "select_account" },
       });
       if (result.error) throw result.error;
