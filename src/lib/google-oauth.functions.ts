@@ -114,17 +114,10 @@ export const exchangeGoogleCode = createServerFn({ method: "POST" })
       });
     }
 
-    // Mint a single-use sign-in token. Only its hash leaves the server.
-    const { data: link, error: linkErr } = await supabaseAdmin.auth.admin.generateLink({
-      type: "magiclink",
-      email,
-    });
-    if (linkErr || !link.properties?.hashed_token) {
-      console.error("Google session token failed:", linkErr?.message);
-      throw new Error("google_session_failed");
-    }
-
-    return { tokenHash: link.properties.hashed_token };
+    // Return only the Google ID token. The browser hands it to Supabase
+    // signInWithIdToken, which verifies it with Google's public keys and
+    // creates the session. Google's access/refresh tokens never leave the server.
+    return { idToken: body.id_token };
   });
 
 function decodeJwtPayload(token: string): Record<string, unknown> {
