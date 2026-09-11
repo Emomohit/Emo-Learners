@@ -1,9 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
 import { courses, CATEGORIES } from "@/lib/course-data";
-import { getAllProgress, CourseProgress } from "@/lib/course-progress";
+import { useCourseProgresses } from "@/lib/course-progress";
 import { ArrowRight, Clock, GraduationCap, PlayCircle, Sparkles, Search, Play } from "lucide-react";
 
 export const Route = createFileRoute("/courses/")({
@@ -20,11 +20,8 @@ function CoursesIndex() {
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [selectedLevel, setSelectedLevel] = useState<string>("All");
-  const [progressData, setProgressData] = useState<{slug: string, progress: CourseProgress}[]>([]);
-
-  useEffect(() => {
-    setProgressData(getAllProgress());
-  }, []);
+  const progressQuery = useCourseProgresses();
+  const progressData = progressQuery.data ?? [];
 
   const filteredCourses = useMemo(() => {
     return courses.filter((c) => {
@@ -81,7 +78,7 @@ function CoursesIndex() {
                     key={slug} 
                     to="/courses/$slug"
                     params={{ slug }}
-                     search={{}}
+                     search={{ chapter: progress.lastChapterId }}
                     className="group panel p-5 rounded-2xl transition-all hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5"
                   >
                     <div className="flex items-start justify-between mb-4">
@@ -161,7 +158,7 @@ function CoursesIndex() {
                     key={c.slug}
                     to="/courses/$slug"
                     params={{ slug: c.slug }}
-                    search={{}}
+                    search={{ chapter: undefined }}
                     className="group flex flex-col overflow-hidden panel panel-hover animate-rise rounded-2xl border border-border bg-surface/20"
                     style={{ animationDelay: `${i * 50}ms` }}
                   >
