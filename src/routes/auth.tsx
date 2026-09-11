@@ -79,6 +79,58 @@ function AuthPage() {
   }, [loading, user, nav, nextPath]);
 
 
+  // Firebase Google sign-in → EMO Learners session. Existing email/password
+  // sign-in below is untouched and keeps working exactly as before.
+  const completeFirebaseSignIn = async (idToken: string) => {
+    const { firebaseGoogleBridge } = await import("@/lib/firebase-bridge.functions");
+    const { email: bridgedEmail, tokenHash } = await firebaseGoogleBridge({ data: { idToken } });
+    const { error } = await supabase.auth.verifyOtp({ type: "email", token_hash: tokenHash });
+    if (error) throw error;
+    toast.success(`Signed in as ${bridgedEmail}`);
+    nav({ to: nextPath });
+  };
+
+  const handleGoogle = async () => {
+    setBusy(true);
+    try {
+      if (typeof window !== "undefined") sessionStorage.setItem("postAuthRedirect", nextPath);
+      const { firebaseGoogleSignIn } = await import("@/lib/firebase");
+      const idToken = await firebaseGoogleSignIn();
+      if (!idToken) return; // redirect flow took over
+      await completeFirebaseSignIn(idToken);
+    } catch (err) {
+      console.error("Google sign-in failed:", err);
+      const { friendlyFirebaseError } = await import("@/lib/firebase");
+      toast.error(friendlyFirebaseError(err));
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  // Pick up a Google sign-in that came back through the redirect flow (mobile).
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const { firebaseRedirectIdToken } = await import("@/lib/firebase");
+        const idToken = await firebaseRedirectIdToken();
+        if (!idToken || cancelled) return;
+        setBusy(true);
+        await completeFirebaseSignIn(idToken);
+      } catch (err) {
+        console.error("Google redirect sign-in failed:", err);
+        const { friendlyFirebaseError } = await import("@/lib/firebase");
+        toast.error(friendlyFirebaseError(err));
+      } finally {
+        if (!cancelled) setBusy(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setBusy(true);
