@@ -45,13 +45,16 @@ const BRANCHES = ["CSE", "IT", "AIML", "ECE", "EE", "Mechanical", "Civil"] as co
 function friendlyError(msg: string): string {
   const m = msg.toLowerCase();
   if (m.includes("failed to fetch") || m.includes("network"))
-    return "Network hiccup. Check your connection and try again.";
-  if (m.includes("401") || m.includes("unauthor")) return "Please sign in to generate a roadmap.";
+    return "We couldn't reach the server. Please check your internet connection and try again.";
+  if (m.includes("401") || m.includes("unauthor"))
+    return "Please sign in first so your roadmap can be saved to your account.";
   if (m.includes("429") || m.includes("rate"))
-    return "You're going a bit fast — wait a moment and retry.";
-  if (m.includes("timeout")) return "The AI took too long. Try fewer weeks or retry.";
-  return msg || "Something went wrong. Please try again.";
+    return "That was a lot of requests in a short time. Please wait a minute and try again.";
+  if (m.includes("timeout"))
+    return "This took longer than expected. Try planning fewer weeks, then try again.";
+  return "We couldn't generate your roadmap right now. Please try again in a moment.";
 }
+
 
 function RoadmapPage() {
   const [branch, setBranch] = useState<string>("CSE");

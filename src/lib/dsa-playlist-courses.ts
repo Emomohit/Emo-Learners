@@ -27,7 +27,7 @@ function formatDuration(seconds: number) {
 export const dsaPlaylistCourses: Course[] = [
   {
     slug: "dsa-basics", language: "C++ / Java / Python", title: "DSA Basics",
-    tagline: "DSA basics C++ JAVA Python", description: "Build programming foundations before moving into interview patterns.",
+    tagline: "DSA basics C++ JAVA Python", description: "The starting point if you have never written a program before. Over four sessions you cover basic syntax in C++, Java and Python, conditionals and loops, functions, and your first look at arrays and linked lists. No prerequisites at all. Finish this before attempting the DSA Patterns course.",
     emoji: "\ud83e\udde0", level: "Beginner", hours: "2 hr 14 min",
     ...teacher, videoId: "jk_A6Aue98I", thumbnailUrl: "https://i.ytimg.com/vi/jk_A6Aue98I/hqdefault.jpg",
     sourceUrl: "https://youtube.com/playlist?list=PLbJhGqY-mq44tdtsBxMG00DMttxm9JspQ&si=mqS1Y5HSY5UzJ056", playlistId: "PLbJhGqY-mq44tdtsBxMG00DMttxm9JspQ", accent: "", type: "playlist",
@@ -36,7 +36,7 @@ export const dsaPlaylistCourses: Course[] = [
   },
   {
     slug: "dsa-patterns", language: "C++ / Java / Python", title: "DSA Patterns 2025",
-    tagline: "DSA Patterns 2025 | Crack FAANG in 3 Months | DSA Patterns by IITian", description: "Learn reusable problem-solving patterns for coding interviews.",
+    tagline: "DSA Patterns 2025 | Crack FAANG in 3 Months | DSA Patterns by IITian", description: "The main interview-preparation course: instead of memorising individual problems, you learn the patterns behind them — two pointers, sliding window, prefix sum, merge intervals, slow-fast pointers, stacks, hashmaps, binary search, heaps, recursion, trees, graphs, dynamic programming, bit manipulation and greedy. Each pattern is taught with intuition first, then solved interview questions, then a quick revision video. You should already know one language and basic arrays/loops. Expect to spend a few months here if you are targeting product companies.",
     emoji: "\ud83e\udde0", level: "Intermediate", hours: "68 hr 58 min",
     ...teacher, videoId: "qH2VQY48mg4", thumbnailUrl: "https://i.ytimg.com/vi/qH2VQY48mg4/hqdefault.jpg",
     sourceUrl: "https://youtube.com/playlist?list=PLbJhGqY-mq47k_WLUtzVjmarUm1EuXPj2&si=WRLgfF6o_Nv2IO8r", playlistId: "PLbJhGqY-mq47k_WLUtzVjmarUm1EuXPj2", accent: "", type: "playlist",
@@ -45,7 +45,7 @@ export const dsaPlaylistCourses: Course[] = [
   },
   {
     slug: "dsa-recursion", language: "C++ / Java / Python", title: "Recursion DSA Patterns",
-    tagline: "Recursion DSA Patterns | Noob To Advanced | Essential For Dynamic Programming", description: "Move from recursion fundamentals to backtracking patterns.",
+    tagline: "Recursion DSA Patterns | Noob To Advanced | Essential For Dynamic Programming", description: "A focused series on the one topic most students find hardest. It starts with how a recursive call actually works, gives you a fixed template you can reuse, and then applies it to backtracking and combination problems. Basic loops and functions are enough to begin. Do this before dynamic programming — DP will feel far easier afterwards.",
     emoji: "\ud83e\udde0", level: "Intermediate", hours: "4 hr 12 min",
     ...teacher, videoId: "GNz8F8MCOsU", thumbnailUrl: "https://i.ytimg.com/vi/GNz8F8MCOsU/hqdefault.jpg",
     sourceUrl: "https://youtube.com/playlist?list=PLbJhGqY-mq477LQUhVrkFKUB0B3BxHcjD&si=otxL8YshF1E51RB4", playlistId: "PLbJhGqY-mq477LQUhVrkFKUB0B3BxHcjD", accent: "", type: "playlist",
@@ -54,7 +54,7 @@ export const dsaPlaylistCourses: Course[] = [
   },
   {
     slug: "dsa-graphs", language: "C++ / Java / Python", title: "Graph Series",
-    tagline: "Graph series | Master GRAPHS in 12 Days | DSA Patterns", description: "Study graph representation, traversal, shortest paths, and spanning trees.",
+    tagline: "Graph series | Master GRAPHS in 12 Days | DSA Patterns", description: "A complete graph series covering adjacency matrix versus adjacency list, DFS and BFS, cycle detection, topological sort, bipartite checking, multi-source BFS, Dijkstra, Bellman-Ford and Prim's minimum spanning tree, along with the graph questions asked most often in interviews. Recursion and basic data structures are assumed. One video in the original playlist is no longer available on YouTube and is marked as unavailable here.",
     emoji: "\ud83e\udde0", level: "Advanced", hours: "10 hr 5 min",
     ...teacher, videoId: "HpsjPUwQHfw", thumbnailUrl: "https://i.ytimg.com/vi/HpsjPUwQHfw/hqdefault.jpg",
     sourceUrl: "https://youtube.com/playlist?list=PLbJhGqY-mq45iQU6ogidPlLdMuSzGanpC&si=Plfd2I5_NofG4Epb", playlistId: "PLbJhGqY-mq45iQU6ogidPlLdMuSzGanpC", accent: "", type: "playlist",
@@ -63,7 +63,7 @@ export const dsaPlaylistCourses: Course[] = [
   },
   {
     slug: "ai-engineer-10-weeks", language: "Python", title: "AI Engineer In 10 Weeks",
-    tagline: "AI Engineer In 10 Weeks | No Maths No Statistics | Crack AI Interviews", description: "Build practical AI applications with LLMs, prompting, agents, RAG, and LangGraph.",
+    tagline: "AI Engineer In 10 Weeks | No Maths No Statistics | Crack AI Interviews", description: "A practical AI engineering course that skips heavy maths and statistics. You work with large language models, prompting techniques, embeddings, retrieval-augmented generation, agents and LangGraph, and build applications you can actually show in an interview. Comfort with Python is required. Best taken after you finish a Python course.",
     emoji: "\ud83e\udd16", level: "Intermediate", hours: "12 hr 37 min",
     ...teacher, videoId: "ahaLgJr3HcU", thumbnailUrl: "https://i.ytimg.com/vi/ahaLgJr3HcU/hqdefault.jpg",
     sourceUrl: "https://youtube.com/playlist?list=PLW4OpyGE0RdY&si=bxbMYIAnnBhySRJk", playlistId: "PLW4OpyGE0RdY", accent: "", type: "playlist",

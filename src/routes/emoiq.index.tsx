@@ -75,8 +75,8 @@ function EmoIqHome() {
             </span>
           </h1>
           <p className="mt-5 max-w-2xl text-lg text-muted-foreground">
-            Beat the exam, not the syllabus. EMoIQ reads your past-year papers, predicts what's
-            likely to come, and builds a plan you can actually finish.
+            Upload your previous year papers and EMoIQ tells you which units carry the most marks,
+            which questions keep repeating, and what to study first with the days you have left.
           </p>
         </div>
       </section>

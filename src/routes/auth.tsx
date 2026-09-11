@@ -14,6 +14,30 @@ export const Route = createFileRoute("/auth")({
   component: AuthPage,
 });
 
+/**
+ * Turns raw auth errors into something a student can act on.
+ * The original error is logged for developers, never shown as-is.
+ */
+function friendlyAuthError(raw?: string) {
+  const message = (raw ?? "").toLowerCase();
+  if (message.includes("invalid login credentials"))
+    return "That email and password combination doesn't match. Please check both and try again.";
+  if (message.includes("email not confirmed"))
+    return "Please confirm your email address first, then sign in again.";
+  if (message.includes("already registered") || message.includes("already been registered"))
+    return "An account with this email already exists. Please sign in instead.";
+  if (message.includes("password"))
+    return "Please use a password of at least 8 characters.";
+  if (message.includes("email"))
+    return "Please enter a valid email address.";
+  if (message.includes("rate limit") || message.includes("too many"))
+    return "Too many attempts just now. Please wait a minute and try again.";
+  if (message.includes("network") || message.includes("fetch"))
+    return "We couldn't reach the server. Please check your internet connection and try again.";
+  return "We couldn't complete that right now. Please try again in a moment.";
+}
+
+
 function AuthPage() {
   const nav = useNavigate();
   const { user, loading } = useAuth();
@@ -78,7 +102,8 @@ function AuthPage() {
         nav({ to: nextPath });
       }
     } catch (err: any) {
-      toast.error(err.message ?? "Something went wrong");
+      console.error("Auth failed:", err);
+      toast.error(friendlyAuthError(err?.message));
     } finally {
       setBusy(false);
     }
@@ -98,11 +123,14 @@ function AuthPage() {
               </div>
             </div>
             <h1 className="mt-6 text-center font-display text-3xl font-bold tracking-tighter">
-              {mode === "signin" ? "Welcome back" : "Join the squad"}
+              {mode === "signin" ? "Welcome back" : "Create your account"}
             </h1>
             <p className="mt-2 text-center text-sm text-muted-foreground">
-              {mode === "signin" ? "Login to your study hub" : "Free forever. No spam."}
+              {mode === "signin"
+                ? "Sign in to continue your courses and saved progress."
+                : "Free to use. Your progress is saved so you can continue on any device."}
             </p>
+
 
             <div className="mt-6">
               <button
@@ -124,7 +152,8 @@ function AuthPage() {
                     });
                     if (error) throw error;
                   } catch (err: any) {
-                    toast.error(err?.message ?? "Google sign-in failed");
+                    console.error("Google sign-in failed:", err);
+                    toast.error("We couldn't sign you in with Google. Please try again, or use your email and password.");
                   } finally {
                     setBusy(false);
                   }

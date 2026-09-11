@@ -86,11 +86,11 @@ function Home() {
       <main>
         <section className="border-b border-border px-4 py-14 md:py-20">
           <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.25fr_.75fr]">
-            <div className="animate-rise">
+            <div className="animate-rise min-w-0">
               <div className="inline-flex items-center gap-2 border-l-4 border-yellow pl-3 font-mono text-xs font-bold uppercase tracking-widest text-foreground">
                 <Sparkles className="h-4 w-4 text-orange" /> Free for every student
               </div>
-              <h1 className="mt-7 max-w-4xl font-display text-5xl font-bold leading-[.98] sm:text-6xl md:text-7xl">
+              <h1 className="mt-7 max-w-4xl break-words font-display text-[clamp(2rem,10vw,3rem)] font-bold leading-[1.02] sm:text-6xl md:text-7xl">
                 Learn smarter. <span className="text-primary">Score better.</span>{" "}
                 <span className="text-pink">Build your future.</span>
               </h1>

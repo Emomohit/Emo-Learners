@@ -68,13 +68,13 @@ function Dashboard() {
               Welcome back{profileQuery.data?.full_name ? `, ${profileQuery.data.full_name.split(" ")[0]}` : ""}.
             </h1>
           )}
-          <p className="mt-3 text-muted-foreground">Your profile, next lesson, and real learning progress in one place.</p>
+          <p className="mt-3 text-muted-foreground">Pick up your last chapter, check your progress and keep your profile details up to date.</p>
         </header>
 
         <section className="mt-8 grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
           <DashboardPanel title="My Profile" action={<Button asChild variant="outline" size="sm"><Link to="/profile"><Pencil /> Edit Profile</Link></Button>}>
             {profileQuery.isLoading ? <ProfileSkeleton /> : profileQuery.isError ? (
-              <ErrorState title="Profile could not load" onRetry={() => profileQuery.refetch()} />
+              <ErrorState title="We couldn't load your profile" onRetry={() => profileQuery.refetch()} />
             ) : profileQuery.data ? (
               <div className="flex flex-col items-start gap-5 sm:flex-row sm:items-center">
                 <div className="flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden rounded-full border border-border bg-surface">
@@ -91,7 +91,7 @@ function Dashboard() {
 
           <DashboardPanel title="My Progress" action={<Button asChild variant="ghost" size="sm"><Link to="/progress">Details <ArrowRight /></Link></Button>}>
             {progressQuery.isLoading ? <ProgressSkeleton /> : progressQuery.isError ? (
-              <ErrorState title="Progress could not load" onRetry={() => progressQuery.refetch()} />
+              <ErrorState title="We couldn't load your progress" onRetry={() => progressQuery.refetch()} />
             ) : (
               <div>
                 <div className="flex items-end justify-between gap-4"><span className="text-sm text-muted-foreground">Overall progress</span><strong className="font-display text-3xl">{summary.overallPercentage}%</strong></div>
@@ -108,7 +108,7 @@ function Dashboard() {
 
         {progressQuery.isError ? (
           <section className="mt-10">
-            <ErrorState title="Learning overview could not load" onRetry={() => progressQuery.refetch()} />
+            <ErrorState title="We couldn't load your learning overview" onRetry={() => progressQuery.refetch()} />
           </section>
         ) : <>
         <section className="mt-10">
@@ -124,7 +124,7 @@ function Dashboard() {
                 <Button asChild className="mt-5"><Link to="/courses/$slug" params={{ slug: current.course.slug }} search={{ chapter: current.chapter.id }}><PlayCircle /> Continue Learning <ArrowRight /></Link></Button>
               </div>
             </div>
-          ) : <EmptyState title="No course started yet" text="Choose a course to begin building your learning progress." cta="Browse courses" />}
+          ) : <EmptyState title="You haven't started a course yet" text="Once you open a chapter, it will show up here so you can continue from exactly where you stopped. Pick a language or a DSA course to begin." cta="Explore courses" />}
         </section>
 
         <section className="mt-10">
@@ -148,7 +148,7 @@ function Dashboard() {
                 </Link>
               ))}
             </div>
-          ) : <EmptyState title="No recent learning" text="Your latest real course activity will appear here." cta="Start learning" />}
+          ) : <EmptyState title="No recent activity yet" text="The chapters you watch and mark as done will be listed here, with the most recent one first." cta="Start learning" />}
         </section>
 
         <section className="mt-10 pb-12">
@@ -169,7 +169,7 @@ function SectionHeading({ title }: { title: string }) { return <h2 className="mb
 function DashboardPanel({ title, action, children }: { title: string; action: React.ReactNode; children: React.ReactNode }) { return <section className="rounded-lg border border-border p-5 md:p-6"><div className="mb-6 flex items-center justify-between gap-3"><h2 className="font-display text-xl font-bold">{title}</h2>{action}</div>{children}</section>; }
 function MiniStat({ value, label }: { value: number; label: string }) { return <div className="border-l-2 border-primary pl-3"><p className="font-display text-2xl font-bold">{value}</p><p className="text-xs text-muted-foreground">{label}</p></div>; }
 function Stat({ icon: Icon, value, label }: { icon: React.ComponentType<{ className?: string }>; value: number | string; label: string }) { return <div className="rounded-lg border border-border p-4"><Icon className="h-5 w-5 text-primary" /><p className="mt-4 font-display text-3xl font-bold">{value}</p><p className="mt-1 text-xs text-muted-foreground">{label}</p></div>; }
-function ErrorState({ title, onRetry }: { title: string; onRetry: () => void }) { return <div role="alert" className="rounded-md border border-destructive/40 bg-destructive/5 p-4"><div className="flex items-center gap-2 font-bold"><AlertTriangle className="h-4 w-4 text-destructive" />{title}</div><p className="mt-1 text-sm text-muted-foreground">Check your connection and try again.</p><Button variant="outline" size="sm" className="mt-3" onClick={onRetry}><RefreshCw /> Retry</Button></div>; }
+function ErrorState({ title, onRetry }: { title: string; onRetry: () => void }) { return <div role="alert" className="rounded-md border border-destructive/40 bg-destructive/5 p-4"><div className="flex items-center gap-2 font-bold"><AlertTriangle className="h-4 w-4 text-destructive" />{title}</div><p className="mt-1 text-sm text-muted-foreground">Nothing has been lost. Please check your internet connection and try again.</p><Button variant="outline" size="sm" className="mt-3" onClick={onRetry}><RefreshCw /> Try again</Button></div>; }
 function EmptyState({ title, text, cta }: { title: string; text: string; cta: string }) { return <div className="rounded-lg border border-dashed border-border p-8 text-center"><p className="font-bold">{title}</p><p className="mt-1 text-sm text-muted-foreground">{text}</p><Button asChild variant="outline" className="mt-4"><Link to="/courses">{cta} <ArrowRight /></Link></Button></div>; }
 function Skeleton({ className }: { className: string }) { return <div className={`animate-pulse rounded-lg bg-surface ${className}`} />; }
 function ProfileSkeleton() { return <div className="flex gap-5"><Skeleton className="h-24 w-24 rounded-full" /><div className="flex-1 space-y-3"><Skeleton className="h-7 w-1/2" /><Skeleton className="h-4 w-3/4" /><Skeleton className="h-4 w-2/3" /></div></div>; }
