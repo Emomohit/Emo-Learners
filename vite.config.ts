@@ -6,10 +6,17 @@
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
+// On Vercel we pin the Nitro "vercel" preset so the build emits Vercel's
+// Build Output API folder (.vercel/output). That makes every app route —
+// including /auth/callback — served by the app instead of Vercel's 404.
+// Everywhere else the default target is kept untouched.
+const isVercel = process.env["VERCEL"] === "1" || Boolean(process.env["VERCEL_ENV"]);
+
 export default defineConfig({
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this
     server: { entry: "server" },
   },
+  ...(isVercel ? { nitro: { preset: "vercel" } } : {}),
 });
