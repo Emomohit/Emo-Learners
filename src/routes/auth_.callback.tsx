@@ -74,41 +74,43 @@ function AuthCallbackPage() {
     }
 
     (async () => {
-      try {
-        const accessToken = pick("access_token");
-        const refreshToken = pick("refresh_token");
-        const code = pick("code");
+      const accessToken = pick("access_token");
+      const refreshToken = pick("refresh_token");
+      const code = pick("code");
 
+      try {
         if (accessToken && refreshToken) {
-          const { error } = await supabase.auth.setSession({
+          await supabase.auth.setSession({
             access_token: accessToken,
             refresh_token: refreshToken,
           });
-          if (error) {
-            bail(error.message);
-            return;
-          }
-        } else if (code) {
-          const { error } = await supabase.auth.exchangeCodeForSession(code);
-          if (error) {
-            bail(error.message);
-            return;
-          }
         }
 
-        // Strip the one-time credentials from the address bar before moving on.
-        window.history.replaceState({}, "", window.location.pathname);
-
-        const { data, error } = await supabase.auth.getSession();
-        if (!error && data.session) {
-          finish(destination());
-          return;
+        // The auth client picks the sign-in code out of the URL by itself, so we
+        // wait for it and only step in ourselves if nothing arrived in time.
+        for (let attempt = 0; attempt < 20; attempt += 1) {
+          const { data } = await supabase.auth.getSession();
+          if (data.session) {
+            window.history.replaceState({}, "", window.location.pathname);
+            finish(destination());
+            return;
+          }
+          if (attempt === 8 && code) {
+            try {
+              await supabase.auth.exchangeCodeForSession(code);
+            } catch {
+              /* the client may have already used this code */
+            }
+          }
+          await new Promise((resolve) => setTimeout(resolve, 250));
         }
-        bail(error?.message ?? "session could not be created");
+
+        bail("session could not be created");
       } catch (err) {
         bail(err instanceof Error ? err.message : String(err));
       }
     })();
+
 
     return () => {
       done = true;
