@@ -5,6 +5,8 @@ import { Navbar } from "@/components/site/Navbar";
 import { Marquee } from "@/components/site/Marquee";
 import { Footer } from "@/components/site/Footer";
 import { getBookmarks } from "@/lib/bookmarks";
+import { useCourseProgresses } from "@/lib/course-progress";
+import { summarizeLearning } from "@/lib/learning-progress";
 import {
   TrendingUp,
   BookOpen,
@@ -40,7 +42,6 @@ export const Route = createFileRoute("/progress")({
 });
 
 type Snapshot = {
-  courses: { slug: string; done: number }[];
   quizzes: { key: string; attempted: number }[];
   bookmarks: number;
   streakDays: number;
@@ -48,7 +49,6 @@ type Snapshot = {
 };
 
 function readSnapshot(): Snapshot {
-  const courses: { slug: string; done: number }[] = [];
   const quizzes: { key: string; attempted: number }[] = [];
   let streakDays = 0;
   let lastRoadmap: Snapshot["lastRoadmap"] = null;
@@ -57,13 +57,7 @@ function readSnapshot(): Snapshot {
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i)!;
       const val = localStorage.getItem(key) ?? "";
-      if (key.startsWith("course-progress:") || key.startsWith("course:")) {
-        try {
-          const arr = JSON.parse(val);
-          if (Array.isArray(arr))
-            courses.push({ slug: key.split(":").slice(1).join(":"), done: arr.length });
-        } catch {}
-      } else if (key.startsWith("quiz:") || key.includes("quiz-answers")) {
+      if (key.startsWith("quiz:") || key.includes("quiz-answers")) {
         try {
           const arr = JSON.parse(val);
           const attempted = Array.isArray(arr) ? arr.length : Object.keys(arr ?? {}).length;
@@ -89,13 +83,15 @@ function readSnapshot(): Snapshot {
       return 0;
     }
   })();
-  return { courses, quizzes, bookmarks, streakDays, lastRoadmap };
+  return { quizzes, bookmarks, streakDays, lastRoadmap };
 }
 
 function ProgressPage() {
   const [snap, setSnap] = useState<Snapshot | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const courseProgressQuery = useCourseProgresses();
+  const learning = useMemo(() => summarizeLearning(courseProgressQuery.data ?? []), [courseProgressQuery.data]);
 
   function load() {
     setLoading(true);
@@ -121,18 +117,18 @@ function ProgressPage() {
   const stats = useMemo(() => {
     if (!snap) return null;
     const totalQuiz = snap.quizzes.reduce((a, b) => a + b.attempted, 0);
-    const totalCourse = snap.courses.reduce((a, b) => a + b.done, 0);
+    const totalCourse = learning.completedChapters;
     return {
       totalQuiz,
       totalCourse,
       streak: snap.streakDays,
       bookmarks: snap.bookmarks,
     };
-  }, [snap]);
+  }, [snap, learning.completedChapters]);
 
   const summary = useMemo(() => {
     if (!snap || !stats) return null;
-    const activeCourses = snap.courses.length;
+    const activeCourses = learning.coursesStarted;
     const quizzedTopics = snap.quizzes.length;
     const totalActivity = stats.totalCourse + stats.totalQuiz + stats.streak + stats.bookmarks;
     const level =
@@ -144,7 +140,10 @@ function ProgressPage() {
             ? "On a roll"
             : "Power learner";
     return { activeCourses, quizzedTopics, totalActivity, level };
-  }, [snap, stats]);
+  }, [snap, stats, learning.coursesStarted]);
+
+  const pageLoading = loading || courseProgressQuery.isLoading;
+  const pageError = error || (courseProgressQuery.isError ? "Course progress could not be loaded." : null);
 
   return (
     <div className="min-h-screen">
@@ -158,11 +157,11 @@ function ProgressPage() {
               <TrendingUp className="h-3 w-3" /> Progress Analytics
             </div>
             <button
-              onClick={load}
-              disabled={loading}
+              onClick={() => { load(); void courseProgressQuery.refetch(); }}
+              disabled={pageLoading}
               className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-2 font-mono text-[11px] font-bold uppercase tracking-widest hover:border-primary disabled:opacity-50"
             >
-              <RefreshCw className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`} /> Refresh
+              <RefreshCw className={`h-3.5 w-3.5 ${pageLoading ? "animate-spin" : ""}`} /> Refresh
             </button>
           </div>
           <h1 className="mt-4 font-display text-4xl font-bold leading-[0.9] tracking-tighter md:text-6xl">
@@ -175,7 +174,7 @@ function ProgressPage() {
         </div>
       </section>
 
-      {error && !loading && (
+      {pageError && !pageLoading && (
         <section className="px-4 pb-10">
           <div className="mx-auto max-w-6xl">
             <div className="flex flex-col items-start gap-3 rounded-2xl border border-destructive/40 bg-destructive/10 p-6 md:flex-row md:items-center md:justify-between">
@@ -183,11 +182,11 @@ function ProgressPage() {
                 <AlertTriangle className="mt-0.5 h-5 w-5 text-destructive" />
                 <div>
                   <div className="font-display text-lg font-bold">Couldn't load progress</div>
-                  <div className="mt-1 text-sm text-muted-foreground">{error}</div>
+                  <div className="mt-1 text-sm text-muted-foreground">{pageError}</div>
                 </div>
               </div>
               <button
-                onClick={load}
+                  onClick={() => { load(); void courseProgressQuery.refetch(); }}
                 className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 font-mono text-xs font-bold uppercase tracking-widest text-primary-foreground"
               >
                 <RefreshCw className="h-4 w-4" /> Retry
@@ -199,7 +198,7 @@ function ProgressPage() {
 
       <section className="px-4 pb-10">
         <div className="mx-auto grid max-w-6xl gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {loading ? (
+          {pageLoading ? (
             Array.from({ length: 4 }).map((_, i) => <SkeletonBlock key={i} className="h-32" />)
           ) : (
             <>
@@ -220,7 +219,7 @@ function ProgressPage() {
         </div>
       </section>
 
-      {!loading && summary && (
+      {!pageLoading && summary && (
         <section className="px-4 pb-10">
           <div className="mx-auto max-w-6xl rounded-2xl border border-primary/40 bg-primary/5 p-6">
             <div className="flex items-center gap-2">
@@ -239,23 +238,23 @@ function ProgressPage() {
 
       <section className="px-4 pb-24">
         <div className="mx-auto grid max-w-6xl gap-6 md:grid-cols-2">
-          {loading ? (
+          {pageLoading ? (
             Array.from({ length: 4 }).map((_, i) => <SkeletonBlock key={i} className="h-56" />)
           ) : (
             <>
               <Panel icon={BookOpen} title="Courses progress">
-                {snap?.courses.length ? (
+                {learning.activities.length ? (
                   <ul className="space-y-2">
-                    {snap.courses.map((c) => (
+                    {learning.activities.map((activity) => (
                       <li
-                        key={c.slug}
+                        key={activity.slug}
                         className="flex items-center justify-between panel rounded-xl px-4 py-3 text-sm"
                       >
                         <span className="font-mono text-xs uppercase tracking-widest">
-                          {c.slug}
+                          {activity.course.title}
                         </span>
                         <span className="rounded-full border border-primary/40 bg-primary/10 px-3 py-0.5 font-mono text-[10px] text-primary">
-                          {c.done} lessons
+                          {activity.completedCount} / {activity.requiredCount} lessons
                         </span>
                       </li>
                     ))}
