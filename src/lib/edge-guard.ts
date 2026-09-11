@@ -112,7 +112,23 @@ export function rejectCrossSiteWrite(request: Request): Response | null {
   const origin = request.headers.get("origin");
   if (origin) {
     try {
-      if (new URL(origin).origin !== url.origin) return forbidden();
+      const originUrl = new URL(origin);
+      const forwardedHosts = request.headers
+        .get("x-forwarded-host")
+        ?.split(",")
+        .map((host) => host.trim().toLowerCase())
+        .filter(Boolean) ?? [];
+      const allowedHosts = new Set([
+        url.host.toLowerCase(),
+        request.headers.get("host")?.toLowerCase() ?? "",
+        ...forwardedHosts,
+      ]);
+
+      // Reverse proxies may expose their internal URL as request.url while the
+      // browser correctly sends the public host in Origin/Host/X-Forwarded-Host.
+      // Comparing hosts preserves the CSRF boundary without rejecting genuine
+      // same-site server-function calls from previews or production hosting.
+      if (!allowedHosts.has(originUrl.host.toLowerCase())) return forbidden();
     } catch {
       return forbidden();
     }
