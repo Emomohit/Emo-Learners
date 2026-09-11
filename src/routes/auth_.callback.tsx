@@ -102,12 +102,12 @@ function AuthCallbackPage() {
       }
 
       try {
-        const { tokenHash } = await exchangeGoogleCode({
+        const { idToken } = await exchangeGoogleCode({
           data: { code, redirectUri: `${window.location.origin}/auth/callback` },
         });
-        const { data, error } = await supabase.auth.verifyOtp({
-          type: "magiclink",
-          token_hash: tokenHash,
+        const { data, error } = await supabase.auth.signInWithIdToken({
+          provider: "google",
+          token: idToken,
         });
 
         if (error || !data.session?.user) {
