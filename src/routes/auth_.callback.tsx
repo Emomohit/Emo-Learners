@@ -74,9 +74,8 @@ function AuthCallbackPage() {
       return;
     }
 
-    let sub: { unsubscribe: () => void } | undefined;
-
     sub = supabase.auth.onAuthStateChange((event, session) => {
+
       if (session?.user && (event === "SIGNED_IN" || event === "INITIAL_SESSION")) {
         finish(destination());
       }
