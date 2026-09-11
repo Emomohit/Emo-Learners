@@ -94,8 +94,6 @@ function CoursePlayer() {
     if (!isHydrated) return;
     void saveProgress(course.slug, {
       lastChapterId: selectedId,
-      totalChapters: course.chapters.length,
-      completedChapters: [...done],
       videoId: isPlaylist ? selectedChapter?.videoId : course.videoId,
       lastTimestamp: selectedId === getProgress(course.slug).lastChapterId ? resumeAt : (isPlaylist ? 0 : selectedChapter?.t ?? 0),
       completedChapters: [...done].filter((id) => course.chapters.some((chapter) => chapter.id === id && !chapter.unavailable)),
