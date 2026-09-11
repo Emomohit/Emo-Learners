@@ -1,4 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
+import type { Difficulty } from "@/lib/emoiq/difficulty";
 
 export type EmoIqAction = "analyze" | "predict" | "plan" | "quiz" | "roadmap";
 
@@ -36,6 +37,7 @@ export type PredictedQuestion = {
   unit: string;
   marks: number;
   reason: string;
+  difficulty?: Difficulty;
 };
 export type PlanDay = {
   day: number;
