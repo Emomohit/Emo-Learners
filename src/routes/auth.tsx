@@ -78,7 +78,8 @@ function AuthPage() {
         nav({ to: nextPath });
       }
     } catch (err: any) {
-      toast.error(err.message ?? "Something went wrong");
+      console.error("Auth failed:", err);
+      toast.error(friendlyAuthError(err?.message));
     } finally {
       setBusy(false);
     }
@@ -98,11 +99,14 @@ function AuthPage() {
               </div>
             </div>
             <h1 className="mt-6 text-center font-display text-3xl font-bold tracking-tighter">
-              {mode === "signin" ? "Welcome back" : "Join the squad"}
+              {mode === "signin" ? "Welcome back" : "Create your account"}
             </h1>
             <p className="mt-2 text-center text-sm text-muted-foreground">
-              {mode === "signin" ? "Login to your study hub" : "Free forever. No spam."}
+              {mode === "signin"
+                ? "Sign in to continue your courses and saved progress."
+                : "Free to use. Your progress is saved so you can continue on any device."}
             </p>
+
 
             <div className="mt-6">
               <button
@@ -124,7 +128,8 @@ function AuthPage() {
                     });
                     if (error) throw error;
                   } catch (err: any) {
-                    toast.error(err?.message ?? "Google sign-in failed");
+                    console.error("Google sign-in failed:", err);
+                    toast.error("We couldn't sign you in with Google. Please try again, or use your email and password.");
                   } finally {
                     setBusy(false);
                   }
