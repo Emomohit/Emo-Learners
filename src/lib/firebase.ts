@@ -10,8 +10,6 @@ import {
   type Auth,
 } from "firebase/auth";
 
-import { getFirebaseWebConfig } from "@/lib/firebase-config.functions";
-
 let authPromise: Promise<Auth> | null = null;
 
 /**
