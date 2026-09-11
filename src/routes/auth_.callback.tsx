@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Zap } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { exchangeGoogleCode } from "@/lib/google-oauth.functions";
 
 export const Route = createFileRoute("/auth_/callback")({
   ssr: false,
@@ -16,12 +17,12 @@ function safePath(value: string | null | undefined) {
 }
 
 /**
- * Handles the Google OAuth return trip.
+ * Handles the Google return trip on our own domain.
  *
- * The Supabase client exchanges the code/tokens found in the URL and stores the
- * session. We wait for that confirmed session (and the profile row created by
- * the database trigger) BEFORE navigating, so the dashboard never renders
- * without a user. Nothing from the identity provider is trusted directly.
+ * Google sends back a one-time code. It is exchanged server-side (the client
+ * secret never touches the browser) for a Google ID token, which Supabase
+ * verifies before creating the session. Only then do we navigate onwards, so
+ * the dashboard never renders without a user.
  */
 function AuthCallbackPage() {
   const nav = useNavigate();
@@ -29,22 +30,6 @@ function AuthCallbackPage() {
 
   useEffect(() => {
     let done = false;
-    let sub: { unsubscribe: () => void } | undefined;
-
-
-
-    const finish = (dest: string) => {
-      if (done) return;
-      done = true;
-      sub?.unsubscribe();
-      try {
-        sessionStorage.removeItem("postAuthRedirect");
-      } catch {
-        /* ignore */
-      }
-      // Replace so the callback URL (with its one-time code) leaves history.
-      nav({ to: dest, replace: true });
-    };
 
     const destination = () => {
       let stored: string | null = null;
@@ -56,49 +41,89 @@ function AuthCallbackPage() {
       return safePath(stored) ?? DEFAULT_DEST;
     };
 
+    const cleanup = () => {
+      try {
+        sessionStorage.removeItem("postAuthRedirect");
+        sessionStorage.removeItem("googleOAuthState");
+      } catch {
+        /* ignore */
+      }
+    };
+
+    const finish = (dest: string) => {
+      if (done) return;
+      done = true;
+      cleanup();
+      // Replace so the callback URL (with its one-time code) leaves history.
+      nav({ to: dest, replace: true });
+    };
+
     const bail = (reason: string) => {
       if (done) return;
       done = true;
-      sub?.unsubscribe();
+      cleanup();
       console.error("OAuth callback failed:", reason);
       setFailed(true);
       nav({ to: "/auth", search: { error: "google" }, replace: true });
     };
 
-    // The provider reported a problem (including the user cancelling).
     const params = new URLSearchParams(window.location.search);
-    const hash = new URLSearchParams(window.location.hash.replace(/^#/, ""));
-    const providerError = params.get("error") ?? hash.get("error");
+    const providerError = params.get("error");
     if (providerError) {
       bail(providerError);
       return;
     }
 
-    sub = supabase.auth.onAuthStateChange((event, session) => {
+    const code = params.get("code");
+    const state = params.get("state");
 
-      if (session?.user && (event === "SIGNED_IN" || event === "INITIAL_SESSION")) {
-        finish(destination());
-      }
-    }).data.subscription;
-
-    // Poll for the session the client establishes from the URL, then confirm the
-    // user server-side before we redirect anywhere.
     (async () => {
-      for (let attempt = 0; attempt < 40 && !done; attempt++) {
-        const { data } = await supabase.auth.getSession();
-        if (data.session) {
-          const { data: verified, error } = await supabase.auth.getUser();
-          if (error || !verified.user) {
-            bail(error?.message ?? "user could not be verified");
-            return;
-          }
-          finish(destination());
+      // Already signed in (e.g. a refresh of this page) — just move on.
+      const existing = await supabase.auth.getSession();
+      if (existing.data.session) {
+        finish(destination());
+        return;
+      }
+
+      if (!code) {
+        bail("missing authorization code");
+        return;
+      }
+
+      let expectedState: string | null = null;
+      try {
+        expectedState = sessionStorage.getItem("googleOAuthState");
+      } catch {
+        expectedState = null;
+      }
+      if (!state || !expectedState || state !== expectedState) {
+        bail("state mismatch");
+        return;
+      }
+
+      try {
+        const { idToken } = await exchangeGoogleCode({
+          data: { code, redirectUri: `${window.location.origin}/auth/callback` },
+        });
+        const { data, error } = await supabase.auth.signInWithIdToken({
+          provider: "google",
+          token: idToken,
+        });
+        if (error || !data.session?.user) {
+          bail(error?.message ?? "session could not be created");
           return;
         }
-        await new Promise((r) => setTimeout(r, 250));
+        finish(destination());
+      } catch (err) {
+        bail(err instanceof Error ? err.message : "unexpected error");
       }
-      if (!done) bail("timed out waiting for the session");
     })();
+
+    return () => {
+      done = true;
+    };
+  }, [nav]);
+
 
     return () => {
       done = true;
