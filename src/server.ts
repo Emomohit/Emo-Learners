@@ -59,7 +59,9 @@ function withSecurityHeaders(response: Response, request: Request): Response {
   // Force HTTPS for 2 years, include subdomains, allow preload list submission.
   headers.set("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload");
   // Isolate the browsing context so cross-origin pages can't peek into ours.
-  headers.set("Cross-Origin-Opener-Policy", "same-origin");
+  // Keep the app isolated while allowing Firebase's Google popup to report
+  // the completed sign-in back to its opener.
+  headers.set("Cross-Origin-Opener-Policy", "same-origin-allow-popups");
   headers.set("Cross-Origin-Resource-Policy", "same-site");
   // Reveal only the origin, not the referrer path, to cross-origin destinations.
   headers.set("Origin-Agent-Cluster", "?1");

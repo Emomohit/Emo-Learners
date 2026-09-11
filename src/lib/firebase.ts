@@ -11,6 +11,7 @@ import {
 } from "firebase/auth";
 
 let authPromise: Promise<Auth> | null = null;
+const FIREBASE_APP_NAME = "emo-learners-web";
 
 /**
  * Firebase *web* config. These identifiers are publishable by design (security
@@ -35,7 +36,9 @@ export function getFirebaseAuth(): Promise<Auth> {
     authPromise = (async () => {
       const config = WEB_CONFIG;
       if (!config.apiKey) throw new Error("firebase/not-configured");
-      const app: FirebaseApp = getApps()[0] ?? initializeApp(config);
+      const app: FirebaseApp =
+        getApps().find((candidate) => candidate.name === FIREBASE_APP_NAME) ??
+        initializeApp(config, FIREBASE_APP_NAME);
       return getAuth(app);
     })().catch((err) => {
       authPromise = null;
@@ -79,14 +82,10 @@ export async function firebaseGoogleSignIn(): Promise<string | null> {
 
 /** Picks up a pending Firebase redirect sign-in, if any. */
 export async function firebaseRedirectIdToken(): Promise<string | null> {
-  try {
-    const auth = await getFirebaseAuth();
-    const result = await getRedirectResult(auth);
-    if (!result?.user) return null;
-    return await result.user.getIdToken(true);
-  } catch {
-    return null;
-  }
+  const auth = await getFirebaseAuth();
+  const result = await getRedirectResult(auth);
+  if (!result?.user) return null;
+  return await result.user.getIdToken(true);
 }
 
 /** Clears any Firebase session. Safe to call when Firebase was never used. */
