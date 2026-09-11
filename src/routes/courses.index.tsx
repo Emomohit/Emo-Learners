@@ -79,7 +79,8 @@ function CoursesIndex() {
                 return (
                   <Link 
                     key={slug} 
-                    to={`/courses/${slug}`}
+                    to="/courses/$slug"
+                    params={{ slug }}
                     className="group panel p-5 rounded-2xl transition-all hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5"
                   >
                     <div className="flex items-start justify-between mb-4">
@@ -151,14 +152,14 @@ function CoursesIndex() {
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {filteredCourses.map((c, i) => {
                 // For playlist courses with no main videoId, we can grab the first chapter's videoId for the thumbnail
-                const thumbVideoId = c.videoId || c.chapters[0]?.videoId || "dQw4w9WgXcQ";
-                const thumbnailUrl = `https://img.youtube.com/vi/${thumbVideoId}/hqdefault.jpg`;
+                const thumbnailUrl = c.thumbnailUrl || `https://img.youtube.com/vi/${c.videoId}/hqdefault.jpg`;
                 const isStarted = progressData.some(p => p.slug === c.slug);
 
                 return (
                   <Link
                     key={c.slug}
-                    to={`/courses/${c.slug}`}
+                    to="/courses/$slug"
+                    params={{ slug: c.slug }}
                     className="group flex flex-col overflow-hidden panel panel-hover animate-rise rounded-2xl border border-border bg-surface/20"
                     style={{ animationDelay: `${i * 50}ms` }}
                   >

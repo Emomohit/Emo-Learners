@@ -10,13 +10,15 @@ type Props = {
   /** Direct link to the source video / playlist */
   sourceUrl?: string | undefined;
   className?: string;
+  teacherProfileUrl?: string;
+  teacherBio?: string;
 };
 
 /**
  * Small credit strip that names the real teacher behind the videos,
  * their channel, and a link to the original source.
  */
-export function TeacherCredit({ teacher, channel, channelUrl, sourceUrl, className = "" }: Props) {
+export function TeacherCredit({ teacher, channel, channelUrl, sourceUrl, teacherProfileUrl, teacherBio, className = "" }: Props) {
   if (!teacher && !channel) return null;
 
   return (
@@ -30,6 +32,8 @@ export function TeacherCredit({ teacher, channel, channelUrl, sourceUrl, classNa
         Taught by
       </span>
       <span className="min-w-0 font-semibold text-foreground">{teacher ?? channel}</span>
+      {teacherBio && <span className="basis-full pl-10 text-muted-foreground">{teacherBio}</span>}
+      {teacherProfileUrl && <a href={teacherProfileUrl} target="_blank" rel="noreferrer" className="pl-10 font-semibold text-primary hover:underline">Professional profile</a>}
       {channel && (
         <>
           <span className="text-muted-foreground">·</span>

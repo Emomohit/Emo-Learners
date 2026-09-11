@@ -1,122 +1,92 @@
-// Course progress helpers — localStorage-based persistence.
-// Backward-compatible with existing `emo:course:${slug}:done` keys.
+import { supabase } from "@/integrations/supabase/client";
 
 export type CourseProgress = {
-  lastChapterId: number;
-  lastTimestamp: number; // seconds into the video
+  completedItems: number[];
   completedChapters: number[];
-  lastAccess: number; // Date.now()
+  currentItemId?: number;
+  lastChapterId: number;
+  totalChapters: number;
+  videoId?: string;
+  lastTimestamp: number;
   percentage: number;
+  lastWatchedAt?: string;
 };
 
-const PROGRESS_PREFIX = "emo:course:";
-const PROGRESS_SUFFIX = ":progress";
-const DONE_SUFFIX = ":done";
+const key = (slug: string) => `course-progress:${slug}`;
 
-function progressKey(slug: string) {
-  return `${PROGRESS_PREFIX}${slug}${PROGRESS_SUFFIX}`;
-}
-
-function doneKey(slug: string) {
-  return `${PROGRESS_PREFIX}${slug}${DONE_SUFFIX}`;
-}
-
-/** Save course progress to localStorage. */
-export function saveProgress(
-  slug: string,
-  data: Partial<CourseProgress> & { totalChapters: number },
-) {
-  if (typeof window === "undefined") return;
+export function getCourseProgress(slug: string): CourseProgress {
+  if (typeof window === "undefined") return { completedItems: [], completedChapters: [], lastChapterId: 1, totalChapters: 0, lastTimestamp: 0, percentage: 0 };
   try {
-    const existing = getProgress(slug);
-    const completedChapters = data.completedChapters ?? existing?.completedChapters ?? [];
-    const percentage = Math.round((completedChapters.length / data.totalChapters) * 100);
-    const progress: CourseProgress = {
-      lastChapterId: data.lastChapterId ?? existing?.lastChapterId ?? 1,
-      lastTimestamp: data.lastTimestamp ?? existing?.lastTimestamp ?? 0,
-      completedChapters,
-      lastAccess: Date.now(),
-      percentage,
+    const parsed = JSON.parse(localStorage.getItem(key(slug)) || "{}");
+    return {
+      completedItems: parsed.completedItems || parsed.completedChapters || [],
+      completedChapters: parsed.completedItems || parsed.completedChapters || [],
+      currentItemId: parsed.currentItemId,
+      lastChapterId: parsed.lastChapterId || parsed.currentItemId || 1,
+      totalChapters: parsed.totalChapters || 0,
+      videoId: parsed.videoId,
+      lastTimestamp: Number(parsed.lastTimestamp || 0),
+      percentage: Number(parsed.percentage || 0),
+      lastWatchedAt: parsed.lastWatchedAt,
     };
-    window.localStorage.setItem(progressKey(slug), JSON.stringify(progress));
-    // Also sync the legacy :done key for backward compat with progress.tsx
-    window.localStorage.setItem(doneKey(slug), JSON.stringify(completedChapters));
-  } catch {
-    // localStorage full or unavailable
-  }
+  } catch { return { completedItems: [], completedChapters: [], lastChapterId: 1, totalChapters: 0, lastTimestamp: 0, percentage: 0 }; }
 }
 
-/** Read course progress from localStorage. Migrates legacy :done keys. */
-export function getProgress(slug: string): CourseProgress | null {
-  if (typeof window === "undefined") return null;
-  try {
-    const raw = window.localStorage.getItem(progressKey(slug));
-    if (raw) return JSON.parse(raw) as CourseProgress;
-
-    // Try migrating from legacy :done key
-    const doneRaw = window.localStorage.getItem(doneKey(slug));
-    if (doneRaw) {
-      const completedChapters = JSON.parse(doneRaw) as number[];
-      if (Array.isArray(completedChapters) && completedChapters.length > 0) {
-        return {
-          lastChapterId: Math.max(...completedChapters),
-          lastTimestamp: 0,
-          completedChapters,
-          lastAccess: Date.now(),
-          percentage: 0, // can't compute without totalChapters
-        };
-      }
-    }
-  } catch {
-    // corrupt data
-  }
-  return null;
+export function saveCourseProgress(slug: string, value: CourseProgress) {
+  if (typeof window !== "undefined") localStorage.setItem(key(slug), JSON.stringify(value));
 }
 
-/** Get progress for all courses that have saved data. */
-export function getAllProgress(): { slug: string; progress: CourseProgress }[] {
-  if (typeof window === "undefined") return [];
-  const results: { slug: string; progress: CourseProgress }[] = [];
-  try {
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-      if (!key) continue;
-      if (key.startsWith(PROGRESS_PREFIX) && key.endsWith(PROGRESS_SUFFIX)) {
-        const slug = key.slice(PROGRESS_PREFIX.length, -PROGRESS_SUFFIX.length);
-        const progress = getProgress(slug);
-        if (progress) results.push({ slug, progress });
-      }
-    }
-  } catch {
-    // ignore
-  }
-  // Sort by most recently accessed
-  results.sort((a, b) => b.progress.lastAccess - a.progress.lastAccess);
-  return results;
+export async function loadSyncedCourseProgress(slug: string): Promise<CourseProgress> {
+  const local = getCourseProgress(slug);
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return local;
+  const { data } = await supabase.from("course_progress").select("*").eq("user_id", user.id).eq("course_slug", slug).maybeSingle();
+  if (!data) return local;
+  const cloud: CourseProgress = {
+    completedItems: data.completed_items || [], completedChapters: data.completed_items || [], currentItemId: data.content_item_id || undefined,
+    lastChapterId: data.content_item_id || 1, totalChapters: local.totalChapters,
+    videoId: data.video_id || undefined, lastTimestamp: Number(data.last_timestamp), percentage: Number(data.percentage),
+    lastWatchedAt: data.last_watched_at,
+  };
+  const merged = (cloud.lastWatchedAt || "") >= (local.lastWatchedAt || "") ? cloud : local;
+  saveCourseProgress(slug, merged);
+  return merged;
 }
 
-/** Clear all progress for a course. */
-export function clearProgress(slug: string) {
-  if (typeof window === "undefined") return;
-  try {
-    window.localStorage.removeItem(progressKey(slug));
-    window.localStorage.removeItem(doneKey(slug));
-  } catch {}
+export const getProgress = getCourseProgress;
+export function saveProgress(slug: string, patch: Partial<CourseProgress> & { totalChapters: number; completedChapters: number[] }) {
+  const old = getCourseProgress(slug);
+  const completed = patch.completedChapters;
+  const next: CourseProgress = { ...old, ...patch, completedItems: completed, completedChapters: completed, currentItemId: patch.lastChapterId || old.lastChapterId, percentage: Math.round(completed.length / Math.max(1, patch.totalChapters) * 100) };
+  void persistCourseProgress(slug, next);
+}
+export function toggleChapterDone(slug: string, id: number, total: number) {
+  const old = getCourseProgress(slug); const set = new Set(old.completedChapters);
+  set.has(id) ? set.delete(id) : set.add(id);
+  saveProgress(slug, { lastChapterId: id, totalChapters: total, completedChapters: [...set] });
+  return set;
+}
+export function clearProgress(slug: string) { if (typeof window !== "undefined") localStorage.removeItem(key(slug)); }
+export function getAllProgress() {
+  const result: { slug: string; progress: CourseProgress }[] = [];
+  if (typeof window === "undefined") return result;
+  for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k?.startsWith("course-progress:")) { const slug = k.slice(16); result.push({ slug, progress: getCourseProgress(slug) }); } }
+  return result;
 }
 
-/** Toggle a chapter's completion state and save. */
-export function toggleChapterDone(slug: string, chapterId: number, totalChapters: number) {
-  const progress = getProgress(slug);
-  const completed = new Set(progress?.completedChapters ?? []);
-  if (completed.has(chapterId)) {
-    completed.delete(chapterId);
-  } else {
-    completed.add(chapterId);
-  }
-  saveProgress(slug, {
-    ...progress,
-    completedChapters: [...completed],
-    totalChapters,
-  });
-  return completed;
+export async function persistCourseProgress(slug: string, progress: CourseProgress) {
+  const value = { ...progress, lastWatchedAt: new Date().toISOString() };
+  saveCourseProgress(slug, value);
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return;
+  await supabase.from("course_progress").upsert({
+    user_id: user.id, course_slug: slug, content_item_id: value.currentItemId || 1, video_id: value.videoId || null,
+    last_timestamp: Math.max(0, Math.floor(value.lastTimestamp)), completed_items: value.completedItems,
+    percentage: Math.max(0, Math.min(100, Math.round(value.percentage))), last_watched_at: value.lastWatchedAt,
+  }, { onConflict: "user_id,course_slug" });
+}
+
+export function formatTime(seconds: number) {
+  const h = Math.floor(seconds / 3600); const m = Math.floor((seconds % 3600) / 60); const s = Math.floor(seconds % 60);
+  return h ? `${h}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}` : `${m}:${String(s).padStart(2, "0")}`;
 }
