@@ -49,7 +49,6 @@ import { Route as EmoiqAnalyzeRouteImport } from './routes/emoiq.analyze'
 import { Route as CoursesSlugRouteImport } from './routes/courses.$slug'
 import { Route as AuthCallbackRouteImport } from './routes/auth_.callback'
 import { Route as CoursesSlugChaptersRouteImport } from './routes/courses_.$slug.chapters'
-import { Route as ApiPublicEnvprobeRouteImport } from './routes/api/public/envprobe'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -251,11 +250,6 @@ const CoursesSlugChaptersRoute = CoursesSlugChaptersRouteImport.update({
   path: '/courses/$slug/chapters',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiPublicEnvprobeRoute = ApiPublicEnvprobeRouteImport.update({
-  id: '/api/public/envprobe',
-  path: '/api/public/envprobe',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -297,7 +291,6 @@ export interface FileRoutesByFullPath {
   '/placement/': typeof PlacementIndexRoute
   '/quizzes/': typeof QuizzesIndexRoute
   '/tests/': typeof TestsIndexRoute
-  '/api/public/envprobe': typeof ApiPublicEnvprobeRoute
   '/courses/$slug/chapters': typeof CoursesSlugChaptersRoute
 }
 export interface FileRoutesByTo {
@@ -338,7 +331,6 @@ export interface FileRoutesByTo {
   '/placement': typeof PlacementIndexRoute
   '/quizzes': typeof QuizzesIndexRoute
   '/tests': typeof TestsIndexRoute
-  '/api/public/envprobe': typeof ApiPublicEnvprobeRoute
   '/courses/$slug/chapters': typeof CoursesSlugChaptersRoute
 }
 export interface FileRoutesById {
@@ -382,7 +374,6 @@ export interface FileRoutesById {
   '/placement/': typeof PlacementIndexRoute
   '/quizzes/': typeof QuizzesIndexRoute
   '/tests/': typeof TestsIndexRoute
-  '/api/public/envprobe': typeof ApiPublicEnvprobeRoute
   '/courses_/$slug/chapters': typeof CoursesSlugChaptersRoute
 }
 export interface FileRouteTypes {
@@ -427,7 +418,6 @@ export interface FileRouteTypes {
     | '/placement/'
     | '/quizzes/'
     | '/tests/'
-    | '/api/public/envprobe'
     | '/courses/$slug/chapters'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -468,7 +458,6 @@ export interface FileRouteTypes {
     | '/placement'
     | '/quizzes'
     | '/tests'
-    | '/api/public/envprobe'
     | '/courses/$slug/chapters'
   id:
     | '__root__'
@@ -511,7 +500,6 @@ export interface FileRouteTypes {
     | '/placement/'
     | '/quizzes/'
     | '/tests/'
-    | '/api/public/envprobe'
     | '/courses_/$slug/chapters'
   fileRoutesById: FileRoutesById
 }
@@ -543,7 +531,6 @@ export interface RootRouteChildren {
   CoursesIndexRoute: typeof CoursesIndexRoute
   QuizzesIndexRoute: typeof QuizzesIndexRoute
   TestsIndexRoute: typeof TestsIndexRoute
-  ApiPublicEnvprobeRoute: typeof ApiPublicEnvprobeRoute
   CoursesSlugChaptersRoute: typeof CoursesSlugChaptersRoute
 }
 
@@ -829,13 +816,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CoursesSlugChaptersRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/public/envprobe': {
-      id: '/api/public/envprobe'
-      path: '/api/public/envprobe'
-      fullPath: '/api/public/envprobe'
-      preLoaderRoute: typeof ApiPublicEnvprobeRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
@@ -909,7 +889,6 @@ const rootRouteChildren: RootRouteChildren = {
   CoursesIndexRoute: CoursesIndexRoute,
   QuizzesIndexRoute: QuizzesIndexRoute,
   TestsIndexRoute: TestsIndexRoute,
-  ApiPublicEnvprobeRoute: ApiPublicEnvprobeRoute,
   CoursesSlugChaptersRoute: CoursesSlugChaptersRoute,
 }
 export const routeTree = rootRouteImport

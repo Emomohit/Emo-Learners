@@ -14,13 +14,35 @@ import { getFirebaseWebConfig } from "@/lib/firebase-config.functions";
 
 let authPromise: Promise<Auth> | null = null;
 
+/**
+ * Firebase *web* config. These identifiers are publishable by design (security
+ * comes from Firebase authorized domains + rules), so they can ship with the
+ * client bundle. This keeps Google sign-in working on any host (Vercel, custom
+ * domain) without extra server configuration.
+ */
+const WEB_CONFIG = {
+  apiKey: import.meta.env['VITE_FIREBASE_API_KEY'] ?? "",
+  authDomain: import.meta.env['VITE_FIREBASE_AUTH_DOMAIN'] ?? "emo-learners-web.firebaseapp.com",
+  projectId: import.meta.env['VITE_FIREBASE_PROJECT_ID'] ?? "emo-learners-web",
+  storageBucket:
+    import.meta.env['VITE_FIREBASE_STORAGE_BUCKET'] ?? "emo-learners-web.firebasestorage.app",
+  messagingSenderId: import.meta.env['VITE_FIREBASE_MESSAGING_SENDER_ID'] ?? "235947453691",
+  appId: import.meta.env['VITE_FIREBASE_APP_ID'] ?? "1:235947453691:web:ad1339541b71265baa945e",
+};
+
 /** Lazily boots the Firebase web app in the browser only. */
 export function getFirebaseAuth(): Promise<Auth> {
   if (typeof window === "undefined") return Promise.reject(new Error("Browser only"));
   if (!authPromise) {
     authPromise = (async () => {
-      const config = await getFirebaseWebConfig();
-      if (!config.enabled) throw new Error("firebase/not-configured");
+      let config: typeof WEB_CONFIG = WEB_CONFIG;
+      if (!config.apiKey) {
+        // Fall back to backend-provided config when no build-time key is set.
+        const remote = await getFirebaseWebConfig().catch(() => null);
+        if (!remote?.enabled) throw new Error("firebase/not-configured");
+        const { enabled: _enabled, ...rest } = remote;
+        config = rest;
+      }
       const app: FirebaseApp = getApps()[0] ?? initializeApp(config);
       return getAuth(app);
     })().catch((err) => {
