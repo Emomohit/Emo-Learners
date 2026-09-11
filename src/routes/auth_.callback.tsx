@@ -20,8 +20,8 @@ function safePath(value: string | null | undefined) {
  * Handles the Google return trip on our own domain.
  *
  * Google sends back a one-time code. It is exchanged server-side (the client
- * secret never touches the browser) for a Google ID token, which Supabase
- * verifies before creating the session. Only then do we navigate onwards, so
+ * secret never touches the browser), and the verified identity receives a
+ * one-time backend login token. Only then do we navigate onwards, so
  * the dashboard never renders without a user.
  */
 function AuthCallbackPage() {
@@ -102,12 +102,12 @@ function AuthCallbackPage() {
       }
 
       try {
-        const { idToken } = await exchangeGoogleCode({
+        const { tokenHash } = await exchangeGoogleCode({
           data: { code, redirectUri: `${window.location.origin}/auth/callback` },
         });
-        const { data, error } = await supabase.auth.signInWithIdToken({
-          provider: "google",
-          token: idToken,
+        const { data, error } = await supabase.auth.verifyOtp({
+          type: "magiclink",
+          token_hash: tokenHash,
         });
 
         if (error || !data.session?.user) {

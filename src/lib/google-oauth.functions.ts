@@ -8,7 +8,7 @@ import { z } from "zod";
  * (which can only return to its own allow-listed site URL), we run the Google
  * OAuth code flow ourselves: Google returns to <our origin>/auth/callback, the
  * code is exchanged server-side (client secret never reaches the browser), and
- * the resulting Google ID token is handed to Supabase via signInWithIdToken.
+ * the verified Google identity is exchanged for a one-time backend login token.
  */
 
 const redirectUriSchema = z
@@ -114,10 +114,20 @@ export const exchangeGoogleCode = createServerFn({ method: "POST" })
       });
     }
 
-    // Return only the Google ID token. The browser hands it to Supabase
-    // signInWithIdToken, which verifies it with Google's public keys and
-    // creates the session. Google's access/refresh tokens never leave the server.
-    return { idToken: body.id_token };
+    // Create a short-lived, one-time login token for the verified account.
+    // This avoids coupling the browser handoff to Supabase's Google-provider
+    // client ID while still letting Supabase create the real user session.
+    const { data: linkData, error: linkError } = await supabaseAdmin.auth.admin.generateLink({
+      type: "magiclink",
+      email,
+    });
+    const tokenHash = linkData?.properties?.hashed_token;
+    if (linkError || !tokenHash) {
+      console.error("Google session handoff failed:", linkError?.message);
+      throw new Error("google_session_failed");
+    }
+
+    return { tokenHash };
   });
 
 function decodeJwtPayload(token: string): Record<string, unknown> {
