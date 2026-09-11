@@ -24,6 +24,15 @@ export const courseProgressQueryKey = (userId?: string) => ["course-progress", u
 
 const key = (slug: string) => `course-progress:${slug}`;
 
+async function getCurrentUser() {
+  const { data, error } = await supabase.auth.getUser();
+  if (error) {
+    if (error.name === "AuthSessionMissingError") return null;
+    throw error;
+  }
+  return data.user;
+}
+
 export function getCourseProgress(slug: string): CourseProgress {
   if (typeof window === "undefined") return { completedItems: [], completedChapters: [], lastChapterId: 1, totalChapters: 0, lastTimestamp: 0, percentage: 0 };
   try {
@@ -73,17 +82,19 @@ function fromCloudRow(row: {
 
 export async function loadAllSyncedCourseProgress(): Promise<CourseProgressEntry[]> {
   const localEntries = getAllProgress();
-  const { data: authData, error: authError } = await supabase.auth.getUser();
-  if (authError) {
-    console.error("Course progress authentication failed", authError);
-    throw authError;
+  let user;
+  try {
+    user = await getCurrentUser();
+  } catch (error) {
+    console.error("Course progress authentication failed", error);
+    throw error;
   }
-  if (!authData.user) return localEntries;
+  if (!user) return localEntries;
 
   const { data, error } = await supabase
     .from("course_progress")
     .select("course_slug,content_item_id,video_id,last_timestamp,completed_items,percentage,last_watched_at")
-    .eq("user_id", authData.user.id)
+    .eq("user_id", user.id)
     .order("last_watched_at", { ascending: false });
   if (error) {
     console.error("Course progress could not be loaded", error);
@@ -126,7 +137,7 @@ export async function loadAllSyncedCourseProgress(): Promise<CourseProgressEntry
   if (newerLocal.length) {
     const { error: mergeError } = await supabase.from("course_progress").upsert(
       newerLocal.map(({ slug, progress }) => ({
-        user_id: authData.user.id,
+        user_id: user.id,
         course_slug: slug,
         content_item_id: progress.currentItemId || progress.lastChapterId || 1,
         video_id: progress.videoId || null,
@@ -163,10 +174,12 @@ export function useCourseProgresses() {
 
 export async function loadSyncedCourseProgress(slug: string): Promise<CourseProgress> {
   const local = getCourseProgress(slug);
-  const { data: { user }, error: authError } = await supabase.auth.getUser();
-  if (authError) {
-    console.error("Course progress authentication failed", authError);
-    throw authError;
+  let user;
+  try {
+    user = await getCurrentUser();
+  } catch (error) {
+    console.error("Course progress authentication failed", error);
+    throw error;
   }
   if (!user) return local;
   const { data, error } = await supabase.from("course_progress").select("*").eq("user_id", user.id).eq("course_slug", slug).maybeSingle();
@@ -181,7 +194,17 @@ export async function loadSyncedCourseProgress(slug: string): Promise<CourseProg
     videoId: data.video_id || undefined, lastTimestamp: Number(data.last_timestamp), percentage: Number(data.percentage),
     lastWatchedAt: data.last_watched_at,
   };
-  const merged = (cloud.lastWatchedAt || "") >= (local.lastWatchedAt || "") ? cloud : local;
+  const completed = [...new Set([...cloud.completedChapters, ...local.completedChapters])];
+  const newest = (cloud.lastWatchedAt || "") >= (local.lastWatchedAt || "") ? cloud : local;
+  const requiredCount = courses.find((course) => course.slug === slug)?.chapters.filter((chapter) => !chapter.unavailable).length
+    ?? Math.max(cloud.totalChapters, local.totalChapters, 1);
+  const merged: CourseProgress = {
+    ...newest,
+    completedItems: completed,
+    completedChapters: completed,
+    totalChapters: requiredCount,
+    percentage: Math.round((completed.length / requiredCount) * 100),
+  };
   saveCourseProgress(slug, merged);
   return merged;
 }
@@ -196,8 +219,7 @@ export function saveProgress(slug: string, patch: Partial<CourseProgress> & { to
 export function clearProgress(slug: string) { if (typeof window !== "undefined") localStorage.removeItem(key(slug)); }
 export async function resetCourseProgress(slug: string) {
   clearProgress(slug);
-  const { data: { user }, error: authError } = await supabase.auth.getUser();
-  if (authError) throw authError;
+  const user = await getCurrentUser();
   if (!user) return;
   const { error } = await supabase.from("course_progress").delete().eq("user_id", user.id).eq("course_slug", slug);
   if (error) throw error;
@@ -212,8 +234,7 @@ export function getAllProgress() {
 export async function persistCourseProgress(slug: string, progress: CourseProgress) {
   const value = { ...progress, lastWatchedAt: new Date().toISOString() };
   saveCourseProgress(slug, value);
-  const { data: { user }, error: authError } = await supabase.auth.getUser();
-  if (authError) throw authError;
+  const user = await getCurrentUser();
   if (!user) return;
   const { error } = await supabase.from("course_progress").upsert({
     user_id: user.id, course_slug: slug, content_item_id: value.currentItemId || 1, video_id: value.videoId || null,
