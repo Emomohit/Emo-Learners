@@ -6,6 +6,7 @@ import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 import { FileText, Download, BookOpen, Sparkles, ShieldCheck, MessagesSquare, User } from "lucide-react";
 import { toast } from "sonner";
+import { useStudentProfile, getPrivateAvatarUrl } from "@/lib/use-profile";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
@@ -35,6 +36,10 @@ function Dashboard() {
   const nav = useNavigate();
   const [recent, setRecent] = useState<Row[]>([]);
   const [counts, setCounts] = useState({ notes: 0, pyq: 0, syllabus: 0, important_qs: 0 });
+  const profileQuery = useStudentProfile();
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+
+  useEffect(() => { void getPrivateAvatarUrl(profileQuery.data?.avatar_url || null).then(setAvatarUrl); }, [profileQuery.data?.avatar_url]);
 
   useEffect(() => {
     if (!loading && !user) nav({ to: "/auth" });
@@ -85,13 +90,18 @@ function Dashboard() {
           <span className="font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-primary">
             // Dashboard
           </span>
-          <h1 className="mt-3 font-display text-4xl font-bold tracking-tighter md:text-6xl">
+          <div className="mt-3 flex flex-wrap items-center gap-4">
+          {avatarUrl ? <img src={avatarUrl} alt="Profile" className="h-14 w-14 rounded-full border object-cover" /> : <div className="flex h-14 w-14 items-center justify-center rounded-full border bg-surface"><User /></div>}
+          <h1 className="font-display text-4xl font-bold tracking-tighter md:text-6xl">
             Hey,{" "}
             <span className="text-primary">
-              {user.user_metadata?.full_name || user.email?.split("@")[0]}
+              {profileQuery.isLoading ? "loading…" : profileQuery.data?.full_name || "Student"}
             </span>
           </h1>
+          </div>
           <p className="mt-3 text-muted-foreground">Your study hub at a glance.</p>
+          {profileQuery.isError && <div className="mt-3 text-sm text-destructive">Profile could not load. <button className="font-bold underline" onClick={() => profileQuery.refetch()}>Retry</button></div>}
+          {profileQuery.data && <p className="mt-2 text-sm font-medium">{profileQuery.data.branch || "Branch not set"} · Semester {profileQuery.data.current_semester || "—"} · Academic year {profileQuery.data.academic_year || "—"}</p>}
 
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <Stat label="Notes" value={counts.notes} />
