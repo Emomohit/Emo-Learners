@@ -100,7 +100,8 @@ function ProfilePage() {
       }
 
       const fileExt = file.name.split(".").pop()?.toLowerCase();
-      const filePath = `${user!.id}/avatar.${fileExt}`;
+      if (!user) throw new Error("Sign in before uploading a profile picture.");
+      const filePath = `${user.id}/avatar.${fileExt}`;
 
       const { error: uploadError } = await supabase.storage
         .from("avatars")

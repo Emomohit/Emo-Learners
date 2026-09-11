@@ -151,7 +151,7 @@ function CoursePlayer() {
   const prevChapter = currentIndex > 0 ? course.chapters[currentIndex - 1] : null;
   const nextChapter = currentIndex < course.chapters.length - 1 ? course.chapters[currentIndex + 1] : null;
 
-  // For the player: if playlist, use chapter.videoId, else use course.videoId
+  // Playlist lessons use their own source video; single-video chapters share the course source.
   const selectedVideoId = isPlaylist ? selectedChapter?.videoId ?? course.videoId : course.videoId;
   const youtubeStartTime = resumeAt > 0 && selectedChapter?.id === getProgress(course.slug).lastChapterId
     ? resumeAt

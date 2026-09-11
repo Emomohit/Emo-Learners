@@ -193,14 +193,6 @@ export function saveProgress(slug: string, patch: Partial<CourseProgress> & { to
   const next: CourseProgress = { ...old, ...patch, completedItems: completed, completedChapters: completed, currentItemId: patch.lastChapterId || old.lastChapterId, percentage: Math.round(completed.length / Math.max(1, patch.totalChapters) * 100) };
   return persistCourseProgress(slug, next);
 }
-export function toggleChapterDone(slug: string, id: number, total: number) {
-  const old = getCourseProgress(slug); const set = new Set(old.completedChapters);
-  set.has(id) ? set.delete(id) : set.add(id);
-  void saveProgress(slug, { lastChapterId: id, totalChapters: total, completedChapters: [...set] }).catch((error) => {
-    console.error(`Course progress could not be saved for ${slug}`, error);
-  });
-  return set;
-}
 export function clearProgress(slug: string) { if (typeof window !== "undefined") localStorage.removeItem(key(slug)); }
 export async function resetCourseProgress(slug: string) {
   clearProgress(slug);
