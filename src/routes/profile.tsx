@@ -6,6 +6,8 @@ import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 import { Camera, Loader2, Save, User } from "lucide-react";
 import { toast } from "sonner";
+import { useQueryClient } from "@tanstack/react-query";
+import { getPrivateAvatarUrl, useStudentProfile } from "@/lib/use-profile";
 
 export const Route = createFileRoute("/profile")({
   head: () => ({
@@ -19,20 +21,24 @@ type ProfileData = {
   branch: string;
   current_semester: number;
   avatar_url: string;
+  academic_year: number;
 };
 
 function ProfilePage() {
   const { user, loading: authLoading } = useAuth();
   const nav = useNavigate();
-  const [loading, setLoading] = useState(true);
+  const queryClient = useQueryClient();
+  const profileQuery = useStudentProfile();
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [avatarPreview, setAvatarPreview] = useState("");
   
   const [profile, setProfile] = useState<ProfileData>({
     full_name: "",
     branch: "CSE",
     current_semester: 1,
     avatar_url: "",
+    academic_year: new Date().getFullYear(),
   });
 
   useEffect(() => {
@@ -42,26 +48,11 @@ function ProfilePage() {
   }, [authLoading, user, nav]);
 
   useEffect(() => {
-    if (!user) return;
-    async function loadProfile() {
-      const { data, error } = await supabase
-        .from("profiles")
-        .select("full_name, branch, current_semester, avatar_url")
-        .eq("id", user!.id)
-        .single();
-      
-      if (!error && data) {
-        setProfile({
-          full_name: data.full_name || "",
-          branch: data.branch || "CSE",
-          current_semester: data.current_semester || 1,
-          avatar_url: data.avatar_url || "",
-        });
-      }
-      setLoading(false);
-    }
-    loadProfile();
-  }, [user]);
+    if (!profileQuery.data) return;
+    const data = profileQuery.data;
+    setProfile({ full_name: data.full_name || "", branch: data.branch || "CSE", current_semester: data.current_semester || 1, avatar_url: data.avatar_url || "", academic_year: data.academic_year || new Date().getFullYear() });
+    void getPrivateAvatarUrl(data.avatar_url).then((url) => setAvatarPreview(url || ""));
+  }, [profileQuery.data]);
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -78,6 +69,7 @@ function ProfilePage() {
       branch: profile.branch as any,
       current_semester: profile.current_semester,
       avatar_url: profile.avatar_url,
+      academic_year: profile.academic_year,
       updated_at: new Date().toISOString(),
     });
 
@@ -87,6 +79,7 @@ function ProfilePage() {
       console.error(error);
     } else {
       toast.success("Profile updated successfully!");
+      await queryClient.invalidateQueries({ queryKey: ["student-profile", user.id] });
       nav({ to: "/dashboard" });
     }
   };
@@ -99,22 +92,25 @@ function ProfilePage() {
       }
 
       const file = event.target.files[0];
+      if (!["image/jpeg", "image/png", "image/webp", "image/gif"].includes(file.type)) {
+        throw new Error("Choose a JPG, PNG, WebP, or GIF image.");
+      }
       if (file.size > 2 * 1024 * 1024) {
         throw new Error("File size must be less than 2MB.");
       }
 
-      const fileExt = file.name.split(".").pop();
-      const filePath = `${user!.id}-${Math.random()}.${fileExt}`;
+      const fileExt = file.name.split(".").pop()?.toLowerCase();
+      const filePath = `${user!.id}/avatar.${fileExt}`;
 
       const { error: uploadError } = await supabase.storage
         .from("avatars")
-        .upload(filePath, file);
+        .upload(filePath, file, { upsert: true, contentType: file.type });
 
       if (uploadError) throw uploadError;
 
-      const { data } = supabase.storage.from("avatars").getPublicUrl(filePath);
-      
-      setProfile((p) => ({ ...p, avatar_url: data.publicUrl }));
+      const signedUrl = await getPrivateAvatarUrl(filePath);
+      setAvatarPreview(signedUrl || "");
+      setProfile((p) => ({ ...p, avatar_url: filePath }));
       toast.success("Avatar uploaded! Remember to save your profile.");
     } catch (error: any) {
       toast.error(error.message || "Error uploading avatar");
@@ -123,7 +119,7 @@ function ProfilePage() {
     }
   };
 
-  if (authLoading || loading) {
+  if (authLoading || profileQuery.isLoading) {
     return (
       <div className="min-h-screen flex flex-col">
         <Navbar />
@@ -133,6 +129,8 @@ function ProfilePage() {
       </div>
     );
   }
+
+  if (profileQuery.isError) return <div className="min-h-screen"><Navbar /><main className="mx-auto max-w-xl px-6 py-24 text-center"><h1 className="text-2xl font-bold">Profile could not load</h1><p className="mt-2 text-muted-foreground">Check your connection and try again.</p><button className="mt-5 rounded-full bg-primary px-6 py-3 font-bold text-primary-foreground" onClick={() => profileQuery.refetch()}>Retry</button></main></div>;
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -147,8 +145,8 @@ function ProfilePage() {
             <div className="flex flex-col sm:flex-row items-center gap-6 pb-8 border-b border-border">
               <div className="relative group">
                 <div className="h-24 w-24 rounded-full overflow-hidden bg-surface flex items-center justify-center border-2 border-border group-hover:border-primary transition-colors">
-                  {profile.avatar_url ? (
-                    <img src={profile.avatar_url} alt="Avatar" className="h-full w-full object-cover" />
+                  {avatarPreview ? (
+                    <img src={avatarPreview} alt="Avatar" className="h-full w-full object-cover" />
                   ) : (
                     <User className="h-10 w-10 text-muted-foreground" />
                   )}
@@ -229,6 +227,10 @@ function ProfilePage() {
                     ))}
                   </select>
                 </div>
+              </div>
+              <div className="space-y-2">
+                <label htmlFor="academic_year" className="text-sm font-bold uppercase tracking-widest text-muted-foreground">Academic Year</label>
+                <input id="academic_year" type="number" min="2000" max="2100" value={profile.academic_year} onChange={(e) => setProfile({ ...profile, academic_year: Number(e.target.value) })} className="w-full rounded-xl border border-border bg-surface px-4 py-3 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary" />
               </div>
             </div>
 
