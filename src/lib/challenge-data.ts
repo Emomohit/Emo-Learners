@@ -40,7 +40,7 @@ type Seed = {
 
 // Chapters mapped from the CodeWithHarry Python one-shot video (UrsmFxEIp5k).
 // Timestamps are approximations to the chapter starts in that single video.
-const seeds: Seed[] = [
+export const seeds: Seed[] = [
   {
     title: "Introduction & Why Python",
     topic: "What Python is and why it matters",

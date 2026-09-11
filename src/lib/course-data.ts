@@ -3,6 +3,15 @@
 // straight to the lesson they need. The DSA track is language-agnostic.
 
 import { dsaCourse } from "./dsa-course";
+import { dsaPlaylistCourses } from "./dsa-playlist-courses";
+import { seeds as pythonSeeds } from "./challenge-data";
+
+export const CATEGORIES = [
+  "Programming Languages",
+  "Data Structures & Algorithms",
+  "Web Development",
+  "AI & Machine Learning",
+];
 
 export type CourseChapter = {
   id: number;
@@ -12,6 +21,9 @@ export type CourseChapter = {
   snippet?: string;
   /** Approximate chapter start, seconds. Used to deep-link the video. */
   t: number;
+  endTime?: number;
+  duration?: string;
+  videoId?: string;
 };
 
 export type Course = {
@@ -33,6 +45,10 @@ export type Course = {
   videoId: string;
   accent: string; // tailwind color name for theming hints
   chapters: CourseChapter[];
+  type: "single-video" | "playlist";
+  category: string;
+  tags: string[];
+  playlistId?: string;
 };
 
 export const chapterUrl = (videoId: string, t: number) =>
@@ -637,6 +653,15 @@ const cChapters: CourseChapter[] = [
   },
 ];
 
+const pythonChapters: CourseChapter[] = pythonSeeds.map((s, i) => ({
+  id: i + 1,
+  title: s.title,
+  topic: s.topic,
+  notes: s.notes,
+  snippet: s.snippet,
+  t: s.t,
+}));
+
 export const courses: Course[] = [
   {
     slug: "python",
@@ -654,7 +679,10 @@ export const courses: Course[] = [
     channelUrl: "https://www.youtube.com/@CodeWithHarry",
     videoId: "UrsmFxEIp5k",
     accent: "from-yellow-400 to-orange-500",
-    chapters: [], // Python uses the /challenge page, not the generic course view.
+    chapters: pythonChapters,
+    type: "single-video",
+    category: "Programming Languages",
+    tags: ["Python", "Beginner", "Scripting"],
   },
   {
     slug: "java",
@@ -673,6 +701,9 @@ export const courses: Course[] = [
     videoId: "q6z_UCBM5Ek",
     accent: "from-amber-500 to-red-600",
     chapters: javaChapters,
+    type: "single-video",
+    category: "Programming Languages",
+    tags: ["Java", "OOP", "Backend"],
   },
   {
     slug: "c",
@@ -691,8 +722,12 @@ export const courses: Course[] = [
     videoId: "irqbmMNs2Bo",
     accent: "from-sky-400 to-blue-700",
     chapters: cChapters,
+    type: "single-video",
+    category: "Programming Languages",
+    tags: ["C", "Systems", "Pointers"],
   },
   dsaCourse,
+  ...dsaPlaylistCourses,
 ];
 
 export function getCourse(slug: string): Course | undefined {

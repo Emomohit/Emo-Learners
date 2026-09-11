@@ -24,6 +24,7 @@ const primaryLinks = [
 ] as const;
 
 const moreLinks = [
+  { to: "/profile", label: "My Profile" },
   { to: "/progress", label: "My Progress" },
   { to: "/ai-assistant", label: "AI Helper" },
   { to: "/challenge", label: "30-Day Python" },

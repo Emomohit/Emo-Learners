@@ -4,7 +4,7 @@ import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
-import { FileText, Download, BookOpen, Sparkles, ShieldCheck, MessagesSquare } from "lucide-react";
+import { FileText, Download, BookOpen, Sparkles, ShieldCheck, MessagesSquare, User } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/dashboard")({
@@ -100,7 +100,13 @@ function Dashboard() {
             <Stat label="Important Qs" value={counts.important_qs} />
           </div>
 
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <QuickCard
+              to="/profile"
+              icon={<User className="h-5 w-5" />}
+              title="My Profile"
+              desc="Manage your avatar and info."
+            />
             <QuickCard
               to="/resources"
               icon={<BookOpen className="h-5 w-5" />}

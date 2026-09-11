@@ -440,4 +440,7 @@ export const dsaCourse: Course = {
   videoId: "", // No single video — this is a curated track
   accent: "from-emerald-400 to-teal-600",
   chapters: dsaChapters,
+  type: "single-video",
+  category: "Data Structures & Algorithms",
+  tags: ["DSA", "Interviews", "Language-Agnostic"],
 };
