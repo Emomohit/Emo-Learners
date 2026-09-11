@@ -24,6 +24,8 @@ export type CourseChapter = {
   endTime?: number;
   duration?: string;
   videoId?: string;
+  durationSeconds?: number;
+  unavailable?: boolean;
 };
 
 export type Course = {
@@ -49,6 +51,10 @@ export type Course = {
   category: string;
   tags: string[];
   playlistId?: string;
+  sourceUrl?: string;
+  thumbnailUrl?: string;
+  teacherProfileUrl?: string;
+  teacherBio?: string;
 };
 
 export const chapterUrl = (videoId: string, t: number) =>
