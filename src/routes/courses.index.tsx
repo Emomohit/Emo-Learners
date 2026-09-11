@@ -51,13 +51,13 @@ function CoursesIndex() {
             <Sparkles className="h-3 w-3" /> Free · Notes · Quizzes · Exercises
           </span>
           <h1 className="mt-6 font-display text-5xl font-bold leading-[0.98] md:text-7xl">
-            Master the craft.
+            Learn programming
             <br />
-            <span className="text-primary">From zero to ship.</span>
+            <span className="text-primary">step by step.</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-base text-muted-foreground md:text-lg">
-            Complete YouTube courses enhanced with structured chapters, notes, and progress tracking. 
-            No fluff, no paywall, just pure learning.
+            Full YouTube courses organised into numbered chapters, with notes, practice questions
+            and progress tracking. Everything is free, and you can stop and continue any time.
           </p>
         </div>
       </section>
@@ -110,7 +110,7 @@ function CoursesIndex() {
       {progressQuery.isError && (
         <section className="border-b border-border px-6 py-6">
           <div role="alert" className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-4 rounded-lg border border-destructive/40 bg-destructive/5 p-5 sm:flex-row sm:items-center">
-            <div><p className="flex items-center gap-2 font-bold"><AlertTriangle className="h-4 w-4 text-destructive" /> Your progress could not load</p><p className="mt-1 text-sm text-muted-foreground">Check your connection and try again.</p></div>
+            <div><p className="flex items-center gap-2 font-bold"><AlertTriangle className="h-4 w-4 text-destructive" /> We couldn't load your course progress</p><p className="mt-1 text-sm text-muted-foreground">Your saved chapters are safe. Please check your internet connection and try again.</p></div>
             <Button variant="outline" onClick={() => progressQuery.refetch()}><RefreshCw /> Retry</Button>
           </div>
         </section>
@@ -219,8 +219,11 @@ function CoursesIndex() {
               <div className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-surface mb-4">
                 <Search className="h-6 w-6 text-muted-foreground" />
               </div>
-              <h3 className="font-display text-2xl font-bold mb-2">No courses found</h3>
-              <p className="text-muted-foreground">Try adjusting your search or filters to find what you're looking for.</p>
+              <h3 className="font-display text-2xl font-bold mb-2">No courses match your filters</h3>
+              <p className="mx-auto max-w-md text-muted-foreground">
+                Nothing matched this search, category and level together. Try a shorter search term,
+                or clear the filters to see every course again.
+              </p>
               <button 
                 onClick={() => { setSearch(""); setSelectedCategory("All"); setSelectedLevel("All"); }}
                 className="mt-6 text-sm font-bold text-primary hover:underline"
