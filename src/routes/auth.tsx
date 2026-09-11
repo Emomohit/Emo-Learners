@@ -149,29 +149,7 @@ function AuthPage() {
               <button
                 type="button"
                 disabled={busy}
-                onClick={async () => {
-                  setBusy(true);
-                  try {
-                    if (typeof window !== "undefined") {
-                      sessionStorage.setItem("postAuthRedirect", nextPath);
-                    }
-                    // Google OAuth straight to Google, back to our own callback screen.
-                    const { error } = await supabase.auth.signInWithOAuth({
-                      provider: "google",
-                      options: {
-                        redirectTo: `${window.location.origin}/auth/callback`,
-                        queryParams: { prompt: "select_account" },
-                      },
-                    });
-                    if (error) throw error;
-
-                  } catch (err: any) {
-                    console.error("Google sign-in failed:", err);
-                    toast.error("We couldn't sign you in with Google. Please try again, or use your email and password.");
-                  } finally {
-                    setBusy(false);
-                  }
-                }}
+                onClick={() => void handleGoogle()}
                 className="flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-background px-4 py-3 text-sm font-bold transition-colors hover:border-primary disabled:opacity-50"
               >
                 <svg className="h-4 w-4" viewBox="0 0 24 24" aria-hidden="true">
