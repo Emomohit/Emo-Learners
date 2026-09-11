@@ -5,7 +5,7 @@ import { Zap, Mail, Lock, User as UserIcon, Eye, EyeOff } from "lucide-react";
 import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
 import { supabase } from "@/integrations/supabase/client";
-import { buildGoogleAuthUrl } from "@/lib/google-oauth.functions";
+import { lovable } from "@/integrations/lovable";
 
 
 
@@ -96,19 +96,22 @@ function AuthPage() {
   }, [loading, user, nav, nextPath]);
 
 
-  // Google sign-in that returns to OUR domain (never a third-party page).
-  // EMO Learners → Google → /auth/callback (this site) → Dashboard.
+  // Use the configured managed provider. Its fixed provider callback remains
+  // oauth.lovable.app/callback; redirect_uri is only the final app destination.
   const handleGoogle = async () => {
     setBusy(true);
     try {
-      const state = crypto.randomUUID().replace(/-/g, "");
       sessionStorage.setItem("postAuthRedirect", nextPath);
-      sessionStorage.setItem("googleOAuthState", state);
-      const { url } = await buildGoogleAuthUrl({
-        data: { redirectUri: `${window.location.origin}/auth/callback`, state },
+      const result = await lovable.auth.signInWithOAuth("google", {
+        redirect_uri: window.location.origin,
+        extraParams: { prompt: "select_account" },
       });
-      window.location.assign(url);
-      // Browser is heading to Google — leave the button busy.
+      if (result.error) throw result.error;
+      if (result.redirected) return;
+
+      const { data, error } = await supabase.auth.getUser();
+      if (error || !data.user) throw error ?? new Error("Google session was not created");
+      window.location.replace(nextPath);
     } catch (err) {
       console.error("Google sign-in failed:", err);
       toast.error("We couldn't sign you in with Google. Please try again, or use your email and password.");

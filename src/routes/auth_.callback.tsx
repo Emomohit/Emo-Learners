@@ -2,7 +2,6 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Zap } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { exchangeGoogleCode } from "@/lib/google-oauth.functions";
 
 export const Route = createFileRoute("/auth_/callback")({
   ssr: false,
@@ -19,10 +18,8 @@ function safePath(value: string | null | undefined) {
 /**
  * Handles the Google return trip on our own domain.
  *
- * Google sends back a one-time code. It is exchanged server-side (the client
- * secret never touches the browser), and the verified identity receives a
- * one-time backend login token. Only then do we navigate onwards, so
- * the dashboard never renders without a user.
+ * This public page only waits for the existing auth provider to finish
+ * restoring its session, then sends the student to the intended app page.
  */
 function AuthCallbackPage() {
   const nav = useNavigate();
@@ -44,7 +41,6 @@ function AuthCallbackPage() {
     const cleanup = () => {
       try {
         sessionStorage.removeItem("postAuthRedirect");
-        sessionStorage.removeItem("googleOAuthState");
       } catch {
         /* ignore */
       }
@@ -74,50 +70,13 @@ function AuthCallbackPage() {
       return;
     }
 
-    const code = params.get("code");
-    const state = params.get("state");
-
     (async () => {
-      // Already signed in (e.g. a refresh of this page) — just move on.
-      const existing = await supabase.auth.getSession();
-      if (existing.data.session) {
+      const { data, error } = await supabase.auth.getSession();
+      if (!error && data.session) {
         finish(destination());
         return;
       }
-
-      if (!code) {
-        bail("missing authorization code");
-        return;
-      }
-
-      let expectedState: string | null = null;
-      try {
-        expectedState = sessionStorage.getItem("googleOAuthState");
-      } catch {
-        expectedState = null;
-      }
-      if (!state || !expectedState || state !== expectedState) {
-        bail("state mismatch");
-        return;
-      }
-
-      try {
-        const { tokenHash } = await exchangeGoogleCode({
-          data: { code, redirectUri: `${window.location.origin}/auth/callback` },
-        });
-        const { data, error } = await supabase.auth.verifyOtp({
-          type: "magiclink",
-          token_hash: tokenHash,
-        });
-
-        if (error || !data.session?.user) {
-          bail(error?.message ?? "session could not be created");
-          return;
-        }
-        finish(destination());
-      } catch (err) {
-        bail(err instanceof Error ? err.message : "unexpected error");
-      }
+      bail(error?.message ?? "session could not be created");
     })();
 
     return () => {
