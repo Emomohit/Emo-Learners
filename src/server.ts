@@ -84,9 +84,9 @@ function withSecurityHeaders(response: Response, request: Request): Response {
       "worker-src 'self' blob:",
       "media-src 'self' https: data: blob:",
       "object-src 'none'",
-      // Firebase Google sign-in loads its auth handler in a hidden iframe.
-      "frame-src 'self' https://accounts.google.com https://*.google.com https://oauth.lovable.app https://www.youtube.com https://www.youtube-nocookie.com",
-      "frame-ancestors 'self' https://lovable.dev https://*.lovable.app https://*.lovable.dev",
+      // Google OAuth popups and YouTube embeds (courses) may use frames.
+      "frame-src 'self' https://accounts.google.com https://*.google.com https://www.youtube.com https://www.youtube-nocookie.com",
+      "frame-ancestors 'self'",
       "base-uri 'self'",
       "form-action 'self'",
       "upgrade-insecure-requests",
