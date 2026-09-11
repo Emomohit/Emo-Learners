@@ -58,6 +58,12 @@ const POPUP_FALLBACK_CODES = new Set([
   "auth/popup-blocked",
   "auth/operation-not-supported-in-this-environment",
   "auth/web-storage-unsupported",
+  // Some browsers (in-app webviews, strict privacy settings, cross-origin
+  // isolation) close the Google window before it can report back. Falling back
+  // to the full-page flow is far more reliable than surfacing an error.
+  "auth/popup-closed-by-user",
+  "auth/cancelled-popup-request",
+  "auth/internal-error",
 ]);
 
 /**
