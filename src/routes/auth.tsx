@@ -5,6 +5,8 @@ import { Zap, Mail, Lock, User as UserIcon, Eye, EyeOff } from "lucide-react";
 import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
 import { supabase } from "@/integrations/supabase/client";
+import { buildGoogleAuthUrl } from "@/lib/google-oauth.functions";
+
 
 
 import { useAuth } from "@/lib/auth";
@@ -94,31 +96,26 @@ function AuthPage() {
   }, [loading, user, nav, nextPath]);
 
 
-  // Direct Google sign-in via the backend — no intermediate bridge pages.
-  // Flow: EMO Learners → Google → backend callback → /auth/callback → app.
-  // Email/password sign-in below is untouched.
+  // Google sign-in that returns to OUR domain (never a third-party page).
+  // EMO Learners → Google → /auth/callback (this site) → Dashboard.
   const handleGoogle = async () => {
     setBusy(true);
     try {
-      if (typeof window !== "undefined") sessionStorage.setItem("postAuthRedirect", nextPath);
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: "google",
-        options: {
-          redirectTo: `${window.location.origin}/auth/callback`,
-          queryParams: { prompt: "select_account" },
-        },
+      const state = crypto.randomUUID().replace(/-/g, "");
+      sessionStorage.setItem("postAuthRedirect", nextPath);
+      sessionStorage.setItem("googleOAuthState", state);
+      const { url } = await buildGoogleAuthUrl({
+        data: { redirectUri: `${window.location.origin}/auth/callback`, state },
       });
-      if (error) {
-        toast.error("We couldn't sign you in with Google. Please try again, or use your email and password.");
-        setBusy(false);
-      }
-      // On success the browser is heading to Google — leave the button busy.
+      window.location.assign(url);
+      // Browser is heading to Google — leave the button busy.
     } catch (err) {
       console.error("Google sign-in failed:", err);
       toast.error("We couldn't sign you in with Google. Please try again, or use your email and password.");
       setBusy(false);
     }
   };
+
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
