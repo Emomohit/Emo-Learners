@@ -4,7 +4,7 @@ const teacher = {
   instructor: "Pratyush Narain",
   teacher: "Pratyush Narain",
   channel: "Padho With Pratyush",
-  channelUrl: "https://www.youtube.com/@PadhoWithPratyush",
+  channelUrl: "https://www.youtube.com/@padho_with_pratyush",
   teacherProfileUrl: "https://www.linkedin.com/in/pratyushnarain55555",
   teacherBio: "Software engineer at Akamai Technologies and IIT (ISM) Dhanbad alumnus.",
 };

@@ -1,10 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
 import { courses, CATEGORIES } from "@/lib/course-data";
-import { getAllProgress, CourseProgress } from "@/lib/course-progress";
-import { ArrowRight, Clock, GraduationCap, PlayCircle, Sparkles, Search, Play } from "lucide-react";
+import { useCourseProgresses } from "@/lib/course-progress";
+import { Clock, GraduationCap, PlayCircle, Sparkles, Search, Play, RefreshCw, AlertTriangle } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/courses/")({
   head: () => ({
@@ -20,11 +21,8 @@ function CoursesIndex() {
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [selectedLevel, setSelectedLevel] = useState<string>("All");
-  const [progressData, setProgressData] = useState<{slug: string, progress: CourseProgress}[]>([]);
-
-  useEffect(() => {
-    setProgressData(getAllProgress());
-  }, []);
+  const progressQuery = useCourseProgresses();
+  const progressData = progressQuery.data ?? [];
 
   const filteredCourses = useMemo(() => {
     return courses.filter((c) => {
@@ -81,6 +79,7 @@ function CoursesIndex() {
                     key={slug} 
                     to="/courses/$slug"
                     params={{ slug }}
+                     search={{ chapter: progress.lastChapterId }}
                     className="group panel p-5 rounded-2xl transition-all hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5"
                   >
                     <div className="flex items-start justify-between mb-4">
@@ -104,6 +103,15 @@ function CoursesIndex() {
                 );
               })}
             </div>
+          </div>
+        </section>
+      )}
+
+      {progressQuery.isError && (
+        <section className="border-b border-border px-6 py-6">
+          <div role="alert" className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-4 rounded-lg border border-destructive/40 bg-destructive/5 p-5 sm:flex-row sm:items-center">
+            <div><p className="flex items-center gap-2 font-bold"><AlertTriangle className="h-4 w-4 text-destructive" /> Your progress could not load</p><p className="mt-1 text-sm text-muted-foreground">Check your connection and try again.</p></div>
+            <Button variant="outline" onClick={() => progressQuery.refetch()}><RefreshCw /> Retry</Button>
           </div>
         </section>
       )}
@@ -160,6 +168,7 @@ function CoursesIndex() {
                     key={c.slug}
                     to="/courses/$slug"
                     params={{ slug: c.slug }}
+                    search={{ chapter: undefined }}
                     className="group flex flex-col overflow-hidden panel panel-hover animate-rise rounded-2xl border border-border bg-surface/20"
                     style={{ animationDelay: `${i * 50}ms` }}
                   >
