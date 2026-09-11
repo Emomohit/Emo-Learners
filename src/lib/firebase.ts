@@ -21,7 +21,7 @@ let authPromise: Promise<Auth> | null = null;
  * domain) without extra server configuration.
  */
 const WEB_CONFIG = {
-  apiKey: import.meta.env['VITE_FIREBASE_API_KEY'] ?? "",
+  apiKey: import.meta.env['VITE_FIREBASE_API_KEY'] ?? "AIzaSyDhRHC6a5x7BJre1tTjbK3lFlT8JrxCOww",
   authDomain: import.meta.env['VITE_FIREBASE_AUTH_DOMAIN'] ?? "emo-learners-web.firebaseapp.com",
   projectId: import.meta.env['VITE_FIREBASE_PROJECT_ID'] ?? "emo-learners-web",
   storageBucket:
