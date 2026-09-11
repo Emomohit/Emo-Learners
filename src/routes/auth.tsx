@@ -14,6 +14,30 @@ export const Route = createFileRoute("/auth")({
   component: AuthPage,
 });
 
+/**
+ * Turns raw auth errors into something a student can act on.
+ * The original error is logged for developers, never shown as-is.
+ */
+function friendlyAuthError(raw?: string) {
+  const message = (raw ?? "").toLowerCase();
+  if (message.includes("invalid login credentials"))
+    return "That email and password combination doesn't match. Please check both and try again.";
+  if (message.includes("email not confirmed"))
+    return "Please confirm your email address first, then sign in again.";
+  if (message.includes("already registered") || message.includes("already been registered"))
+    return "An account with this email already exists. Please sign in instead.";
+  if (message.includes("password"))
+    return "Please use a password of at least 8 characters.";
+  if (message.includes("email"))
+    return "Please enter a valid email address.";
+  if (message.includes("rate limit") || message.includes("too many"))
+    return "Too many attempts just now. Please wait a minute and try again.";
+  if (message.includes("network") || message.includes("fetch"))
+    return "We couldn't reach the server. Please check your internet connection and try again.";
+  return "We couldn't complete that right now. Please try again in a moment.";
+}
+
+
 function AuthPage() {
   const nav = useNavigate();
   const { user, loading } = useAuth();
