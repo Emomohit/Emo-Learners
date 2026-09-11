@@ -1,14 +1,16 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { useEffect, useMemo, useState, useRef } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
 import { QuizBlock } from "@/components/site/QuizBlock";
 import { ExerciseBlock } from "@/components/site/ExerciseBlock";
 import { TeacherCredit } from "@/components/site/TeacherCredit";
-import { YouTubePlayer } from "@/components/site/YouTubePlayer";
 import { getCourse, courses } from "@/lib/course-data";
 import { getChapterExtras } from "@/lib/course-extras";
-import { getProgress, saveProgress, toggleChapterDone, clearProgress, loadSyncedCourseProgress } from "@/lib/course-progress";
+import { courseProgressQueryKey, getProgress, saveProgress, toggleChapterDone, clearProgress, loadSyncedCourseProgress } from "@/lib/course-progress";
+import { useAuth } from "@/lib/auth";
+import { Button } from "@/components/ui/button";
 import {
   ArrowLeft,
   ArrowRight,
@@ -20,10 +22,15 @@ import {
   ListChecks,
   Sparkles,
   Share,
+  ExternalLink,
+  Youtube,
 } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/courses/$slug")({
+  validateSearch: (search: Record<string, unknown>) => ({
+    chapter: typeof search.chapter === "number" ? search.chapter : Number(search.chapter) || undefined,
+  }),
   beforeLoad: ({ params }) => {
     if (!getCourse(params.slug)) throw notFound();
   },
@@ -46,11 +53,14 @@ export const Route = createFileRoute("/courses/$slug")({
 
 function CoursePlayer() {
   const { slug } = Route.useParams();
+  const { chapter: requestedChapter } = Route.useSearch();
   const course = getCourse(slug)!;
   const isPlaylist = course.type === "playlist";
+  const queryClient = useQueryClient();
+  const { user } = useAuth();
 
   const [done, setDone] = useState<Set<number>>(new Set());
-  const [selectedId, setSelectedId] = useState<number>(course.chapters[0]?.id ?? 1);
+  const [selectedId, setSelectedId] = useState<number>(requestedChapter ?? course.chapters[0]?.id ?? 1);
   const [isHydrated, setIsHydrated] = useState(false);
   const [resumeAt, setResumeAt] = useState(0);
 
@@ -61,27 +71,35 @@ function CoursePlayer() {
       setDone(new Set(p.completedChapters));
       // Resume from last chapter
       const lastCh = course.chapters.find((c) => c.id === p.lastChapterId);
-      if (lastCh) setSelectedId(lastCh.id);
+       if (lastCh && !requestedChapter) setSelectedId(lastCh.id);
       setResumeAt(p.lastTimestamp || 0);
     }
     setIsHydrated(true);
     void loadSyncedCourseProgress(course.slug).then((synced) => {
       setDone(new Set(synced.completedChapters));
       const last = course.chapters.find((chapter) => chapter.id === synced.lastChapterId);
-      if (last) setSelectedId(last.id);
+       if (last && !requestedChapter) setSelectedId(last.id);
       setResumeAt(synced.lastTimestamp || 0);
+    }).catch((error) => {
+      console.error(`Course progress could not be loaded for ${course.slug}`, error);
+      toast.error("Your saved progress could not be loaded. Please retry.");
     });
-  }, [course.slug, course.chapters]);
+  }, [course.slug, course.chapters, requestedChapter]);
 
   // Save last chapter on change
   useEffect(() => {
     if (!isHydrated) return;
-    saveProgress(course.slug, {
+    void saveProgress(course.slug, {
       lastChapterId: selectedId,
       totalChapters: course.chapters.length,
       completedChapters: [...done],
+      videoId: isPlaylist ? selectedChapter?.videoId : course.videoId,
+      lastTimestamp: selectedId === getProgress(course.slug).lastChapterId ? resumeAt : (isPlaylist ? 0 : selectedChapter?.t ?? 0),
+    }).then(() => queryClient.invalidateQueries({ queryKey: courseProgressQueryKey(user?.id) })).catch((error) => {
+      console.error(`Course progress could not be saved for ${course.slug}`, error);
+      toast.error("Progress could not be saved. Please retry.");
     });
-  }, [selectedId, isHydrated, course.slug, course.chapters.length, done]);
+  }, [selectedId, isHydrated, course.slug, course.chapters.length, done, isPlaylist, selectedChapter, course.videoId, resumeAt, queryClient, user?.id]);
 
   const selectedChapter = useMemo(
     () => course.chapters.find((c) => c.id === selectedId) ?? course.chapters[0],
@@ -92,6 +110,7 @@ function CoursePlayer() {
   const handleToggleDone = (id: number) => {
     const newDone = toggleChapterDone(course.slug, id, course.chapters.length);
     setDone(newDone);
+    void queryClient.invalidateQueries({ queryKey: courseProgressQueryKey(user?.id) });
   };
 
   const handleReset = () => {
@@ -99,6 +118,7 @@ function CoursePlayer() {
     setDone(new Set());
     setSelectedId(course.chapters[0]?.id ?? 1);
     toast.success("Course progress reset.");
+    void queryClient.invalidateQueries({ queryKey: courseProgressQueryKey(user?.id) });
   };
 
   const handleShare = () => {
@@ -120,11 +140,14 @@ function CoursePlayer() {
   const nextChapter = currentIndex < course.chapters.length - 1 ? course.chapters[currentIndex + 1] : null;
 
   // For the player: if playlist, use chapter.videoId, else use course.videoId
-  const playerVideoId = isPlaylist ? selectedChapter?.videoId ?? course.videoId : course.videoId;
-  // If playlist, usually we start from 0 for each video. If single-video, start from chapter.t
-  const playerStartTime = resumeAt > 0 && selectedChapter?.id === getProgress(course.slug).lastChapterId
+  const selectedVideoId = isPlaylist ? selectedChapter?.videoId ?? course.videoId : course.videoId;
+  const youtubeStartTime = resumeAt > 0 && selectedChapter?.id === getProgress(course.slug).lastChapterId
     ? resumeAt
     : isPlaylist ? 0 : selectedChapter?.t ?? 0;
+  const youtubeUrl = isPlaylist && course.playlistId
+    ? `https://www.youtube.com/watch?v=${selectedVideoId}&list=${course.playlistId}&t=${Math.max(0, Math.floor(youtubeStartTime))}s`
+    : `https://www.youtube.com/watch?v=${selectedVideoId}&t=${Math.max(0, Math.floor(youtubeStartTime))}s`;
+  const thumbnailUrl = `https://img.youtube.com/vi/${selectedVideoId}/hqdefault.jpg`;
 
   if (!course.chapters.length) {
     return (
@@ -175,17 +198,18 @@ function CoursePlayer() {
             </h1>
           </div>
 
-          {/* YouTube Player */}
-          {playerVideoId && !selectedChapter.unavailable && (
-            <YouTubePlayer 
-              key={playerVideoId + playerStartTime} // force remount on video change to ensure auto-play kicks in
-              videoId={playerVideoId} 
-              startTime={playerStartTime}
-              title={selectedChapter.title}
-              className="w-full shadow-2xl shadow-primary/5"
-              onProgress={(seconds) => saveProgress(course.slug, { lastChapterId: selectedChapter.id, totalChapters: course.chapters.length, completedChapters: [...done], lastTimestamp: seconds, videoId: playerVideoId })}
-              onEnded={() => { if (!done.has(selectedChapter.id)) handleToggleDone(selectedChapter.id); if (nextChapter) setSelectedId(nextChapter.id); }}
-            />
+          {/* Exact source link — playback stays on YouTube. */}
+          {selectedVideoId && !selectedChapter.unavailable && (
+            <div className="relative aspect-video overflow-hidden rounded-lg border border-border bg-surface">
+              <img src={thumbnailUrl} alt={`${selectedChapter.title} YouTube thumbnail`} className="h-full w-full object-cover" />
+              <div className="absolute inset-0 flex items-center justify-center bg-foreground/45 p-6">
+                <Button asChild size="lg" className="shadow-lg">
+                  <a href={youtubeUrl} target="_blank" rel="noreferrer" aria-label={`Watch ${selectedChapter.title} on YouTube at the saved timestamp`}>
+                    <Youtube className="h-5 w-5" /> Watch on YouTube <ExternalLink className="h-4 w-4" />
+                  </a>
+                </Button>
+              </div>
+            </div>
           )}
           {selectedChapter.unavailable && <div className="rounded-2xl border border-dashed p-8 text-center text-muted-foreground">This playlist entry is unavailable. No replacement has been used.</div>}
 
@@ -340,9 +364,9 @@ function CoursePlayer() {
                 const isDone = done.has(ch.id);
                 const isActive = ch.id === selectedChapter?.id;
                 return (
-                  <button
-                    key={ch.id}
-                    onClick={() => setSelectedId(ch.id)}
+                   <button
+                     key={ch.id}
+                     onClick={() => { setSelectedId(ch.id); setResumeAt(ch.id === getProgress(course.slug).lastChapterId ? getProgress(course.slug).lastTimestamp : 0); }}
                     className={`group w-full flex items-start gap-3 rounded-lg px-3 py-3 text-left transition-all ${
                       isActive
                         ? "bg-primary/10 border border-primary/30"
