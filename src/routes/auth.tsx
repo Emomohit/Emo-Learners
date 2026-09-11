@@ -94,68 +94,28 @@ function AuthPage() {
   }, [loading, user, nav, nextPath]);
 
 
-  // Firebase Google sign-in → EMO Learners session. Existing email/password
-  // sign-in below is untouched and keeps working exactly as before.
-  const completeFirebaseSignIn = async (idToken: string) => {
-    const { firebaseGoogleBridge } = await import("@/lib/firebase-bridge.functions");
-    const { email: bridgedEmail, tokenHash } = await firebaseGoogleBridge({ data: { idToken } });
-    // The server creates a Supabase magic link, so its hashed token must be
-    // exchanged using the matching `magiclink` verification type. Using
-    // `email` here rejects an otherwise valid Google sign-in token.
-    const { data, error } = await supabase.auth.verifyOtp({
-      type: "magiclink",
-      token_hash: tokenHash,
-    });
-    if (error || !data.session || !data.user) {
-      throw new Error(error?.message ?? "google-session-not-created");
-    }
-    toast.success(`Signed in as ${bridgedEmail}`);
-    if (typeof window !== "undefined") {
-      sessionStorage.removeItem("postAuthRedirect");
-      window.location.replace(nextPath);
-    }
-  };
-
+  // Managed Google sign-in. Email/password sign-in below is untouched.
   const handleGoogle = async () => {
     setBusy(true);
     try {
       if (typeof window !== "undefined") sessionStorage.setItem("postAuthRedirect", nextPath);
-      const { firebaseGoogleSignIn } = await import("@/lib/firebase");
-      const idToken = await firebaseGoogleSignIn();
-      if (!idToken) return; // redirect flow took over
-      await completeFirebaseSignIn(idToken);
+      const { lovable } = await import("@/integrations/lovable/index");
+      const result = await lovable.auth.signInWithOAuth("google", {
+        redirect_uri: window.location.origin,
+      });
+      if (result.error) {
+        toast.error("We couldn't sign you in with Google. Please try again, or use your email and password.");
+        return;
+      }
+      if (result.redirected) return; // browser is heading to Google
+      window.location.replace(nextPath);
     } catch (err) {
       console.error("Google sign-in failed:", err);
-      const { friendlyFirebaseError } = await import("@/lib/firebase");
-      toast.error(friendlyFirebaseError(err));
+      toast.error("We couldn't sign you in with Google. Please try again, or use your email and password.");
     } finally {
       setBusy(false);
     }
   };
-
-  // Pick up a Google sign-in that came back through the redirect flow (mobile).
-  useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      try {
-        const { firebaseRedirectIdToken } = await import("@/lib/firebase");
-        const idToken = await firebaseRedirectIdToken();
-        if (!idToken || cancelled) return;
-        setBusy(true);
-        await completeFirebaseSignIn(idToken);
-      } catch (err) {
-        console.error("Google redirect sign-in failed:", err);
-        const { friendlyFirebaseError } = await import("@/lib/firebase");
-        toast.error(friendlyFirebaseError(err));
-      } finally {
-        if (!cancelled) setBusy(false);
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
