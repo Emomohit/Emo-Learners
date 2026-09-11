@@ -8,7 +8,7 @@ import { ExerciseBlock } from "@/components/site/ExerciseBlock";
 import { TeacherCredit } from "@/components/site/TeacherCredit";
 import { getCourse, courses } from "@/lib/course-data";
 import { getChapterExtras } from "@/lib/course-extras";
-import { courseProgressQueryKey, getProgress, saveProgress, toggleChapterDone, clearProgress, loadSyncedCourseProgress } from "@/lib/course-progress";
+import { courseProgressQueryKey, getProgress, saveProgress, resetCourseProgress, loadSyncedCourseProgress } from "@/lib/course-progress";
 import { useAuth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import {
@@ -78,16 +78,15 @@ function CoursePlayer() {
        if (lastCh && !requestedChapter) setSelectedId(lastCh.id);
       setResumeAt(p.lastTimestamp || 0);
     }
-    setIsHydrated(true);
     void loadSyncedCourseProgress(course.slug).then((synced) => {
       setDone(new Set(synced.completedChapters));
       const last = course.chapters.find((chapter) => chapter.id === synced.lastChapterId);
        if (last && !requestedChapter) setSelectedId(last.id);
-      setResumeAt(synced.lastTimestamp || 0);
+      setResumeAt(requestedChapter && requestedChapter !== synced.lastChapterId ? 0 : synced.lastTimestamp || 0);
     }).catch((error) => {
       console.error(`Course progress could not be loaded for ${course.slug}`, error);
       toast.error("Your saved progress could not be loaded. Please retry.");
-    });
+    }).finally(() => setIsHydrated(true));
   }, [course.slug, course.chapters, requestedChapter]);
 
   // Save last chapter on change
@@ -108,17 +107,28 @@ function CoursePlayer() {
   const extras = getChapterExtras(course.slug, selectedChapter?.id ?? 0);
 
   const handleToggleDone = (id: number) => {
-    const newDone = toggleChapterDone(course.slug, id, course.chapters.length);
-    setDone(newDone);
-    void queryClient.invalidateQueries({ queryKey: courseProgressQueryKey(user?.id) });
+    setDone((current) => {
+      const next = new Set(current);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
   };
 
-  const handleReset = () => {
-    clearProgress(course.slug);
-    setDone(new Set());
-    setSelectedId(course.chapters[0]?.id ?? 1);
-    toast.success("Course progress reset.");
-    void queryClient.invalidateQueries({ queryKey: courseProgressQueryKey(user?.id) });
+  const handleReset = async () => {
+    try {
+      setIsHydrated(false);
+      await resetCourseProgress(course.slug);
+      setDone(new Set());
+      setSelectedId(course.chapters[0]?.id ?? 1);
+      setResumeAt(0);
+      await queryClient.invalidateQueries({ queryKey: courseProgressQueryKey(user?.id) });
+      toast.success("Course progress reset.");
+    } catch (error) {
+      console.error(`Course progress could not be reset for ${course.slug}`, error);
+      toast.error("Progress could not be reset. Please retry.");
+    } finally {
+      setIsHydrated(true);
+    }
   };
 
   const handleShare = () => {
@@ -134,7 +144,9 @@ function CoursePlayer() {
     }
   };
 
-  const progressPct = Math.round((done.size / (course.chapters.length || 1)) * 100);
+  const requiredChapterIds = new Set(course.chapters.filter((chapter) => !chapter.unavailable).map((chapter) => chapter.id));
+  const completedRequired = [...done].filter((id) => requiredChapterIds.has(id)).length;
+  const progressPct = Math.round((completedRequired / Math.max(1, requiredChapterIds.size)) * 100);
   const currentIndex = course.chapters.findIndex((c) => c.id === selectedChapter?.id);
   const prevChapter = currentIndex > 0 ? course.chapters[currentIndex - 1] : null;
   const nextChapter = currentIndex < course.chapters.length - 1 ? course.chapters[currentIndex + 1] : null;

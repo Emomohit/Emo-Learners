@@ -1,6 +1,7 @@
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/lib/auth";
+import { courses } from "@/lib/course-data";
 
 export type CourseProgress = {
   completedItems: number[];
@@ -96,9 +97,29 @@ export async function loadAllSyncedCourseProgress(): Promise<CourseProgressEntry
   const newerLocal: CourseProgressEntry[] = [];
   for (const localEntry of localEntries) {
     const cloudEntry = merged.get(localEntry.slug);
-    if (!cloudEntry || (localEntry.progress.lastWatchedAt ?? "") > (cloudEntry.progress.lastWatchedAt ?? "")) {
+    if (!cloudEntry) {
       merged.set(localEntry.slug, localEntry);
       newerLocal.push(localEntry);
+      continue;
+    }
+    const completed = [...new Set([...cloudEntry.progress.completedChapters, ...localEntry.progress.completedChapters])];
+    const localIsNewer = (localEntry.progress.lastWatchedAt ?? "") > (cloudEntry.progress.lastWatchedAt ?? "");
+    const newest = localIsNewer ? localEntry.progress : cloudEntry.progress;
+    const course = courses.find((item) => item.slug === localEntry.slug);
+    const requiredCount = course?.chapters.filter((item) => !item.unavailable).length ?? Math.max(cloudEntry.progress.totalChapters, localEntry.progress.totalChapters, 1);
+    const combined: CourseProgressEntry = {
+      slug: localEntry.slug,
+      progress: {
+        ...newest,
+        completedItems: completed,
+        completedChapters: completed,
+        totalChapters: requiredCount,
+        percentage: Math.round((completed.length / requiredCount) * 100),
+      },
+    };
+    merged.set(localEntry.slug, combined);
+    if (localIsNewer || completed.length !== cloudEntry.progress.completedChapters.length) {
+      newerLocal.push(combined);
     }
   }
 
@@ -181,6 +202,14 @@ export function toggleChapterDone(slug: string, id: number, total: number) {
   return set;
 }
 export function clearProgress(slug: string) { if (typeof window !== "undefined") localStorage.removeItem(key(slug)); }
+export async function resetCourseProgress(slug: string) {
+  clearProgress(slug);
+  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  if (authError) throw authError;
+  if (!user) return;
+  const { error } = await supabase.from("course_progress").delete().eq("user_id", user.id).eq("course_slug", slug);
+  if (error) throw error;
+}
 export function getAllProgress() {
   const result: { slug: string; progress: CourseProgress }[] = [];
   if (typeof window === "undefined") return result;
