@@ -50,11 +50,23 @@ function AuthPage() {
 
   // Read ?next=/path and remember it across the OAuth round-trip.
   const nextPath = (() => {
-    if (typeof window === "undefined") return "/challenge";
+    if (typeof window === "undefined") return "/dashboard";
     const p = new URLSearchParams(window.location.search).get("next");
     if (p && p.startsWith("/") && !p.startsWith("//")) return p;
-    return "/challenge";
+    return "/dashboard";
   })();
+
+  // If Google sent the student back with a problem, say so on our own screen.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("error") === "google") {
+      toast.error("We couldn't sign you in with Google. Please try again, or use your email and password.");
+      params.delete("error");
+      const rest = params.toString();
+      window.history.replaceState({}, "", window.location.pathname + (rest ? `?${rest}` : ""));
+    }
+  }, []);
 
   useEffect(() => {
     if (!loading && user) {
@@ -65,6 +77,7 @@ function AuthPage() {
       nav({ to: dest });
     }
   }, [loading, user, nav, nextPath]);
+
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -142,15 +155,16 @@ function AuthPage() {
                     if (typeof window !== "undefined") {
                       sessionStorage.setItem("postAuthRedirect", nextPath);
                     }
-                    // Google OAuth via Supabase Native
+                    // Google OAuth straight to Google, back to our own callback screen.
                     const { error } = await supabase.auth.signInWithOAuth({
                       provider: "google",
                       options: {
-                        redirectTo: `${window.location.origin}/auth`,
+                        redirectTo: `${window.location.origin}/auth/callback`,
                         queryParams: { prompt: "select_account" },
                       },
                     });
                     if (error) throw error;
+
                   } catch (err: any) {
                     console.error("Google sign-in failed:", err);
                     toast.error("We couldn't sign you in with Google. Please try again, or use your email and password.");

@@ -47,6 +47,7 @@ import { Route as EmoiqPlanRouteImport } from './routes/emoiq.plan'
 import { Route as EmoiqDoubtRouteImport } from './routes/emoiq.doubt'
 import { Route as EmoiqAnalyzeRouteImport } from './routes/emoiq.analyze'
 import { Route as CoursesSlugRouteImport } from './routes/courses.$slug'
+import { Route as AuthCallbackRouteImport } from './routes/auth_.callback'
 import { Route as CoursesSlugChaptersRouteImport } from './routes/courses_.$slug.chapters'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -239,6 +240,11 @@ const CoursesSlugRoute = CoursesSlugRouteImport.update({
   path: '/courses/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthCallbackRoute = AuthCallbackRouteImport.update({
+  id: '/auth_/callback',
+  path: '/auth/callback',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CoursesSlugChaptersRoute = CoursesSlugChaptersRouteImport.update({
   id: '/courses_/$slug/chapters',
   path: '/courses/$slug/chapters',
@@ -266,6 +272,7 @@ export interface FileRoutesByFullPath {
   '/resources': typeof ResourcesRoute
   '/roadmap': typeof RoadmapRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/emoiq/analyze': typeof EmoiqAnalyzeRoute
   '/emoiq/doubt': typeof EmoiqDoubtRoute
@@ -305,6 +312,7 @@ export interface FileRoutesByTo {
   '/resources': typeof ResourcesRoute
   '/roadmap': typeof RoadmapRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/emoiq/analyze': typeof EmoiqAnalyzeRoute
   '/emoiq/doubt': typeof EmoiqDoubtRoute
@@ -347,6 +355,7 @@ export interface FileRoutesById {
   '/resources': typeof ResourcesRoute
   '/roadmap': typeof RoadmapRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/auth_/callback': typeof AuthCallbackRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/emoiq/analyze': typeof EmoiqAnalyzeRoute
   '/emoiq/doubt': typeof EmoiqDoubtRoute
@@ -390,6 +399,7 @@ export interface FileRouteTypes {
     | '/resources'
     | '/roadmap'
     | '/sitemap.xml'
+    | '/auth/callback'
     | '/courses/$slug'
     | '/emoiq/analyze'
     | '/emoiq/doubt'
@@ -429,6 +439,7 @@ export interface FileRouteTypes {
     | '/resources'
     | '/roadmap'
     | '/sitemap.xml'
+    | '/auth/callback'
     | '/courses/$slug'
     | '/emoiq/analyze'
     | '/emoiq/doubt'
@@ -470,6 +481,7 @@ export interface FileRouteTypes {
     | '/resources'
     | '/roadmap'
     | '/sitemap.xml'
+    | '/auth_/callback'
     | '/courses/$slug'
     | '/emoiq/analyze'
     | '/emoiq/doubt'
@@ -512,6 +524,7 @@ export interface RootRouteChildren {
   ResourcesRoute: typeof ResourcesRoute
   RoadmapRoute: typeof RoadmapRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  AuthCallbackRoute: typeof AuthCallbackRoute
   CoursesSlugRoute: typeof CoursesSlugRoute
   QuizzesSlugRoute: typeof QuizzesSlugRoute
   TestsSlugRoute: typeof TestsSlugRoute
@@ -789,6 +802,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CoursesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth_/callback': {
+      id: '/auth_/callback'
+      path: '/auth/callback'
+      fullPath: '/auth/callback'
+      preLoaderRoute: typeof AuthCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/courses_/$slug/chapters': {
       id: '/courses_/$slug/chapters'
       path: '/courses/$slug/chapters'
@@ -862,6 +882,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResourcesRoute: ResourcesRoute,
   RoadmapRoute: RoadmapRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  AuthCallbackRoute: AuthCallbackRoute,
   CoursesSlugRoute: CoursesSlugRoute,
   QuizzesSlugRoute: QuizzesSlugRoute,
   TestsSlugRoute: TestsSlugRoute,
