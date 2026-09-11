@@ -155,15 +155,16 @@ function AuthPage() {
                     if (typeof window !== "undefined") {
                       sessionStorage.setItem("postAuthRedirect", nextPath);
                     }
-                    // Google OAuth via Supabase Native
+                    // Google OAuth straight to Google, back to our own callback screen.
                     const { error } = await supabase.auth.signInWithOAuth({
                       provider: "google",
                       options: {
-                        redirectTo: `${window.location.origin}/auth`,
+                        redirectTo: `${window.location.origin}/auth/callback`,
                         queryParams: { prompt: "select_account" },
                       },
                     });
                     if (error) throw error;
+
                   } catch (err: any) {
                     console.error("Google sign-in failed:", err);
                     toast.error("We couldn't sign you in with Google. Please try again, or use your email and password.");
