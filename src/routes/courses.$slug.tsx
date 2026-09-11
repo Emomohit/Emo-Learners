@@ -52,6 +52,7 @@ function CoursePlayer() {
   const [done, setDone] = useState<Set<number>>(new Set());
   const [selectedId, setSelectedId] = useState<number>(course.chapters[0]?.id ?? 1);
   const [isHydrated, setIsHydrated] = useState(false);
+  const [resumeAt, setResumeAt] = useState(0);
 
   // Load progress on mount
   useEffect(() => {
@@ -61,12 +62,14 @@ function CoursePlayer() {
       // Resume from last chapter
       const lastCh = course.chapters.find((c) => c.id === p.lastChapterId);
       if (lastCh) setSelectedId(lastCh.id);
+      setResumeAt(p.lastTimestamp || 0);
     }
     setIsHydrated(true);
     void loadSyncedCourseProgress(course.slug).then((synced) => {
       setDone(new Set(synced.completedChapters));
       const last = course.chapters.find((chapter) => chapter.id === synced.lastChapterId);
       if (last) setSelectedId(last.id);
+      setResumeAt(synced.lastTimestamp || 0);
     });
   }, [course.slug, course.chapters]);
 
@@ -119,7 +122,9 @@ function CoursePlayer() {
   // For the player: if playlist, use chapter.videoId, else use course.videoId
   const playerVideoId = isPlaylist ? selectedChapter?.videoId ?? course.videoId : course.videoId;
   // If playlist, usually we start from 0 for each video. If single-video, start from chapter.t
-  const playerStartTime = isPlaylist ? 0 : selectedChapter?.t ?? 0;
+  const playerStartTime = resumeAt > 0 && selectedChapter?.id === getProgress(course.slug).lastChapterId
+    ? resumeAt
+    : isPlaylist ? 0 : selectedChapter?.t ?? 0;
 
   if (!course.chapters.length) {
     return (
@@ -171,7 +176,7 @@ function CoursePlayer() {
           </div>
 
           {/* YouTube Player */}
-          {playerVideoId && (
+          {playerVideoId && !selectedChapter.unavailable && (
             <YouTubePlayer 
               key={playerVideoId + playerStartTime} // force remount on video change to ensure auto-play kicks in
               videoId={playerVideoId} 
@@ -179,7 +184,7 @@ function CoursePlayer() {
               title={selectedChapter.title}
               className="w-full shadow-2xl shadow-primary/5"
               onProgress={(seconds) => saveProgress(course.slug, { lastChapterId: selectedChapter.id, totalChapters: course.chapters.length, completedChapters: [...done], lastTimestamp: seconds, videoId: playerVideoId })}
-              onEnded={() => { if (!done.has(selectedChapter.id)) handleToggleDone(selectedChapter.id); }}
+              onEnded={() => { if (!done.has(selectedChapter.id)) handleToggleDone(selectedChapter.id); if (nextChapter) setSelectedId(nextChapter.id); }}
             />
           )}
           {selectedChapter.unavailable && <div className="rounded-2xl border border-dashed p-8 text-center text-muted-foreground">This playlist entry is unavailable. No replacement has been used.</div>}
