@@ -63,20 +63,51 @@ function AuthCallbackPage() {
       nav({ to: "/auth", search: { error: "google" }, replace: true });
     };
 
-    const params = new URLSearchParams(window.location.search);
-    const providerError = params.get("error");
+    const query = new URLSearchParams(window.location.search);
+    const hash = new URLSearchParams(window.location.hash.replace(/^#/, ""));
+    const pick = (key: string) => query.get(key) ?? hash.get(key);
+
+    const providerError = pick("error") ?? pick("error_description");
     if (providerError) {
       bail(providerError);
       return;
     }
 
     (async () => {
-      const { data, error } = await supabase.auth.getSession();
-      if (!error && data.session) {
-        finish(destination());
-        return;
+      try {
+        const accessToken = pick("access_token");
+        const refreshToken = pick("refresh_token");
+        const code = pick("code");
+
+        if (accessToken && refreshToken) {
+          const { error } = await supabase.auth.setSession({
+            access_token: accessToken,
+            refresh_token: refreshToken,
+          });
+          if (error) {
+            bail(error.message);
+            return;
+          }
+        } else if (code) {
+          const { error } = await supabase.auth.exchangeCodeForSession(code);
+          if (error) {
+            bail(error.message);
+            return;
+          }
+        }
+
+        // Strip the one-time credentials from the address bar before moving on.
+        window.history.replaceState({}, "", window.location.pathname);
+
+        const { data, error } = await supabase.auth.getSession();
+        if (!error && data.session) {
+          finish(destination());
+          return;
+        }
+        bail(error?.message ?? "session could not be created");
+      } catch (err) {
+        bail(err instanceof Error ? err.message : String(err));
       }
-      bail(error?.message ?? "session could not be created");
     })();
 
     return () => {
