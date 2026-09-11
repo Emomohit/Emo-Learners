@@ -29,6 +29,9 @@ function AuthCallbackPage() {
 
   useEffect(() => {
     let done = false;
+    let sub: { unsubscribe: () => void } | undefined;
+
+
 
     const finish = (dest: string) => {
       if (done) return;
