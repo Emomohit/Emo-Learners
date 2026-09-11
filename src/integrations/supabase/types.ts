@@ -76,6 +76,48 @@ export type Database = {
           },
         ]
       }
+      course_progress: {
+        Row: {
+          completed_items: number[]
+          content_item_id: number
+          course_slug: string
+          created_at: string
+          id: string
+          last_timestamp: number
+          last_watched_at: string
+          percentage: number
+          updated_at: string
+          user_id: string
+          video_id: string | null
+        }
+        Insert: {
+          completed_items?: number[]
+          content_item_id?: number
+          course_slug: string
+          created_at?: string
+          id?: string
+          last_timestamp?: number
+          last_watched_at?: string
+          percentage?: number
+          updated_at?: string
+          user_id: string
+          video_id?: string | null
+        }
+        Update: {
+          completed_items?: number[]
+          content_item_id?: number
+          course_slug?: string
+          created_at?: string
+          id?: string
+          last_timestamp?: number
+          last_watched_at?: string
+          percentage?: number
+          updated_at?: string
+          user_id?: string
+          video_id?: string | null
+        }
+        Relationships: []
+      }
       custom_tests: {
         Row: {
           created_at: string
@@ -340,6 +382,7 @@ export type Database = {
       }
       profiles: {
         Row: {
+          academic_year: number | null
           avatar_url: string | null
           branch: Database["public"]["Enums"]["branch_code"] | null
           created_at: string
@@ -350,6 +393,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          academic_year?: number | null
           avatar_url?: string | null
           branch?: Database["public"]["Enums"]["branch_code"] | null
           created_at?: string
@@ -360,6 +404,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          academic_year?: number | null
           avatar_url?: string | null
           branch?: Database["public"]["Enums"]["branch_code"] | null
           created_at?: string
