@@ -5,7 +5,7 @@ import { Zap, Mail, Lock, User as UserIcon, Eye, EyeOff } from "lucide-react";
 import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
 import { supabase } from "@/integrations/supabase/client";
-import { lovable } from "@/integrations/lovable";
+
 
 
 
@@ -96,29 +96,32 @@ function AuthPage() {
   }, [loading, user, nav, nextPath]);
 
 
-  // Use the configured managed provider. Its fixed provider callback remains
-  // oauth.lovable.app/callback; redirect_uri is only the final app destination.
+  // Straight Google sign-in through our own backend auth. The browser goes to
+  // Google, comes back to /auth/callback on this same domain, and we finish there.
   const handleGoogle = async () => {
     setBusy(true);
     try {
       sessionStorage.setItem("postAuthRedirect", nextPath);
-      const result = await lovable.auth.signInWithOAuth("google", {
-        // Return to our own callback page on this domain, which finishes the session.
-        redirect_uri: `${window.location.origin}/auth/callback`,
-        extraParams: { prompt: "select_account" },
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`,
+          queryParams: { prompt: "select_account" },
+        },
       });
-      if (result.error) throw result.error;
-      if (result.redirected) return;
-
-      const { data, error } = await supabase.auth.getUser();
-      if (error || !data.user) throw error ?? new Error("Google session was not created");
-      window.location.replace(nextPath);
+      if (error) throw error;
+      if (data?.url) {
+        window.location.assign(data.url);
+        return;
+      }
+      throw new Error("Google sign-in did not return a redirect URL");
     } catch (err) {
       console.error("Google sign-in failed:", err);
       toast.error("We couldn't sign you in with Google. Please try again, or use your email and password.");
       setBusy(false);
     }
   };
+
 
 
   const submit = async (e: React.FormEvent) => {
