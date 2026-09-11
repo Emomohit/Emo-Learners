@@ -102,13 +102,14 @@ function AuthCallbackPage() {
       }
 
       try {
-        const { idToken } = await exchangeGoogleCode({
+        const { tokenHash } = await exchangeGoogleCode({
           data: { code, redirectUri: `${window.location.origin}/auth/callback` },
         });
-        const { data, error } = await supabase.auth.signInWithIdToken({
-          provider: "google",
-          token: idToken,
+        const { data, error } = await supabase.auth.verifyOtp({
+          type: "magiclink",
+          token_hash: tokenHash,
         });
+
         if (error || !data.session?.user) {
           bail(error?.message ?? "session could not be created");
           return;
