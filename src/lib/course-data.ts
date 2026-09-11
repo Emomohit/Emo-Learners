@@ -763,7 +763,7 @@ export const courses: Course[] = [
     title: "Complete Python — 30 Day Challenge",
     tagline: "Zero to confident in one focused month.",
     description:
-      "A 30-day structured Python challenge with streaks, badges, and a personalized certificate. Built around CodeWithHarry's one-shot Python tutorial.",
+      "A 30-day Python course for absolute beginners, built around CodeWithHarry's one-shot tutorial. You start with variables, input/output and loops, then move on to strings, lists, dictionaries, functions, file handling, OOP and error handling. No prior coding experience is needed — only a laptop and about an hour a day. By the end you will be comfortable writing small Python programs on your own and ready for DSA or project work.",
     emoji: "🐍",
     level: "Beginner → Intermediate",
     hours: "10 hr 54 min",
@@ -786,7 +786,7 @@ export const courses: Course[] = [
     title: "Complete Java — Basics to Advanced",
     tagline: "OOP, JVM, and the language that still powers the world.",
     description:
-      "A chapter-by-chapter walkthrough of Telusko's complete Java course — variables and loops to OOP, generics, lambdas, streams, and multithreading.",
+      "A complete Java course mapped chapter by chapter to Telusko's full tutorial. It begins with JDK setup, variables, operators and loops, then covers arrays, strings and methods before going deep into OOP — classes, inheritance, polymorphism, abstraction and interfaces. Later chapters cover exception handling, collections, generics, lambdas, the Streams API, file handling and multithreading basics. Suitable for first-year students starting from zero and for anyone revising Java before placement interviews or a university exam.",
     emoji: "☕",
     level: "Beginner → Advanced",
     hours: "62 hr 55 min",
@@ -809,7 +809,7 @@ export const courses: Course[] = [
     title: "Complete C Language — Basics to Advanced",
     tagline: "Learn what every other language is hiding from you.",
     description:
-      "Master C from `printf` to pointers, structs, dynamic memory, and multi-file projects. Mapped chapter-by-chapter to Apna College's complete C course.",
+      "C from the very first printf to pointers, dynamic memory and multi-file projects, mapped chapter by chapter to Apna College's complete C course. You cover input/output, operators, conditionals, loops, arrays, strings, functions and recursion, then pointers, malloc/free, structures, unions, file handling, storage classes and the preprocessor. Ideal for first-year engineering students whose syllabus starts with C, and for anyone who wants to understand how memory actually works before moving to C++ or DSA.",
     emoji: "🇨",
     level: "Beginner → Advanced",
     hours: "10 hr 32 min",
