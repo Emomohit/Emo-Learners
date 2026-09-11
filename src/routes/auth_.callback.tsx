@@ -33,7 +33,7 @@ function AuthCallbackPage() {
     const finish = (dest: string) => {
       if (done) return;
       done = true;
-      sub?.subscription.unsubscribe();
+      sub?.unsubscribe();
       try {
         sessionStorage.removeItem("postAuthRedirect");
       } catch {
@@ -56,7 +56,7 @@ function AuthCallbackPage() {
     const bail = (reason: string) => {
       if (done) return;
       done = true;
-      sub?.subscription.unsubscribe();
+      sub?.unsubscribe();
       console.error("OAuth callback failed:", reason);
       setFailed(true);
       nav({ to: "/auth", search: { error: "google" }, replace: true });
@@ -71,13 +71,13 @@ function AuthCallbackPage() {
       return;
     }
 
-    let sub: { subscription: { unsubscribe: () => void } } | undefined;
+    let sub: { unsubscribe: () => void } | undefined;
 
     sub = supabase.auth.onAuthStateChange((event, session) => {
       if (session?.user && (event === "SIGNED_IN" || event === "INITIAL_SESSION")) {
         finish(destination());
       }
-    });
+    }).data.subscription;
 
     // Poll for the session the client establishes from the URL, then confirm the
     // user server-side before we redirect anywhere.
@@ -100,7 +100,7 @@ function AuthCallbackPage() {
 
     return () => {
       done = true;
-      sub?.subscription.unsubscribe();
+      sub?.unsubscribe();
     };
   }, [nav]);
 
