@@ -97,7 +97,7 @@ export const firebaseGoogleBridge = createServerFn({ method: "POST" })
         .from("profiles")
         .upsert({ id: userId, email, full_name: fullName, avatar_url: picture }, { onConflict: "id" });
     } else {
-      const patch: Record<string, string> = {};
+      const patch: { full_name?: string; avatar_url?: string } = {};
       if (!profile.full_name && fullName) patch.full_name = fullName;
       if (!profile.avatar_url && picture) patch.avatar_url = picture;
       if (Object.keys(patch).length > 0) {
