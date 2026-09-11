@@ -10,7 +10,22 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 
 export const Route = createFileRoute("/auth")({
-  head: () => ({ meta: [{ title: "Sign In — EMO Learners" }] }),
+  head: () => ({
+    meta: [
+      { title: "Sign In — EMO Learners" },
+      {
+        name: "description",
+        content: "Sign in to EMO Learners to continue your courses, practice sessions, and saved progress.",
+      },
+      { property: "og:title", content: "Sign In — EMO Learners" },
+      {
+        property: "og:description",
+        content: "Continue your courses, practice sessions, and saved learning progress.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+    ],
+  }),
   component: AuthPage,
 });
 
@@ -166,9 +181,9 @@ function AuthPage() {
         toast.success("Welcome back.");
         nav({ to: nextPath });
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Auth failed:", err);
-      toast.error(friendlyAuthError(err?.message));
+      toast.error(friendlyAuthError(err instanceof Error ? err.message : undefined));
     } finally {
       setBusy(false);
     }
@@ -262,8 +277,8 @@ function AuthPage() {
                 <input
                   required
                   type={showPassword ? "text" : "password"}
-                  minLength={6}
-                  placeholder="Password (min 6 chars)"
+                    minLength={8}
+                    placeholder="Password (min 8 chars)"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full rounded-xl border border-border bg-background px-10 py-3 pr-10 text-sm focus:border-primary focus:outline-none"
@@ -290,8 +305,9 @@ function AuthPage() {
                         });
                         if (error) throw error;
                         toast.success("Password reset link sent. Check your inbox.");
-                      } catch (err: any) {
-                        toast.error(err.message ?? "Could not send reset email");
+                      } catch (err: unknown) {
+                        console.error("Password reset request failed:", err);
+                        toast.error(friendlyAuthError(err instanceof Error ? err.message : undefined));
                       }
                     }}
                     className="text-xs font-semibold text-primary hover:underline"
