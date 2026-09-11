@@ -120,6 +120,12 @@ export function friendlyFirebaseError(err: unknown): string {
     return "Google sign-in isn't allowed on this address yet. Please try again from the main site.";
   if (code === "auth/account-exists-with-different-credential" || message.includes("link-existing"))
     return "An account with this email already exists. Please sign in using your existing login method to connect Google.";
+  if (message.includes("google-verification-failed"))
+    return "Google could not verify this sign-in. Please choose your account and try again.";
+  if (message.includes("google-signin-failed") || message.includes("google-session-not-created"))
+    return "Google verified your account, but the app could not start your session. Please try again.";
+  if (message.toLowerCase().includes("token") || message.toLowerCase().includes("otp"))
+    return "Your Google sign-in expired before it completed. Please try again.";
   if (message.includes("not-configured"))
     return "Google sign-in isn't set up yet. Please use your email and password for now.";
   return "We couldn't sign you in with Google. Please try again, or use your email and password.";

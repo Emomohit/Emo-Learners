@@ -99,10 +99,21 @@ function AuthPage() {
   const completeFirebaseSignIn = async (idToken: string) => {
     const { firebaseGoogleBridge } = await import("@/lib/firebase-bridge.functions");
     const { email: bridgedEmail, tokenHash } = await firebaseGoogleBridge({ data: { idToken } });
-    const { error } = await supabase.auth.verifyOtp({ type: "email", token_hash: tokenHash });
-    if (error) throw error;
+    // The server creates a Supabase magic link, so its hashed token must be
+    // exchanged using the matching `magiclink` verification type. Using
+    // `email` here rejects an otherwise valid Google sign-in token.
+    const { data, error } = await supabase.auth.verifyOtp({
+      type: "magiclink",
+      token_hash: tokenHash,
+    });
+    if (error || !data.session || !data.user) {
+      throw new Error(error?.message ?? "google-session-not-created");
+    }
     toast.success(`Signed in as ${bridgedEmail}`);
-    nav({ to: nextPath });
+    if (typeof window !== "undefined") {
+      sessionStorage.removeItem("postAuthRedirect");
+      window.location.replace(nextPath);
+    }
   };
 
   const handleGoogle = async () => {
