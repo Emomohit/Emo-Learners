@@ -47,6 +47,7 @@ import { Route as EmoiqPlanRouteImport } from './routes/emoiq.plan'
 import { Route as EmoiqDoubtRouteImport } from './routes/emoiq.doubt'
 import { Route as EmoiqAnalyzeRouteImport } from './routes/emoiq.analyze'
 import { Route as CoursesSlugRouteImport } from './routes/courses.$slug'
+import { Route as CoursesSlugChaptersRouteImport } from './routes/courses_.$slug.chapters'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -238,6 +239,11 @@ const CoursesSlugRoute = CoursesSlugRouteImport.update({
   path: '/courses/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CoursesSlugChaptersRoute = CoursesSlugChaptersRouteImport.update({
+  id: '/courses_/$slug/chapters',
+  path: '/courses/$slug/chapters',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -278,6 +284,7 @@ export interface FileRoutesByFullPath {
   '/placement/': typeof PlacementIndexRoute
   '/quizzes/': typeof QuizzesIndexRoute
   '/tests/': typeof TestsIndexRoute
+  '/courses/$slug/chapters': typeof CoursesSlugChaptersRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -316,6 +323,7 @@ export interface FileRoutesByTo {
   '/placement': typeof PlacementIndexRoute
   '/quizzes': typeof QuizzesIndexRoute
   '/tests': typeof TestsIndexRoute
+  '/courses/$slug/chapters': typeof CoursesSlugChaptersRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -357,6 +365,7 @@ export interface FileRoutesById {
   '/placement/': typeof PlacementIndexRoute
   '/quizzes/': typeof QuizzesIndexRoute
   '/tests/': typeof TestsIndexRoute
+  '/courses_/$slug/chapters': typeof CoursesSlugChaptersRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -399,6 +408,7 @@ export interface FileRouteTypes {
     | '/placement/'
     | '/quizzes/'
     | '/tests/'
+    | '/courses/$slug/chapters'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -437,6 +447,7 @@ export interface FileRouteTypes {
     | '/placement'
     | '/quizzes'
     | '/tests'
+    | '/courses/$slug/chapters'
   id:
     | '__root__'
     | '/'
@@ -477,6 +488,7 @@ export interface FileRouteTypes {
     | '/placement/'
     | '/quizzes/'
     | '/tests/'
+    | '/courses_/$slug/chapters'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -506,6 +518,7 @@ export interface RootRouteChildren {
   CoursesIndexRoute: typeof CoursesIndexRoute
   QuizzesIndexRoute: typeof QuizzesIndexRoute
   TestsIndexRoute: typeof TestsIndexRoute
+  CoursesSlugChaptersRoute: typeof CoursesSlugChaptersRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -776,6 +789,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CoursesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/courses_/$slug/chapters': {
+      id: '/courses_/$slug/chapters'
+      path: '/courses/$slug/chapters'
+      fullPath: '/courses/$slug/chapters'
+      preLoaderRoute: typeof CoursesSlugChaptersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -848,6 +868,7 @@ const rootRouteChildren: RootRouteChildren = {
   CoursesIndexRoute: CoursesIndexRoute,
   QuizzesIndexRoute: QuizzesIndexRoute,
   TestsIndexRoute: TestsIndexRoute,
+  CoursesSlugChaptersRoute: CoursesSlugChaptersRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

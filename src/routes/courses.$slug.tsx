@@ -361,9 +361,13 @@ function CoursePlayer() {
               <h3 className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-foreground">
                 Course Content
               </h3>
-              <span className="text-xs text-muted-foreground">
-                {course.chapters.length} videos
-              </span>
+              <Link
+                to="/courses/$slug/chapters"
+                params={{ slug: course.slug }}
+                className="text-[10px] font-bold uppercase tracking-widest text-primary hover:underline"
+              >
+                All {course.chapters.length} chapters
+              </Link>
             </div>
             <div className="overflow-y-auto p-2 space-y-1">
               {course.chapters.map((ch) => {
