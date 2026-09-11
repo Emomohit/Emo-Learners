@@ -98,6 +98,8 @@ function CoursePlayer() {
       completedChapters: [...done],
       videoId: isPlaylist ? selectedChapter?.videoId : course.videoId,
       lastTimestamp: selectedId === getProgress(course.slug).lastChapterId ? resumeAt : (isPlaylist ? 0 : selectedChapter?.t ?? 0),
+      completedChapters: [...done].filter((id) => course.chapters.some((chapter) => chapter.id === id && !chapter.unavailable)),
+      totalChapters: course.chapters.filter((chapter) => !chapter.unavailable).length,
     }).then(() => queryClient.invalidateQueries({ queryKey: courseProgressQueryKey(user?.id) })).catch((error) => {
       console.error(`Course progress could not be saved for ${course.slug}`, error);
       toast.error("Progress could not be saved. Please retry.");
@@ -237,20 +239,14 @@ function CoursePlayer() {
             </div>
             
             <div className="flex shrink-0 items-center gap-2">
-              <button
-                onClick={() => handleToggleDone(selectedChapter.id)}
-                className={`inline-flex h-10 items-center gap-2 rounded-full border px-5 text-xs font-bold uppercase tracking-widest transition-colors ${
-                  done.has(selectedChapter.id)
-                    ? "border-primary bg-primary text-primary-foreground"
-                    : "border-border bg-background text-foreground hover:border-primary/50"
-                }`}
-              >
-                {done.has(selectedChapter.id) ? (
-                  <><CheckCircle2 className="h-4 w-4" /> Done</>
-                ) : (
-                  <><Circle className="h-4 w-4" /> Mark done</>
-                )}
-              </button>
+              {!selectedChapter.unavailable && (
+                <Button
+                  onClick={() => handleToggleDone(selectedChapter.id)}
+                  variant={done.has(selectedChapter.id) ? "default" : "outline"}
+                >
+                  {done.has(selectedChapter.id) ? <><CheckCircle2 /> Done</> : <><Circle /> Mark done</>}
+                </Button>
+              )}
             </div>
           </div>
 

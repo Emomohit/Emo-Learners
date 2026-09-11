@@ -4,7 +4,8 @@ import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
 import { courses, CATEGORIES } from "@/lib/course-data";
 import { useCourseProgresses } from "@/lib/course-progress";
-import { ArrowRight, Clock, GraduationCap, PlayCircle, Sparkles, Search, Play } from "lucide-react";
+import { Clock, GraduationCap, PlayCircle, Sparkles, Search, Play, RefreshCw, AlertTriangle } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/courses/")({
   head: () => ({
@@ -102,6 +103,15 @@ function CoursesIndex() {
                 );
               })}
             </div>
+          </div>
+        </section>
+      )}
+
+      {progressQuery.isError && (
+        <section className="border-b border-border px-6 py-6">
+          <div role="alert" className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-4 rounded-lg border border-destructive/40 bg-destructive/5 p-5 sm:flex-row sm:items-center">
+            <div><p className="flex items-center gap-2 font-bold"><AlertTriangle className="h-4 w-4 text-destructive" /> Your progress could not load</p><p className="mt-1 text-sm text-muted-foreground">Check your connection and try again.</p></div>
+            <Button variant="outline" onClick={() => progressQuery.refetch()}><RefreshCw /> Retry</Button>
           </div>
         </section>
       )}

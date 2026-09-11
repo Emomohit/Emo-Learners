@@ -196,7 +196,7 @@ function ProgressPage() {
         </section>
       )}
 
-      <section className="px-4 pb-10">
+      {!pageError && <section className="px-4 pb-10">
         <div className="mx-auto grid max-w-6xl gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {pageLoading ? (
             Array.from({ length: 4 }).map((_, i) => <SkeletonBlock key={i} className="h-32" />)
@@ -217,9 +217,9 @@ function ProgressPage() {
             </>
           )}
         </div>
-      </section>
+      </section>}
 
-      {!pageLoading && summary && (
+      {!pageLoading && !pageError && summary && (
         <section className="px-4 pb-10">
           <div className="mx-auto max-w-6xl rounded-2xl border border-primary/40 bg-primary/5 p-6">
             <div className="flex items-center gap-2">
@@ -236,7 +236,7 @@ function ProgressPage() {
         </section>
       )}
 
-      <section className="px-4 pb-24">
+      {!pageError && <section className="px-4 pb-24">
         <div className="mx-auto grid max-w-6xl gap-6 md:grid-cols-2">
           {pageLoading ? (
             Array.from({ length: 4 }).map((_, i) => <SkeletonBlock key={i} className="h-56" />)
@@ -335,7 +335,7 @@ function ProgressPage() {
             </>
           )}
         </div>
-      </section>
+      </section>}
 
       <Footer />
     </div>
