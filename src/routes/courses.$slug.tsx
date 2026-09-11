@@ -63,6 +63,10 @@ function CoursePlayer() {
   const [selectedId, setSelectedId] = useState<number>(requestedChapter ?? course.chapters[0]?.id ?? 1);
   const [isHydrated, setIsHydrated] = useState(false);
   const [resumeAt, setResumeAt] = useState(0);
+  const selectedChapter = useMemo(
+    () => course.chapters.find((c) => c.id === selectedId) ?? course.chapters[0],
+    [course, selectedId],
+  );
 
   // Load progress on mount
   useEffect(() => {
@@ -101,10 +105,6 @@ function CoursePlayer() {
     });
   }, [selectedId, isHydrated, course.slug, course.chapters.length, done, isPlaylist, selectedChapter, course.videoId, resumeAt, queryClient, user?.id]);
 
-  const selectedChapter = useMemo(
-    () => course.chapters.find((c) => c.id === selectedId) ?? course.chapters[0],
-    [course, selectedId],
-  );
   const extras = getChapterExtras(course.slug, selectedChapter?.id ?? 0);
 
   const handleToggleDone = (id: number) => {

@@ -81,6 +81,7 @@ function CoursesIndex() {
                     key={slug} 
                     to="/courses/$slug"
                     params={{ slug }}
+                     search={{}}
                     className="group panel p-5 rounded-2xl transition-all hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5"
                   >
                     <div className="flex items-start justify-between mb-4">
@@ -160,6 +161,7 @@ function CoursesIndex() {
                     key={c.slug}
                     to="/courses/$slug"
                     params={{ slug: c.slug }}
+                    search={{}}
                     className="group flex flex-col overflow-hidden panel panel-hover animate-rise rounded-2xl border border-border bg-surface/20"
                     style={{ animationDelay: `${i * 50}ms` }}
                   >
