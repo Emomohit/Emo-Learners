@@ -95,6 +95,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // then drop every cached row so Back can't restore signed-in data.
       await queryClient.cancelQueries();
       queryClient.clear();
+      try {
+        const { firebaseSignOutIfSignedIn } = await import("@/lib/firebase");
+        await firebaseSignOutIfSignedIn();
+      } catch {
+        /* ignore — Supabase sign-out below is what matters */
+      }
       await supabase.auth.signOut();
       setSession(null);
       setRole(null);
