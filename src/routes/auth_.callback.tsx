@@ -125,11 +125,6 @@ function AuthCallbackPage() {
   }, [nav]);
 
 
-    return () => {
-      done = true;
-      sub?.unsubscribe();
-    };
-  }, [nav]);
 
   return (
     <div className="flex min-h-screen items-center justify-center px-4">
