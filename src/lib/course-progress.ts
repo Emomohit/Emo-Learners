@@ -68,9 +68,9 @@ export function toggleChapterDone(slug: string, id: number, total: number) {
 }
 export function clearProgress(slug: string) { if (typeof window !== "undefined") localStorage.removeItem(key(slug)); }
 export function getAllProgress() {
-  const result: Record<string, CourseProgress> = {};
+  const result: { slug: string; progress: CourseProgress }[] = [];
   if (typeof window === "undefined") return result;
-  for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k?.startsWith("course-progress:")) result[k.slice(16)] = getCourseProgress(k.slice(16)); }
+  for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k?.startsWith("course-progress:")) { const slug = k.slice(16); result.push({ slug, progress: getCourseProgress(slug) }); } }
   return result;
 }
 
@@ -80,7 +80,7 @@ export async function persistCourseProgress(slug: string, progress: CourseProgre
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return;
   await supabase.from("course_progress").upsert({
-    user_id: user.id, course_slug: slug, content_item_id: value.currentItemId || null, video_id: value.videoId || null,
+    user_id: user.id, course_slug: slug, content_item_id: value.currentItemId || 1, video_id: value.videoId || null,
     last_timestamp: Math.max(0, Math.floor(value.lastTimestamp)), completed_items: value.completedItems,
     percentage: Math.max(0, Math.min(100, Math.round(value.percentage))), last_watched_at: value.lastWatchedAt,
   }, { onConflict: "user_id,course_slug" });
