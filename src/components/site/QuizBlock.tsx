@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { CheckCircle2, XCircle, RotateCcw, Sparkles } from "lucide-react";
 import type { QuizQuestion } from "@/lib/course-extras";
+import { recordStudyDay } from "@/lib/study-streak";
 
 type Props = {
   courseSlug: string;
@@ -45,6 +46,10 @@ export function QuizBlock({ courseSlug, chapterId, quiz, onPass }: Props) {
     try {
       window.localStorage.setItem(storageKey, JSON.stringify(next));
     } catch {}
+
+    // Earn a streak point for practicing!
+    recordStudyDay();
+
     if (score === quiz.length) onPass?.();
   };
 

@@ -28,6 +28,7 @@ import {
   BADGES,
   FAQ,
 } from "@/lib/challenge-data";
+import { recordStudyDay } from "@/lib/study-streak";
 import { useAuth } from "@/lib/auth";
 
 const SITE = "https://emolearners.vercel.app";
@@ -278,8 +279,12 @@ function useCompleted() {
   const toggle = (id: number) => {
     setDone((prev) => {
       const n = new Set(prev);
-      if (n.has(id)) n.delete(id);
-      else n.add(id);
+      if (n.has(id)) {
+        n.delete(id);
+      } else {
+        n.add(id);
+        recordStudyDay(); // Earn a streak point for completing a challenge day!
+      }
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify([...n]));
       } catch {}
