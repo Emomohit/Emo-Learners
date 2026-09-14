@@ -383,6 +383,7 @@ function Dashboard() {
                     icon={Bookmark}
                     label="Bookmarks"
                     value={quickStats.bookmarkCount}
+                    to="/bookmarks"
                   />
                 </div>
               </div>
@@ -807,20 +808,33 @@ function PersonalStat({
   icon: Icon,
   label,
   value,
+  to,
 }: {
   icon: React.ComponentType<{ className?: string }>;
   label: string;
   value: number | string;
+  to?: string;
 }) {
-  return (
-    <div className="panel p-5">
+  const content = (
+    <>
       <Icon className="h-5 w-5 text-primary" />
       <div className="mt-3 font-display text-3xl font-bold">{value}</div>
       <div className="mt-1 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
         {label}
       </div>
-    </div>
+    </>
   );
+  if (to) {
+    return (
+      <Link
+        to={to}
+        className="block panel p-5 transition-all hover:-translate-y-0.5 hover:border-primary/60"
+      >
+        {content}
+      </Link>
+    );
+  }
+  return <div className="panel p-5">{content}</div>;
 }
 
 function ResourceStat({ label, value }: { label: string; value: number }) {

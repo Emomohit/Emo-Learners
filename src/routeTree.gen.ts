@@ -24,6 +24,7 @@ import { Route as EmoiqRouteImport } from './routes/emoiq'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as ChallengeRouteImport } from './routes/challenge'
+import { Route as BookmarksRouteImport } from './routes/bookmarks'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AiAssistantRouteImport } from './routes/ai-assistant'
 import { Route as AdminRouteImport } from './routes/admin'
@@ -123,6 +124,11 @@ const ContactRoute = ContactRouteImport.update({
 const ChallengeRoute = ChallengeRouteImport.update({
   id: '/challenge',
   path: '/challenge',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BookmarksRoute = BookmarksRouteImport.update({
+  id: '/bookmarks',
+  path: '/bookmarks',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -257,6 +263,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRoute
   '/ai-assistant': typeof AiAssistantRoute
   '/auth': typeof AuthRoute
+  '/bookmarks': typeof BookmarksRoute
   '/challenge': typeof ChallengeRoute
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
@@ -299,6 +306,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRoute
   '/ai-assistant': typeof AiAssistantRoute
   '/auth': typeof AuthRoute
+  '/bookmarks': typeof BookmarksRoute
   '/challenge': typeof ChallengeRoute
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
@@ -340,6 +348,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRoute
   '/ai-assistant': typeof AiAssistantRoute
   '/auth': typeof AuthRoute
+  '/bookmarks': typeof BookmarksRoute
   '/challenge': typeof ChallengeRoute
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
@@ -384,6 +393,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/ai-assistant'
     | '/auth'
+    | '/bookmarks'
     | '/challenge'
     | '/contact'
     | '/dashboard'
@@ -426,6 +436,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/ai-assistant'
     | '/auth'
+    | '/bookmarks'
     | '/challenge'
     | '/contact'
     | '/dashboard'
@@ -466,6 +477,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/ai-assistant'
     | '/auth'
+    | '/bookmarks'
     | '/challenge'
     | '/contact'
     | '/dashboard'
@@ -509,6 +521,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRoute
   AiAssistantRoute: typeof AiAssistantRoute
   AuthRoute: typeof AuthRoute
+  BookmarksRoute: typeof BookmarksRoute
   ChallengeRoute: typeof ChallengeRoute
   ContactRoute: typeof ContactRoute
   DashboardRoute: typeof DashboardRoute
@@ -639,6 +652,13 @@ declare module '@tanstack/react-router' {
       path: '/challenge'
       fullPath: '/challenge'
       preLoaderRoute: typeof ChallengeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/bookmarks': {
+      id: '/bookmarks'
+      path: '/bookmarks'
+      fullPath: '/bookmarks'
+      preLoaderRoute: typeof BookmarksRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -867,6 +887,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRoute,
   AiAssistantRoute: AiAssistantRoute,
   AuthRoute: AuthRoute,
+  BookmarksRoute: BookmarksRoute,
   ChallengeRoute: ChallengeRoute,
   ContactRoute: ContactRoute,
   DashboardRoute: DashboardRoute,
