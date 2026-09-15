@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/lib/auth";
+import { CommandMenu } from "./CommandMenu";
 
 // Primary nav — short, plain-English labels.
 const primaryLinks = [
@@ -107,48 +108,52 @@ export function Navbar() {
           </div>
         </nav>
 
-        <div className="flex items-center gap-2">
-          {user ? (
-            <>
-              <Link
-                to="/dashboard"
-                className="hidden items-center gap-1.5 rounded-md border border-border bg-background px-4 py-2 text-xs font-bold text-foreground transition-all hover:border-primary hover:text-primary md:inline-flex"
-              >
-                <LayoutDashboard className="h-3.5 w-3.5" /> My space
-              </Link>
-              {isAdmin && (
+        <div className="flex items-center gap-2 lg:gap-4">
+          <CommandMenu />
+
+          <div className="flex items-center gap-2">
+            {user ? (
+              <>
                 <Link
-                  to="/admin"
-                  className="hidden items-center gap-1.5 rounded-md px-4 py-2 text-xs font-bold btn-grad md:inline-flex"
+                  to="/dashboard"
+                  className="hidden items-center gap-1.5 rounded-md border border-border bg-background px-4 py-2 text-xs font-bold text-foreground transition-all hover:border-primary hover:text-primary md:inline-flex"
                 >
-                  <ShieldCheck className="h-3.5 w-3.5" /> Admin
+                  <LayoutDashboard className="h-3.5 w-3.5" /> My space
                 </Link>
-              )}
-              <button
-                onClick={() => signOut()}
-                className="hidden items-center gap-1.5 rounded-md border border-border px-3 py-2 text-xs font-bold text-muted-foreground transition-colors hover:border-primary hover:text-primary md:inline-flex"
-                title="Sign out"
-                aria-label="Sign out"
+                {isAdmin && (
+                  <Link
+                    to="/admin"
+                    className="hidden items-center gap-1.5 rounded-md px-4 py-2 text-xs font-bold btn-grad md:inline-flex"
+                  >
+                    <ShieldCheck className="h-3.5 w-3.5" /> Admin
+                  </Link>
+                )}
+                <button
+                  onClick={() => signOut()}
+                  className="hidden items-center gap-1.5 rounded-md border border-border px-3 py-2 text-xs font-bold text-muted-foreground transition-colors hover:border-primary hover:text-primary md:inline-flex"
+                  title="Sign out"
+                  aria-label="Sign out"
+                >
+                  <LogOut className="h-3.5 w-3.5" />
+                </button>
+              </>
+            ) : (
+              <Link
+                to="/auth"
+                className="hidden items-center gap-1.5 rounded-md px-5 py-2.5 text-xs font-bold btn-grad md:inline-flex"
               >
-                <LogOut className="h-3.5 w-3.5" />
-              </button>
-            </>
-          ) : (
-            <Link
-              to="/auth"
-              className="hidden items-center gap-1.5 rounded-md px-5 py-2.5 text-xs font-bold btn-grad md:inline-flex"
+                <LogIn className="h-3.5 w-3.5" /> Sign in
+              </Link>
+            )}
+            <button
+              aria-label={open ? "Close menu" : "Open menu"}
+              aria-expanded={open}
+              onClick={() => setOpen((v) => !v)}
+              className="rounded-md border border-border p-2 lg:hidden"
             >
-              <LogIn className="h-3.5 w-3.5" /> Sign in
-            </Link>
-          )}
-          <button
-            aria-label={open ? "Close menu" : "Open menu"}
-            aria-expanded={open}
-            onClick={() => setOpen((v) => !v)}
-            className="rounded-md border border-border p-2 lg:hidden"
-          >
-            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </button>
+              {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+          </div>
         </div>
       </div>
 
