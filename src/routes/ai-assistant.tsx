@@ -4,8 +4,14 @@ import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
-import { Send, Sparkles, Bot, User as UserIcon, Loader2 } from "lucide-react";
+import { Send, Sparkles, Bot, User as UserIcon, Loader2, Trash2 } from "lucide-react";
 import { toast } from "sonner";
+import {
+  getChatHistory,
+  saveChatHistory,
+  clearChatHistory,
+  type ChatMessage,
+} from "@/lib/chat-history";
 
 export const Route = createFileRoute("/ai-assistant")({
   head: () => ({
@@ -21,8 +27,6 @@ export const Route = createFileRoute("/ai-assistant")({
   component: AiPage,
 });
 
-type Msg = { role: "user" | "assistant" | "system"; content: string };
-
 const SUGGESTIONS = [
   "Explain Big-O notation with a simple example",
   "What is dynamic programming? When should I use it?",
@@ -33,7 +37,7 @@ const SUGGESTIONS = [
 function AiPage() {
   const { user, loading } = useAuth();
   const nav = useNavigate();
-  const [messages, setMessages] = useState<Msg[]>([]);
+  const [messages, setMessages] = useState<ChatMessage[]>(() => getChatHistory("study-buddy"));
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -50,8 +54,9 @@ function AiPage() {
     const content = (text ?? input).trim();
     if (!content || busy) return;
     setInput("");
-    const next = [...messages, { role: "user" as const, content }];
+    const next: ChatMessage[] = [...messages, { role: "user", content }];
     setMessages(next);
+    saveChatHistory("study-buddy", next);
     setBusy(true);
 
     try {
@@ -72,13 +77,17 @@ function AiPage() {
       }
       const data = await res.json();
       const reply = data.reply ?? data.message ?? "Sorry, I couldn't generate a response.";
-      setMessages([...next, { role: "assistant", content: reply }]);
+      const finalMsg: ChatMessage[] = [...next, { role: "assistant", content: reply }];
+      setMessages(finalMsg);
+      saveChatHistory("study-buddy", finalMsg);
     } catch (err: any) {
       toast.error(err.message ?? "Assistant unavailable");
-      setMessages([
+      const errMsgs: ChatMessage[] = [
         ...next,
         { role: "assistant", content: "I'm having trouble right now. Try again in a moment." },
-      ]);
+      ];
+      setMessages(errMsgs);
+      saveChatHistory("study-buddy", errMsgs);
     } finally {
       setBusy(false);
     }
@@ -102,12 +111,25 @@ function AiPage() {
                 AI Study <span className="text-primary">Assistant</span>
               </h1>
             </div>
-            <Link
-              to="/resources"
-              className="hidden text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-primary md:inline-block"
-            >
-              ← Resources
-            </Link>
+            <div className="flex items-center gap-4">
+              {messages.length > 0 && (
+                <button
+                  onClick={() => {
+                    clearChatHistory("study-buddy");
+                    setMessages([]);
+                  }}
+                  className="hidden text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-destructive md:inline-flex items-center gap-1 transition-colors"
+                >
+                  <Trash2 className="h-3.5 w-3.5" /> Clear Chat
+                </button>
+              )}
+              <Link
+                to="/resources"
+                className="hidden text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-primary md:inline-block transition-colors"
+              >
+                ← Resources
+              </Link>
+            </div>
           </div>
 
           <div

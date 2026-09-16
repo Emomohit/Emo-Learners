@@ -1,22 +1,26 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
-import { Loader2, Send } from "lucide-react";
+import { Loader2, Send, Trash2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
+import {
+  getChatHistory,
+  saveChatHistory,
+  clearChatHistory,
+  type ChatMessage,
+} from "@/lib/chat-history";
 import { PdfDropzone } from "@/components/site/PdfDropzone";
 
 export const Route = createFileRoute("/emoiq/doubt")({
   component: DoubtPage,
 });
 
-type Msg = { role: "user" | "assistant"; content: string };
-
 const AI_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-chat`;
 
 function DoubtPage() {
   const { user } = useAuth();
-  const [messages, setMessages] = useState<Msg[]>([]);
+  const [messages, setMessages] = useState<ChatMessage[]>(() => getChatHistory("doubt-solver"));
   const [input, setInput] = useState("");
   const [pdfContext, setPdfContext] = useState("");
   const [loading, setLoading] = useState(false);
@@ -29,14 +33,15 @@ function DoubtPage() {
   async function send() {
     const text = input.trim();
     if (!text) return;
-    const next: Msg[] = [...messages, { role: "user", content: text }];
+    const next: ChatMessage[] = [...messages, { role: "user", content: text }];
     setMessages(next);
+    saveChatHistory("doubt-solver", next);
     setInput("");
     setLoading(true);
     try {
       const { data: session } = await supabase.auth.getSession();
       const token = session.session?.access_token;
-      const payload: Msg[] = pdfContext
+      const payload: ChatMessage[] = pdfContext
         ? [
             {
               role: "user",
@@ -56,9 +61,17 @@ function DoubtPage() {
       });
       const body = await res.json();
       if (!res.ok) throw new Error(body?.error ?? "AI error");
-      setMessages([...next, { role: "assistant", content: body.reply ?? "" }]);
+      const finalMsg: ChatMessage[] = [...next, { role: "assistant", content: body.reply ?? "" }];
+      setMessages(finalMsg);
+      saveChatHistory("doubt-solver", finalMsg);
     } catch (e) {
       toast.error((e as Error).message);
+      const errMsgs: ChatMessage[] = [
+        ...next,
+        { role: "assistant", content: "I'm having trouble right now. Try again in a moment." },
+      ];
+      setMessages(errMsgs);
+      saveChatHistory("doubt-solver", errMsgs);
     } finally {
       setLoading(false);
     }
@@ -66,18 +79,28 @@ function DoubtPage() {
 
   return (
     <section className="mx-auto max-w-3xl px-4 py-14">
-      <h1 className="font-display text-3xl font-bold tracking-tighter md:text-5xl">
-        AI <span className="grad-text">Doubt Solver</span>
-      </h1>
-      <p className="mt-3 text-muted-foreground">
-        Ask any doubt from your syllabus. Answers are concise and exam-focused.
-      </p>
+      <div className="flex items-start justify-between">
+        <div>
+          <h1 className="font-display text-3xl font-bold tracking-tighter md:text-5xl">
+            AI <span className="grad-text">Doubt Solver</span>
+          </h1>
+          <p className="mt-3 text-muted-foreground">
+            Ask any doubt from your syllabus. Answers are concise and exam-focused.
+          </p>
+        </div>
 
-      {!user && (
-        <p className="mt-4 text-sm text-muted-foreground">
-          Sign in to save chat history (coming soon).
-        </p>
-      )}
+        {messages.length > 0 && (
+          <button
+            onClick={() => {
+              clearChatHistory("doubt-solver");
+              setMessages([]);
+            }}
+            className="inline-flex items-center gap-1 text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-destructive transition-colors"
+          >
+            <Trash2 className="h-3.5 w-3.5" /> Clear Chat
+          </button>
+        )}
+      </div>
 
       <div className="mt-6">
         <PdfDropzone
