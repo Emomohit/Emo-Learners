@@ -15,6 +15,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AuthProvider } from "../lib/auth";
 import { BottomNav } from "../components/site/BottomNav";
 import { FeedbackWidget } from "../components/site/FeedbackWidget";
+import { ScrollToTop } from "../components/site/ScrollToTop";
 
 function NotFoundComponent() {
   return (
@@ -140,6 +141,7 @@ function RootComponent() {
       <AuthProvider>
         <Outlet />
         <FeedbackWidget />
+        <ScrollToTop />
         <BottomNav />
         <Toaster theme="light" position="top-right" richColors />
       </AuthProvider>
