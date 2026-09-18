@@ -36,6 +36,27 @@ function ResumeAnalyzer() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<Analysis | null>(null);
 
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("emo:resume:analysis");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed.result) {
+          setResult(parsed.result);
+          if (parsed.target) setTarget(parsed.target);
+        }
+      }
+    } catch (e) {
+      // ignore
+    }
+  }, []);
+
+  useEffect(() => {
+    if (result) {
+      localStorage.setItem("emo:resume:analysis", JSON.stringify({ target, result }));
+    }
+  }, [target, result]);
+
   async function analyze() {
     if (!pdfText.trim()) {
       toast.error("Upload your resume PDF first");
@@ -120,14 +141,24 @@ function ResumeAnalyzer() {
       {result && (
         <div className="mt-8 space-y-4">
           <div className="rounded-2xl border border-primary/40 bg-primary/5 p-5">
-            <div className="flex items-baseline justify-between">
+            <div className="flex items-center justify-between">
               <div className="font-mono text-[11px] uppercase tracking-widest text-primary">
                 Overall
               </div>
-              <div className="font-display text-4xl font-bold text-primary">
-                {Math.round(result.score)}
-                <span className="text-lg text-muted-foreground">/100</span>
-              </div>
+              <button
+                onClick={() => {
+                  setResult(null);
+                  setPdfText("");
+                  localStorage.removeItem("emo:resume:analysis");
+                }}
+                className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground hover:text-destructive transition-colors"
+              >
+                Clear Analysis
+              </button>
+            </div>
+            <div className="mt-2 font-display text-4xl font-bold text-primary">
+              {Math.round(result.score)}
+              <span className="text-lg text-muted-foreground">/100</span>
             </div>
             <p className="mt-2 text-sm">{result.overall}</p>
           </div>

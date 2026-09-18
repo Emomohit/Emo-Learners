@@ -46,6 +46,32 @@ function MockInterviewPage() {
   const endRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    try {
+      const saved = localStorage.getItem("emo:interview:session");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed.messages && parsed.messages.length > 0) {
+          setMode(parsed.mode || "hr");
+          setRole(parsed.role || "Software Engineer");
+          setStarted(parsed.started || false);
+          setMessages(parsed.messages || []);
+        }
+      }
+    } catch (e) {
+      // ignore parse errors
+    }
+  }, []);
+
+  useEffect(() => {
+    if (started) {
+      localStorage.setItem(
+        "emo:interview:session",
+        JSON.stringify({ mode, role, started, messages }),
+      );
+    }
+  }, [mode, role, started, messages]);
+
+  useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
@@ -105,6 +131,7 @@ function MockInterviewPage() {
     setStarted(false);
     setMessages([]);
     setInput("");
+    localStorage.removeItem("emo:interview:session");
   }
 
   return (
