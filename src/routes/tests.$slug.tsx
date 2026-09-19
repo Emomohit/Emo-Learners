@@ -109,6 +109,7 @@ function TestPage() {
             </Link>
           </div>
           <Runner
+            id={test.slug}
             title={test.title}
             emoji={test.emoji}
             topic={test.topic}

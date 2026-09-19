@@ -6,6 +6,7 @@ import type { Question } from "@/lib/learn-data";
 type Mode = "quiz" | "test";
 
 export function Runner({
+  id,
   title,
   emoji,
   topic,
@@ -14,6 +15,7 @@ export function Runner({
   mode,
   backHref,
 }: {
+  id: string;
   title: string;
   emoji: string;
   topic: string;
@@ -29,6 +31,34 @@ export function Runner({
   const [secondsLeft, setSecondsLeft] = useState(minutes * 60);
 
   const isTest = mode === "test";
+  const storageKey = `emo:runner:${mode}:${id}`;
+
+  // Load state from localStorage on mount
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(storageKey);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed.picks && parsed.picks.length === questions.length) {
+          setIdx(parsed.idx ?? 0);
+          setPicks(parsed.picks);
+          setFinished(parsed.finished ?? false);
+          setRevealed(parsed.revealed ?? questions.map(() => false));
+          setSecondsLeft(parsed.secondsLeft ?? minutes * 60);
+        }
+      }
+    } catch (e) {
+      // ignore
+    }
+  }, [storageKey, questions.length, minutes]);
+
+  // Save state to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem(
+      storageKey,
+      JSON.stringify({ idx, picks, finished, revealed, secondsLeft })
+    );
+  }, [storageKey, idx, picks, finished, revealed, secondsLeft]);
 
   useEffect(() => {
     if (!isTest || finished) return;
@@ -73,6 +103,7 @@ export function Runner({
     setRevealed(questions.map(() => false));
     setFinished(false);
     setSecondsLeft(minutes * 60);
+    localStorage.removeItem(storageKey);
   };
 
   const mm = String(Math.floor(secondsLeft / 60)).padStart(2, "0");

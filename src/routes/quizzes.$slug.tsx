@@ -80,6 +80,7 @@ function QuizPage() {
             </Link>
           </div>
           <Runner
+            id={quiz.slug}
             title={quiz.title}
             emoji={quiz.emoji}
             topic={quiz.topic}
