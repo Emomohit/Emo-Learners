@@ -43,6 +43,9 @@ export const Route = createFileRoute("/progress")({
 
 type Snapshot = {
   quizzes: { key: string; attempted: number }[];
+  tests: string[];
+  hasInterview: boolean;
+  hasResume: boolean;
   bookmarks: number;
   streakDays: number;
   lastRoadmap: { title?: string; branch?: string; semester?: number; at?: number } | null;
@@ -50,6 +53,9 @@ type Snapshot = {
 
 function readSnapshot(): Snapshot {
   const quizzes: { key: string; attempted: number }[] = [];
+  const tests: string[] = [];
+  let hasInterview = false;
+  let hasResume = false;
   let streakDays = 0;
   let lastRoadmap: Snapshot["lastRoadmap"] = null;
 
@@ -57,24 +63,50 @@ function readSnapshot(): Snapshot {
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i)!;
       const val = localStorage.getItem(key) ?? "";
-      if (key.startsWith("quiz:") || key.includes("quiz-answers")) {
+      if (
+        key.startsWith("quiz:") ||
+        key.includes("quiz-answers") ||
+        key.startsWith("emo:runner:quiz:")
+      ) {
         try {
           const arr = JSON.parse(val);
           const attempted = Array.isArray(arr) ? arr.length : Object.keys(arr ?? {}).length;
-          if (attempted) quizzes.push({ key: key.replace(/^quiz:/, ""), attempted });
-        } catch {}
+          // also handle emo:runner:quiz: which is an object with { picks: [] }
+          if (arr && arr.picks && Array.isArray(arr.picks)) {
+            quizzes.push({
+              key: key.replace("emo:runner:quiz:", ""),
+              attempted: arr.picks.filter((p: unknown) => p !== null).length,
+            });
+          } else if (attempted) {
+            quizzes.push({ key: key.replace(/^quiz:/, ""), attempted });
+          }
+        } catch {
+          /* ignore */
+        }
+      } else if (key.startsWith("emo:runner:test:")) {
+        tests.push(key.replace("emo:runner:test:", ""));
+      } else if (key === "emo:interview:session") {
+        hasInterview = true;
+      } else if (key === "emo:resume:analysis") {
+        hasResume = true;
       } else if (key.includes("challenge") || key === "python30:done") {
         try {
           const arr = JSON.parse(val);
           if (Array.isArray(arr)) streakDays = arr.length;
-        } catch {}
+        } catch {
+          /* ignore */
+        }
       } else if (key === "emo:last-roadmap") {
         try {
           lastRoadmap = JSON.parse(val);
-        } catch {}
+        } catch {
+          /* ignore */
+        }
       }
     }
-  } catch {}
+  } catch {
+    /* ignore */
+  }
 
   const bookmarks = (() => {
     try {
@@ -83,7 +115,7 @@ function readSnapshot(): Snapshot {
       return 0;
     }
   })();
-  return { quizzes, bookmarks, streakDays, lastRoadmap };
+  return { quizzes, tests, hasInterview, hasResume, bookmarks, streakDays, lastRoadmap };
 }
 
 function ProgressPage() {
@@ -91,7 +123,10 @@ function ProgressPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const courseProgressQuery = useCourseProgresses();
-  const learning = useMemo(() => summarizeLearning(courseProgressQuery.data ?? []), [courseProgressQuery.data]);
+  const learning = useMemo(
+    () => summarizeLearning(courseProgressQuery.data ?? []),
+    [courseProgressQuery.data],
+  );
 
   function load() {
     setLoading(true);
@@ -130,7 +165,11 @@ function ProgressPage() {
     if (!snap || !stats) return null;
     const activeCourses = learning.coursesStarted;
     const quizzedTopics = snap.quizzes.length;
-    const totalActivity = stats.totalCourse + stats.totalQuiz + stats.streak + stats.bookmarks;
+    let totalActivity =
+      stats.totalCourse + stats.totalQuiz + stats.streak + stats.bookmarks + snap.tests.length;
+    if (snap.hasInterview) totalActivity += 5;
+    if (snap.hasResume) totalActivity += 5;
+
     const level =
       totalActivity < 5
         ? "Just getting started"
@@ -143,7 +182,8 @@ function ProgressPage() {
   }, [snap, stats, learning.coursesStarted]);
 
   const pageLoading = loading || courseProgressQuery.isLoading;
-  const pageError = error || (courseProgressQuery.isError ? "Course progress could not be loaded." : null);
+  const pageError =
+    error || (courseProgressQuery.isError ? "Course progress could not be loaded." : null);
 
   return (
     <div className="min-h-screen">
@@ -157,7 +197,10 @@ function ProgressPage() {
               <TrendingUp className="h-3 w-3" /> Progress Analytics
             </div>
             <button
-              onClick={() => { load(); void courseProgressQuery.refetch(); }}
+              onClick={() => {
+                load();
+                void courseProgressQuery.refetch();
+              }}
               disabled={pageLoading}
               className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-2 font-mono text-[11px] font-bold uppercase tracking-widest hover:border-primary disabled:opacity-50"
             >
@@ -165,7 +208,7 @@ function ProgressPage() {
             </button>
           </div>
           <h1 className="mt-4 font-display text-4xl font-bold leading-[0.9] tracking-tighter md:text-6xl">
-             Your <span className="text-cyan">learning graph</span>
+            Your <span className="text-cyan">learning graph</span>
           </h1>
           <p className="mt-4 max-w-2xl text-muted-foreground">
             A quick view of what you've completed so far — courses, quizzes, streak days, bookmarks,
@@ -186,7 +229,10 @@ function ProgressPage() {
                 </div>
               </div>
               <button
-                  onClick={() => { load(); void courseProgressQuery.refetch(); }}
+                onClick={() => {
+                  load();
+                  void courseProgressQuery.refetch();
+                }}
                 className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 font-mono text-xs font-bold uppercase tracking-widest text-primary-foreground"
               >
                 <RefreshCw className="h-4 w-4" /> Retry
@@ -196,28 +242,30 @@ function ProgressPage() {
         </section>
       )}
 
-      {!pageError && <section className="px-4 pb-10">
-        <div className="mx-auto grid max-w-6xl gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {pageLoading ? (
-            Array.from({ length: 4 }).map((_, i) => <SkeletonBlock key={i} className="h-32" />)
-          ) : (
-            <>
-              <Stat
-                icon={GraduationCap}
-                label="Course lessons done"
-                value={stats?.totalCourse ?? 0}
-              />
-              <Stat
-                icon={ListChecks}
-                label="Quiz answers attempted"
-                value={stats?.totalQuiz ?? 0}
-              />
-              <Stat icon={Flame} label="Challenge day streak" value={stats?.streak ?? 0} />
-              <Stat icon={Bookmark} label="Saved bookmarks" value={stats?.bookmarks ?? 0} />
-            </>
-          )}
-        </div>
-      </section>}
+      {!pageError && (
+        <section className="px-4 pb-10">
+          <div className="mx-auto grid max-w-6xl gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {pageLoading ? (
+              Array.from({ length: 4 }).map((_, i) => <SkeletonBlock key={i} className="h-32" />)
+            ) : (
+              <>
+                <Stat
+                  icon={GraduationCap}
+                  label="Course lessons done"
+                  value={stats?.totalCourse ?? 0}
+                />
+                <Stat
+                  icon={ListChecks}
+                  label="Quiz answers attempted"
+                  value={stats?.totalQuiz ?? 0}
+                />
+                <Stat icon={Flame} label="Challenge day streak" value={stats?.streak ?? 0} />
+                <Stat icon={Bookmark} label="Saved bookmarks" value={stats?.bookmarks ?? 0} />
+              </>
+            )}
+          </div>
+        </section>
+      )}
 
       {!pageLoading && !pageError && summary && (
         <section className="px-4 pb-10">
@@ -236,106 +284,159 @@ function ProgressPage() {
         </section>
       )}
 
-      {!pageError && <section className="px-4 pb-24">
-        <div className="mx-auto grid max-w-6xl gap-6 md:grid-cols-2">
-          {pageLoading ? (
-            Array.from({ length: 4 }).map((_, i) => <SkeletonBlock key={i} className="h-56" />)
-          ) : (
-            <>
-              <Panel icon={BookOpen} title="Courses progress">
-                {learning.activities.length ? (
-                  <ul className="space-y-2">
-                    {learning.activities.map((activity) => (
-                      <li
-                        key={activity.slug}
-                        className="flex items-center justify-between panel rounded-xl px-4 py-3 text-sm"
-                      >
-                        <span className="font-mono text-xs uppercase tracking-widest">
-                          {activity.course.title}
-                        </span>
-                        <span className="rounded-full border border-primary/40 bg-primary/10 px-3 py-0.5 font-mono text-[10px] text-primary">
-                          {activity.completedCount} / {activity.requiredCount} lessons
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <Empty
-                    text="No course progress yet. Start a course to see stats."
-                    to="/courses"
-                    cta="Open courses"
-                  />
-                )}
-              </Panel>
+      {!pageError && (
+        <section className="px-4 pb-24">
+          <div className="mx-auto grid max-w-6xl gap-6 md:grid-cols-2">
+            {pageLoading ? (
+              Array.from({ length: 4 }).map((_, i) => <SkeletonBlock key={i} className="h-56" />)
+            ) : (
+              <>
+                <Panel icon={BookOpen} title="Courses progress">
+                  {learning.activities.length ? (
+                    <ul className="space-y-2">
+                      {learning.activities.map((activity) => (
+                        <li
+                          key={activity.slug}
+                          className="flex items-center justify-between panel rounded-xl px-4 py-3 text-sm"
+                        >
+                          <span className="font-mono text-xs uppercase tracking-widest">
+                            {activity.course.title}
+                          </span>
+                          <span className="rounded-full border border-primary/40 bg-primary/10 px-3 py-0.5 font-mono text-[10px] text-primary">
+                            {activity.completedCount} / {activity.requiredCount} lessons
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <Empty
+                      text="No course progress yet. Start a course to see stats."
+                      to="/courses"
+                      cta="Open courses"
+                    />
+                  )}
+                </Panel>
 
-              <Panel icon={RouteIcon} title="Active AI roadmap">
-                {snap?.lastRoadmap ? (
-                  <div className="panel rounded-xl p-5">
-                    <div className="font-mono text-[11px] uppercase tracking-widest text-primary">
-                      Latest
+                <Panel icon={RouteIcon} title="Active AI roadmap">
+                  {snap?.lastRoadmap ? (
+                    <div className="panel rounded-xl p-5">
+                      <div className="font-mono text-[11px] uppercase tracking-widest text-primary">
+                        Latest
+                      </div>
+                      <div className="mt-1 font-semibold">
+                        {snap.lastRoadmap.title ?? "Roadmap"}
+                      </div>
+                      <div className="mt-1 text-xs text-muted-foreground">
+                        {snap.lastRoadmap.branch} · Sem {snap.lastRoadmap.semester}
+                      </div>
+                      <Link
+                        to="/roadmap"
+                        className="mt-4 inline-flex text-xs font-bold uppercase tracking-widest text-primary hover:underline"
+                      >
+                        Open roadmap →
+                      </Link>
                     </div>
-                    <div className="mt-1 font-semibold">{snap.lastRoadmap.title ?? "Roadmap"}</div>
-                    <div className="mt-1 text-xs text-muted-foreground">
-                      {snap.lastRoadmap.branch} · Sem {snap.lastRoadmap.semester}
+                  ) : (
+                    <Empty
+                      text="No roadmap yet. Generate a personalized weekly plan."
+                      to="/roadmap"
+                      cta="Generate roadmap"
+                    />
+                  )}
+                </Panel>
+
+                <Panel icon={ListChecks} title="Quiz attempts">
+                  {snap?.quizzes.length ? (
+                    <ul className="space-y-2">
+                      {snap.quizzes.slice(0, 8).map((q) => (
+                        <li
+                          key={q.key}
+                          className="flex items-center justify-between panel rounded-xl px-4 py-3 text-sm"
+                        >
+                          <span className="truncate font-mono text-xs">{q.key}</span>
+                          <span className="rounded-full border border-primary/40 bg-primary/10 px-3 py-0.5 font-mono text-[10px] text-primary">
+                            {q.attempted}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <Empty
+                      text="Attempt a quiz to see stats here."
+                      to="/practice"
+                      cta="Try practice"
+                    />
+                  )}
+                </Panel>
+
+                <Panel icon={Flame} title="30-Day Python streak">
+                  <div className="panel rounded-xl p-5">
+                    <div className="font-display text-4xl font-bold text-primary">
+                      {snap?.streakDays ?? 0}
+                      <span className="ml-2 text-base text-muted-foreground">days</span>
                     </div>
                     <Link
-                      to="/roadmap"
+                      to="/challenge"
                       className="mt-4 inline-flex text-xs font-bold uppercase tracking-widest text-primary hover:underline"
                     >
-                      Open roadmap →
+                      Continue challenge →
                     </Link>
                   </div>
-                ) : (
-                  <Empty
-                    text="No roadmap yet. Generate a personalized weekly plan."
-                    to="/roadmap"
-                    cta="Generate roadmap"
-                  />
-                )}
-              </Panel>
+                </Panel>
 
-              <Panel icon={ListChecks} title="Quiz attempts">
-                {snap?.quizzes.length ? (
-                  <ul className="space-y-2">
-                    {snap.quizzes.slice(0, 8).map((q) => (
-                      <li
-                        key={q.key}
-                        className="flex items-center justify-between panel rounded-xl px-4 py-3 text-sm"
-                      >
-                        <span className="truncate font-mono text-xs">{q.key}</span>
-                        <span className="rounded-full border border-primary/40 bg-primary/10 px-3 py-0.5 font-mono text-[10px] text-primary">
-                          {q.attempted}
+                <Panel icon={RouteIcon} title="Placement Prep">
+                  <div className="grid gap-3">
+                    <div className="flex items-center justify-between panel rounded-xl px-4 py-3 text-sm">
+                      <span className="font-mono text-xs uppercase tracking-widest">
+                        Mock Tests
+                      </span>
+                      <span className="rounded-full border border-primary/40 bg-primary/10 px-3 py-0.5 font-mono text-[10px] text-primary">
+                        {snap?.tests.length ?? 0} active
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between panel rounded-xl px-4 py-3 text-sm">
+                      <span className="font-mono text-xs uppercase tracking-widest">
+                        AI Interview
+                      </span>
+                      {snap?.hasInterview ? (
+                        <span className="rounded-full border border-success/40 bg-success/10 px-3 py-0.5 font-mono text-[10px] text-success">
+                          In progress
                         </span>
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <Empty
-                    text="Attempt a quiz to see stats here."
-                    to="/practice"
-                    cta="Try practice"
-                  />
-                )}
-              </Panel>
-
-              <Panel icon={Flame} title="30-Day Python streak">
-                <div className="panel rounded-xl p-5">
-                  <div className="font-display text-4xl font-bold text-primary">
-                    {snap?.streakDays ?? 0}
-                    <span className="ml-2 text-base text-muted-foreground">days</span>
+                      ) : (
+                        <span className="rounded-full border border-border bg-surface px-3 py-0.5 font-mono text-[10px] text-muted-foreground">
+                          Not started
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex items-center justify-between panel rounded-xl px-4 py-3 text-sm">
+                      <span className="font-mono text-xs uppercase tracking-widest">
+                        Resume Score
+                      </span>
+                      {snap?.hasResume ? (
+                        <span className="rounded-full border border-success/40 bg-success/10 px-3 py-0.5 font-mono text-[10px] text-success">
+                          Analyzed
+                        </span>
+                      ) : (
+                        <span className="rounded-full border border-border bg-surface px-3 py-0.5 font-mono text-[10px] text-muted-foreground">
+                          Not uploaded
+                        </span>
+                      )}
+                    </div>
                   </div>
-                  <Link
-                    to="/challenge"
-                    className="mt-4 inline-flex text-xs font-bold uppercase tracking-widest text-primary hover:underline"
-                  >
-                    Continue challenge →
-                  </Link>
-                </div>
-              </Panel>
-            </>
-          )}
-        </div>
-      </section>}
+                  <div className="mt-4 flex gap-3">
+                    <Link
+                      to="/placement"
+                      className="inline-flex text-xs font-bold uppercase tracking-widest text-primary hover:underline"
+                    >
+                      Open placement prep →
+                    </Link>
+                  </div>
+                </Panel>
+              </>
+            )}
+          </div>
+        </section>
+      )}
 
       <Footer />
     </div>
