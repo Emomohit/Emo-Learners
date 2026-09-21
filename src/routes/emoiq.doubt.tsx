@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
-import { Loader2, Send, Trash2 } from "lucide-react";
+import { Loader2, Send, Trash2, Copy, Check } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import {
@@ -11,6 +11,7 @@ import {
   type ChatMessage,
 } from "@/lib/chat-history";
 import { PdfDropzone } from "@/components/site/PdfDropzone";
+import { MarkdownText } from "@/components/ui/MarkdownText";
 
 export const Route = createFileRoute("/emoiq/doubt")({
   component: DoubtPage,
@@ -24,6 +25,7 @@ function DoubtPage() {
   const [input, setInput] = useState("");
   const [pdfContext, setPdfContext] = useState("");
   const [loading, setLoading] = useState(false);
+  const [copiedId, setCopiedId] = useState<number | null>(null);
   const endRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -121,10 +123,32 @@ function DoubtPage() {
             key={i}
             className={`rounded-xl px-4 py-3 text-sm ${m.role === "user" ? "ml-8 bg-primary/10 text-foreground" : "mr-8 border border-border bg-surface text-foreground"}`}
           >
-            <div className="mb-1 font-mono text-[10px] uppercase tracking-widest text-primary">
-              {m.role}
+            <div className="mb-2 flex items-center justify-between font-mono text-[10px] uppercase tracking-widest text-primary">
+              <span>{m.role}</span>
+              {m.role === "assistant" && (
+                <button
+                  onClick={() => {
+                    navigator.clipboard.writeText(m.content);
+                    setCopiedId(i);
+                    setTimeout(() => setCopiedId(null), 2000);
+                  }}
+                  className="flex items-center gap-1 text-muted-foreground transition-colors hover:text-foreground"
+                  title="Copy response"
+                >
+                  {copiedId === i ? (
+                    <Check className="h-3 w-3 text-success" />
+                  ) : (
+                    <Copy className="h-3 w-3" />
+                  )}
+                  {copiedId === i ? "Copied" : "Copy"}
+                </button>
+              )}
             </div>
-            <div className="whitespace-pre-wrap">{m.content}</div>
+            {m.role === "assistant" ? (
+              <MarkdownText content={m.content} />
+            ) : (
+              <div className="whitespace-pre-wrap">{m.content}</div>
+            )}
           </div>
         ))}
         {loading && (
