@@ -21,6 +21,7 @@ import {
   User,
   HelpCircle,
   Code,
+  Keyboard,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -117,6 +118,16 @@ export function CommandMenu() {
             <CommandItem onSelect={() => runCommand(() => navigate({ to: "/profile" }))}>
               <User className="mr-2 h-4 w-4" />
               <span>Profile Settings</span>
+            </CommandItem>
+            <CommandItem
+              onSelect={() =>
+                runCommand(() => {
+                  document.dispatchEvent(new KeyboardEvent("keydown", { key: "?", bubbles: true }));
+                })
+              }
+            >
+              <Keyboard className="mr-2 h-4 w-4" />
+              <span>Keyboard Shortcuts</span>
             </CommandItem>
           </CommandGroup>
         </CommandList>

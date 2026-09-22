@@ -4,8 +4,9 @@ import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
-import { Send, Sparkles, Bot, User as UserIcon, Loader2, Trash2 } from "lucide-react";
+import { Send, Sparkles, Bot, User as UserIcon, Loader2, Trash2, Copy, Check } from "lucide-react";
 import { toast } from "sonner";
+import { MarkdownText } from "@/components/ui/MarkdownText";
 import {
   getChatHistory,
   saveChatHistory,
@@ -40,6 +41,7 @@ function AiPage() {
   const [messages, setMessages] = useState<ChatMessage[]>(() => getChatHistory("study-buddy"));
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
+  const [copiedId, setCopiedId] = useState<number | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -80,8 +82,8 @@ function AiPage() {
       const finalMsg: ChatMessage[] = [...next, { role: "assistant", content: reply }];
       setMessages(finalMsg);
       saveChatHistory("study-buddy", finalMsg);
-    } catch (err: any) {
-      toast.error(err.message ?? "Assistant unavailable");
+    } catch (err) {
+      toast.error((err as Error).message ?? "Assistant unavailable");
       const errMsgs: ChatMessage[] = [
         ...next,
         { role: "assistant", content: "I'm having trouble right now. Try again in a moment." },
@@ -175,9 +177,33 @@ function AiPage() {
                     )}
                   </div>
                   <div
-                    className={`max-w-[80%] whitespace-pre-wrap rounded-2xl px-4 py-3 text-sm leading-relaxed ${m.role === "user" ? "bg-primary text-primary-foreground" : "border border-border bg-background/70"}`}
+                    className={`max-w-[80%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${m.role === "user" ? "whitespace-pre-wrap bg-primary text-primary-foreground" : "border border-border bg-background/70"}`}
                   >
-                    {m.content}
+                    {m.role === "assistant" ? (
+                      <>
+                        <div className="mb-1 flex justify-end">
+                          <button
+                            onClick={() => {
+                              navigator.clipboard.writeText(m.content);
+                              setCopiedId(i);
+                              setTimeout(() => setCopiedId(null), 2000);
+                            }}
+                            className="flex items-center gap-1 font-mono text-[10px] uppercase tracking-widest text-muted-foreground transition-colors hover:text-foreground"
+                            title="Copy response"
+                          >
+                            {copiedId === i ? (
+                              <Check className="h-3 w-3 text-success" />
+                            ) : (
+                              <Copy className="h-3 w-3" />
+                            )}
+                            {copiedId === i ? "Copied" : "Copy"}
+                          </button>
+                        </div>
+                        <MarkdownText content={m.content} />
+                      </>
+                    ) : (
+                      m.content
+                    )}
                   </div>
                 </div>
               ))}

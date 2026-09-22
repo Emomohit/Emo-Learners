@@ -16,6 +16,7 @@ import { AuthProvider } from "../lib/auth";
 import { BottomNav } from "../components/site/BottomNav";
 import { FeedbackWidget } from "../components/site/FeedbackWidget";
 import { ScrollToTop } from "../components/site/ScrollToTop";
+import { KeyboardShortcuts } from "../components/site/KeyboardShortcuts";
 
 function NotFoundComponent() {
   return (
@@ -142,6 +143,7 @@ function RootComponent() {
         <Outlet />
         <FeedbackWidget />
         <ScrollToTop />
+        <KeyboardShortcuts />
         <BottomNav />
         <Toaster theme="light" position="top-right" richColors />
       </AuthProvider>
