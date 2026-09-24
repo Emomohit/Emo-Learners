@@ -12,6 +12,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/lib/auth";
 import { CommandMenu } from "./CommandMenu";
+import { WhatsNew } from "./WhatsNew";
 
 // Primary nav — short, plain-English labels.
 const primaryLinks = [
@@ -110,6 +111,7 @@ export function Navbar() {
 
         <div className="flex items-center gap-2 lg:gap-4">
           <CommandMenu />
+          <WhatsNew />
 
           <div className="flex items-center gap-2">
             {user ? (
