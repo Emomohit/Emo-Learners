@@ -17,6 +17,7 @@ import { BottomNav } from "../components/site/BottomNav";
 import { FeedbackWidget } from "../components/site/FeedbackWidget";
 import { ScrollToTop } from "../components/site/ScrollToTop";
 import { KeyboardShortcuts } from "../components/site/KeyboardShortcuts";
+import { StreakWidget } from "../components/site/StreakWidget";
 
 function NotFoundComponent() {
   return (
@@ -144,6 +145,7 @@ function RootComponent() {
         <FeedbackWidget />
         <ScrollToTop />
         <KeyboardShortcuts />
+        <StreakWidget />
         <BottomNav />
         <Toaster theme="light" position="top-right" richColors />
       </AuthProvider>
