@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Loader2, Sparkles, FileText } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
