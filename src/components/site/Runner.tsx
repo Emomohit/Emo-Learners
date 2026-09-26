@@ -1,6 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, ArrowLeft, Check, X, Trophy, RotateCcw, Timer } from "lucide-react";
+import {
+  ArrowRight,
+  ArrowLeft,
+  Check,
+  X,
+  Trophy,
+  RotateCcw,
+  Timer,
+  LayoutGrid,
+} from "lucide-react";
 import type { Question } from "@/lib/learn-data";
 
 type Mode = "quiz" | "test";
@@ -29,6 +38,7 @@ export function Runner({
   const [finished, setFinished] = useState(false);
   const [revealed, setRevealed] = useState<boolean[]>(() => questions.map(() => false));
   const [secondsLeft, setSecondsLeft] = useState(minutes * 60);
+  const [showGrid, setShowGrid] = useState(false);
 
   const isTest = mode === "test";
   const storageKey = `emo:runner:${mode}:${id}`;
@@ -50,13 +60,13 @@ export function Runner({
     } catch (e) {
       // ignore
     }
-  }, [storageKey, questions.length, minutes]);
+  }, [storageKey, questions, minutes]);
 
   // Save state to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem(
       storageKey,
-      JSON.stringify({ idx, picks, finished, revealed, secondsLeft })
+      JSON.stringify({ idx, picks, finished, revealed, secondsLeft }),
     );
   }, [storageKey, idx, picks, finished, revealed, secondsLeft]);
 
@@ -206,17 +216,62 @@ export function Runner({
         )}
       </div>
 
-      {/* Progress */}
+      {/* Progress & Grid */}
       <div className="mt-6">
         <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-          <span>
-            Q {idx + 1} / {questions.length}
-          </span>
+          <div className="flex items-center gap-4">
+            <span>
+              Q {idx + 1} / {questions.length}
+            </span>
+            <button
+              onClick={() => setShowGrid((v) => !v)}
+              className={`flex items-center gap-1.5 transition-colors ${showGrid ? "text-primary" : "hover:text-foreground"}`}
+            >
+              <LayoutGrid className="h-3 w-3" /> Grid
+            </button>
+          </div>
           <span>{Math.round(progress)}%</span>
         </div>
         <div className="mt-2 h-1 overflow-hidden rounded-full bg-border">
           <div className="h-full bg-primary transition-all" style={{ width: `${progress}%` }} />
         </div>
+
+        {showGrid && (
+          <div className="mt-4 grid grid-cols-5 gap-2 sm:grid-cols-10">
+            {questions.map((q, i) => {
+              const isCurrent = i === idx;
+              const hasAnswered = picks[i] !== null;
+              const isRevealed = revealed[i];
+              const isCorrect = isRevealed && picks[i] === q.answer;
+
+              let style =
+                "border-border bg-surface/50 text-muted-foreground hover:border-primary hover:text-foreground";
+              if (isCurrent) {
+                style = "border-primary bg-primary text-primary-foreground";
+              } else if (!isTest && isRevealed) {
+                style = isCorrect
+                  ? "border-success/50 bg-success/10 text-success"
+                  : "border-destructive/50 bg-destructive/10 text-destructive";
+              } else if (hasAnswered) {
+                style = "border-primary/50 bg-primary/10 text-primary";
+              }
+
+              return (
+                <button
+                  key={i}
+                  onClick={() => {
+                    setIdx(i);
+                    setShowGrid(false);
+                  }}
+                  className={`flex aspect-square items-center justify-center rounded-lg border font-mono text-xs font-bold transition-all ${style}`}
+                  title={`Question ${i + 1}`}
+                >
+                  {i + 1}
+                </button>
+              );
+            })}
+          </div>
+        )}
       </div>
 
       {/* Question */}
